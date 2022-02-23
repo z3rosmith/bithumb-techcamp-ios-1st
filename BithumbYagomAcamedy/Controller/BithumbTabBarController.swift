@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BithumbTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

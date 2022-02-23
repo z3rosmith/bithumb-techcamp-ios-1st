@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
+		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
+		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
 		37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AC927C61D0A00585F4A /* AppDelegate.swift */; };
 		37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */; };
-		37A15ACE27C61D0A00585F4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACD27C61D0A00585F4A /* ViewController.swift */; };
+		37A15ACE27C61D0A00585F4A /* BithumbTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACD27C61D0A00585F4A /* BithumbTabBarController.swift */; };
 		37A15AD127C61D0A00585F4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A15ACF27C61D0A00585F4A /* Main.storyboard */; };
 		37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AD227C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld */; };
 		37A15AD627C61D0C00585F4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A15AD527C61D0C00585F4A /* Assets.xcassets */; };
@@ -28,10 +31,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
+		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
+		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
 		37A15AC627C61D0A00585F4A /* BithumbYagomAcamedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BithumbYagomAcamedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AC927C61D0A00585F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		37A15ACD27C61D0A00585F4A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		37A15ACD27C61D0A00585F4A /* BithumbTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbTabBarController.swift; sourceTree = "<group>"; };
 		37A15AD027C61D0A00585F4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		37A15AD327C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BithumbYagomAcamedy.xcdatamodel; sourceTree = "<group>"; };
 		37A15AD527C61D0C00585F4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,6 +65,69 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08F5EA4127C622F60031EF4C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				37A15AD227C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld */,
+				37A15ADA27C61D0C00585F4A /* Info.plist */,
+				37A15AD527C61D0C00585F4A /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		08F5EA4227C623D50031EF4C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				08F5EA4527C625CC0031EF4C /* CoinListView */,
+				08F5EA4B27C627040031EF4C /* DepositWithdrawalStatusView */,
+				08F5EA4827C626A50031EF4C /* MoreDetailView */,
+				37A15ACF27C61D0A00585F4A /* Main.storyboard */,
+				37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		08F5EA4327C623EE0031EF4C /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				37A15AC927C61D0A00585F4A /* AppDelegate.swift */,
+				37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		08F5EA4427C6240C0031EF4C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				37A15ACD27C61D0A00585F4A /* BithumbTabBarController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		08F5EA4527C625CC0031EF4C /* CoinListView */ = {
+			isa = PBXGroup;
+			children = (
+				08F5EA4627C626350031EF4C /* CoinList.storyboard */,
+			);
+			path = CoinListView;
+			sourceTree = "<group>";
+		};
+		08F5EA4827C626A50031EF4C /* MoreDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */,
+			);
+			path = MoreDetailView;
+			sourceTree = "<group>";
+		};
+		08F5EA4B27C627040031EF4C /* DepositWithdrawalStatusView */ = {
+			isa = PBXGroup;
+			children = (
+				08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */,
+			);
+			path = DepositWithdrawalStatusView;
+			sourceTree = "<group>";
+		};
 		37A15ABD27C61D0A00585F4A = {
 			isa = PBXGroup;
 			children = (
@@ -80,14 +149,10 @@
 		37A15AC827C61D0A00585F4A /* BithumbYagomAcamedy */ = {
 			isa = PBXGroup;
 			children = (
-				37A15AC927C61D0A00585F4A /* AppDelegate.swift */,
-				37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */,
-				37A15ACD27C61D0A00585F4A /* ViewController.swift */,
-				37A15ACF27C61D0A00585F4A /* Main.storyboard */,
-				37A15AD527C61D0C00585F4A /* Assets.xcassets */,
-				37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */,
-				37A15ADA27C61D0C00585F4A /* Info.plist */,
-				37A15AD227C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld */,
+				08F5EA4327C623EE0031EF4C /* AppLifeCycle */,
+				08F5EA4127C622F60031EF4C /* Resource */,
+				08F5EA4427C6240C0031EF4C /* Controller */,
+				08F5EA4227C623D50031EF4C /* View */,
 			);
 			path = BithumbYagomAcamedy;
 			sourceTree = "<group>";
@@ -181,9 +246,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */,
 				37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */,
 				37A15AD627C61D0C00585F4A /* Assets.xcassets in Resources */,
 				37A15AD127C61D0A00585F4A /* Main.storyboard in Resources */,
+				08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */,
+				08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */,
-				37A15ACE27C61D0A00585F4A /* ViewController.swift in Sources */,
+				37A15ACE27C61D0A00585F4A /* BithumbTabBarController.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
 			);
@@ -372,7 +440,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BithumbYagomAcamedy/Info.plist;
+				INFOPLIST_FILE = BithumbYagomAcamedy/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -403,7 +471,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BithumbYagomAcamedy/Info.plist;
+				INFOPLIST_FILE = BithumbYagomAcamedy/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
