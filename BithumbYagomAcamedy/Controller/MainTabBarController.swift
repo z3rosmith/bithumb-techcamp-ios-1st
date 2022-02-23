@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainTabBarController.swift
 //  BithumbYagomAcamedy
 //
 //  Created by Oh Donggeon on 2022/02/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BithumbTabBarController: UITabBarController {
+class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

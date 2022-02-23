@@ -7,14 +7,15 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Bithumb Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="8xz-cG-vOH">
             <objects>
-                <tabBarController id="MWA-AE-1vg" customClass="BithumbTabBarController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="MWA-AE-1vg" customClass="MainTabBarController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eNJ-fc-eEk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="FwS-Dz-Cpj" kind="relationship" relationship="viewControllers" id="9K8-pF-iZ2"/>
