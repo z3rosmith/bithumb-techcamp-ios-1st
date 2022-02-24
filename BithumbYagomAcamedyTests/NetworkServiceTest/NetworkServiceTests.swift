@@ -52,4 +52,20 @@ class NetworkServiceTests: XCTestCase {
             }
         }
     }
+    
+    func test_MockURLSession의_isSuccess가_true일때_정상동작_하는지() {
+        let mockSession = MockURLSession(isSuccess: true)
+        networkService = NetworkService(session: mockSession)
+        
+        networkService.request(api: mockAPI) { result in
+            switch result {
+            case .success(let data):
+                let resultString = String(data: data, encoding: .utf8)
+                let successString = #""OK""#
+                XCTAssertEqual(resultString, successString)
+            case .failure(_):
+                XCTFail()
+            }
+        }
+    }
 }
