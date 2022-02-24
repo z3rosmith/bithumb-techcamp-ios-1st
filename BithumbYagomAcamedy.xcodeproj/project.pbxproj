@@ -19,6 +19,7 @@
 		37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */; };
 		37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */; };
 		3CCB27C827C7473D00F84C80 /* TickerAllValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCB27C727C7473D00F84C80 /* TickerAllValueObject.swift */; };
+		3CCB27CA27C7737900F84C80 /* TickerOneValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCB27C927C7737900F84C80 /* TickerOneValueObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		37A15ADF27C61D0D00585F4A /* BithumbYagomAcamedyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BithumbYagomAcamedyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbYagomAcamedyTests.swift; sourceTree = "<group>"; };
 		3CCB27C727C7473D00F84C80 /* TickerAllValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerAllValueObject.swift; sourceTree = "<group>"; };
+		3CCB27C927C7737900F84C80 /* TickerOneValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerOneValueObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				3CCB27C727C7473D00F84C80 /* TickerAllValueObject.swift */,
+				3CCB27C927C7737900F84C80 /* TickerOneValueObject.swift */,
 			);
 			path = ValueObject;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
+				3CCB27CA27C7737900F84C80 /* TickerOneValueObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

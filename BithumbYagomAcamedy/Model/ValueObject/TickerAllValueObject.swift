@@ -46,6 +46,7 @@ struct TickerData: Decodable {
     let accTradeValue24Hour: String
     let fluctate24Hour: String
     let fluctateRate24Hour: String
+    let date: String?
 
     enum CodingKeys: String, CodingKey {
         case openingPrice
@@ -55,6 +56,7 @@ struct TickerData: Decodable {
         case unitsTraded
         case accTradeValue
         case prevClosingPrice
+        case date
         
         case unitsTraded24Hour = "unitsTraded24H"
         case accTradeValue24Hour = "accTradeValue24H"
