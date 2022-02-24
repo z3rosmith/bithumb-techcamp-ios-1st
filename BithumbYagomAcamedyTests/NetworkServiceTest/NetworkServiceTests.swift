@@ -39,4 +39,17 @@ class NetworkServiceTests: XCTestCase {
             }
         }
     }
+    
+    func test_URL이_Nil일때_urlIsNil에러가_나오는지() {
+        mockAPI = MockAPI()
+        
+        networkService.request(api: mockAPI) { result in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .urlIsNil)
+            }
+        }
+    }
 }
