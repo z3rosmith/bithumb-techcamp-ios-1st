@@ -10,6 +10,10 @@
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
+		371D996B27C746D8000368AC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 371D996A27C746D8000368AC /* TickerJSONFile.json */; };
+		371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D996E27C755C7000368AC /* JSONParserTests.swift */; };
+		371D997027C755D7000368AC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
+		375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
 		37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AC927C61D0A00585F4A /* AppDelegate.swift */; };
 		37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */; };
 		37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACD27C61D0A00585F4A /* MainTabBarController.swift */; };
@@ -34,6 +38,9 @@
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
+		371D996A27C746D8000368AC /* TickerJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
+		371D996E27C755C7000368AC /* JSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
+		375AE08B27C6894D00F8F7E6 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		37A15AC627C61D0A00585F4A /* BithumbYagomAcamedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BithumbYagomAcamedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AC927C61D0A00585F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +135,22 @@
 			path = DepositWithdrawalStatusView;
 			sourceTree = "<group>";
 		};
+		371D996527C74476000368AC /* Mock Data */ = {
+			isa = PBXGroup;
+			children = (
+				371D996A27C746D8000368AC /* TickerJSONFile.json */,
+			);
+			path = "Mock Data";
+			sourceTree = "<group>";
+		};
+		375AE08A27C6893500F8F7E6 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				375AE08B27C6894D00F8F7E6 /* JSONParser.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		37A15ABD27C61D0A00585F4A = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +172,7 @@
 		37A15AC827C61D0A00585F4A /* BithumbYagomAcamedy */ = {
 			isa = PBXGroup;
 			children = (
+				375AE08A27C6893500F8F7E6 /* Utility */,
 				08F5EA4327C623EE0031EF4C /* AppLifeCycle */,
 				08F5EA4127C622F60031EF4C /* Resource */,
 				08F5EA4427C6240C0031EF4C /* Controller */,
@@ -160,7 +184,9 @@
 		37A15AE227C61D0D00585F4A /* BithumbYagomAcamedyTests */ = {
 			isa = PBXGroup;
 			children = (
+				371D996527C74476000368AC /* Mock Data */,
 				37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */,
+				371D996E27C755C7000368AC /* JSONParserTests.swift */,
 			);
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
@@ -259,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371D996B27C746D8000368AC /* TickerJSONFile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */,
+				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
@@ -280,7 +308,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */,
 				37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */,
+				371D997027C755D7000368AC /* JSONParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
