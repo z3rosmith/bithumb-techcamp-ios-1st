@@ -12,6 +12,8 @@ protocol APIProtocol {
     var method: HTTPMethod { get }
 }
 
+protocol Gettable: APIProtocol { }
+
 enum HTTPMethod: CustomStringConvertible {
     case get
     
