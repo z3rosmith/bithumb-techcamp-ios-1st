@@ -9,5 +9,16 @@ import Foundation
 
 protocol APIProtocol {
     var url: URL? { get }
-    var method: String { get }
+    var method: HTTPMethod { get }
+}
+
+enum HTTPMethod: CustomStringConvertible {
+    case get
+    
+    var description: String {
+        switch self {
+        case .get:
+            return "GET"
+        }
+    }
 }
