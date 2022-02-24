@@ -10,6 +10,7 @@
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
+		371D997227C76358000368AC /* CoinListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 371D997127C76358000368AC /* CoinListCollectionViewCell.xib */; };
 		37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AC927C61D0A00585F4A /* AppDelegate.swift */; };
 		37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */; };
 		37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACD27C61D0A00585F4A /* MainTabBarController.swift */; };
@@ -34,6 +35,7 @@
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
+		371D997127C76358000368AC /* CoinListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinListCollectionViewCell.xib; sourceTree = "<group>"; };
 		37A15AC627C61D0A00585F4A /* BithumbYagomAcamedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BithumbYagomAcamedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AC927C61D0A00585F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				08F5EA4627C626350031EF4C /* CoinList.storyboard */,
+				371D997127C76358000368AC /* CoinListCollectionViewCell.xib */,
 			);
 			path = CoinListView;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				37A15AD127C61D0A00585F4A /* MainTabBar.storyboard in Resources */,
 				08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */,
 				08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */,
+				371D997227C76358000368AC /* CoinListCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
