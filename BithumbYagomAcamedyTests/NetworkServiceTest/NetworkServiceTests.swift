@@ -82,4 +82,18 @@ class NetworkServiceTests: XCTestCase {
             }
         }
     }
+    
+    func test_MockURLSession의_MockError을_담아보냈을때_MockError을_반환하는지() {
+        let mockSession = MockURLSession(isSuccess: false, error: .mockError)
+        networkService = NetworkService(session: mockSession)
+        
+        networkService.request(api: mockAPI) { result in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .unknown(error: MockNetworkError.mockError))
+            }
+        }
+    }
 }

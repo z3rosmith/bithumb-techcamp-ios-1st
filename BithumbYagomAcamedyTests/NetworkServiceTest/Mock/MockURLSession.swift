@@ -16,11 +16,17 @@ final class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
+enum MockNetworkError: Error {
+    case mockError
+}
+
 final class MockURLSession: URLSessionProtocol {
     private let isSuccess: Bool
+    private let error: MockNetworkError?
     
-    init(isSuccess: Bool = true) {
+    init(isSuccess: Bool = true, error: MockNetworkError? = nil) {
         self.isSuccess = isSuccess
+        self.error = error
     }
     
     func dataTask(
@@ -49,12 +55,12 @@ final class MockURLSession: URLSessionProtocol {
         let sessionDataTask = MockURLSessionDataTask()
         
         if isSuccess {
-            sessionDataTask.resumeDidCall = {
-                completionHandler(data, successResponse, nil)
+            sessionDataTask.resumeDidCall = { [weak self] in
+                completionHandler(data, successResponse, self?.error)
             }
         } else {
-            sessionDataTask.resumeDidCall = {
-                completionHandler(nil, failureResponse, nil)
+            sessionDataTask.resumeDidCall = { [weak self] in
+                completionHandler(nil, failureResponse, self?.error)
             }
         }
         
