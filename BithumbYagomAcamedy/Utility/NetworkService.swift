@@ -60,8 +60,8 @@ struct NetworkService {
     
     func request(
         urlRequest: APIProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkError>) -> Void))
-    {
+        completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)
+    ) {
         guard let urlRequest = URLRequest(api: urlRequest) else {
             completionHandler(.failure(.urlIsNil))
             return
