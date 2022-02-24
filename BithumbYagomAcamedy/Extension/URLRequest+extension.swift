@@ -8,7 +8,7 @@
 import Foundation
 
 extension URLRequest {
-    init?(api: Gettable) {
+    init?(api: APIProtocol) {
         guard let url = api.url else {
             return nil
         }
