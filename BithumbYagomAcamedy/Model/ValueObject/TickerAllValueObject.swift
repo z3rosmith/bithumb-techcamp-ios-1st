@@ -68,20 +68,16 @@ struct TickerData: Decodable {
 extension QuantumValue {
     
     var tickerData: TickerData? {
-        switch self {
-        case .tickerData(let tickerData):
+        if case let .tickerData(tickerData) = self {
             return tickerData
-        default:
-            return nil
         }
+        return nil
     }
     
     var string: String? {
-        switch self {
-        case .string(let string):
+        if case let .string(string) = self {
             return string
-        default:
-            return nil
         }
+        return nil
     }
 }
