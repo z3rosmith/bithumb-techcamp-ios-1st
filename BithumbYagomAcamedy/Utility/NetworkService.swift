@@ -7,7 +7,11 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {
+enum NetworkError: LocalizedError, Equatable {
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        return lhs.errorDescription == rhs.errorDescription
+    }
+    
     case statusCodeError
     case urlIsNil
     case unknown(error: Error)
@@ -25,9 +29,9 @@ enum NetworkError: LocalizedError {
 }
 
 struct NetworkService {
-    private let session: URLSession
+    private let session: URLSessionProtocol
     
-    init(session: URLSession = URLSession.shared) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
@@ -59,10 +63,10 @@ struct NetworkService {
     }
     
     func request(
-        urlRequest: APIProtocol,
+        api: APIProtocol,
         completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)
     ) {
-        guard let urlRequest = URLRequest(api: urlRequest) else {
+        guard let urlRequest = URLRequest(api: api) else {
             completionHandler(.failure(.urlIsNil))
             return
         }

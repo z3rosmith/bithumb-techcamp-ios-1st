@@ -10,6 +10,8 @@
 		08AF803127C742AB00790762 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIProtocol.swift */; };
 		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
 		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
+		08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803727C7569D00790762 /* NetworkServiceTests.swift */; };
+		08AF803C27C756E500790762 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803B27C756E500790762 /* MockURLSession.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
@@ -38,6 +40,8 @@
 		08AF803027C742AB00790762 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
 		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
+		08AF803727C7569D00790762 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		08AF803B27C756E500790762 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
@@ -88,6 +92,23 @@
 				08AF803527C755A600790762 /* URLSession+extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		08AF803927C756BD00790762 /* NetworkServiceTest */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803A27C756D400790762 /* Mock */,
+				08AF803727C7569D00790762 /* NetworkServiceTests.swift */,
+			);
+			path = NetworkServiceTest;
+			sourceTree = "<group>";
+		};
+		08AF803A27C756D400790762 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803B27C756E500790762 /* MockURLSession.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		08F5EA4127C622F60031EF4C /* Resource */ = {
@@ -196,6 +217,7 @@
 		37A15AE227C61D0D00585F4A /* BithumbYagomAcamedyTests */ = {
 			isa = PBXGroup;
 			children = (
+				08AF803927C756BD00790762 /* NetworkServiceTest */,
 				37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */,
 			);
 			path = BithumbYagomAcamedyTests;
@@ -320,6 +342,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08AF803C27C756E500790762 /* MockURLSession.swift in Sources */,
+				08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */,
 				37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
