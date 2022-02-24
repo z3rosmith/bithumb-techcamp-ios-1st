@@ -11,6 +11,8 @@
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
 		371D996B27C746D8000368AC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 371D996A27C746D8000368AC /* TickerJSONFile.json */; };
+		371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D996E27C755C7000368AC /* JSONParserTests.swift */; };
+		371D997027C755D7000368AC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
 		375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
 		37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AC927C61D0A00585F4A /* AppDelegate.swift */; };
 		37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15ACB27C61D0A00585F4A /* SceneDelegate.swift */; };
@@ -37,6 +39,7 @@
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
 		371D996A27C746D8000368AC /* TickerJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
+		371D996E27C755C7000368AC /* JSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
 		375AE08B27C6894D00F8F7E6 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		37A15AC627C61D0A00585F4A /* BithumbYagomAcamedy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BithumbYagomAcamedy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AC927C61D0A00585F4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 			children = (
 				371D996527C74476000368AC /* Mock Data */,
 				37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */,
+				371D996E27C755C7000368AC /* JSONParserTests.swift */,
 			);
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
@@ -304,7 +308,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */,
 				37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */,
+				371D997027C755D7000368AC /* JSONParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
