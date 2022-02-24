@@ -54,4 +54,10 @@ struct NetworkService {
         }
         task.resume()
     }
+    
+    func request(
+        urlRequest: URLRequest,
+        completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)) {
+        loadData(urlRequest: urlRequest, completionHandler: completionHandler)
+    }
 }
