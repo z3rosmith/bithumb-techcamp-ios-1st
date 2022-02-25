@@ -77,6 +77,7 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="W99-bY-w2f" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="2YA-Fe-qxj"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="W99-bY-w2f" secondAttribute="trailing" constant="10" id="3T3-Hj-MFk"/>
@@ -96,6 +97,9 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
