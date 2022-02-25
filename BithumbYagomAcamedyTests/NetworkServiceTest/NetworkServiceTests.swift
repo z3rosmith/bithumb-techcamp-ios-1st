@@ -8,6 +8,12 @@
 import XCTest
 @testable import BithumbYagomAcamedy
 
+extension NetworkError: Equatable {
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        return lhs.errorDescription == rhs.errorDescription
+    }
+}
+
 struct MockAPI: Gettable {
     var url: URL?
     var method: HTTPMethod = .get
