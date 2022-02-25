@@ -7,16 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08AF803127C742AB00790762 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIable.swift */; };
+		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
+		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
+		08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803727C7569D00790762 /* NetworkServiceTests.swift */; };
+		08AF803C27C756E500790762 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803B27C756E500790762 /* MockURLSession.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
-		3707831E27C88D8C009ECBBC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707831D27C88D8C009ECBBC /* TickerJSONFile.json */; };
-		3707832027C88ED4009ECBBC /* OrderbookJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707831F27C88ED4009ECBBC /* OrderbookJSONFile.json */; };
-		3707832227C88F79009ECBBC /* TransactionJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832127C88F79009ECBBC /* TransactionJSONFile.json */; };
-		3707832627C8903D009ECBBC /* AssetsStatusJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832527C8903D009ECBBC /* AssetsStatusJSONFile.json */; };
-		371D996B27C746D8000368AC /* TickersJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 371D996A27C746D8000368AC /* TickersJSONFile.json */; };
+		08F5EA5027C689710031EF4C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F5EA4F27C689710031EF4C /* NetworkService.swift */; };
+		3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */; };
+		3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832E27C8B88F009ECBBC /* TickerJSONFile.json */; };
+		3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832F27C8B88F009ECBBC /* TickersJSONFile.json */; };
+		3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */; };
+		3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */; };
 		371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D996E27C755C7000368AC /* JSONParserTests.swift */; };
-		371D997027C755D7000368AC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
 		371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */; };
 		371D997C27C77C5E000368AC /* CoinListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 371D997A27C77C5E000368AC /* CoinListCollectionViewCell.xib */; };
 		375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
@@ -46,14 +51,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08AF803027C742AB00790762 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
+		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
+		08AF803727C7569D00790762 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		08AF803B27C756E500790762 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
-		3707831D27C88D8C009ECBBC /* TickerJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
-		3707831F27C88ED4009ECBBC /* OrderbookJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OrderbookJSONFile.json; sourceTree = "<group>"; };
-		3707832127C88F79009ECBBC /* TransactionJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TransactionJSONFile.json; sourceTree = "<group>"; };
-		3707832527C8903D009ECBBC /* AssetsStatusJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AssetsStatusJSONFile.json; sourceTree = "<group>"; };
-		371D996A27C746D8000368AC /* TickersJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TickersJSONFile.json; sourceTree = "<group>"; };
+		08F5EA4F27C689710031EF4C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransactionJSONFile.json; sourceTree = "<group>"; };
+		3707832E27C8B88F009ECBBC /* TickerJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
+		3707832F27C8B88F009ECBBC /* TickersJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TickersJSONFile.json; sourceTree = "<group>"; };
+		3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrderbookJSONFile.json; sourceTree = "<group>"; };
+		3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AssetsStatusJSONFile.json; sourceTree = "<group>"; };
 		371D996E27C755C7000368AC /* JSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
 		371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListCollectionViewCell.swift; sourceTree = "<group>"; };
 		371D997A27C77C5E000368AC /* CoinListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinListCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -94,6 +105,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08AF802F27C7429A00790762 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803027C742AB00790762 /* APIable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		08AF803227C744B200790762 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803327C7452300790762 /* URLRequest+extension.swift */,
+				08AF803527C755A600790762 /* URLSession+extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		08AF803927C756BD00790762 /* NetworkServiceTest */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803A27C756D400790762 /* Mock */,
+				08AF803727C7569D00790762 /* NetworkServiceTests.swift */,
+			);
+			path = NetworkServiceTest;
+			sourceTree = "<group>";
+		};
+		08AF803A27C756D400790762 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				08AF803B27C756E500790762 /* MockURLSession.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		08F5EA4127C622F60031EF4C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,24 +204,34 @@
 			path = DepositWithdrawalStatusView;
 			sourceTree = "<group>";
 		};
-		371D996527C74476000368AC /* Mock Data */ = {
+		08F5EA4E27C688160031EF4C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				371D996A27C746D8000368AC /* TickersJSONFile.json */,
-				3707831D27C88D8C009ECBBC /* TickerJSONFile.json */,
-				3707831F27C88ED4009ECBBC /* OrderbookJSONFile.json */,
-				3707832127C88F79009ECBBC /* TransactionJSONFile.json */,
-				3707832527C8903D009ECBBC /* AssetsStatusJSONFile.json */,
-			);
-			path = "Mock Data";
-			sourceTree = "<group>";
-		};
-		375AE08A27C6893500F8F7E6 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
+				08F5EA4F27C689710031EF4C /* NetworkService.swift */,
 				375AE08B27C6894D00F8F7E6 /* JSONParser.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		3707832C27C8B825009ECBBC /* JSONParserTest */ = {
+			isa = PBXGroup;
+			children = (
+				371D996527C74476000368AC /* Mock */,
+				371D996E27C755C7000368AC /* JSONParserTests.swift */,
+			);
+			path = JSONParserTest;
+			sourceTree = "<group>";
+		};
+		371D996527C74476000368AC /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */,
+				3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */,
+				3707832E27C8B88F009ECBBC /* TickerJSONFile.json */,
+				3707832F27C8B88F009ECBBC /* TickersJSONFile.json */,
+				3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		37A15ABD27C61D0A00585F4A = {
@@ -200,7 +255,9 @@
 		37A15AC827C61D0A00585F4A /* BithumbYagomAcamedy */ = {
 			isa = PBXGroup;
 			children = (
-				375AE08A27C6893500F8F7E6 /* Utility */,
+				08AF803227C744B200790762 /* Extension */,
+				08AF802F27C7429A00790762 /* Protocol */,
+				08F5EA4E27C688160031EF4C /* Utility */,
 				08F5EA4327C623EE0031EF4C /* AppLifeCycle */,
 				08F5EA4127C622F60031EF4C /* Resource */,
 				3CCB27C527C73E3C00F84C80 /* Model */,
@@ -213,9 +270,9 @@
 		37A15AE227C61D0D00585F4A /* BithumbYagomAcamedyTests */ = {
 			isa = PBXGroup;
 			children = (
-				371D996527C74476000368AC /* Mock Data */,
+				3707832C27C8B825009ECBBC /* JSONParserTest */,
+				08AF803927C756BD00790762 /* NetworkServiceTest */,
 				37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */,
-				371D996E27C755C7000368AC /* JSONParserTests.swift */,
 			);
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
@@ -335,11 +392,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3707832627C8903D009ECBBC /* AssetsStatusJSONFile.json in Resources */,
-				3707832227C88F79009ECBBC /* TransactionJSONFile.json in Resources */,
-				371D996B27C746D8000368AC /* TickersJSONFile.json in Resources */,
-				3707832027C88ED4009ECBBC /* OrderbookJSONFile.json in Resources */,
-				3707831E27C88D8C009ECBBC /* TickerJSONFile.json in Resources */,
+				3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */,
+				3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */,
+				3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */,
+				3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */,
+				3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +407,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F5EA5027C689710031EF4C /* NetworkService.swift in Sources */,
+				08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */,
 				3CCB27C827C7473D00F84C80 /* TickersValueObject.swift in Sources */,
 				3CCB27CE27C77F0D00F84C80 /* TransactionValueObject.swift in Sources */,
 				3CCB27CC27C77EA500F84C80 /* OrderbookValueObject.swift in Sources */,
@@ -357,7 +416,9 @@
 				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				3CCB27D027C77F2800F84C80 /* AssetsStatusAllValueObject.swift in Sources */,
+				08AF803627C755A600790762 /* URLSession+extension.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
+				08AF803127C742AB00790762 /* APIable.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
 				3CCB27CA27C7737900F84C80 /* TickerValueObject.swift in Sources */,
 				371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */,
@@ -368,9 +429,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08AF803C27C756E500790762 /* MockURLSession.swift in Sources */,
+				08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */,
 				371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */,
 				37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */,
-				371D997027C755D7000368AC /* JSONParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
