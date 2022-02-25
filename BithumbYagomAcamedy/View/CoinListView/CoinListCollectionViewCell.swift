@@ -9,13 +9,21 @@ import UIKit
 
 class CoinListCollectionViewCell: UICollectionViewListCell {
 
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var symbolPerCurrencyLabel: UILabel!
-    @IBOutlet weak var coinPriceLabel: UILabel!
-    @IBOutlet weak var changeRateLabel: UILabel!
-    @IBOutlet weak var changePriceLabel: UILabel!
+    @IBOutlet weak private var nameLabel: UILabel!
+    @IBOutlet weak private var symbolPerCurrencyLabel: UILabel!
+    @IBOutlet weak private var priceLabel: UILabel!
+    @IBOutlet weak private var changeRateLabel: UILabel!
+    @IBOutlet weak private var changePriceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    func update(item: CoinListDataSource.Coin) {
+        nameLabel.text = item.callingName
+        symbolPerCurrencyLabel.text = item.symbolPerKRW
+        priceLabel.text = item.priceString
+        changeRateLabel.text = item.changeRateString
+        changePriceLabel.text = item.changePriceString
     }
 }

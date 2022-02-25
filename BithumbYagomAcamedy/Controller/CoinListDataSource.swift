@@ -8,6 +8,9 @@
 import Foundation
 
 class CoinListDataSource {
+    
+    // MARK: - Nested Type
+    
     struct Coin: Hashable {
         let callingName: String
         let symbolName: String
@@ -23,5 +26,23 @@ class CoinListDataSource {
         static func == (lhs: Coin, rhs: Coin) -> Bool {
             return lhs.identifier == rhs.identifier
         }
+    }
+}
+
+extension CoinListDataSource.Coin {
+    var symbolPerKRW: String {
+        return symbolName + "/KRW"
+    }
+    
+    var priceString: String {
+        return "\(price)"
+    }
+    
+    var changeRateString: String {
+        return "\(changeRate)"
+    }
+    
+    var changePriceString: String {
+        return "\(changePrice)"
     }
 }

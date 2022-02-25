@@ -8,7 +8,9 @@
 import UIKit
 
 class CoinListViewController: UIViewController {
+    
     // MARK: - Nested Type
+    
     enum Section: CaseIterable {
         case favorite
         case allByKRW
@@ -24,12 +26,15 @@ class CoinListViewController: UIViewController {
     }
     
     // MARK: - IBOutlet
-    @IBOutlet weak var coinListCollectionView: UICollectionView!
+    
+    @IBOutlet weak private var coinListCollectionView: UICollectionView!
     
     // MARK: - Property
-    var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>!
+    
+    private var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>?
     
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -39,14 +44,12 @@ class CoinListViewController: UIViewController {
 }
 
 // MARK: - Configuration
+
 extension CoinListViewController {
     func configureDataSource() {
-        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataSource.Coin>(cellNib: UINib(nibName: "CoinListCollectionViewCell", bundle: nil)) { cell, indexPath, item in
-            cell.nameLabel.text = item.callingName
-            cell.symbolPerCurrencyLabel.text = item.symbolName + "/KRW"
-            cell.coinPriceLabel.text = "\(item.price)"
-            cell.changeRateLabel.text = "+ \(item.changeRate)%"
-            cell.changePriceLabel.text = "+ \(item.changePrice)"
+        let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
+        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataSource.Coin>(cellNib: cellNib) { cell, indexPath, item in
+            cell.update(item: item)
         }
         dataSource = UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
@@ -58,7 +61,7 @@ extension CoinListViewController {
             configuration.textProperties.color = .label
             headerView.contentConfiguration = configuration
         }
-        dataSource.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             if elementKind == UICollectionView.elementKindSectionHeader {
                 return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
             } else {
@@ -75,6 +78,7 @@ extension CoinListViewController {
 }
 
 // MARK: - Snapshot
+
 extension CoinListViewController {
     func applySnapshot() {
         let favoriteCoins = [
@@ -95,6 +99,6 @@ extension CoinListViewController {
         snapshot.appendSections([.favorite, .allByKRW])
         snapshot.appendItems(favoriteCoins, toSection: .favorite)
         snapshot.appendItems(allCoins, toSection: .allByKRW)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }

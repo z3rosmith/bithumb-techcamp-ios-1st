@@ -89,8 +89,8 @@
             <connections>
                 <outlet property="changePriceLabel" destination="33g-mu-GMT" id="9cJ-4M-irY"/>
                 <outlet property="changeRateLabel" destination="1p5-jk-ueO" id="vrE-oU-y3R"/>
-                <outlet property="coinPriceLabel" destination="Ohp-oP-U23" id="94a-1I-fAi"/>
                 <outlet property="nameLabel" destination="sWi-6t-iiq" id="M1x-gF-s8i"/>
+                <outlet property="priceLabel" destination="Ohp-oP-U23" id="94a-1I-fAi"/>
                 <outlet property="symbolPerCurrencyLabel" destination="YOR-L8-RDd" id="u1l-hx-t4q"/>
             </connections>
             <point key="canvasLocation" x="-463.768115942029" y="-158.70535714285714"/>
