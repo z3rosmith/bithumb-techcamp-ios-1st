@@ -1,32 +1,17 @@
 {
     "status": "0000",
     "data": {
-        "BTC": {
-            "opening_price": "46777000",
-            "closing_price": "43344000",
-            "min_price": "42687000",
-            "max_price": "46912000",
-            "units_traded": "2909.66736266",
-            "acc_trade_value": "130535780031.6896",
-            "prev_closing_price": "46781000",
-            "units_traded_24H": "4812.35944262",
-            "acc_trade_value_24H": "219614467198.1342",
-            "fluctate_24H": "-2707000",
-            "fluctate_rate_24H": "-5.88"
-        },
-        "ETH": {
-            "opening_price": "3276000",
-            "closing_price": "2958000",
-            "min_price": "2911000",
-            "max_price": "3301000",
-            "units_traded": "27382.27993521",
-            "acc_trade_value": "85037614484.0309",
-            "prev_closing_price": "3274000",
-            "units_traded_24H": "40448.8181856",
-            "acc_trade_value_24H": "127807572946.5616",
-            "fluctate_24H": "-249000",
-            "fluctate_rate_24H": "-7.76"
-        },
-        "date": "1645677730995"
+        "opening_price": "43895000",
+        "closing_price": "47307000",
+        "min_price": "43626000",
+        "max_price": "48105000",
+        "units_traded": "3036.56888453",
+        "acc_trade_value": "139323939020.1107",
+        "prev_closing_price": "43895000",
+        "units_traded_24H": "6295.465121",
+        "acc_trade_value_24H": "280596174456.9854",
+        "fluctate_24H": "4206000",
+        "fluctate_rate_24H": "9.76",
+        "date": "1645762009832"
     }
 }

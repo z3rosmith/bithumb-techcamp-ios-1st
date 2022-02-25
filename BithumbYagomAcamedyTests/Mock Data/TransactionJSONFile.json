@@ -1,0 +1,145 @@
+{
+    "status": "0000",
+    "data": [
+        {
+            "transaction_date": "2022-02-25 13:15:49",
+            "type": "bid",
+            "units_traded": "0.0012",
+            "price": "47199000",
+            "total": "56638"
+        },
+        {
+            "transaction_date": "2022-02-25 13:15:49",
+            "type": "bid",
+            "units_traded": "0.0621",
+            "price": "47200000",
+            "total": "2931120"
+        },
+        {
+            "transaction_date": "2022-02-25 13:15:52",
+            "type": "bid",
+            "units_traded": "0.00211846",
+            "price": "47204000",
+            "total": "99999"
+        },
+        {
+            "transaction_date": "2022-02-25 13:15:58",
+            "type": "bid",
+            "units_traded": "0.0297",
+            "price": "47188000",
+            "total": "1401483"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:00",
+            "type": "bid",
+            "units_traded": "0.00456027",
+            "price": "47204000",
+            "total": "215262"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:00",
+            "type": "bid",
+            "units_traded": "0.00211846",
+            "price": "47204000",
+            "total": "99999"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:06",
+            "type": "bid",
+            "units_traded": "0.0519",
+            "price": "47204000",
+            "total": "2449887"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:08",
+            "type": "bid",
+            "units_traded": "0.02790281",
+            "price": "47204000",
+            "total": "1317124"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:08",
+            "type": "bid",
+            "units_traded": "0.00489719",
+            "price": "47204000",
+            "total": "231166"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:10",
+            "type": "ask",
+            "units_traded": "0.0005",
+            "price": "47183000",
+            "total": "23591"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:11",
+            "type": "bid",
+            "units_traded": "0.0063",
+            "price": "47183000",
+            "total": "297252"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:12",
+            "type": "bid",
+            "units_traded": "0.0044",
+            "price": "47199000",
+            "total": "207675"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:13",
+            "type": "bid",
+            "units_traded": "0.0298",
+            "price": "47199000",
+            "total": "1406530"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:14",
+            "type": "bid",
+            "units_traded": "0.1736",
+            "price": "47190000",
+            "total": "8192184"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.07180281",
+            "price": "47204000",
+            "total": "3389379"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.01389719",
+            "price": "47204000",
+            "total": "656002"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.02210281",
+            "price": "47204000",
+            "total": "1043341"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.0003",
+            "price": "47204000",
+            "total": "14161"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.0447",
+            "price": "47206000",
+            "total": "2110108"
+        },
+        {
+            "transaction_date": "2022-02-25 13:16:24",
+            "type": "bid",
+            "units_traded": "0.013",
+            "price": "47206000",
+            "total": "613678"
+        }
+    ]
+}
