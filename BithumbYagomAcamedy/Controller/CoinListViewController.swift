@@ -8,6 +8,7 @@
 import UIKit
 
 class CoinListViewController: UIViewController {
+    // MARK: - Nested Type
     enum Section: CaseIterable {
         case favorite
         case allByKRW
@@ -22,9 +23,13 @@ class CoinListViewController: UIViewController {
         }
     }
     
+    // MARK: - IBOutlet
     @IBOutlet weak var coinListCollectionView: UICollectionView!
+    
+    // MARK: - Property
     var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>!
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -33,6 +38,7 @@ class CoinListViewController: UIViewController {
     }
 }
 
+// MARK: - Configuration
 extension CoinListViewController {
     func configureDataSource() {
         let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataSource.Coin>(cellNib: UINib(nibName: "CoinListCollectionViewCell", bundle: nil)) { cell, indexPath, item in
@@ -61,6 +67,15 @@ extension CoinListViewController {
         }
     }
     
+    func configureCollectionView() {
+        var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+        configuration.headerMode = .supplementary
+        coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+}
+
+// MARK: - Snapshot
+extension CoinListViewController {
     func applySnapshot() {
         let favoriteCoins = [
             CoinListDataSource.Coin(callingName: "비트코인", symbolName: "BTC", price: 11111101111111, changeRate: 3.3, changePrice: 3333),
@@ -81,13 +96,5 @@ extension CoinListViewController {
         snapshot.appendItems(favoriteCoins, toSection: .favorite)
         snapshot.appendItems(allCoins, toSection: .allByKRW)
         dataSource.apply(snapshot, animatingDifferences: true)
-    }
-}
-
-extension CoinListViewController {
-    func configureCollectionView() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
-        configuration.headerMode = .supplementary
-        coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }

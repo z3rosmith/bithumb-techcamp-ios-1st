@@ -17,7 +17,5 @@ class CoinListCollectionViewCell: UICollectionViewListCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
 }
