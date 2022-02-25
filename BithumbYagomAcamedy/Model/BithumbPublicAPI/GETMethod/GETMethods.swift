@@ -13,7 +13,8 @@ struct TickerAPI: Gettable {
     init(
         orderCurrency: String = "ALL",
         paymentCurrency: String = "KRW",
-        baseURL: BaseURLable = BithumbPublicAPIURL())
+        baseURL: BaseURLable = BithumbPublicAPIURL()
+    )
     {
         let url = URL(
             string: "\(baseURL.baseURL)ticker/\(orderCurrency)_\(paymentCurrency)"
@@ -30,7 +31,8 @@ struct OrderbookAPI: Gettable {
         orderCurrency: String = "ALL",
         paymentCurrency: String = "KRW",
         count: Int = 1,
-        baseURL: BaseURLable = BithumbPublicAPIURL())
+        baseURL: BaseURLable = BithumbPublicAPIURL()
+    )
     {
         var urlComponents = URLComponents(
             string: "\(baseURL.baseURL)orderbook/\(orderCurrency)_\(paymentCurrency)?"
@@ -50,7 +52,8 @@ struct TransactionHistoryAPI: Gettable {
         orderCurrency: String,
         paymentCurrency: String = "KRW",
         count: Int = 1,
-        baseURL: BaseURLable = BithumbPublicAPIURL())
+        baseURL: BaseURLable = BithumbPublicAPIURL()
+    )
     {
         var urlComponents = URLComponents(
             string: "\(baseURL.baseURL)transaction_history/\(orderCurrency)_\(paymentCurrency)?"
@@ -68,7 +71,8 @@ struct AssetsStatusAPI: Gettable {
     
     init(
         orderCurrency: String = "ALL",
-        baseURL: BaseURLable = BithumbPublicAPIURL())
+        baseURL: BaseURLable = BithumbPublicAPIURL()
+    )
     {
         let url = URL(
             string: "\(baseURL.baseURL)assetsstatus/\(orderCurrency)"
