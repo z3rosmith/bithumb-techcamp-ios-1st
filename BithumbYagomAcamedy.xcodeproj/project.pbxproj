@@ -18,7 +18,11 @@
 		08F5EA5027C689710031EF4C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F5EA4F27C689710031EF4C /* NetworkService.swift */; };
 		3707832927C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3707832727C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift */; };
 		3707832A27C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3707832827C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib */; };
-		371D996B27C746D8000368AC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 371D996A27C746D8000368AC /* TickerJSONFile.json */; };
+		3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */; };
+		3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832E27C8B88F009ECBBC /* TickerJSONFile.json */; };
+		3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707832F27C8B88F009ECBBC /* TickersJSONFile.json */; };
+		3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */; };
+		3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */; };
 		371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D996E27C755C7000368AC /* JSONParserTests.swift */; };
 		371D997027C755D7000368AC /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375AE08B27C6894D00F8F7E6 /* JSONParser.swift */; };
 		371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */; };
@@ -61,7 +65,11 @@
 		08F5EA4F27C689710031EF4C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3707832727C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositWithdrawalCollectionViewCell.swift; sourceTree = "<group>"; };
 		3707832827C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DepositWithdrawalCollectionViewCell.xib; sourceTree = "<group>"; };
-		371D996A27C746D8000368AC /* TickerJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
+		3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransactionJSONFile.json; sourceTree = "<group>"; };
+		3707832E27C8B88F009ECBBC /* TickerJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TickerJSONFile.json; sourceTree = "<group>"; };
+		3707832F27C8B88F009ECBBC /* TickersJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TickersJSONFile.json; sourceTree = "<group>"; };
+		3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrderbookJSONFile.json; sourceTree = "<group>"; };
+		3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AssetsStatusJSONFile.json; sourceTree = "<group>"; };
 		371D996E27C755C7000368AC /* JSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
 		371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListCollectionViewCell.swift; sourceTree = "<group>"; };
 		371D997A27C77C5E000368AC /* CoinListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinListCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -212,12 +220,25 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		371D996527C74476000368AC /* Mock Data */ = {
+		3707832C27C8B825009ECBBC /* JSONParserTest */ = {
 			isa = PBXGroup;
 			children = (
-				371D996A27C746D8000368AC /* TickerJSONFile.json */,
+				371D996527C74476000368AC /* Mock */,
+				371D996E27C755C7000368AC /* JSONParserTests.swift */,
 			);
-			path = "Mock Data";
+			path = JSONParserTest;
+			sourceTree = "<group>";
+		};
+		371D996527C74476000368AC /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				3707833127C8B88F009ECBBC /* AssetsStatusJSONFile.json */,
+				3707833027C8B88F009ECBBC /* OrderbookJSONFile.json */,
+				3707832E27C8B88F009ECBBC /* TickerJSONFile.json */,
+				3707832F27C8B88F009ECBBC /* TickersJSONFile.json */,
+				3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		37A15ABD27C61D0A00585F4A = {
@@ -256,10 +277,9 @@
 		37A15AE227C61D0D00585F4A /* BithumbYagomAcamedyTests */ = {
 			isa = PBXGroup;
 			children = (
+				3707832C27C8B825009ECBBC /* JSONParserTest */,
 				08AF803927C756BD00790762 /* NetworkServiceTest */,
-				371D996527C74476000368AC /* Mock Data */,
 				37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */,
-				371D996E27C755C7000368AC /* JSONParserTests.swift */,
 			);
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
@@ -380,7 +400,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				371D996B27C746D8000368AC /* TickerJSONFile.json in Resources */,
+				3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */,
+				3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */,
+				3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */,
+				3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */,
+				3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
