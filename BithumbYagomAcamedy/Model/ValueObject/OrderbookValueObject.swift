@@ -1,5 +1,5 @@
 //
-//  OrderbookOneValueObject.swift
+//  OrderbookValueObject.swift
 //  BithumbYagomAcamedy
 //
 //  Created by Jinyoung Kim on 2022/02/24.
@@ -7,18 +7,24 @@
 
 import Foundation
 
-struct OrderbookOneValueObject: Decodable {
+struct OrderbookValueObject: Decodable {
     let status: String
-    let data: OrderbookData
+    let orderbook: OrderbookData
+    
+    enum CodingKeys: String, CodingKey {
+        case status
+        case orderbook = "data"
+    }
 }
 
 struct OrderbookData: Decodable {
     let timestamp: String
     let paymentCurrency: String
     let orderCurrency: String
-    let bids: [BidData]
+    let bids: [Order]
+    let asks: [Order]
     
-    struct BidData: Decodable {
+    struct Order: Decodable {
         let price: String
         let quantity: String
     }

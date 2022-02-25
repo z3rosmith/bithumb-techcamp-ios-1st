@@ -1,5 +1,5 @@
 //
-//  TickerAllValueObject.swift
+//  TickersValueObject.swift
 //  BithumbYagomAcamedy
 //
 //  Created by Jinyoung Kim on 2022/02/24.
@@ -7,13 +7,19 @@
 
 import Foundation
 
-struct TickerAllValueObject: Decodable {
+struct TickersValueObject: Decodable {
     let status: String
-    let data: [String: QuantumValue]
+    let ticker: [String: DynamicValue]
+    
+    enum CodingKeys: String, CodingKey {
+        case status
+        case ticker = "data"
+    }
 }
 
-enum QuantumValue: Decodable {
-    case string(String), tickerData(TickerData)
+enum DynamicValue: Decodable {
+    case string(String)
+    case tickerData(TickerData)
     
     init(from decoder: Decoder) throws {
         if let string = try? decoder.singleValueContainer().decode(String.self) {
@@ -26,11 +32,11 @@ enum QuantumValue: Decodable {
             return
         }
         
-        throw QuantumError.missingValue
+        throw DynamicError.noMatchingType
     }
     
-    enum QuantumError:Error {
-        case missingValue
+    enum DynamicError: Error {
+        case noMatchingType
     }
 }
 
@@ -57,7 +63,6 @@ struct TickerData: Decodable {
         case accTradeValue
         case prevClosingPrice
         case date
-        
         case unitsTraded24Hour = "unitsTraded24H"
         case accTradeValue24Hour = "accTradeValue24H"
         case fluctate24Hour = "fluctate24H"
@@ -65,7 +70,7 @@ struct TickerData: Decodable {
     }
 }
 
-extension QuantumValue {
+extension DynamicValue {
     
     var tickerData: TickerData? {
         if case let .tickerData(tickerData) = self {
@@ -74,7 +79,7 @@ extension QuantumValue {
         return nil
     }
     
-    var string: String? {
+    var dateString: String? {
         if case let .string(string) = self {
             return string
         }

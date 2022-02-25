@@ -9,7 +9,12 @@ import Foundation
 
 struct TranscationValueObject: Decodable {
     let status: String
-    let data: [TransactionData]
+    let transaction: [TransactionData]
+    
+    enum CodingKeys: String, CodingKey {
+        case status
+        case transaction = "data"
+    }
 }
 
 struct TransactionData: Decodable {
