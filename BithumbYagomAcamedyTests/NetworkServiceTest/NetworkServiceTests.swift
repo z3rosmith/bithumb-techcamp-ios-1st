@@ -35,15 +35,19 @@ class NetworkServiceTests: XCTestCase {
         mockAPI = nil
     }
     
-    func test_URL이_유효하지않을때_statusCodeError가_나오는지() {
+    func test_URL이_유효하지않을때_Error가_나오는지() {
+        let expectation = XCTestExpectation()
+            
         networkService.request(api: mockAPI) { result in
             switch result {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error, .statusCodeError)
+                XCTAssertNotNil(error)
             }
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 3)
     }
     
     func test_URL이_Nil일때_invalidURLRequest에러가_나오는지() {
@@ -84,7 +88,7 @@ class NetworkServiceTests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error, .statusCodeError)
+                XCTAssertEqual(error, .statusCodeError(400))
             }
         }
     }

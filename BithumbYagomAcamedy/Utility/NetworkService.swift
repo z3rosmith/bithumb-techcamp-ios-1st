@@ -7,15 +7,18 @@
 
 import Foundation
 
-enum NetworkError: LocalizedError {    
-    case statusCodeError
+enum NetworkError: LocalizedError {
+    case invalidResponse
+    case statusCodeError(_ statusCode: Int)
     case invalidURLRequest
     case unknown(error: Error)
 
     var errorDescription: String? {
         switch self {
-        case .statusCodeError:
-            return "정상적인 StatusCode가 아닙니다."
+        case .invalidResponse:
+            return "정상적인 Response가 아닙니다."
+        case .statusCodeError(let statusCode):
+            return "\(statusCode) Error: 정상적인 StatusCode가 아닙니다."
         case .invalidURLRequest:
             return "정상적인 URLRequest가 아닙니다."
         case .unknown(let error):
@@ -43,10 +46,15 @@ struct NetworkService {
             
             let successStatusCode = 200..<300
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  successStatusCode.contains(httpResponse.statusCode)
-            else {
-                completionHandler(.failure(.statusCodeError))
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completionHandler(.failure(.invalidResponse))
+                return
+            }
+            
+            guard successStatusCode.contains(httpResponse.statusCode) else {
+                completionHandler(
+                    .failure(.statusCodeError(httpResponse.statusCode))
+                )
                 return
             }
             
