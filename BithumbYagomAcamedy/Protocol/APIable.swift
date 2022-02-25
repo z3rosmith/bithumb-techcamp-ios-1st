@@ -14,6 +14,12 @@ protocol APIable {
 
 protocol Gettable: APIable { }
 
+extension Gettable {
+    var method: HTTPMethod {
+        return .get
+    }
+}
+
 enum HTTPMethod: CustomStringConvertible {
     case get
     
