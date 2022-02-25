@@ -7,8 +7,14 @@
 
 import UIKit
 
-class CoinListCollectionViewCell: UICollectionViewCell {
+class CoinListCollectionViewCell: UICollectionViewListCell {
 
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var symbolPerCurrencyLabel: UILabel!
+    @IBOutlet weak var coinPriceLabel: UILabel!
+    @IBOutlet weak var changeRateLabel: UILabel!
+    @IBOutlet weak var changePriceLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

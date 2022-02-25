@@ -12,28 +12,36 @@
         <!--거래소-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="CoinListViewController" id="Y6W-OH-hqX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CoinListViewController" id="Y6W-OH-hqX" customClass="CoinListViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5L-Ks-Hbj">
-                                <rect key="frame" x="243" y="361" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-RF-jT9">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="X1G-C1-SIe"/>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="cpw-FC-7tX"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sbb-RF-jT9" secondAttribute="trailing" id="ne6-gr-saR"/>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="거래소" image="chart.line.uptrend.xyaxis" catalog="system" id="MPo-jd-qVp"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="138"/>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
     </scenes>
     <resources>
