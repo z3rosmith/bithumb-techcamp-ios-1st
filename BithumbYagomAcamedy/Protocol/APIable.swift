@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol APIProtocol {
+protocol APIable {
     var url: URL? { get }
     var method: HTTPMethod { get }
 }
 
-protocol Gettable: APIProtocol { }
+protocol Gettable: APIable { }
 
 enum HTTPMethod: CustomStringConvertible {
     case get

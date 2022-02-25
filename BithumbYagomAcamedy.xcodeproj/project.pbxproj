@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08AF803127C742AB00790762 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIProtocol.swift */; };
+		08AF803127C742AB00790762 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIable.swift */; };
 		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
 		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
 		08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803727C7569D00790762 /* NetworkServiceTests.swift */; };
@@ -37,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		08AF803027C742AB00790762 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		08AF803027C742AB00790762 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
 		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
 		08AF803727C7569D00790762 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		08AF802F27C7429A00790762 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				08AF803027C742AB00790762 /* APIProtocol.swift */,
+				08AF803027C742AB00790762 /* APIable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				08AF803627C755A600790762 /* URLSession+extension.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
-				08AF803127C742AB00790762 /* APIProtocol.swift in Sources */,
+				08AF803127C742AB00790762 /* APIable.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,7 @@ enum MockNetworkError: Error {
     case mockError
 }
 
-final class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProviding {
     private let isSuccess: Bool
     private let error: MockNetworkError?
     

@@ -29,9 +29,9 @@ enum NetworkError: LocalizedError, Equatable {
 }
 
 struct NetworkService {
-    private let session: URLSessionProtocol
+    private let session: URLSessionProviding
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProviding = URLSession.shared) {
         self.session = session
     }
     
@@ -63,7 +63,7 @@ struct NetworkService {
     }
     
     func request(
-        api: APIProtocol,
+        api: APIable,
         completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)
     ) {
         guard let urlRequest = URLRequest(api: api) else {
