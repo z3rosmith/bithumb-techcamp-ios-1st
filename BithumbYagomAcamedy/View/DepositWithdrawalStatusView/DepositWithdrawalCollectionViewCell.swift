@@ -15,6 +15,9 @@ final class DepositWithdrawalCollectionViewCell: UICollectionViewListCell {
     @IBOutlet private weak var depositStatusLabel: UILabel!
     @IBOutlet private weak var withdrawalStatusLabel: UILabel!
     
+    private let successStatusColorName = "SuccessStatus"
+    private let failStatusColorName = "FailStatus"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -29,7 +32,7 @@ final class DepositWithdrawalCollectionViewCell: UICollectionViewListCell {
         withdrawalStatusView.backgroundColor = statusColor(from: data.withdrawalStatus)
     }
     
-    private func statusColor(from status: Bool) -> UIColor {
-        return status ? .blue : .red
+    private func statusColor(from status: Bool) -> UIColor? {
+        return status ? UIColor(named: successStatusColorName) : UIColor(named: failStatusColorName)
     }
 }
