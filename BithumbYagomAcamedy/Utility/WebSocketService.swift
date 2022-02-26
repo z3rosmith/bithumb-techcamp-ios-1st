@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WebSocketService {
+struct WebSocketService {
     typealias completionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
     
     private let session: URLSession
@@ -17,7 +17,7 @@ class WebSocketService {
         self.session = session
     }
     
-    func open(
+    mutating func open(
         url: URL,
         with message: Data,
         completionHandler: @escaping completionHandler
@@ -49,12 +49,12 @@ class WebSocketService {
     private func receive(
         with completionHandler: @escaping completionHandler
     ) {
-        DispatchQueue.global().async { [weak self] in
-            self?.websocketTask?.receive { result in
+        DispatchQueue.global().async {
+            self.websocketTask?.receive { result in
                 switch result {
                 case .success(let message):
                     completionHandler(.success(message))
-                    self?.receive(with: completionHandler)
+                    self.receive(with: completionHandler)
                 case .failure(let error):
                     completionHandler(.failure(error))
                 }
