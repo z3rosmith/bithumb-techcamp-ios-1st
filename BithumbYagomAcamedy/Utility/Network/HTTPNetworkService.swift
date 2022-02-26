@@ -27,7 +27,7 @@ enum NetworkError: LocalizedError {
     }
 }
 
-struct NetworkService {
+struct HTTPNetworkService {
     private let session: URLSessionProviding
     
     init(session: URLSessionProviding = URLSession.shared) {

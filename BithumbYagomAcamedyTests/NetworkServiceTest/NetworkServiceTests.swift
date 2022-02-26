@@ -20,12 +20,12 @@ struct MockAPI: Gettable {
 }
 
 class NetworkServiceTests: XCTestCase {
-    var networkService: NetworkService!
+    var networkService: HTTPNetworkService!
     var mockAPI: MockAPI!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        networkService = NetworkService()
+        networkService = HTTPNetworkService()
         mockAPI = MockAPI(url: URL(string: "www"), method: .get)
     }
 
@@ -65,7 +65,7 @@ class NetworkServiceTests: XCTestCase {
     
     func test_MockURLSession의_isSuccess가_true일때_정상동작_하는지() {
         let mockSession = MockURLSession(isSuccess: true)
-        networkService = NetworkService(session: mockSession)
+        networkService = HTTPNetworkService(session: mockSession)
         
         networkService.request(api: mockAPI) { result in
             switch result {
@@ -81,7 +81,7 @@ class NetworkServiceTests: XCTestCase {
     
     func test_MockURLSession의_isSuccess가_false일때_실패하는지() {
         let mockSession = MockURLSession(isSuccess: false)
-        networkService = NetworkService(session: mockSession)
+        networkService = HTTPNetworkService(session: mockSession)
         
         networkService.request(api: mockAPI) { result in
             switch result {
@@ -95,7 +95,7 @@ class NetworkServiceTests: XCTestCase {
     
     func test_MockURLSession의_MockError을_담아보냈을때_MockError을_반환하는지() {
         let mockSession = MockURLSession(isSuccess: false, error: .mockError)
-        networkService = NetworkService(session: mockSession)
+        networkService = HTTPNetworkService(session: mockSession)
         
         networkService.request(api: mockAPI) { result in
             switch result {
