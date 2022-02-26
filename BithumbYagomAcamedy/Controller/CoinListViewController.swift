@@ -31,7 +31,14 @@ class CoinListViewController: UIViewController {
     
     // MARK: - Property
     
+    #warning("의견필요 - 네이밍")
+    private let coinListController = CoinListDataSource() // 의견 필요... 인스턴스를 생성해야하는데 CoinListDataSource보단 CoinListController가 낫지않을까
     private var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>?
+    private var coinSortType: CoinSortType = .priceDescending(true) {
+        didSet {
+            applySnapshot(by: coinSortType)
+        }
+    }
     
     // MARK: - Life Cycle
     
@@ -39,13 +46,30 @@ class CoinListViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         configureDataSource()
-        applySnapshot()
+        configureCoinListController()
+        coinListController.fetchCoinList()
+    }
+    
+    @IBAction func 이름탭(_ sender: Any) {
+        coinSortType = .nameDescending(true)
+    }
+    
+    @IBAction func 현재가탭(_ sender: Any) {
+        coinSortType = .priceDescending(true)
+    }
+    
+    @IBAction func 변동률탭(_ sender: Any) {
+        coinSortType = .changeRateDescending(true)
     }
 }
 
 // MARK: - Configuration
 
 extension CoinListViewController {
+    func configureCoinListController() {
+        coinListController.delegate = self
+    }
+    
     func configureDataSource() {
         let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
         let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataSource.Coin>(cellNib: cellNib) { cell, indexPath, item in
@@ -80,25 +104,20 @@ extension CoinListViewController {
 // MARK: - Snapshot
 
 extension CoinListViewController {
-    func applySnapshot() {
-        let favoriteCoins = [
-            CoinListDataSource.Coin(callingName: "비트코인", symbolName: "BTC", price: 11111101111111, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "코인", symbolName: "BTC", price: 430, changeRate: 3.3, changePrice: 3333)
-        ]
-        
-        let allCoins = [
-            CoinListDataSource.Coin(callingName: "비트코인", symbolName: "BTC", price: 10, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "코인", symbolName: "BTC", price: 430, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "ㅋㅋ코인", symbolName: "BTC", price: 11, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "ㅇㅇ코인", symbolName: "BTC", price: 710, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "ㅌㅌ코인", symbolName: "BTC", price: 190, changeRate: 3.3, changePrice: 3333),
-            CoinListDataSource.Coin(callingName: "ㅎㅎ코인", symbolName: "BTC", price: 100, changeRate: 3.3, changePrice: 3333),
-        ]
+    func applySnapshot(by sortType: CoinSortType) {
+        let allCoinList = coinListController.sortedCoinList(by: sortType)
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, CoinListDataSource.Coin>()
-        snapshot.appendSections([.favorite, .allByKRW])
-        snapshot.appendItems(favoriteCoins, toSection: .favorite)
-        snapshot.appendItems(allCoins, toSection: .allByKRW)
+        snapshot.appendSections([.allByKRW])
+        snapshot.appendItems(allCoinList, toSection: .allByKRW)
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: - CoinListDataSourceDelegate
+
+extension CoinListViewController: CoinListDataSourceDelegate {
+    func didSetCoinList() {
+        applySnapshot(by: coinSortType)
     }
 }
