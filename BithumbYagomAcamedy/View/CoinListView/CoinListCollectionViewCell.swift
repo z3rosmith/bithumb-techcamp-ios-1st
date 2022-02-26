@@ -7,11 +7,23 @@
 
 import UIKit
 
-class CoinListCollectionViewCell: UICollectionViewCell {
+class CoinListCollectionViewCell: UICollectionViewListCell {
 
+    @IBOutlet weak private var nameLabel: UILabel!
+    @IBOutlet weak private var symbolPerCurrencyLabel: UILabel!
+    @IBOutlet weak private var priceLabel: UILabel!
+    @IBOutlet weak private var changeRateLabel: UILabel!
+    @IBOutlet weak private var changePriceLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
+    
+    func update(item: CoinListDataSource.Coin) {
+        nameLabel.text = item.callingName
+        symbolPerCurrencyLabel.text = item.symbolPerKRW
+        priceLabel.text = item.priceString
+        changeRateLabel.text = item.changeRateString
+        changePriceLabel.text = item.changePriceString
+    }
 }
