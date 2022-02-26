@@ -17,12 +17,14 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     
     // MARK: - Nested Type
     
-    struct MockData: Hashable {
-        let name: String
-        let symbol: String
-        let depositStatus: Bool
-        let withdrawalStatus: Bool
-        let uuid: UUID
+    struct MockData: DepositWithdrawalCellDataProviding, Hashable {
+        private(set) var coinName: String
+        private(set) var coinSymbol: String
+        private(set) var depositStatus: String
+        private(set) var withdrawalStatus: String
+        private(set) var isValidDeposit: Bool
+        private(set) var isValidWithdrawal: Bool
+        let uuid: UUID = UUID()
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(uuid)
@@ -75,24 +77,43 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     private func configureMockData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, MockData>()
         snapshot.appendSections([.main])
+        
         snapshot.appendItems([MockData(
-                                name: "Test",
-                                symbol: "1",
-                                depositStatus: true,
-                                withdrawalStatus: true,
-                                uuid: UUID()),
+                                coinName: "비트코인",
+                                coinSymbol: "BTC/KRW",
+                                depositStatus: "정상",
+                                withdrawalStatus: "정상",
+                                isValidDeposit: true,
+                                isValidWithdrawal: true),
                               MockData(
-                                name: "Test",
-                                symbol: "2",
-                                depositStatus: true,
-                                withdrawalStatus: true,
-                                uuid: UUID()),
+                                coinName: "이더리움",
+                                coinSymbol: "ETH/KRW",
+                                depositStatus: "정상",
+                                withdrawalStatus: "중단",
+                                isValidDeposit: true,
+                                isValidWithdrawal: false),
                               MockData(
-                                name: "Test",
-                                symbol: "3",
-                                depositStatus: true,
-                                withdrawalStatus: true,
-                                uuid: UUID())])
+                                coinName: "Test1",
+                                coinSymbol: "TST/KRW",
+                                depositStatus: "정상",
+                                withdrawalStatus: "정상",
+                                isValidDeposit: true,
+                                isValidWithdrawal: true),
+                              MockData(
+                                coinName: "Test2",
+                                coinSymbol: "TST/KRW",
+                                depositStatus: "정상",
+                                withdrawalStatus: "중단",
+                                isValidDeposit: true,
+                                isValidWithdrawal: false),
+                              MockData(
+                                coinName: "Test3",
+                                coinSymbol: "TST/KRW",
+                                depositStatus: "중단",
+                                withdrawalStatus: "중단",
+                                isValidDeposit: false,
+                                isValidWithdrawal: false)
+                             ])
         dataSource?.apply(snapshot)
     }
 }
