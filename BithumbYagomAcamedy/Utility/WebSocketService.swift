@@ -25,6 +25,18 @@ class WebSocketService {
         websocketTask = session.webSocketTask(with: url)
         
         websocketTask?.resume()
+        send(to: message, completionHandler: completionHandler)
+        receive(with: completionHandler)
+    }
+    
+    func close() {
+        websocketTask?.cancel()
+    }
+    
+    private func send(
+        to message: Data,
+        completionHandler: @escaping completionHandler
+    ) {
         websocketTask?.send(
             .data(message)
         ) { error in
@@ -32,14 +44,9 @@ class WebSocketService {
                 completionHandler(.failure(error))
             }
         }
-        receiveMessage(with: completionHandler)
     }
     
-    func close() {
-        websocketTask?.cancel()
-    }
-    
-    func receiveMessage(
+    private func receive(
         with completionHandler: @escaping completionHandler
     ) {
         DispatchQueue.global().async { [weak self] in
@@ -47,7 +54,7 @@ class WebSocketService {
                 switch result {
                 case .success(let message):
                     completionHandler(.success(message))
-                    self?.receiveMessage(with: completionHandler)
+                    self?.receive(with: completionHandler)
                 case .failure(let error):
                     completionHandler(.failure(error))
                 }
