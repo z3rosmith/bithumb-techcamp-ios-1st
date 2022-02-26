@@ -7,6 +7,20 @@
 
 import Foundation
 
+enum WebSocketError: LocalizedError {
+    case urlIsNil
+    case unknown(error: Error)
+
+    var errorDescription: String? {
+        switch self {
+        case .urlIsNil:
+            return "정상적인 URLRequest가 아닙니다."
+        case .unknown(let error):
+            return "\(error.localizedDescription) 에러가 발생했습니다."
+        }
+    }
+}
+
 struct WebSocketService {
     typealias completionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
     
@@ -18,14 +32,18 @@ struct WebSocketService {
     }
     
     mutating func open(
-        url: URL,
-        with message: Data,
+        webSocketAPI: WebSocketable,
         completionHandler: @escaping completionHandler
     ) {
+        guard let url = webSocketAPI.url else {
+            completionHandler(.failure(WebSocketError.urlIsNil))
+            return
+        }
+        
         websocketTask = session.webSocketTask(with: url)
         
         websocketTask?.resume()
-        send(to: message, completionHandler: completionHandler)
+        send(to: webSocketAPI.message, completionHandler: completionHandler)
         receive(with: completionHandler)
     }
     
