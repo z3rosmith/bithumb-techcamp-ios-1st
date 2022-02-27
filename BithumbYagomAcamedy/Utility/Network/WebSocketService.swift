@@ -14,7 +14,7 @@ enum WebSocketError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .urlIsNil:
-            return "정상적인 URLRequest가 아닙니다."
+            return "정상적인 URL이 아닙니다."
         case .unknown(let error):
             return "\(error.localizedDescription) 에러가 발생했습니다."
         }
