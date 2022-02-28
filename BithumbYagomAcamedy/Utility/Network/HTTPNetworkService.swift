@@ -27,12 +27,32 @@ enum NetworkError: LocalizedError {
     }
 }
 
-struct NetworkService {
+struct HTTPNetworkService {
+    
+    // MARK: - Property
+    
     private let session: URLSessionProviding
+    
+    // MARK: - Init
     
     init(session: URLSessionProviding = URLSession.shared) {
         self.session = session
     }
+   
+    // MARK: - Method
+    
+    func request(
+        api: APIable,
+        completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)
+    ) {
+        guard let urlRequest = URLRequest(api: api) else {
+            completionHandler(.failure(.invalidURLRequest))
+            return
+        }
+        loadData(urlRequest: urlRequest, completionHandler: completionHandler)
+    }
+    
+    // MARK: - Private Method
     
     private func loadData(
         urlRequest: URLRequest,
@@ -64,16 +84,5 @@ struct NetworkService {
             }
         }
         task.resume()
-    }
-    
-    func request(
-        api: APIable,
-        completionHandler: @escaping ((Result<Data, NetworkError>) -> Void)
-    ) {
-        guard let urlRequest = URLRequest(api: api) else {
-            completionHandler(.failure(.invalidURLRequest))
-            return
-        }
-        loadData(urlRequest: urlRequest, completionHandler: completionHandler)
     }
 }
