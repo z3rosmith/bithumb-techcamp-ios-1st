@@ -27,16 +27,16 @@ class CoinListViewController: UIViewController {
     
     // MARK: - IBOutlet
     
-    @IBOutlet weak private var coinListCollectionView: UICollectionView!
+    @IBOutlet private weak var coinListCollectionView: UICollectionView!
     
     // MARK: - Property
     
-    #warning("의견필요 - 네이밍")
-    private let coinListController = CoinListDataSource() // 의견 필요... 인스턴스를 생성해야하는데 CoinListDataSource보단 CoinListController가 낫지않을까
-    private var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>?
-    private var coinSortType: CoinSortType = .priceDescending(true) {
+    private let coinListDataManager = CoinListDataManager()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataManager.Coin>?
+    private var coinSortAction: CoinSortAction? {
         didSet {
-            applySnapshot(by: coinSortType)
+            guard let coinSortAction = coinSortAction else { return }
+            applySnapshot(by: coinSortAction)
         }
     }
     
@@ -47,19 +47,34 @@ class CoinListViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         configureCoinListController()
-        coinListController.fetchCoinList()
+        coinListDataManager.fetchCoinList()
     }
     
-    @IBAction func 이름탭(_ sender: Any) {
-        coinSortType = .nameDescending(true)
+    @IBAction func nameButtonTapped(_ sender: UIButton) {
+        if sender.isSelected {
+            coinSortAction = { $0.callingName > $1.callingName }
+        } else {
+            coinSortAction = { $0.callingName < $1.callingName }
+        }
+        sender.isSelected.toggle()
     }
     
-    @IBAction func 현재가탭(_ sender: Any) {
-        coinSortType = .priceDescending(true)
+    @IBAction func priceButtonTapped(_ sender: UIButton) {
+        if sender.isSelected {
+            coinSortAction = { $0.currentPrice > $1.currentPrice }
+        } else {
+            coinSortAction = { $0.currentPrice < $1.currentPrice }
+        }
+        sender.isSelected.toggle()
     }
     
-    @IBAction func 변동률탭(_ sender: Any) {
-        coinSortType = .changeRateDescending(true)
+    @IBAction func changeRateButtonTapped(_ sender: UIButton) {
+        if sender.isSelected {
+            coinSortAction = { $0.changeRate > $1.changeRate }
+        } else {
+            coinSortAction = { $0.changeRate < $1.changeRate }
+        }
+        sender.isSelected.toggle()
     }
 }
 
@@ -67,15 +82,15 @@ class CoinListViewController: UIViewController {
 
 extension CoinListViewController {
     func configureCoinListController() {
-        coinListController.delegate = self
+        coinListDataManager.delegate = self
     }
     
     func configureDataSource() {
         let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
-        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataSource.Coin>(cellNib: cellNib) { cell, indexPath, item in
+        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataManager.Coin>(cellNib: cellNib) { cell, indexPath, item in
             cell.update(item: item)
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, CoinListDataSource.Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Section, CoinListDataManager.Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
         }
         let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
@@ -104,20 +119,25 @@ extension CoinListViewController {
 // MARK: - Snapshot
 
 extension CoinListViewController {
-    func applySnapshot(by sortType: CoinSortType) {
-        let allCoinList = coinListController.sortedCoinList(by: sortType)
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, CoinListDataSource.Coin>()
+    func applySnapshot(by areInIncreasingOrder: CoinSortAction) {
+        let allCoinList = coinListDataManager.sortedCoinList(by: areInIncreasingOrder)
+        var snapshot = NSDiffableDataSourceSnapshot<Section, CoinListDataManager.Coin>()
         snapshot.appendSections([.allByKRW])
         snapshot.appendItems(allCoinList, toSection: .allByKRW)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {
+            self.dataSource?.apply(snapshot, animatingDifferences: true)
+        }
     }
 }
 
 // MARK: - CoinListDataSourceDelegate
 
-extension CoinListViewController: CoinListDataSourceDelegate {
-    func didSetCoinList() {
-        applySnapshot(by: coinSortType)
+extension CoinListViewController: CoinListDataManagerDelegate {
+    func coinListDataManagerDidSetCoinList() {
+        if let coinSortAction = coinSortAction {
+            applySnapshot(by: coinSortAction)
+        } else {
+            applySnapshot { $0.currentPrice > $1.currentPrice }
+        }
     }
 }

@@ -31,7 +31,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="이름"/>
                                         <connections>
-                                            <action selector="이름탭:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="EU8-xV-6Z9"/>
+                                            <action selector="nameButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="C0q-Yf-Wzx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW">
@@ -39,7 +39,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="현재가"/>
                                         <connections>
-                                            <action selector="현재가탭:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="dRs-t9-VsP"/>
+                                            <action selector="priceButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BT0-xU-YQO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL">
@@ -47,7 +47,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="변동률"/>
                                         <connections>
-                                            <action selector="변동률탭:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="LPc-CY-KwD"/>
+                                            <action selector="changeRateButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BsE-wG-sdy"/>
                                         </connections>
                                     </button>
                                 </subviews>
