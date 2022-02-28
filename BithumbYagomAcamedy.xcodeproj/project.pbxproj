@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0830F6FF27CC942A00A65EBA /* WebSocketSendJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 0830F6FE27CC942A00A65EBA /* WebSocketSendJSON.json */; };
+		0849B49B27CBD9F20058486F /* MockWebSocketURLSessionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B49A27CBD9F20058486F /* MockWebSocketURLSessionTask.swift */; };
+		0849B49D27CBDA4E0058486F /* MockNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B49C27CBDA4E0058486F /* MockNetworkError.swift */; };
+		0849B49F27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B49E27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift */; };
+		0849B4A127CBE59F0058486F /* WebSocketServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A027CBE59F0058486F /* WebSocketServiceTests.swift */; };
+		0849B4A527CC6C530058486F /* MockWebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A427CC6C530058486F /* MockWebSocketService.swift */; };
+		0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */; };
 		08AF803127C742AB00790762 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIable.swift */; };
 		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
 		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
@@ -53,6 +60,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0830F6FE27CC942A00A65EBA /* WebSocketSendJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WebSocketSendJSON.json; sourceTree = "<group>"; };
+		0849B49A27CBD9F20058486F /* MockWebSocketURLSessionTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebSocketURLSessionTask.swift; sourceTree = "<group>"; };
+		0849B49C27CBDA4E0058486F /* MockNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkError.swift; sourceTree = "<group>"; };
+		0849B49E27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionWebSocketTask+extension.swift"; sourceTree = "<group>"; };
+		0849B4A027CBE59F0058486F /* WebSocketServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServiceTests.swift; sourceTree = "<group>"; };
+		0849B4A427CC6C530058486F /* MockWebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebSocketService.swift; sourceTree = "<group>"; };
+		0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServicable.swift; sourceTree = "<group>"; };
 		08AF803027C742AB00790762 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
 		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
@@ -114,6 +128,7 @@
 			children = (
 				08AF803027C742AB00790762 /* APIable.swift */,
 				08B4916127C9C29F0082E379 /* WebSocketable.swift */,
+				0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -123,6 +138,7 @@
 			children = (
 				08AF803327C7452300790762 /* URLRequest+extension.swift */,
 				08AF803527C755A600790762 /* URLSession+extension.swift */,
+				0849B49E27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -132,6 +148,7 @@
 			children = (
 				08AF803A27C756D400790762 /* Mock */,
 				08AF803727C7569D00790762 /* NetworkServiceTests.swift */,
+				0849B4A027CBE59F0058486F /* WebSocketServiceTests.swift */,
 			);
 			path = NetworkServiceTest;
 			sourceTree = "<group>";
@@ -139,7 +156,11 @@
 		08AF803A27C756D400790762 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				0849B49C27CBDA4E0058486F /* MockNetworkError.swift */,
 				08AF803B27C756E500790762 /* MockURLSession.swift */,
+				0849B49A27CBD9F20058486F /* MockWebSocketURLSessionTask.swift */,
+				0849B4A427CC6C530058486F /* MockWebSocketService.swift */,
+				0830F6FE27CC942A00A65EBA /* WebSocketSendJSON.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -409,6 +430,7 @@
 				3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */,
 				3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */,
 				3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */,
+				0830F6FF27CC942A00A65EBA /* WebSocketSendJSON.json in Resources */,
 				3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */,
 				3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */,
 			);
@@ -422,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08F5EA5027C689710031EF4C /* HTTPNetworkService.swift in Sources */,
+				0849B49F27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift in Sources */,
 				08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */,
 				3CCB27C827C7473D00F84C80 /* TickersValueObject.swift in Sources */,
 				3CCB27CE27C77F0D00F84C80 /* TransactionValueObject.swift in Sources */,
@@ -430,6 +453,7 @@
 				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				3CCB27D027C77F2800F84C80 /* AssetsStatusAllValueObject.swift in Sources */,
+				0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */,
 				08AF807027C8CCF200790762 /* WebSocketService.swift in Sources */,
 				08AF803627C755A600790762 /* URLSession+extension.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
@@ -446,8 +470,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				08AF803C27C756E500790762 /* MockURLSession.swift in Sources */,
+				0849B4A127CBE59F0058486F /* WebSocketServiceTests.swift in Sources */,
+				0849B49D27CBDA4E0058486F /* MockNetworkError.swift in Sources */,
+				0849B4A527CC6C530058486F /* MockWebSocketService.swift in Sources */,
 				08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */,
 				371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */,
+				0849B49B27CBD9F20058486F /* MockWebSocketURLSessionTask.swift in Sources */,
 				37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,10 +16,6 @@ final class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-enum MockNetworkError: Error {
-    case mockError
-}
-
 final class MockURLSession: URLSessionProviding {
     private let isSuccess: Bool
     private let error: MockNetworkError?
