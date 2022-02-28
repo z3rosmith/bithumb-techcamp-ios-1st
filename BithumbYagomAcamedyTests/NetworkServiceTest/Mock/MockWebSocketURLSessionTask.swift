@@ -9,14 +9,21 @@ import Foundation
 @testable import BithumbYagomAcamedy
 
 final class MockWebSocketURLSessionTask: URLSessionWebSocketTaskProviding {
+    
+    // MARK: - Property
+    
     private let isSuccess: Bool
     private let taskError: MockNetworkError
     private(set) var message: URLSessionWebSocketTask.Message?
+    
+    // MARK: - Init
     
     init(isSuccess: Bool = true, error: MockNetworkError = .mockError) {
         self.isSuccess = isSuccess
         self.taskError = error
     }
+    
+    // MARK: - Method
     
     func resume() {
         print(#function)

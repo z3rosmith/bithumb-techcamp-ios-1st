@@ -9,17 +9,26 @@ import Foundation
 @testable import BithumbYagomAcamedy
 
 struct MockWebSocketService: WebSocketServicable {
-    typealias completionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
+    
+    // MARK: - Typealias
+    
+    typealias CompletionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
+    
+    // MARK: - Property
     
     private var webSocketTask: URLSessionWebSocketTaskProviding?
+    
+    // MARK: - Init
     
     init(webSocketTask: URLSessionWebSocketTaskProviding) {
         self.webSocketTask = webSocketTask
     }
     
+    // MARK: - Method
+    
     func open(
         webSocketAPI: WebSocketable,
-        completionHandler: @escaping completionHandler
+        completionHandler: @escaping CompletionHandler
     ) {
         guard (webSocketAPI.url) != nil else {
             completionHandler(.failure(WebSocketError.urlIsNil))
@@ -31,9 +40,11 @@ struct MockWebSocketService: WebSocketServicable {
         receive(with: completionHandler)
     }
     
+    // MARK: - Private Method
+    
     private func send(
         to message: Data,
-        completionHandler: @escaping completionHandler
+        completionHandler: @escaping CompletionHandler
     ) {
         webSocketTask?.send(
             .data(message)
@@ -45,7 +56,7 @@ struct MockWebSocketService: WebSocketServicable {
     }
     
     private func receive(
-        with completionHandler: @escaping completionHandler
+        with completionHandler: @escaping CompletionHandler
     ) {
        webSocketTask?.receive { result in
             switch result {

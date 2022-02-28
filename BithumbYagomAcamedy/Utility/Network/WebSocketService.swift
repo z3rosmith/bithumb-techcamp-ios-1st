@@ -22,18 +22,27 @@ enum WebSocketError: LocalizedError {
 }
 
 struct WebSocketService: WebSocketServicable {
-    typealias completionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
+    
+    // MARK: - Typealias
+    
+    typealias CompletionHandler = (Result<URLSessionWebSocketTask.Message, Error>) -> Void
+    
+    // MARK: - Property
     
     private let session: URLSession
     private var webSocketTask: URLSessionWebSocketTaskProviding?
+    
+    // MARK: - Init
     
     init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
+    // MARK: - Method
+    
     mutating func open(
         webSocketAPI: WebSocketable,
-        completionHandler: @escaping completionHandler
+        completionHandler: @escaping CompletionHandler
     ) {
         guard let url = webSocketAPI.url else {
             completionHandler(.failure(WebSocketError.urlIsNil))
@@ -51,9 +60,11 @@ struct WebSocketService: WebSocketServicable {
         webSocketTask?.cancel()
     }
     
+    // MARK: - Private Method
+    
     private func send(
         to message: Data,
-        completionHandler: @escaping completionHandler
+        completionHandler: @escaping CompletionHandler
     ) {
         webSocketTask?.send(
             .data(message)
@@ -65,7 +76,7 @@ struct WebSocketService: WebSocketServicable {
     }
     
     private func receive(
-        with completionHandler: @escaping completionHandler
+        with completionHandler: @escaping CompletionHandler
     ) {
         DispatchQueue.global().async {
             self.webSocketTask?.receive { result in
