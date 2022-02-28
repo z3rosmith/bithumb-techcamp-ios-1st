@@ -15,33 +15,14 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         case main
     }
     
-    // MARK: - Nested Type
-    
-    struct MockData: DepositWithdrawalCellDataProviding, Hashable {
-        private(set) var coinName: String
-        private(set) var coinSymbol: String
-        private(set) var depositStatus: String
-        private(set) var withdrawalStatus: String
-        private(set) var isValidDeposit: Bool
-        private(set) var isValidWithdrawal: Bool
-        let uuid: UUID = UUID()
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(uuid)
-        }
-        
-        static func ==(lhs: MockData, rhs: MockData) -> Bool {
-            return lhs.uuid == rhs.uuid
-        }
-    }
-    
     // MARK: - IBOutlet
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Property
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, MockData>?
+    private var dataManager: DepositWithdrawalStatusDataManager?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, AssetsStatus>?
     private let depositWithdrawalCollectionViewCellNibName = "DepositWithdrawalCollectionViewCell"
     
     // MARK: - Life Cycle
@@ -50,7 +31,8 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionViewLayout()
         configureDiffableDataSource()
-        configureMockData()
+        configureDataManager()
+        applyDepositWithdrawalStatusData()
     }
     
     // MARK: - Configuration
@@ -63,57 +45,37 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     }
     
     private func configureDiffableDataSource() {
-        typealias CellRegistration = UICollectionView.CellRegistration<DepositWithdrawalCollectionViewCell, MockData>
+        typealias CellRegistration = UICollectionView.CellRegistration<
+            DepositWithdrawalCollectionViewCell, AssetsStatus
+        >
         
         let depositWithdrawalCell = UINib(nibName: depositWithdrawalCollectionViewCellNibName, bundle: nil)
         let cellRegistration = CellRegistration(cellNib: depositWithdrawalCell) { cell, indexPath, item in
             cell.update(item)
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, MockData>(collectionView: collectionView) { collectionView, indexPath, data -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: data)
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, AssetsStatus>(
+            collectionView: collectionView
+        ) { collectionView, indexPath, data -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: data
+            )
         }
     }
     
-    private func configureMockData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, MockData>()
-        snapshot.appendSections([.main])
-        
-        snapshot.appendItems([MockData(
-                                coinName: "비트코인",
-                                coinSymbol: "BTC/KRW",
-                                depositStatus: "정상",
-                                withdrawalStatus: "정상",
-                                isValidDeposit: true,
-                                isValidWithdrawal: true),
-                              MockData(
-                                coinName: "이더리움",
-                                coinSymbol: "ETH/KRW",
-                                depositStatus: "정상",
-                                withdrawalStatus: "중단",
-                                isValidDeposit: true,
-                                isValidWithdrawal: false),
-                              MockData(
-                                coinName: "Test1",
-                                coinSymbol: "TST/KRW",
-                                depositStatus: "정상",
-                                withdrawalStatus: "정상",
-                                isValidDeposit: true,
-                                isValidWithdrawal: true),
-                              MockData(
-                                coinName: "Test2",
-                                coinSymbol: "TST/KRW",
-                                depositStatus: "정상",
-                                withdrawalStatus: "중단",
-                                isValidDeposit: true,
-                                isValidWithdrawal: false),
-                              MockData(
-                                coinName: "Test3",
-                                coinSymbol: "TST/KRW",
-                                depositStatus: "중단",
-                                withdrawalStatus: "중단",
-                                isValidDeposit: false,
-                                isValidWithdrawal: false)
-                             ])
-        dataSource?.apply(snapshot)
+    private func configureDataManager() {
+        dataManager = DepositWithdrawalStatusDataManager()
+    }
+    
+    private func applyDepositWithdrawalStatusData() {
+        dataManager?.requestData { [weak self] assetsStatuses in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, AssetsStatus>()
+            
+            snapshot.appendSections([.main])
+            snapshot.appendItems(assetsStatuses, toSection: .main)
+            self?.dataSource?.apply(snapshot)
+        }
     }
 }
