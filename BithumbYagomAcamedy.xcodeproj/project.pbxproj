@@ -21,6 +21,8 @@
 		0849B4A127CBE59F0058486F /* WebSocketServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A027CBE59F0058486F /* WebSocketServiceTests.swift */; };
 		0849B4A527CC6C530058486F /* MockWebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A427CC6C530058486F /* MockWebSocketService.swift */; };
 		0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */; };
+		08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */; };
+		08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E627CD2211005553BD /* OrderBookDepth.swift */; };
 		08AF803127C742AB00790762 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIable.swift */; };
 		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
 		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
@@ -88,6 +90,8 @@
 		0849B4A027CBE59F0058486F /* WebSocketServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServiceTests.swift; sourceTree = "<group>"; };
 		0849B4A427CC6C530058486F /* MockWebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebSocketService.swift; sourceTree = "<group>"; };
 		0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServicable.swift; sourceTree = "<group>"; };
+		08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionWebSocket.swift; sourceTree = "<group>"; };
+		08A5A8E627CD2211005553BD /* OrderBookDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDepth.swift; sourceTree = "<group>"; };
 		08AF803027C742AB00790762 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
 		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
@@ -251,6 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				0830F71727CCB7C500A65EBA /* TickerWebSocket.swift */,
+				08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */,
+				08A5A8E627CD2211005553BD /* OrderBookDepth.swift */,
 			);
 			path = WebSocketModels;
 			sourceTree = "<group>";
@@ -591,6 +597,8 @@
 				3707833827C8C469009ECBBC /* DepositWithdrawalStatusViewController.swift in Sources */,
 				0830F71127CCB14800A65EBA /* TransactionHistoryAPI.swift in Sources */,
 				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
+				08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */,
+				08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */,
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
 				3CCB27D027C77F2800F84C80 /* AssetsStatusAllValueObject.swift in Sources */,
 				0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */,

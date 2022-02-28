@@ -1,13 +1,13 @@
 //
-//  TicketWebSocket.swift
+//  OrderBookDepth.swift
 //  BithumbYagomAcamedy
 //
-//  Created by 황제하 on 2022/02/28.
+//  Created by 황제하 on 2022/03/01.
 //
 
 import Foundation
 
-struct TickerWebSocket: WebSocketable {
+struct OrderBookDepthWebSocket: WebSocketable {
        
     // MARK: - Property
     
@@ -18,14 +18,12 @@ struct TickerWebSocket: WebSocketable {
     
     init(
         symbol: String,
-        tickType: TickType = .minute30,
         url: BithumbWebSocketURL = BithumbWebSocketURL()
     ) {
         self.url = URL(string: url.baseURL)
         self.message = WebSocketMessageConverter().data(
-            type: .ticker,
-            symbol: symbol,
-            tickType: tickType
+            type: .orderbookdepth,
+            symbol: symbol
         )
     }
 }
