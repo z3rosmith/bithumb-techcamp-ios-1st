@@ -32,6 +32,7 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         configureCollectionViewLayout()
         configureDiffableDataSource()
         configureDataManager()
+        applyDepositWithdrawalStatusData()
     }
     
     // MARK: - Configuration
@@ -44,7 +45,10 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     }
     
     private func configureDiffableDataSource() {
-        typealias CellRegistration = UICollectionView.CellRegistration<DepositWithdrawalCollectionViewCell, AssetsStatus>
+        typealias CellRegistration = UICollectionView.CellRegistration<
+            DepositWithdrawalCollectionViewCell, AssetsStatus
+        >
+        
         let depositWithdrawalCell = UINib(nibName: depositWithdrawalCollectionViewCellNibName, bundle: nil)
         let cellRegistration = CellRegistration(cellNib: depositWithdrawalCell) { cell, indexPath, item in
             cell.update(item)
@@ -53,13 +57,19 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, AssetsStatus>(
             collectionView: collectionView
         ) { collectionView, indexPath, data -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: data)
+            return collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: data
+            )
         }
     }
     
     private func configureDataManager() {
         dataManager = DepositWithdrawalStatusDataManager()
-        
+    }
+    
+    private func applyDepositWithdrawalStatusData() {
         dataManager?.requestData { [weak self] assetsStatuses in
             var snapshot = NSDiffableDataSourceSnapshot<Section, AssetsStatus>()
             

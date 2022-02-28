@@ -29,7 +29,6 @@ final class DepositWithdrawalStatusDataManager {
             switch result {
             case .success(let data):
                 self.excuteResultSuccess(data: data, successHandler: completion)
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -43,7 +42,6 @@ final class DepositWithdrawalStatusDataManager {
             
             self.statuses.append(contentsOf: result)
             successHandler(self.statuses)
-            
         } catch {
             print(error.localizedDescription)
         }
