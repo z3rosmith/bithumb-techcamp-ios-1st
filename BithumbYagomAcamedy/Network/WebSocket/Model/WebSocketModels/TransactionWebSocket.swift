@@ -11,8 +11,8 @@ struct TransactionWebSocket: WebSocketable {
        
     // MARK: - Property
     
-    var url: URL?
-    var message: Data
+    private(set) var url: URL?
+    private(set) var message: Data
     
     // MARK: - Init
     
