@@ -68,11 +68,8 @@ class NetworkServiceTests: XCTestCase {
         }
     }
     
-    func test_MockURLSession의_isSuccess가_true일때_정상동작_하는지() {
-        guard let mockAPI = mockAPI else {
-            XCTFail()
-            return
-        }
+    func test_MockURLSession의_isSuccess가_true일때_정상동작_하는지() throws {
+        let mockAPI = try XCTUnwrap(mockAPI)
         
         let mockSession = MockURLSession(isSuccess: true)
         networkService = HTTPNetworkService(session: mockSession)
