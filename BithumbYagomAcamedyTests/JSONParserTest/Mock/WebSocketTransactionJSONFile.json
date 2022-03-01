@@ -1,0 +1,16 @@
+{
+    "type": "transaction",
+    "content": {
+        "list": [
+            {
+                "buySellGb": "1",
+                "contPrice": "52493000",
+                "contQty": "0.0352",
+                "contAmt": "1847753.6000",
+                "contDtm": "2022-03-01 13:56:35.056030",
+                "updn": "dn",
+                "symbol": "BTC_KRW"
+            }
+        ]
+    }
+}

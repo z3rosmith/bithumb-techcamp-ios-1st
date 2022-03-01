@@ -1,0 +1,21 @@
+{
+    "type": "ticker",
+    "content": {
+        "tickType": "30M",
+        "date": "20220301",
+        "time": "134709",
+        "openPrice": "52288000",
+        "closePrice": "52398000",
+        "lowPrice": "52254000",
+        "highPrice": "52434000",
+        "value": "3040440822.40419",
+        "volume": "58.04728682",
+        "sellVolume": "13.63083704",
+        "buyVolume": "44.41644978",
+        "prevClosePrice": "48556000",
+        "chgRate": "0.21",
+        "chgAmt": "110000",
+        "volumePower": "325.85",
+        "symbol": "BTC_KRW"
+    }
+}
