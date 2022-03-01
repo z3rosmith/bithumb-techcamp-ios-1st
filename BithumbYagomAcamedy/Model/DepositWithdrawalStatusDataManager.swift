@@ -10,10 +10,10 @@ import Foundation
 final class DepositWithdrawalStatusDataManager {
     
     // MARK: - Property
-    private let service: NetworkService
+    private let service: HTTPNetworkService
     private var statuses: [AssetsStatus]
     
-    init(service: NetworkService = NetworkService()) {
+    init(service: HTTPNetworkService = HTTPNetworkService()) {
         self.service = service
         statuses = []
     }
