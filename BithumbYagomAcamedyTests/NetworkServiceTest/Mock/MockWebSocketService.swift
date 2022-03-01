@@ -40,6 +40,10 @@ struct MockWebSocketService: WebSocketServicable {
         receive(with: completionHandler)
     }
     
+    func close() {
+        webSocketTask?.cancel()
+    }
+    
     // MARK: - Private Method
     
     private func send(
