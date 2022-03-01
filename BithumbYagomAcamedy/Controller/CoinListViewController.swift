@@ -13,13 +13,13 @@ class CoinListViewController: UIViewController {
     
     enum Section: CaseIterable {
         case favorite
-        case allByKRW
+        case all
         
         var description: String {
             switch self {
             case .favorite:
                 return "관심"
-            case .allByKRW:
+            case .all:
                 return "원화"
             }
         }
@@ -33,12 +33,6 @@ class CoinListViewController: UIViewController {
     
     private let coinListDataManager = CoinListDataManager()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Coin>?
-    private var coinSortAction: CoinSortAction? {
-        didSet {
-            guard let coinSortAction = coinSortAction else { return }
-            applySnapshot(by: coinSortAction)
-        }
-    }
     
     // MARK: - Life Cycle
     
@@ -52,27 +46,60 @@ class CoinListViewController: UIViewController {
     
     @IBAction func nameButtonTapped(_ sender: UIButton) {
         if sender.isSelected {
-            coinSortAction = { $0.callingName > $1.callingName }
+            coinListDataManager.coinSortAction = { $0.callingName > $1.callingName }
         } else {
-            coinSortAction = { $0.callingName < $1.callingName }
+            coinListDataManager.coinSortAction = { $0.callingName < $1.callingName }
         }
         sender.isSelected.toggle()
     }
     
     @IBAction func priceButtonTapped(_ sender: UIButton) {
         if sender.isSelected {
-            coinSortAction = { $0.currentPrice > $1.currentPrice }
+            coinListDataManager.coinSortAction = {
+                let first = $0.currentPrice ?? -Double.greatestFiniteMagnitude
+                let second = $1.currentPrice ?? -Double.greatestFiniteMagnitude
+                return first > second
+            }
         } else {
-            coinSortAction = { $0.currentPrice < $1.currentPrice }
+            coinListDataManager.coinSortAction = {
+                let first = $0.currentPrice ?? Double.greatestFiniteMagnitude
+                let second = $1.currentPrice ?? Double.greatestFiniteMagnitude
+                return first < second
+            }
         }
         sender.isSelected.toggle()
     }
     
     @IBAction func changeRateButtonTapped(_ sender: UIButton) {
         if sender.isSelected {
-            coinSortAction = { $0.changeRate > $1.changeRate }
+            coinListDataManager.coinSortAction = {
+                let first = $0.changeRate ?? -Double.greatestFiniteMagnitude
+                let second = $1.changeRate ?? -Double.greatestFiniteMagnitude
+                return first > second
+            }
         } else {
-            coinSortAction = { $0.changeRate < $1.changeRate }
+            coinListDataManager.coinSortAction = {
+                let first = $0.changeRate ?? Double.greatestFiniteMagnitude
+                let second = $1.changeRate ?? Double.greatestFiniteMagnitude
+                return first < second
+            }
+        }
+        sender.isSelected.toggle()
+    }
+    
+    @IBAction func popularityButtonTapped(_ sender: UIButton) {
+        if sender.isSelected {
+            coinListDataManager.coinSortAction = {
+                let first = $0.popularity ?? -Double.greatestFiniteMagnitude
+                let second = $1.popularity ?? -Double.greatestFiniteMagnitude
+                return first > second
+            }
+        } else {
+            coinListDataManager.coinSortAction = {
+                let first = $0.popularity ?? Double.greatestFiniteMagnitude
+                let second = $1.popularity ?? Double.greatestFiniteMagnitude
+                return first < second
+            }
         }
         sender.isSelected.toggle()
     }
@@ -119,11 +146,11 @@ extension CoinListViewController {
 // MARK: - Snapshot
 
 extension CoinListViewController {
-    func applySnapshot(by areInIncreasingOrder: @escaping CoinSortAction) {
-        let allCoinList = coinListDataManager.sortedCoinList(by: areInIncreasingOrder)
+    func applySnapshot() {
+        let allCoinList = coinListDataManager.sortedCoinList()
         var snapshot = NSDiffableDataSourceSnapshot<Section, Coin>()
-        snapshot.appendSections([.allByKRW])
-        snapshot.appendItems(allCoinList, toSection: .allByKRW)
+        snapshot.appendSections([.all])
+        snapshot.appendItems(allCoinList, toSection: .all)
         DispatchQueue.main.async {
             self.dataSource?.apply(snapshot, animatingDifferences: true)
         }
@@ -133,19 +160,11 @@ extension CoinListViewController {
 // MARK: - CoinListDataSourceDelegate
 
 extension CoinListViewController: CoinListDataManagerDelegate {
-    func coinListDataManagerDidSetCoinList() {
-        if let coinSortAction = coinSortAction {
-            applySnapshot(by: coinSortAction)
-        } else {
-            applySnapshot { $0.popularity > $1.popularity }
-        }
+    func coinListDataManagerDidSetCoinSortAction() {
+        applySnapshot()
     }
     
     func coinListDataManagerDidFetchCurrentPrice() {
-        if let coinSortAction = coinSortAction {
-            applySnapshot(by: coinSortAction)
-        } else {
-            applySnapshot { $0.popularity > $1.popularity }
-        }
+        applySnapshot()
     }
 }

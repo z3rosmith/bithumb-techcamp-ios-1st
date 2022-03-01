@@ -70,21 +70,6 @@ struct TickerData: Decodable {
     }
 }
 
-#warning("의견 필요 - 기본값 처리")
-extension TickerData {
-    var accTradeValue24HourDouble: Double {
-        return Double(accTradeValue24Hour) ?? -1 // 의견 필요
-    }
-    
-    var fluctate24HourDouble: Double {
-        return Double(fluctate24Hour) ?? -1 // 의견 필요
-    }
-    
-    var fluctateRate24HourDouble: Double {
-        return Double(fluctateRate24Hour) ?? -1.0 // 의견 필요
-    }
-}
-
 extension DynamicValue {
     var tickerData: TickerData? {
         if case let .tickerData(tickerData) = self {
