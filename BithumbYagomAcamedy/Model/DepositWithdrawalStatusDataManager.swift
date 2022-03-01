@@ -22,14 +22,10 @@ final class DepositWithdrawalStatusDataManager {
     }
     
     // MARK: - Property
-    private let service: NetworkService
+    private let service: HTTPNetworkService
     private(set) var statuses: [AssetsStatus]
     
-    var allStatuses: [AssetsStatus] {
-        return statuses
-    }
-    
-    init(service: NetworkService = NetworkService()) {
+    init(service: HTTPNetworkService = HTTPNetworkService()) {
         self.service = service
         statuses = []
     }

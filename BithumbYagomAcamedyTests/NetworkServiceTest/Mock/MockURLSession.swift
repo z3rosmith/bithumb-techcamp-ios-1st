@@ -9,25 +9,33 @@ import Foundation
 @testable import BithumbYagomAcamedy
 
 final class MockURLSessionDataTask: URLSessionDataTask {
+    
+    // MARK: - Property
+    
     var resumeDidCall: () -> Void = {}
 
+    // MARK: - Override Method
+    
     override func resume() {
         resumeDidCall()
     }
 }
 
-enum MockNetworkError: Error {
-    case mockError
-}
-
 final class MockURLSession: URLSessionProviding {
+    
+    // MARK: - Property
+    
     private let isSuccess: Bool
     private let error: MockNetworkError?
+    
+    // MARK: - Init
     
     init(isSuccess: Bool = true, error: MockNetworkError? = nil) {
         self.isSuccess = isSuccess
         self.error = error
     }
+    
+    // MARK: - Method
     
     func dataTask(
         with request: URLRequest,

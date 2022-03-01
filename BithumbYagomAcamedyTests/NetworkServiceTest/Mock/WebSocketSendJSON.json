@@ -1,0 +1,5 @@
+{
+    "type":"ticker",
+    "symbols": ["BTC_KRW"],
+    "tickTypes": ["1H"]
+}
