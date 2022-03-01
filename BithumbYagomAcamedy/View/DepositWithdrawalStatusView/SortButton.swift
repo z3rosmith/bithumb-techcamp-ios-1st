@@ -10,6 +10,9 @@ import UIKit
 class SortButton: UIButton {
     
     private(set) var isAscend: Bool
+    private let defaultImageName = "chevron_all_gray"
+    private let upImageName = "chevron_up_black"
+    private let downImageName = "chevron_under_black"
     
     required init?(coder: NSCoder) {
         self.isAscend = false
@@ -27,7 +30,7 @@ class SortButton: UIButton {
         self.isAscend = false
         super.init(frame: .zero)
         commonInit()
-        self.titleLabel?.text = title
+        setTitle(title, for: .normal)
     }
     
     override func awakeFromNib() {
@@ -35,25 +38,26 @@ class SortButton: UIButton {
     }
     
     func update(title: String) {
-        self.setTitle(title, for: .normal)
+        setTitle(title, for: .normal)
     }
     
     func restoreImage() {
-        self.setImage(UIImage(named: "chevron_all_gray"), for: .normal)
+        setImage(UIImage(named: defaultImageName), for: .normal)
     }
     
     private func commonInit() {
-        self.setImage(UIImage(named: "chevron_all_gray"), for: .normal)
-        self.addTarget(self, action: #selector(touchedSortButton), for: .touchUpInside)
+        titleLabel?.adjustsFontForContentSizeCategory = true
+        setImage(UIImage(named: defaultImageName), for: .normal)
+        addTarget(self, action: #selector(touchedSortButton), for: .touchUpInside)
     }
     
     @objc private func touchedSortButton() {
         self.isAscend = !isAscend
         
         if isAscend {
-            self.setImage(UIImage(named: "chevron_up_black"), for: .normal)
+            setImage(UIImage(named: upImageName), for: .normal)
         } else {
-            self.setImage(UIImage(named: "chevron_under_black"), for: .normal)
+            setImage(UIImage(named: downImageName), for: .normal)
         }
     }
 }
