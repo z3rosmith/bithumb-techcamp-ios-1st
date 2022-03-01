@@ -126,7 +126,7 @@ struct Coin: Hashable {
     var currentPrice: Double?
     var changeRate: Double?
     var changePrice: Double?
-    let popularity: Double?
+    var popularity: Double?
     let identifier = UUID()
     
     func hash(into hasher: inout Hasher) {
