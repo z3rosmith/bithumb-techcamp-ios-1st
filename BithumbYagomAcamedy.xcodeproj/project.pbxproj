@@ -25,6 +25,7 @@
 		08AF807027C8CCF200790762 /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF806F27C8CCF200790762 /* WebSocketService.swift */; };
 		08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */; };
 		08B46D8027CDE5220072CBBF /* WebSocketTransactionValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */; };
+		08B46D8227CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */; };
 		08B4916227C9C29F0082E379 /* WebSocketable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4916127C9C29F0082E379 /* WebSocketable.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
@@ -90,6 +91,7 @@
 		08AF806F27C8CCF200790762 /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTickerValueObject.swift; sourceTree = "<group>"; };
 		08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTransactionValueObject.swift; sourceTree = "<group>"; };
+		08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketOrderBookDepthValueObject.swift; sourceTree = "<group>"; };
 		08B4916127C9C29F0082E379 /* WebSocketable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketable.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */,
+				08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */,
 				08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */,
 			);
 			path = WebSockerValueObject;
@@ -533,6 +536,7 @@
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
 				3CCB27CA27C7737900F84C80 /* TickerValueObject.swift in Sources */,
 				371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */,
+				08B46D8227CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift in Sources */,
 				3CC98F3A27C896C400B9A6EF /* CoinListDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
