@@ -49,8 +49,8 @@ final class MockWebSocketURLSessionTask: URLSessionWebSocketTaskProviding {
             Result<URLSessionWebSocketTask.Message, Error>
         ) -> Void
     ) {
-        if isSuccess {
-            completionHandler(.success(message!))
+        if isSuccess, let message = message {
+            completionHandler(.success(message))
         } else {
             completionHandler(.failure(taskError))
         }

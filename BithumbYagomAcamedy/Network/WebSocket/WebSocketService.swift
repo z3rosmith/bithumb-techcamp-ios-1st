@@ -70,7 +70,7 @@ struct WebSocketService: WebSocketServicable {
             .data(message)
         ) { error in
             if let error = error {
-                completionHandler(.failure(error))
+                completionHandler(.failure(WebSocketError.unknown(error: error)))
             }
         }
     }
@@ -85,7 +85,7 @@ struct WebSocketService: WebSocketServicable {
                     completionHandler(.success(message))
                     self.receive(with: completionHandler)
                 case .failure(let error):
-                    completionHandler(.failure(error))
+                    completionHandler(.failure(WebSocketError.unknown(error: error)))
                 }
             }
         }

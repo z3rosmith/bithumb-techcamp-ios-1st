@@ -12,4 +12,6 @@ protocol WebSocketServicable {
         webSocketAPI: WebSocketable,
         completionHandler: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void
     )
+    
+    func close()
 }
