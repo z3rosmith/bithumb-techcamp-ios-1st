@@ -30,7 +30,7 @@ struct WebSocketTickerData: Decodable {
     let volume: String
     let sellVolume: String
     let buyVolume: String
-    let prevClosePrice: String
+    let previousClosePrice: String
     let changeRate: String
     let changePrice: String
     let volumePower: String
@@ -50,8 +50,7 @@ struct WebSocketTickerData: Decodable {
         case sellVolume
         case buyVolume
         case volumePower
-
-        case prevClosePrice
+        case previousClosePrice = "prevClosePrice"
         case changeRate = "chgRate"
         case changePrice = "chgAmt"
     }

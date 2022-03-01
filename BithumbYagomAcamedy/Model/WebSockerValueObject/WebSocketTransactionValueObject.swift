@@ -22,12 +22,12 @@ struct WebSocketTransactionData: Decodable {
     
     struct WebSocketTransaction: Decodable {
         let symbol: String
-        let type: String
+        let type: TransactionType
         let price: String
         let quantity: String
         let amount: String
         let date: String
-        let updown: String
+        let updown: PriceUpDown
 
         enum CodingKeys: String, CodingKey {
             case symbol
@@ -38,5 +38,15 @@ struct WebSocketTransactionData: Decodable {
             case date = "contDtm"
             case updown = "updn"
         }
+    }
+    
+    enum TransactionType: String, Decodable {
+        case ask = "1"
+        case bid = "2"
+    }
+    
+    enum PriceUpDown: String, Decodable {
+        case up = "up"
+        case down = "dn"
     }
 }
