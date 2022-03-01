@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CoinListViewController: UIViewController {
+final class CoinListViewController: UIViewController {
     
     // MARK: - Nested Type
     

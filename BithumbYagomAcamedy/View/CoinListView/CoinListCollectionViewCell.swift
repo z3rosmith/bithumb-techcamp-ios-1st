@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CoinListCollectionViewCell: UICollectionViewListCell {
+final class CoinListCollectionViewCell: UICollectionViewListCell {
 
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var symbolPerCurrencyLabel: UILabel!
