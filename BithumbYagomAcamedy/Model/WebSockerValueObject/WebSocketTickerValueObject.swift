@@ -35,7 +35,6 @@ struct WebSocketTickerData: Decodable {
     let changePrice: String
     let volumePower: String
     
-    
     enum CodingKeys: String, CodingKey {
         case symbol
         case tickType
