@@ -14,7 +14,7 @@ struct AssetsStatus: DepositWithdrawalCellDataProviding, Hashable {
     private(set) var withdrawalStatus: String
     private(set) var isValidDeposit: Bool
     private(set) var isValidWithdrawal: Bool
-    let uuid: UUID = UUID()
+    private let uuid: UUID = UUID()
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)

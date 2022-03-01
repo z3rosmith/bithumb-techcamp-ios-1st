@@ -9,9 +9,25 @@ import Foundation
 
 final class DepositWithdrawalStatusDataManager {
     
+    enum FilterType: Int {
+        case all
+        case normal
+        case stop
+    }
+    
+    enum SortType {
+        case name
+        case deposit
+        case withdrawal
+    }
+    
     // MARK: - Property
     private let service: NetworkService
-    private var statuses: [AssetsStatus]
+    private(set) var statuses: [AssetsStatus]
+    
+    var allStatuses: [AssetsStatus] {
+        return statuses
+    }
     
     init(service: NetworkService = NetworkService()) {
         self.service = service
@@ -33,6 +49,60 @@ final class DepositWithdrawalStatusDataManager {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func containStatuses(in searchText: String) -> [AssetsStatus] {
+        return statuses.filter {
+            $0.coinName.contains(searchText) || $0.coinSymbol.contains(searchText)
+        }
+    }
+    
+    func filterStatuses(by type: FilterType?) -> [AssetsStatus] {
+        var filteredData: [AssetsStatus] = []
+        
+        switch type {
+        case .all:
+            filteredData = statuses
+        case .normal:
+            filteredData = statuses.filter { $0.isValidDeposit && $0.isValidWithdrawal }
+        case .stop:
+            filteredData = statuses.filter { !$0.isValidDeposit || !$0.isValidWithdrawal }
+        default:
+            break
+        }
+        
+        return filteredData
+    }
+    
+    func sortStatuses(data: [AssetsStatus], by type: SortType?, _ isAscend: Bool) -> [AssetsStatus] {
+        var sortedData: [AssetsStatus] = []
+        
+        switch type {
+        case .name:
+            sortedData = isAscend ?
+            data.sorted { $0.coinName > $1.coinName } :
+            data.sorted { $0.coinName < $1.coinName }
+        case .deposit:
+            sortedData = isAscend ?
+            data.sorted {
+                $0.isValidDeposit == false && $1.isValidDeposit == true
+            } :
+            data.sorted {
+                $0.isValidDeposit == true && $1.isValidDeposit == false
+            }
+        case .withdrawal:
+            sortedData = isAscend ?
+            data.sorted {
+                $0.isValidWithdrawal == false && $1.isValidWithdrawal == true
+            } :
+            data.sorted {
+                $0.isValidWithdrawal == true && $1.isValidWithdrawal == false
+            }
+        default:
+            break
+        }
+        
+        return sortedData
     }
     
     private func excuteResultSuccess(data: Data, successHandler: ([AssetsStatus]) -> Void) {
