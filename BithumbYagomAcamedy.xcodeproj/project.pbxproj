@@ -26,6 +26,9 @@
 		08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */; };
 		08B46D8027CDE5220072CBBF /* WebSocketTransactionValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */; };
 		08B46D8227CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */; };
+		08B46D8427CDFAE00072CBBF /* WebSocketTickerJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 08B46D8327CDFAE00072CBBF /* WebSocketTickerJSONFile.json */; };
+		08B46D8627CDFB100072CBBF /* WebSocketTransactionJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 08B46D8527CDFB100072CBBF /* WebSocketTransactionJSONFile.json */; };
+		08B46D8A27CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 08B46D8927CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json */; };
 		08B4916227C9C29F0082E379 /* WebSocketable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4916127C9C29F0082E379 /* WebSocketable.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
@@ -92,6 +95,9 @@
 		08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTickerValueObject.swift; sourceTree = "<group>"; };
 		08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTransactionValueObject.swift; sourceTree = "<group>"; };
 		08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketOrderBookDepthValueObject.swift; sourceTree = "<group>"; };
+		08B46D8327CDFAE00072CBBF /* WebSocketTickerJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WebSocketTickerJSONFile.json; sourceTree = "<group>"; };
+		08B46D8527CDFB100072CBBF /* WebSocketTransactionJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WebSocketTransactionJSONFile.json; sourceTree = "<group>"; };
+		08B46D8927CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WebSocketOrderbookdepthJSONFile.json; sourceTree = "<group>"; };
 		08B4916127C9C29F0082E379 /* WebSocketable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketable.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
@@ -324,6 +330,9 @@
 				3707832E27C8B88F009ECBBC /* TickerJSONFile.json */,
 				3707832F27C8B88F009ECBBC /* TickersJSONFile.json */,
 				3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */,
+				08B46D8327CDFAE00072CBBF /* WebSocketTickerJSONFile.json */,
+				08B46D8527CDFB100072CBBF /* WebSocketTransactionJSONFile.json */,
+				08B46D8927CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -491,12 +500,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B46D8627CDFB100072CBBF /* WebSocketTransactionJSONFile.json in Resources */,
+				08B46D8A27CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json in Resources */,
 				3707833627C8B88F009ECBBC /* AssetsStatusJSONFile.json in Resources */,
 				3707833227C8B88F009ECBBC /* TransactionJSONFile.json in Resources */,
 				3707833327C8B88F009ECBBC /* TickerJSONFile.json in Resources */,
 				0830F6FF27CC942A00A65EBA /* WebSocketSendJSON.json in Resources */,
 				3707833427C8B88F009ECBBC /* TickersJSONFile.json in Resources */,
 				3707833527C8B88F009ECBBC /* OrderbookJSONFile.json in Resources */,
+				08B46D8427CDFAE00072CBBF /* WebSocketTickerJSONFile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
