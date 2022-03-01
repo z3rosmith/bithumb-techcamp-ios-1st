@@ -34,16 +34,10 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        statusSearchBar.endEditing(false)
         configureCollectionViewLayout()
         configureDiffableDataSource()
         configureDataManager()
         applyDepositWithdrawalStatusData()
-    }
-    
-    @objc func touched() {
-        print("Hi")
     }
     
     // MARK: - Configuration
