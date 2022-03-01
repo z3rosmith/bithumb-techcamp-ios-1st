@@ -24,3 +24,10 @@ struct TransactionData: Decodable {
     let price: String
     let total: String
 }
+
+#warning("의견필요 - 기본값 처리")
+extension TransactionData {
+    var priceDouble: Double {
+        return Double(price) ?? -1
+    }
+}

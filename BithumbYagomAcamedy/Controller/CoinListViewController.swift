@@ -32,7 +32,7 @@ class CoinListViewController: UIViewController {
     // MARK: - Property
     
     private let coinListDataManager = CoinListDataManager()
-    private var dataSource: UICollectionViewDiffableDataSource<Section, CoinListDataManager.Coin>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Coin>?
     private var coinSortAction: CoinSortAction? {
         didSet {
             guard let coinSortAction = coinSortAction else { return }
@@ -87,10 +87,10 @@ extension CoinListViewController {
     
     func configureDataSource() {
         let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
-        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, CoinListDataManager.Coin>(cellNib: cellNib) { cell, indexPath, item in
+        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, Coin>(cellNib: cellNib) { cell, indexPath, item in
             cell.update(item: item)
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, CoinListDataManager.Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Section, Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
         }
         let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
@@ -119,9 +119,9 @@ extension CoinListViewController {
 // MARK: - Snapshot
 
 extension CoinListViewController {
-    func applySnapshot(by areInIncreasingOrder: CoinSortAction) {
+    func applySnapshot(by areInIncreasingOrder: @escaping CoinSortAction) {
         let allCoinList = coinListDataManager.sortedCoinList(by: areInIncreasingOrder)
-        var snapshot = NSDiffableDataSourceSnapshot<Section, CoinListDataManager.Coin>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Coin>()
         snapshot.appendSections([.allByKRW])
         snapshot.appendItems(allCoinList, toSection: .allByKRW)
         DispatchQueue.main.async {
@@ -137,7 +137,15 @@ extension CoinListViewController: CoinListDataManagerDelegate {
         if let coinSortAction = coinSortAction {
             applySnapshot(by: coinSortAction)
         } else {
-            applySnapshot { $0.currentPrice > $1.currentPrice }
+            applySnapshot { $0.popularity > $1.popularity }
+        }
+    }
+    
+    func coinListDataManagerDidFetchCurrentPrice() {
+        if let coinSortAction = coinSortAction {
+            applySnapshot(by: coinSortAction)
+        } else {
+            applySnapshot { $0.popularity > $1.popularity }
         }
     }
 }

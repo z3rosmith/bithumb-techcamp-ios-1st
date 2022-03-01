@@ -7,47 +7,32 @@
 
 import Foundation
 
-typealias CoinSortAction = (CoinListDataManager.Coin, CoinListDataManager.Coin) -> Bool
+typealias CoinSortAction = (Coin, Coin) -> Bool
 
 protocol CoinListDataManagerDelegate {
     func coinListDataManagerDidSetCoinList()
+    func coinListDataManagerDidFetchCurrentPrice()
 }
 
 final class CoinListDataManager {
     
-    typealias ValueObject = TickersValueObject
-    
-    // MARK: - Nested Type
-    
-    struct Coin: Hashable {
-        let callingName: String
-        let symbolName: String
-        let currentPrice: Int
-        let changeRate: Double
-        let changePrice: Double
-        let popularity: Double
-        let identifier = UUID()
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(identifier)
-        }
-        
-        static func == (lhs: Coin, rhs: Coin) -> Bool {
-            return lhs.identifier == rhs.identifier
-        }
-    }
-    
     // MARK: - Property
     
     var delegate: CoinListDataManagerDelegate?
-    private let networkService = NetworkService()
+    private let networkService: NetworkService
     private var coinList: [Coin] = []
+    
+    // MARK: - Init
+    
+    init(networkService: NetworkService = NetworkService()) {
+        self.networkService = networkService
+    }
 }
 
 // MARK: - Data Processing
 
 extension CoinListDataManager {
-    func sortedCoinList(by areInIncreasingOrder: CoinSortAction) -> [Coin] {
+    func sortedCoinList(by areInIncreasingOrder: @escaping CoinSortAction) -> [Coin] {
         return coinList.sorted(by: areInIncreasingOrder)
     }
 }
@@ -61,11 +46,12 @@ extension CoinListDataManager {
             switch result {
             case .success(let data):
                 do {
-                    let response = try JSONParser().decode(data: data, type: ValueObject.self)
-                    print(response.status)
-                    if response.status == "0000" { // 상수 처리 의견 필요, 0000 외일 때는 어떻게 처리할지도..
+                    let response = try JSONParser().decode(data: data, type: TickersValueObject.self)
+                    if response.status == "0000" {
                         self?.setCoinList(from: response)
-                        self?.delegate?.coinListDataManagerDidSetCoinList()
+                        #warning("밑에줄 주석처리하면 괜찮음.. 왜??")
+//                        self?.delegate?.coinListDataManagerDidSetCoinList()
+                        self?.fetchCurrentPrice()
                     }
                 } catch {
                     print(error)
@@ -78,14 +64,13 @@ extension CoinListDataManager {
         }
     }
     
-    #warning("transaction history 최근가로 price 변경")
-    private func setCoinList(from response: ValueObject) {
+    private func setCoinList(from response: TickersValueObject) {
         response.ticker.forEach { key, dynamicValue in
             if let tickerData = dynamicValue.tickerData {
                 let coin = Coin(
                     callingName: NSLocalizedString(key, comment: ""),
                     symbolName: key,
-                    currentPrice: Int.random(in: 0...1000000), // 뭘로해야하지?
+                    currentPrice: 0,
                     changeRate: tickerData.fluctateRate24HourDouble,
                     changePrice: tickerData.fluctate24HourDouble,
                     popularity: tickerData.accTradeValue24HourDouble
@@ -94,11 +79,78 @@ extension CoinListDataManager {
             }
         }
     }
+    
+    private func fetchCurrentPrice() {
+        var count: Int = 0
+        let serialQueue = DispatchQueue(label: "serial")
+        for i in 0..<coinList.count {
+            let api = TransactionHistoryAPI(orderCurrency: coinList[i].symbolName)
+            networkService.request(api: api) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
+                        if response.status == "0000" {
+                            if let firstItem = response.transaction.first {
+                                self?.coinList[i].currentPrice = firstItem.priceDouble
+                                serialQueue.async {
+                                    count += 1
+                                    if count == self?.coinList.count {
+                                        self?.delegate?.coinListDataManagerDidFetchCurrentPrice()
+                                    }
+                                }
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                case .failure(let error):
+                    if let description = error.errorDescription {
+                        print(description)
+                    }
+                }
+            }
+        }
+    }
 }
 
-// MARK: - CoinListDataManager.Coin Computed Property
+struct Coin: Hashable {
+    let callingName: String
+    let symbolName: String
+    var currentPrice: Double
+    var changeRate: Double
+    var changePrice: Double
+    let popularity: Double
+    let identifier = UUID()
+    
+    init(
+        callingName: String,
+        symbolName: String,
+        currentPrice: Double,
+        changeRate: Double,
+        changePrice: Double,
+        popularity: Double
+    ) {
+        self.callingName = callingName
+        self.symbolName = symbolName
+        self.currentPrice = currentPrice
+        self.changeRate = changeRate
+        self.changePrice = changePrice
+        self.popularity = popularity
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+    
+    static func == (lhs: Coin, rhs: Coin) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
 
-extension CoinListDataManager.Coin {
+// MARK: - Coin Computed Property
+
+extension Coin {
     var symbolPerKRW: String {
         return symbolName + "/KRW"
     }
@@ -115,3 +167,4 @@ extension CoinListDataManager.Coin {
         return "\(changePrice)"
     }
 }
+

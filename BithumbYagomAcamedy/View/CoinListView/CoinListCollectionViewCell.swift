@@ -19,7 +19,7 @@ class CoinListCollectionViewCell: UICollectionViewListCell {
         super.awakeFromNib()
     }
     
-    func update(item: CoinListDataManager.Coin) {
+    func update(item: Coin) {
         nameLabel.text = item.callingName
         symbolPerCurrencyLabel.text = item.symbolPerKRW
         priceLabel.text = item.priceString

@@ -70,7 +70,7 @@ struct TickerData: Decodable {
     }
 }
 
-#warning("의견 필요")
+#warning("의견 필요 - 기본값 처리")
 extension TickerData {
     var accTradeValue24HourDouble: Double {
         return Double(accTradeValue24Hour) ?? -1 // 의견 필요
