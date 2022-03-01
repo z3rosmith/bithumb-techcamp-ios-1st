@@ -70,4 +70,38 @@ class JSONParserTests: XCTestCase {
         XCTAssertEqual(value.assetstatus["BTC"]?.depositStatus, 1)
         XCTAssertEqual(value.assetstatus["BTC"]?.withdrawalStatus, 1)
     }
+    
+    func test_websocket_ticker_json_파일을_디코딩_시_websocket_ticker_value_object_타입의_인스턴스_반환() throws {
+        let url = try XCTUnwrap(Bundle(for: type(of: self))
+                                    .url(forResource: "WebSocketTickerJSONFile", withExtension: "json"))
+        let data = try XCTUnwrap(Data(contentsOf: url))
+        let value = try XCTUnwrap(parser?.decode(data: data, type: WebSocketTickerValueObjcet.self))
+        
+        XCTAssertEqual(value.type, "ticker")
+        XCTAssertEqual(value.webSocketTickerData.tickType, "30M")
+        XCTAssertEqual(value.webSocketTickerData.symbol, "BTC_KRW")
+    }
+    
+    func test_websocket_orderbookdepth_json_파일을_디코딩_시_websocket_orderbookdepth_value_object_타입의_인스턴스_반환() throws {
+        let url = try XCTUnwrap(Bundle(for: type(of: self))
+                                    .url(forResource: "WebSocketOrderbookdepthJSONFile", withExtension: "json"))
+        let data = try XCTUnwrap(Data(contentsOf: url))
+        let value = try XCTUnwrap(parser?.decode(data: data, type: WebSocketOrderBookDepthValueObject.self))
+        
+        XCTAssertEqual(value.type, "orderbookdepth")
+        XCTAssertEqual(value.webSocketOrderBookDepthData.date, "1646110679529153")
+        XCTAssertEqual(value.webSocketOrderBookDepthData.list[Int.zero].orderType, .ask)
+    }
+    
+    func test_websocket_transaction_json_파일을_디코딩_시_websocket_transaction_value_object_타입의_인스턴스_반환() throws {
+        let url = try XCTUnwrap(Bundle(for: type(of: self))
+                                    .url(forResource: "WebSocketTransactionJSONFile", withExtension: "json"))
+        let data = try XCTUnwrap(Data(contentsOf: url))
+        let value = try XCTUnwrap(parser?.decode(data: data, type: WebSocketTransactionValueObject.self))
+        
+        XCTAssertEqual(value.type, "transaction")
+        XCTAssertEqual(value.webSocketTransactionData.list[Int.zero].updown, .down)
+        XCTAssertEqual(value.webSocketTransactionData.list[Int.zero].type, .ask)
+    }
+    
 }

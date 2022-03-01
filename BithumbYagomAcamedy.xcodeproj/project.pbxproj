@@ -331,8 +331,8 @@
 				3707832F27C8B88F009ECBBC /* TickersJSONFile.json */,
 				3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */,
 				08B46D8327CDFAE00072CBBF /* WebSocketTickerJSONFile.json */,
-				08B46D8527CDFB100072CBBF /* WebSocketTransactionJSONFile.json */,
 				08B46D8927CDFB5C0072CBBF /* WebSocketOrderbookdepthJSONFile.json */,
+				08B46D8527CDFB100072CBBF /* WebSocketTransactionJSONFile.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
