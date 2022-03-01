@@ -123,22 +123,6 @@ struct Coin: Hashable {
     let popularity: Double
     let identifier = UUID()
     
-    init(
-        callingName: String,
-        symbolName: String,
-        currentPrice: Double,
-        changeRate: Double,
-        changePrice: Double,
-        popularity: Double
-    ) {
-        self.callingName = callingName
-        self.symbolName = symbolName
-        self.currentPrice = currentPrice
-        self.changeRate = changeRate
-        self.changePrice = changePrice
-        self.popularity = popularity
-    }
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }
