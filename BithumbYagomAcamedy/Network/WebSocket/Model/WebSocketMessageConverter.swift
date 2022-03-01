@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - WebSocketType
+
 enum WebSocketType: CustomStringConvertible {
     case ticker
     case transaction
@@ -23,6 +25,8 @@ enum WebSocketType: CustomStringConvertible {
         }
     }
 }
+
+// MARK: - TickType
 
 enum TickType: CustomStringConvertible {
     case minute30
@@ -47,7 +51,12 @@ enum TickType: CustomStringConvertible {
     }
 }
 
+// MARK: - WebSocketMessageConverter
+
 struct WebSocketMessageConverter {
+    
+    // MARK: - Method
+    
     func data(
         type: WebSocketType,
         symbol: String,
