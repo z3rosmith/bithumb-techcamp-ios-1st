@@ -19,7 +19,7 @@ final class CoinListDataManager {
     // MARK: - Property
     
     private let successStatusCode = "0000"
-    private let networkService: NetworkService
+    private let networkService: HTTPNetworkService
     private var coinList: [Coin] = []
     var delegate: CoinListDataManagerDelegate?
     var coinSortAction: CoinSortAction? {
@@ -30,7 +30,7 @@ final class CoinListDataManager {
     
     // MARK: - Init
     
-    init(networkService: NetworkService = NetworkService()) {
+    init(networkService: HTTPNetworkService = HTTPNetworkService()) {
         self.networkService = networkService
     }
 }
