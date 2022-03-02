@@ -44,6 +44,18 @@ final class CoinListViewController: UIViewController {
         coinListDataManager.fetchCoinList()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+    
+    // MARK: - IBAction
+    
     @IBAction func nameButtonTapped(_ sender: UIButton) {
         if sender.isSelected {
             coinListDataManager.coinSortAction = { $0.callingName > $1.callingName }
@@ -140,6 +152,7 @@ extension CoinListViewController {
         var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
         configuration.headerMode = .supplementary
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
+        coinListCollectionView.delegate = self
     }
 }
 
@@ -166,5 +179,21 @@ extension CoinListViewController: CoinListDataManagerDelegate {
     
     func coinListDataManagerDidFetchCurrentPrice() {
         applySnapshot()
+    }
+}
+
+extension CoinListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let coin = dataSource?.itemIdentifier(for: indexPath)
+        
+        let coinDetailStoryBoard = UIStoryboard(name: "CoinDetail", bundle: nil)
+        guard let coinDetailViewController = coinDetailStoryBoard.instantiateViewController(
+            withIdentifier: "CoinDetailViewController"
+        ) as? CoinDetailViewController else {
+            return
+        }
+        coinDetailViewController.coin = coin
+        
+        navigationController?.show(coinDetailViewController, sender: nil)
     }
 }
