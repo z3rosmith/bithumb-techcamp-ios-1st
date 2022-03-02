@@ -18,17 +18,59 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-RF-jT9">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <rect key="frame" x="0.0" y="142" width="414" height="671"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
                                 <cells/>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa">
+                                <rect key="frame" x="56" y="85" width="302" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmW-cd-a0L" userLabel="인기순">
+                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="인기순"/>
+                                        <connections>
+                                            <action selector="popularityButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="xhu-1K-VYH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Mv-8N-uur">
+                                        <rect key="frame" x="80.5" y="0.0" width="60.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="이름"/>
+                                        <connections>
+                                            <action selector="nameButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="C0q-Yf-Wzx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW">
+                                        <rect key="frame" x="161" y="0.0" width="60.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="현재가"/>
+                                        <connections>
+                                            <action selector="priceButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BT0-xU-YQO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL">
+                                        <rect key="frame" x="241.5" y="0.0" width="60.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="변동률"/>
+                                        <connections>
+                                            <action selector="changeRateButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BsE-wG-sdy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="2S2-i3-KmA"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" constant="26" id="49l-Wb-tS8"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="QpE-Ng-ASJ"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="X1G-C1-SIe"/>
-                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="cpw-FC-7tX"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="41" id="bJD-nl-A28"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sbb-RF-jT9" secondAttribute="trailing" id="ne6-gr-saR"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
                         </constraints>

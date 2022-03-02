@@ -71,7 +71,6 @@ struct TickerData: Decodable {
 }
 
 extension DynamicValue {
-    
     var tickerData: TickerData? {
         if case let .tickerData(tickerData) = self {
             return tickerData
