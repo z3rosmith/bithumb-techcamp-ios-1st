@@ -13,6 +13,8 @@ protocol DepositWithdrawalStatusDataManagerDelegate {
 
 final class DepositWithdrawalStatusDataManager {
     
+    // MARK: - Filter, Sort Enum
+    
     enum FilterType: Int {
         case all
         case normal
@@ -26,17 +28,22 @@ final class DepositWithdrawalStatusDataManager {
     }
     
     // MARK: - Property
+    
     private let service: HTTPNetworkService
     private var statuses: [AssetsStatus]
     private var filteredStatuses: [AssetsStatus]
     
     var delegate: DepositWithdrawalStatusDataManagerDelegate?
     
+    // MARK: - Initializer
+    
     init(service: HTTPNetworkService = HTTPNetworkService()) {
         self.service = service
         statuses = []
         filteredStatuses = []
     }
+    
+    // MARK: - Method
     
     func requestData() {
         let assetStatusAPI = AssetsStatusAPI()
@@ -101,21 +108,21 @@ final class DepositWithdrawalStatusDataManager {
         case .deposit:
             if isAscend {
                 sortedData = filteredStatuses.sorted {
-                    $0.isValidDeposit == false && $1.isValidDeposit == true
+                    $0.isValidDeposit == true && $1.isValidDeposit == false
                 }
             } else {
                 sortedData = filteredStatuses.sorted {
-                    $0.isValidDeposit == true && $1.isValidDeposit == false
+                    $0.isValidDeposit == false && $1.isValidDeposit == true
                 }
             }
         case .withdrawal:
             if isAscend {
                 sortedData = filteredStatuses.sorted {
-                    $0.isValidWithdrawal == false && $1.isValidWithdrawal == true
+                    $0.isValidWithdrawal == true && $1.isValidWithdrawal == false
                 }
             } else {
                 sortedData = filteredStatuses.sorted {
-                    $0.isValidWithdrawal == true && $1.isValidWithdrawal == false
+                    $0.isValidWithdrawal == false && $1.isValidWithdrawal == true
                 }
             }
         default:
