@@ -9,6 +9,10 @@ import UIKit
 
 final class CoinTransactionCollectionViewCell: UICollectionViewListCell {
     
+    // MARK: - Static Property
+    static let identifier = "CoinTransactionCollectionViewCell"
+    
+    
     // MARK: - IBOutlet
     
     @IBOutlet private weak var dateLabel: UILabel!
