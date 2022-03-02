@@ -12,7 +12,7 @@ final class CoinTransactionDataManager {
     // MARK: - Property
     
     private let httpNetworkService: HTTPNetworkService
-    private let webSocketService: WebSocketService
+    private var webSocketService: WebSocketService
     private var coinTransactions: [Transaction] = [] {
         didSet {
             print(coinTransactions.count)
@@ -27,6 +27,10 @@ final class CoinTransactionDataManager {
     ) {
         self.httpNetworkService = httpNetworkService
         self.webSocketService = webSocketService
+    }
+    
+    deinit {
+        webSocketService.close()
     }
 }
 
@@ -61,5 +65,46 @@ extension CoinTransactionDataManager {
         coinTransactions = transactionDatas.map {
             $0.generate()
         }.reversed()
+    }
+}
+
+// MARK: - WebSocket Network
+
+extension CoinTransactionDataManager {
+    func fetchTransactionWebSocket() {
+        let api = TransactionWebSocket(symbol: "BTC")
+        
+        webSocketService.open(webSocketAPI: api) { [weak self] result in
+            switch result {
+            case .success(let message):
+                switch message {
+                case .string(let response):
+                    guard let responseData = response.data(using: .utf8) else {
+                        break
+                    }
+                    if let transaction = try? JSONParser().decode(
+                        data: responseData,
+                        type: WebSocketTransactionValueObject.self
+                    ).webSocketTransactionData {
+                        self?.insertTransaction(transaction.list)
+                    }
+                default:
+                    break
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func insertTransaction(
+        _ transaction: [WebSocketTransactionData.WebSocketTransaction],
+        at index: Int = Int.zero
+    ) {
+        let convertedTransactions = transaction.map {
+            $0.generate()
+        }.reversed()
+        
+        coinTransactions.insert(contentsOf: convertedTransactions, at: index)
     }
 }

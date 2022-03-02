@@ -19,5 +19,6 @@ class CoinTransactionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         coinTransactionDataManager.fetchTransaction()
+        coinTransactionDataManager.fetchTransactionWebSocket()
     }
 }
