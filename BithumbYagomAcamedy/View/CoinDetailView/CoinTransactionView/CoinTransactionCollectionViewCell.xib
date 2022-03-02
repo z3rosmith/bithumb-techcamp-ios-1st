@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0qH-i6-I6A">
-                        <rect key="frame" x="10" y="10" width="364" height="30"/>
+                        <rect key="frame" x="10" y="10" width="358" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="22:22:22" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pK7-9z-PHi">
                                 <rect key="frame" x="0.0" y="0.0" width="77" height="30"/>
@@ -29,17 +29,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-Zk-TwI">
-                                <rect key="frame" x="77" y="0.0" width="287" height="30"/>
+                                <rect key="frame" x="77" y="0.0" width="281" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45,000,000" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uvz-ov-fiE">
-                                        <rect key="frame" x="0.0" y="0.0" width="143.5" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="140.5" height="30"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" systemColor="systemRedColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0024" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5h-LY-M1P">
-                                        <rect key="frame" x="143.5" y="0.0" width="143.5" height="30"/>
+                                        <rect key="frame" x="140.5" y="0.0" width="140.5" height="30"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" systemColor="systemRedColor"/>
@@ -53,7 +53,7 @@
                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 <constraints>
                     <constraint firstItem="0qH-i6-I6A" firstAttribute="leading" secondItem="ktW-1V-GGG" secondAttribute="leading" constant="10" id="2y1-q4-ACH"/>
-                    <constraint firstAttribute="trailing" secondItem="0qH-i6-I6A" secondAttribute="trailing" constant="10" id="OrA-JC-4QH"/>
+                    <constraint firstAttribute="trailing" secondItem="0qH-i6-I6A" secondAttribute="trailing" constant="16" id="OrA-JC-4QH"/>
                     <constraint firstItem="pK7-9z-PHi" firstAttribute="width" secondItem="ktW-1V-GGG" secondAttribute="width" multiplier="0.2" id="Rjf-aZ-W8F"/>
                     <constraint firstAttribute="bottom" secondItem="0qH-i6-I6A" secondAttribute="bottom" constant="10" id="XZD-Uh-dsG"/>
                     <constraint firstItem="0qH-i6-I6A" firstAttribute="top" secondItem="ktW-1V-GGG" secondAttribute="top" constant="10" id="pbG-T3-QoJ"/>

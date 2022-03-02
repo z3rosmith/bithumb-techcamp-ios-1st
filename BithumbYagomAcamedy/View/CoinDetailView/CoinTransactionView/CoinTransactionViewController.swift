@@ -22,7 +22,7 @@ final class CoinTransactionViewController: UIViewController {
     // MARK: - IBOutlet
     
     @IBOutlet private weak var coinTransactionCollectionView: UICollectionView!
-    
+    @IBOutlet private weak var coinQuantityLabel: UILabel!
     // MARK: - Property
     
     private let coinTransactionDataManager = CoinTransactionDataManager()

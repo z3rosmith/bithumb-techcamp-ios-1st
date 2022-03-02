@@ -17,8 +17,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sn9-T8-49M">
+                                <rect key="frame" x="10" y="44" width="394" height="41"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="시간" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5Q-xl-2xA">
+                                        <rect key="frame" x="0.0" y="0.0" width="79" height="41"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LT3-iC-yN0">
+                                        <rect key="frame" x="79" y="0.0" width="315" height="41"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가격(KRW)" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZK-eG-eC2">
+                                                <rect key="frame" x="0.0" y="0.0" width="157.5" height="41"/>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="채결량(BTC)" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFs-lW-yJw">
+                                                <rect key="frame" x="157.5" y="0.0" width="157.5" height="41"/>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="w5Q-xl-2xA" firstAttribute="width" secondItem="Sn9-T8-49M" secondAttribute="width" multiplier="0.2" id="ZZ4-Po-sKC"/>
+                                </constraints>
+                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="SK4-78-IWH">
-                                <rect key="frame" x="0.0" y="54" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="85" width="414" height="777"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WdR-5t-c2g">
                                     <size key="itemSize" width="128" height="128"/>
@@ -32,22 +63,31 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="SK4-78-IWH" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="DNu-Qx-LT9"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="SK4-78-IWH" secondAttribute="bottom" id="JaP-7Z-ALu"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="SK4-78-IWH" secondAttribute="trailing" id="bqM-j3-zm8"/>
-                            <constraint firstItem="SK4-78-IWH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="i9J-1k-gb3"/>
+                            <constraint firstItem="Sn9-T8-49M" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="46a-qF-e8V"/>
+                            <constraint firstItem="SK4-78-IWH" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="7dW-R1-Gti"/>
+                            <constraint firstItem="SK4-78-IWH" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="9Zt-sQ-t1e"/>
+                            <constraint firstItem="SK4-78-IWH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Lby-87-9eU"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Sn9-T8-49M" secondAttribute="trailing" constant="10" id="RwK-DS-QJs"/>
+                            <constraint firstItem="Sn9-T8-49M" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="bsp-e9-4yZ"/>
+                            <constraint firstItem="SK4-78-IWH" firstAttribute="top" secondItem="Sn9-T8-49M" secondAttribute="bottom" id="nkh-9L-CWK"/>
+                            <constraint firstItem="Sn9-T8-49M" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.05" id="rG3-ky-u9O"/>
+                            <constraint firstItem="SK4-78-IWH" firstAttribute="top" secondItem="Sn9-T8-49M" secondAttribute="bottom" id="y2c-NM-XTy"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="coinQuantityLabel" destination="zFs-lW-yJw" id="hyT-fX-Fo5"/>
                         <outlet property="coinTransactionCollectionView" destination="SK4-78-IWH" id="VXc-1R-kl9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="138"/>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
