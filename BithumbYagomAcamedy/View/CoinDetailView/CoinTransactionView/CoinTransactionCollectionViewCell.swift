@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TransactionCollectionViewCell: UICollectionViewListCell {
+final class CoinTransactionCollectionViewCell: UICollectionViewListCell {
     
     // MARK: - IBOutlet
     
