@@ -7,15 +7,19 @@
 
 import Foundation
 
+protocol CoinTransactionDataManagerDelegate: AnyObject {
+    func coinTransactionDataManager(didChange transactions: [Transaction])
+}
+
 final class CoinTransactionDataManager {
     
     // MARK: - Property
-    
+    weak var delegate: CoinTransactionDataManagerDelegate?
     private let httpNetworkService: HTTPNetworkService
     private var webSocketService: WebSocketService
     private var coinTransactions: [Transaction] = [] {
         didSet {
-            print(coinTransactions.count)
+            delegate?.coinTransactionDataManager(didChange: coinTransactions)
         }
     }
     
