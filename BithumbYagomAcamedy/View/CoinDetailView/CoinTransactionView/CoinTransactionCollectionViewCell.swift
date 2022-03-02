@@ -23,8 +23,8 @@ final class CoinTransactionCollectionViewCell: UICollectionViewListCell {
     
     func update(_ item: Transaction) {
         dateLabel.text = item.convertedDate
-        priceLabel.text = item.price
-        quantityLabel.text = item.quantity
+        priceLabel.text = item.commaPrice
+        quantityLabel.text = item.roundedQuantity
         priceLabel.textColor = labelColor(type: item.type)
         quantityLabel.textColor = labelColor(type: item.type)
     }

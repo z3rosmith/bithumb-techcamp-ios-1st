@@ -46,4 +46,23 @@ extension Transaction {
         
         return formatter.string(from: date)
     }
+    
+    var commaPrice: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let price = Double(price)
+        
+        return formatter.string(for: price) ?? String()
+    }
+    
+    var roundedQuantity: String {
+        if let quantity = Double(quantity) {
+            let digit: Double = pow(10, 4)
+            let roundedQuantity = round(quantity * digit) / digit
+            
+            return String(roundedQuantity)
+        }
+        
+        return String()
+    }
 }
