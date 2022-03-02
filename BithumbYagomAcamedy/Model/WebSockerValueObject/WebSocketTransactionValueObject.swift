@@ -50,3 +50,22 @@ struct WebSocketTransactionData: Decodable {
         case down = "dn"
     }
 }
+
+// MARK: - Generate
+
+extension WebSocketTransactionData.WebSocketTransaction {
+    func generate() -> Transaction {
+        let type = convert(type: type)
+        
+        return Transaction(
+            date: date,
+            type: type,
+            price: price,
+            quantity: quantity
+        )
+    }
+    
+    private func convert(type: WebSocketTransactionData.TransactionType) -> TransactionType {
+        return type == .bid ? .bid : .ask
+    }
+}
