@@ -24,8 +24,9 @@ class SortButton: UIButton {
         setTitle(title, for: .normal)
     }
     
-    func restoreImage() {
+    func restoreButton() {
         setImage(UIImage(named: defaultImageName), for: .normal)
+        self.isAscend = false
     }
     
     private func commonInit() {
