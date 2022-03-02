@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol DepositWithdrawalStatusDataManagerDelegate {
+    func depositWithdrawalStatusDataManagerDidSetData(_ statuses: [AssetsStatus])
+}
+
 final class DepositWithdrawalStatusDataManager {
     
     enum FilterType: Int {
@@ -23,14 +27,18 @@ final class DepositWithdrawalStatusDataManager {
     
     // MARK: - Property
     private let service: HTTPNetworkService
-    private(set) var statuses: [AssetsStatus]
+    private var statuses: [AssetsStatus]
+    private var filteredStatuses: [AssetsStatus]
+    
+    var delegate: DepositWithdrawalStatusDataManagerDelegate?
     
     init(service: HTTPNetworkService = HTTPNetworkService()) {
         self.service = service
         statuses = []
+        filteredStatuses = []
     }
     
-    func requestData(completion: @escaping ([AssetsStatus]) -> Void) {
+    func requestData() {
         let assetStatusAPI = AssetsStatusAPI()
         
         service.request(api: assetStatusAPI) { [weak self] result in
@@ -40,90 +48,93 @@ final class DepositWithdrawalStatusDataManager {
             
             switch result {
             case .success(let data):
-                self.excuteResultSuccess(data: data, successHandler: completion)
+                let parsedData = self.parseAssetsStatuses(to: data)
+                
+                self.statuses = parsedData
+                self.delegate?.depositWithdrawalStatusDataManagerDidSetData(parsedData)
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
     
-    func containStatuses(in searchText: String) -> [AssetsStatus] {
-        return statuses.filter {
-            $0.coinName.contains(searchText) || $0.coinSymbol.contains(searchText)
+    func containedStatuses(in searchText: String) {
+        if searchText.isEmpty {
+            delegate?.depositWithdrawalStatusDataManagerDidSetData(statuses)
+        } else {
+            let containedData = statuses.filter {
+                $0.coinName.contains(searchText) || $0.coinSymbol.contains(searchText)
+            }
+            
+            delegate?.depositWithdrawalStatusDataManagerDidSetData(containedData)
         }
     }
     
-    func filterStatuses(by type: FilterType?) -> [AssetsStatus] {
-        var filteredData: [AssetsStatus] = []
-        
+    func filteredStatuses(by type: FilterType?) {
         switch type {
         case .all:
-            filteredData = statuses
+            filteredStatuses = statuses
         case .normal:
-            filteredData = statuses.filter { $0.isValidDeposit && $0.isValidWithdrawal }
+            filteredStatuses = statuses.filter { $0.isValidDeposit && $0.isValidWithdrawal }
         case .stop:
-            filteredData = statuses.filter { !$0.isValidDeposit || !$0.isValidWithdrawal }
+            filteredStatuses = statuses.filter { !$0.isValidDeposit || !$0.isValidWithdrawal }
         default:
             break
         }
         
-        return filteredData
+        delegate?.depositWithdrawalStatusDataManagerDidSetData(filteredStatuses)
     }
     
-    func sortStatuses(data: [AssetsStatus], by type: SortType?, _ isAscend: Bool) -> [AssetsStatus] {
+    func sortedStatuses(by type: SortType?, _ isAscend: Bool) {
         var sortedData: [AssetsStatus] = []
         
         switch type {
         case .name:
-            sortedData = isAscend ?
-            data.sorted { $0.coinName > $1.coinName } :
-            data.sorted { $0.coinName < $1.coinName }
+            if isAscend {
+                sortedData = filteredStatuses.sorted { $0.coinName < $1.coinName }
+            } else {
+                sortedData = filteredStatuses.sorted { $0.coinName > $1.coinName }
+            }
         case .deposit:
-            sortedData = isAscend ?
-            data.sorted {
-                $0.isValidDeposit == false && $1.isValidDeposit == true
-            } :
-            data.sorted {
-                $0.isValidDeposit == true && $1.isValidDeposit == false
+            if isAscend {
+                sortedData = filteredStatuses.sorted {
+                    $0.isValidDeposit == false && $1.isValidDeposit == true
+                }
+            } else {
+                sortedData = filteredStatuses.sorted {
+                    $0.isValidDeposit == true && $1.isValidDeposit == false
+                }
             }
         case .withdrawal:
-            sortedData = isAscend ?
-            data.sorted {
-                $0.isValidWithdrawal == false && $1.isValidWithdrawal == true
-            } :
-            data.sorted {
-                $0.isValidWithdrawal == true && $1.isValidWithdrawal == false
+            if isAscend {
+                sortedData = filteredStatuses.sorted {
+                    $0.isValidWithdrawal == false && $1.isValidWithdrawal == true
+                }
+            } else {
+                sortedData = filteredStatuses.sorted {
+                    $0.isValidWithdrawal == true && $1.isValidWithdrawal == false
+                }
             }
         default:
             break
         }
         
-        return sortedData
+        delegate?.depositWithdrawalStatusDataManagerDidSetData(sortedData)
     }
     
-    private func excuteResultSuccess(data: Data, successHandler: ([AssetsStatus]) -> Void) {
-        do {
-            let assetStatusValueObject = try self.parseAssetsStatusValueObject(to: data)
-            let result = self.createAssetsStatuses(to: assetStatusValueObject)
-            
-            self.statuses.append(contentsOf: result)
-            successHandler(self.statuses)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func parseAssetsStatusValueObject(to data: Data) throws -> AssetsStatusValueObject {
+    private func parseAssetsStatuses(to data: Data) -> [AssetsStatus] {
         do {
             let parser = JSONParser()
-            let assetsStatuses = try parser.decode(data: data, type: AssetsStatusValueObject.self)
+            let assetsStatusesValueObject = try parser.decode(
+                data: data, type: AssetsStatusValueObject.self
+            )
             
-            return assetsStatuses
+            return createAssetsStatuses(to: assetsStatusesValueObject)
         } catch {
             print(error.localizedDescription)
-            
-            throw error
         }
+        
+        return []
     }
     
     private func createAssetsStatuses(to valueObject: AssetsStatusValueObject) -> [AssetsStatus] {

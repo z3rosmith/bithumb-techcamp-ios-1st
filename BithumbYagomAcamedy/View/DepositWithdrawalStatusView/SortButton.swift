@@ -20,23 +20,6 @@ class SortButton: UIButton {
         commonInit()
     }
     
-    override init(frame: CGRect) {
-        self.isAscend = false
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    init(title: String) {
-        self.isAscend = false
-        super.init(frame: .zero)
-        commonInit()
-        setTitle(title, for: .normal)
-    }
-    
-    override func awakeFromNib() {
-        commonInit()
-    }
-    
     func update(title: String) {
         setTitle(title, for: .normal)
     }
