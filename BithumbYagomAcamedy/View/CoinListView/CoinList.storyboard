@@ -9,6 +9,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="EKh-M4-SK4">
+            <objects>
+                <navigationController storyboardIdentifier="CoinListNavigationController" navigationBarHidden="YES" id="wds-Je-ZsY" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FZH-rZ-RbA">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="GSq-lJ-dYH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jb9-Hj-YBd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-796" y="138"/>
+        </scene>
         <!--거래소-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
@@ -76,6 +91,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="거래소" image="chart.line.uptrend.xyaxis" catalog="system" id="MPo-jd-qVp"/>
+                    <navigationItem key="navigationItem" id="Yih-V7-UNV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
