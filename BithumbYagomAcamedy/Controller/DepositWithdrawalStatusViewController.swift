@@ -75,32 +75,31 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         dataManager?.requestData()
     }
     
-    private func restoreButtonImages() {
-        nameSortButton.restoreImage()
-        depositSortButton.restoreImage()
-        withdrawalSortButton.restoreImage()
-    }
-    
     // MARK: - IBAction
     
     @IBAction func filterSegmentedControlValueChanged(_ sender: Any) {
         dataManager?.filteredStatuses(by: .init(rawValue: filterSegmentedControl.selectedSegmentIndex))
-        restoreButtonImages()
+        nameSortButton.restoreButton()
+        depositSortButton.restoreButton()
+        withdrawalSortButton.restoreButton()
     }
     
     @IBAction func nameSortButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .name, nameSortButton.isAscend)
-        restoreButtonImages()
+        depositSortButton.restoreButton()
+        withdrawalSortButton.restoreButton()
     }
     
     @IBAction func depositSortButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .deposit, depositSortButton.isAscend)
-        restoreButtonImages()
+        nameSortButton.restoreButton()
+        withdrawalSortButton.restoreButton()
     }
     
     @IBAction func withdrawalButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .withdrawal, withdrawalSortButton.isAscend)
-        restoreButtonImages()
+        nameSortButton.restoreButton()
+        depositSortButton.restoreButton()
     }
 }
 

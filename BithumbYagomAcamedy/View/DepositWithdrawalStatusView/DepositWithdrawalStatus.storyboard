@@ -29,7 +29,7 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="2az-XF-pyO" userLabel="Deposit Withdrawal Status Search Bar">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="코인명 및 심볼 검색" translatesAutoresizingMaskIntoConstraints="NO" id="2az-XF-pyO" userLabel="Deposit Withdrawal Status Search Bar">
                                 <rect key="frame" x="0.0" y="44" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>

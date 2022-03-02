@@ -25,11 +25,11 @@ struct AssetsStatus: DepositWithdrawalCellDataProviding, Hashable {
     }
     
     init(coinSymbol: String, assetStatusData: AssetStatusData) {
-        self.coinName = coinSymbol
+        self.coinName = NSLocalizedString(coinSymbol, comment: "")
         self.coinSymbol = coinSymbol
         self.isValidDeposit = assetStatusData.depositStatus == Int.zero ? false : true
         self.isValidWithdrawal = assetStatusData.withdrawalStatus == Int.zero ? false : true
-        self.depositStatus = assetStatusData.depositStatus == Int.zero ? "정상" : "중단"
-        self.withdrawalStatus = assetStatusData.withdrawalStatus == Int.zero ? "정상" : "중단"
+        self.depositStatus = assetStatusData.depositStatus == Int.zero ? "중단" :"정상"
+        self.withdrawalStatus = assetStatusData.withdrawalStatus == Int.zero ? "중단" : "정상"
     }
 }
