@@ -17,6 +17,11 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     
     // MARK: - IBOutlet
     
+    @IBOutlet private weak var statusSearchBar: UISearchBar!
+    @IBOutlet private weak var filterSegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var nameSortButton: SortButton!
+    @IBOutlet private weak var depositSortButton: SortButton!
+    @IBOutlet private weak var withdrawalSortButton: SortButton!
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Property
@@ -32,7 +37,6 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         configureCollectionViewLayout()
         configureDiffableDataSource()
         configureDataManager()
-        applyDepositWithdrawalStatusData()
     }
     
     // MARK: - Configuration
@@ -67,14 +71,63 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     
     private func configureDataManager() {
         dataManager = DepositWithdrawalStatusDataManager()
+        dataManager?.delegate = self
+        dataManager?.requestData()
     }
     
-    private func applyDepositWithdrawalStatusData() {
-        dataManager?.requestData { [weak self] assetsStatuses in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, AssetsStatus>()
-            
-            snapshot.appendSections([.main])
-            snapshot.appendItems(assetsStatuses, toSection: .main)
+    private func restoreButtonImages() {
+        nameSortButton.restoreImage()
+        depositSortButton.restoreImage()
+        withdrawalSortButton.restoreImage()
+    }
+    
+    // MARK: - IBAction
+    
+    @IBAction func filterSegmentedControlValueChanged(_ sender: Any) {
+        dataManager?.filteredStatuses(by: .init(rawValue: filterSegmentedControl.selectedSegmentIndex))
+        restoreButtonImages()
+    }
+    
+    @IBAction func nameSortButtonTouched(_ sender: Any) {
+        dataManager?.sortedStatuses(by: .name, nameSortButton.isAscend)
+        restoreButtonImages()
+    }
+    
+    @IBAction func depositSortButtonTouched(_ sender: Any) {
+        dataManager?.sortedStatuses(by: .deposit, depositSortButton.isAscend)
+        restoreButtonImages()
+    }
+    
+    @IBAction func withdrawalButtonTouched(_ sender: Any) {
+        dataManager?.sortedStatuses(by: .withdrawal, withdrawalSortButton.isAscend)
+        restoreButtonImages()
+    }
+}
+
+// MARK: - Extension
+
+// MARK: UISearchBarDelegate
+
+extension DepositWithdrawalStatusViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        dataManager?.containedStatuses(in: searchText)
+    }
+}
+
+// MARK: DepositWithdrawalStatusDataManagerDelegate
+
+extension DepositWithdrawalStatusViewController: DepositWithdrawalStatusDataManagerDelegate {
+    func depositWithdrawalStatusDataManagerDidSetData(_ statuses: [AssetsStatus]) {
+        applyData(with: statuses)
+    }
+    
+    private func applyData(with data: [AssetsStatus]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, AssetsStatus>()
+        
+        snapshot.appendSections([.main])
+        snapshot.appendItems(data, toSection: .main)
+        
+        DispatchQueue.main.async { [weak self] in
             self?.dataSource?.apply(snapshot)
         }
     }
