@@ -23,4 +23,13 @@ struct AssetsStatus: DepositWithdrawalCellDataProviding, Hashable {
     static func ==(lhs: AssetsStatus, rhs: AssetsStatus) -> Bool {
         return lhs.uuid == rhs.uuid
     }
+    
+    init(coinSymbol: String, assetStatusData: AssetStatusData) {
+        self.coinName = coinSymbol
+        self.coinSymbol = coinSymbol
+        self.isValidDeposit = assetStatusData.depositStatus == Int.zero ? false : true
+        self.isValidWithdrawal = assetStatusData.withdrawalStatus == Int.zero ? false : true
+        self.depositStatus = assetStatusData.depositStatus == Int.zero ? "정상" : "중단"
+        self.withdrawalStatus = assetStatusData.withdrawalStatus == Int.zero ? "정상" : "중단"
+    }
 }

@@ -48,9 +48,12 @@ final class DepositWithdrawalStatusDataManager {
             
             switch result {
             case .success(let data):
-                let parsedData = self.parseAssetsStatuses(to: data)
+                guard let parsedData = try? self.parseAssetsStatuses(to: data) else {
+                    return
+                }
                 
                 self.statuses = parsedData
+                self.filteredStatuses = parsedData
                 self.delegate?.depositWithdrawalStatusDataManagerDidSetData(parsedData)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -122,7 +125,7 @@ final class DepositWithdrawalStatusDataManager {
         delegate?.depositWithdrawalStatusDataManagerDidSetData(sortedData)
     }
     
-    private func parseAssetsStatuses(to data: Data) -> [AssetsStatus] {
+    private func parseAssetsStatuses(to data: Data) throws -> [AssetsStatus] {
         do {
             let parser = JSONParser()
             let assetsStatusesValueObject = try parser.decode(
@@ -132,42 +135,20 @@ final class DepositWithdrawalStatusDataManager {
             return createAssetsStatuses(to: assetsStatusesValueObject)
         } catch {
             print(error.localizedDescription)
+            
+            throw error
         }
-        
-        return []
     }
     
     private func createAssetsStatuses(to valueObject: AssetsStatusValueObject) -> [AssetsStatus] {
         var result: [AssetsStatus] = []
         
         for (key, value) in valueObject.assetstatus {
-            result.append(createAssetStatus(key, value))
+            let element = AssetsStatus(coinSymbol: key, assetStatusData: value)
+            
+            result.append(element)
         }
         
         return result
-    }
-    
-    private func createAssetStatus(_ key: String, _ value: AssetStatusData) -> AssetsStatus {
-        let depositStatus = isValidAssetStatus(to: value.depositStatus)
-        let withdrawalStatus = isValidAssetStatus(to: value.withdrawalStatus)
-        let depositStatusString = assetStatusString(by: depositStatus)
-        let withdrawalStatusString = assetStatusString(by: withdrawalStatus)
-        
-        return AssetsStatus(
-            coinName: key,
-            coinSymbol: key,
-            depositStatus: depositStatusString,
-            withdrawalStatus: withdrawalStatusString,
-            isValidDeposit: depositStatus,
-            isValidWithdrawal: withdrawalStatus
-        )
-    }
-    
-    private func isValidAssetStatus(to status: Int) -> Bool {
-        return status == Int.zero ? false : true
-    }
-    
-    private func assetStatusString(by status: Bool) -> String {
-        return status ? "정상" : "중단"
     }
 }
