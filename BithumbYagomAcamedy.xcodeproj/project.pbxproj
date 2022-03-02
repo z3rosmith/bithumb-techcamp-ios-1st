@@ -38,6 +38,9 @@
 		08B46D8D27CE52D60072CBBF /* HTTPNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D8C27CE52D60072CBBF /* HTTPNetworkService.swift */; };
 		08B46D8F27CE52E70072CBBF /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D8E27CE52E70072CBBF /* WebSocketService.swift */; };
 		08B46D9127CE53010072CBBF /* BithumbPublicAPIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D9027CE53010072CBBF /* BithumbPublicAPIURL.swift */; };
+		08B46D9427CE55420072CBBF /* TransactionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B46D9327CE55420072CBBF /* TransactionCollectionViewCell.xib */; };
+		08B46D9627CE556C0072CBBF /* TransactionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D9527CE556C0072CBBF /* TransactionCollectionViewCell.swift */; };
+		08B46D9827CE65F40072CBBF /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D9727CE65F40072CBBF /* Transaction.swift */; };
 		08B4916227C9C29F0082E379 /* WebSocketable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4916127C9C29F0082E379 /* WebSocketable.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
@@ -115,6 +118,9 @@
 		08B46D8C27CE52D60072CBBF /* HTTPNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPNetworkService.swift; sourceTree = "<group>"; };
 		08B46D8E27CE52E70072CBBF /* WebSocketService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		08B46D9027CE53010072CBBF /* BithumbPublicAPIURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BithumbPublicAPIURL.swift; sourceTree = "<group>"; };
+		08B46D9327CE55420072CBBF /* TransactionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionCollectionViewCell.xib; sourceTree = "<group>"; };
+		08B46D9527CE556C0072CBBF /* TransactionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCollectionViewCell.swift; sourceTree = "<group>"; };
+		08B46D9727CE65F40072CBBF /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		08B4916127C9C29F0082E379 /* WebSocketable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketable.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
@@ -309,6 +315,15 @@
 			path = WebSockerValueObject;
 			sourceTree = "<group>";
 		};
+		08B46D9227CE55180072CBBF /* TransactionView */ = {
+			isa = PBXGroup;
+			children = (
+				08B46D9327CE55420072CBBF /* TransactionCollectionViewCell.xib */,
+				08B46D9527CE556C0072CBBF /* TransactionCollectionViewCell.swift */,
+			);
+			path = TransactionView;
+			sourceTree = "<group>";
+		};
 		08F5EA4127C622F60031EF4C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +339,7 @@
 			children = (
 				37A15ACF27C61D0A00585F4A /* MainTabBar.storyboard */,
 				08F5EA4527C625CC0031EF4C /* CoinListView */,
+				08B46D9227CE55180072CBBF /* TransactionView */,
 				08F5EA4B27C627040031EF4C /* DepositWithdrawalStatusView */,
 				08F5EA4827C626A50031EF4C /* MoreDetailView */,
 				37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */,
@@ -460,6 +476,7 @@
 				3CCB27C627C73E4D00F84C80 /* ValueObject */,
 				370C4B2227CC6BA700EE2C68 /* AssetsStatus.swift */,
 				370C4B2027CC688800EE2C68 /* DepositWithdrawalStatusDataManager.swift */,
+				08B46D9727CE65F40072CBBF /* Transaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -562,6 +579,7 @@
 				37A15AD627C61D0C00585F4A /* Assets.xcassets in Resources */,
 				371D997C27C77C5E000368AC /* CoinListCollectionViewCell.xib in Resources */,
 				37A15AD127C61D0A00585F4A /* MainTabBar.storyboard in Resources */,
+				08B46D9427CE55420072CBBF /* TransactionCollectionViewCell.xib in Resources */,
 				08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */,
 				3707832A27C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib in Resources */,
 				08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */,
@@ -594,6 +612,7 @@
 				0830F71827CCB7C500A65EBA /* TickerWebSocket.swift in Sources */,
 				0830F71327CCB16C00A65EBA /* AssetsStatusAPI.swift in Sources */,
 				08AF806E27C8BE6600790762 /* BaseURLable.swift in Sources */,
+				08B46D9627CE556C0072CBBF /* TransactionCollectionViewCell.swift in Sources */,
 				08B46D9127CE53010072CBBF /* BithumbPublicAPIURL.swift in Sources */,
 				0849B49F27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift in Sources */,
 				08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */,
@@ -629,6 +648,7 @@
 				371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */,
 				08B46D8227CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift in Sources */,
 				0830F71A27CCBC1000A65EBA /* WebSocketMessageConverter.swift in Sources */,
+				08B46D9827CE65F40072CBBF /* Transaction.swift in Sources */,
 				3CC98F3A27C896C400B9A6EF /* CoinListDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
