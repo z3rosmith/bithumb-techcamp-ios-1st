@@ -8,14 +8,16 @@
 import UIKit
 import Charts
 
-class CoinChartViewController: UIViewController {
+final class CoinChartViewController: UIViewController {
     @IBOutlet private weak var coinChartView: CandleStickChartView!
+    private var dataManager: CoinChartDataManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureCoinChartLayout()
         configureCoinChartXAxisFormatter()
+        configureDataManager()
         setChartData()
     }
     
@@ -39,7 +41,12 @@ class CoinChartViewController: UIViewController {
         }
     }
     
-    func setChartData() {
+    private func configureDataManager() {
+        dataManager = CoinChartDataManager()
+        dataManager?.requestChart()
+    }
+    
+    private func setChartData() {
         let yVals1 = (0..<100).map { (i) -> CandleChartDataEntry in
             let mult = 10
             let val = Double(Int(arc4random_uniform(40)) + mult)
@@ -66,5 +73,21 @@ class CoinChartViewController: UIViewController {
         
         let data = CandleChartData(dataSet: set1)
         coinChartView.data = data
+    }
+}
+
+extension CoinChartViewController: CoinChartDataManagerDelegate {
+    func coinChartDataManager(didSet: [Candlestick]) {
+        
+    }
+    
+    func create(candlestick: Candlestick) -> CandleChartDataEntry {
+        return CandleChartDataEntry(
+            x: Double(candlestick.time),
+            shadowH: Double(candlestick.highPrice),
+            shadowL: Double(candlestick.lowPrice),
+            open: Double(candlestick.openPrice),
+            close: Double(candlestick.closePrice)
+        )
     }
 }
