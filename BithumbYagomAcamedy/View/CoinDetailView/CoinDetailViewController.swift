@@ -10,7 +10,8 @@ import UIKit
 final class CoinDetailViewController: UIViewController {
 
     // MARK: - View
-    
+   
+    @IBOutlet private weak var coinDetailPriceView: CoinDetailPriceView!
     private lazy var titleButton = makeTitleButton(coin: coin)
     
     // MARK: - Property
@@ -61,7 +62,13 @@ extension CoinDetailViewController {
 
 extension CoinDetailViewController: CoinDetailDataManagerDelegate {
     func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin?) {
-        print(coin)
+        guard let coin = coin else {
+            return
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.coinDetailPriceView.update(coin)
+        }
     }
 }
 

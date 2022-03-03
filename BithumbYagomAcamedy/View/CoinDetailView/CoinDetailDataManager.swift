@@ -21,12 +21,17 @@ final class CoinDetailDataManager {
         var changePrice: Double?
         var changeRate: Double?
         
-        var priceString: String {
+        // MARK: - DetailViewCoin Computed Property
+        
+        var commaPrice: String {
             guard let price = price else {
                 return "오류 발생"
             }
             
-            return String(price)
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            
+            return formatter.string(for: price) ?? String()
         }
         
         var changePriceString: String {
@@ -70,6 +75,8 @@ final class CoinDetailDataManager {
         self.tickerWebSocketService = tickerWebSocketService
         self.transactionWebSocketService = transactionWebSocketService
     }
+    
+    // MARK: - Deinit
     
     deinit {
         tickerWebSocketService.close()

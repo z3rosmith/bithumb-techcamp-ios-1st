@@ -14,7 +14,6 @@ final class CoinDetailTitleButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureTitleLabel()
-        configureImage()
     }
     
     required init?(coder: NSCoder) {
