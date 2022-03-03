@@ -22,6 +22,7 @@ final class CoinDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTitle()
+        configureNavigationBackButton()
     }
 }
 
@@ -37,6 +38,11 @@ extension CoinDetailViewController {
     
     private func configureTitle() {
         navigationItem.titleView = titleButton
+    }
+    
+    private func configureNavigationBackButton() {
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.topItem?.title = String()
     }
 }
 
