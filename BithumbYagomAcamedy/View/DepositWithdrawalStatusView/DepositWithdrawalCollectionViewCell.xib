@@ -19,25 +19,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="466" height="147"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fWK-lh-lLs" userLabel="Coin Name Stack View">
-                        <rect key="frame" x="10" y="60" width="63" height="37.5"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트코인" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apK-tb-JVr" userLabel="Coin Name Label">
-                                <rect key="frame" x="0.0" y="0.0" width="63" height="20.5"/>
-                                <accessibility key="accessibilityConfiguration" label="Coin name"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BTC/KRW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNn-1l-Ioq" userLabel="Coin Symbol And Currency Label">
-                                <rect key="frame" x="0.0" y="20.5" width="63" height="17"/>
-                                <accessibility key="accessibilityConfiguration" label="Coin symbol and currency"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                    </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fjh-Zh-5GP" userLabel="Deposit Status Stack View">
                         <rect key="frame" x="210" y="70" width="46.5" height="17"/>
                         <subviews>
@@ -78,6 +59,25 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="SSN-mN-rMs" userLabel="Coin Info Stack View">
+                        <rect key="frame" x="10" y="54" width="190" height="49"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트코인" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apK-tb-JVr" userLabel="Coin Name Label">
+                                <rect key="frame" x="0.0" y="0.0" width="190" height="20.5"/>
+                                <accessibility key="accessibilityConfiguration" label="Coin name"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="BTC/KRW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNn-1l-Ioq" userLabel="Coin Symbol And Currency Label">
+                                <rect key="frame" x="0.0" y="21.5" width="190" height="27.5"/>
+                                <accessibility key="accessibilityConfiguration" label="Coin symbol and currency"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -85,18 +85,17 @@
             <constraints>
                 <constraint firstItem="W99-bY-w2f" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="2YA-Fe-qxj"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="W99-bY-w2f" secondAttribute="trailing" constant="10" id="3T3-Hj-MFk"/>
-                <constraint firstItem="fjh-Zh-5GP" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" priority="250" id="FSc-YW-oPU"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="leading" secondItem="SSN-mN-rMs" secondAttribute="trailing" constant="10" id="AKi-7K-gth"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="FSc-YW-oPU"/>
                 <constraint firstItem="W99-bY-w2f" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="GOw-TF-fvE"/>
-                <constraint firstItem="fWK-lh-lLs" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="10" id="If8-03-YsE"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="PAB-em-hIS"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fjh-Zh-5GP" secondAttribute="bottom" constant="10" id="QmW-ft-SGD"/>
                 <constraint firstItem="fjh-Zh-5GP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="RRe-nW-pLx"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="SjO-EO-9ql"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="W99-bY-w2f" secondAttribute="bottom" constant="10" id="XkB-S6-G1F"/>
-                <constraint firstItem="fjh-Zh-5GP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fWK-lh-lLs" secondAttribute="trailing" constant="10" id="bJJ-qt-Rv6"/>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fWK-lh-lLs" secondAttribute="bottom" constant="10" id="gTu-jj-Pgk"/>
-                <constraint firstItem="fWK-lh-lLs" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="mgh-to-Q8B"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="SSN-mN-rMs" secondAttribute="bottom" constant="10" id="aCm-En-ADA"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="10" id="bWy-bW-9Kn"/>
                 <constraint firstItem="fjh-Zh-5GP" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="q2M-mE-2Bg"/>
-                <constraint firstItem="fWK-lh-lLs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="sGm-ZY-23H"/>
-                <constraint firstItem="W99-bY-w2f" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fjh-Zh-5GP" secondAttribute="trailing" constant="10" id="u7G-rj-NAF"/>
             </constraints>
             <size key="customSize" width="466" height="147"/>
             <connections>
