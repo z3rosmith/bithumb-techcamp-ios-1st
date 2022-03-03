@@ -54,6 +54,7 @@ extension CoinDetailViewController {
     private func configureDataManager() {
         coinDetailDataManager.delegate = self
         coinDetailDataManager.fetchTickerWebSocket()
+        coinDetailDataManager.fetchTransactionWebSocket()
     }
 }
 

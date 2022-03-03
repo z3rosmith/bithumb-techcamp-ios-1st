@@ -86,3 +86,50 @@ extension CoinDetailDataManager {
         }
     }
 }
+
+// MARK: - Transaction WebSocket Network
+
+extension CoinDetailDataManager {
+    func fetchTransactionWebSocket() {
+        let api = TransactionWebSocket(symbol: "BTC")
+        
+        transactionWebSocketService.open(webSocketAPI: api) { [weak self] result in
+            guard let message = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
+            }
+            
+            switch message {
+            case .string(let response):
+                let transaction = try? self?.parseWebSocketTranscation(to: response)
+                
+                guard let transactionList = transaction?.webSocketTransactionData.list,
+                      let latestTransaction = transactionList.reversed().first
+                else {
+                    return
+                }
+                
+                print(latestTransaction.price)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func parseWebSocketTranscation(
+        to string: String
+    ) throws -> WebSocketTransactionValueObject {
+        do {
+            let webSocketTransactionValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketTransactionValueObject.self
+            )
+            
+            return webSocketTransactionValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+}
