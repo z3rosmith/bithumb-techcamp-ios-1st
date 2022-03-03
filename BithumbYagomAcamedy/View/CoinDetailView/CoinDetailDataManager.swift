@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CoinDetailDataManagerDelegate: AnyObject {
-    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin)
+    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin?)
 }
 
 final class CoinDetailDataManager {
@@ -17,9 +17,37 @@ final class CoinDetailDataManager {
     
     struct DetailViewCoin {
         let name: String
-        var price: Double
-        var changePrice: Double
-        var changeRate: Double
+        var price: Double?
+        var changePrice: Double?
+        var changeRate: Double?
+        
+        var priceString: String {
+            guard let price = price else {
+                return "오류 발생"
+            }
+            
+            return String(price)
+        }
+        
+        var changePriceString: String {
+            guard let changePrice = changePrice else {
+                return "오류 발생"
+            }
+            
+            if changePrice > 0 {
+                return "+" + String(changePrice)
+            }
+            
+            return String(changePrice)
+        }
+        
+        var changeRateString: String {
+            guard let changeRate = changeRate else {
+                return "오류 발생"
+            }
+            
+            return String(changeRate) + "%"
+        }
     }
     
     // MARK: - Property
@@ -27,7 +55,11 @@ final class CoinDetailDataManager {
     weak var delegate: CoinDetailDataManagerDelegate?
     private var tickerWebSocketService: WebSocketService
     private var transactionWebSocketService: WebSocketService
-//    private lazy var detainCoin: DetailViewCoin
+    private var detailCoin: DetailViewCoin? {
+        didSet {
+            delegate?.coinDetailDataManager(didChange: detailCoin)
+        }
+    }
     
     // MARK: - Init
     
@@ -38,13 +70,35 @@ final class CoinDetailDataManager {
         self.tickerWebSocketService = tickerWebSocketService
         self.transactionWebSocketService = transactionWebSocketService
     }
+    
+    deinit {
+        tickerWebSocketService.close()
+        transactionWebSocketService.close()
+    }
+}
+
+// MARK: - Data Processing
+
+extension CoinDetailDataManager {
+    func configureDetailCoin(coin: Coin) {
+        detailCoin = DetailViewCoin(
+            name: coin.symbolName,
+            price: coin.currentPrice,
+            changePrice: coin.changePrice,
+            changeRate: coin.changeRate
+        )
+    }
 }
 
 // MARK: - Ticker WebSocket Network
 
 extension CoinDetailDataManager {
     func fetchTickerWebSocket() {
-        let api = TickerWebSocket(symbol: "BTC")
+        guard let symbol = detailCoin?.name else {
+            return
+        }
+        
+        let api = TickerWebSocket(symbol: symbol)
         
         tickerWebSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {
@@ -62,7 +116,8 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                print(changeRate, changePrice)
+                self?.detailCoin?.changePrice = Double(changePrice)
+                self?.detailCoin?.changeRate = Double(changeRate)
             default:
                 break
             }
@@ -91,7 +146,11 @@ extension CoinDetailDataManager {
 
 extension CoinDetailDataManager {
     func fetchTransactionWebSocket() {
-        let api = TransactionWebSocket(symbol: "BTC")
+        guard let symbol = detailCoin?.name else {
+            return
+        }
+        
+        let api = TransactionWebSocket(symbol: symbol)
         
         transactionWebSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {
@@ -109,7 +168,7 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                print(latestTransaction.price)
+                self?.detailCoin?.price = Double(latestTransaction.price)
             default:
                 break
             }

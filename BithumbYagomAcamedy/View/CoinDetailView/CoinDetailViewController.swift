@@ -53,14 +53,15 @@ extension CoinDetailViewController {
 extension CoinDetailViewController {
     private func configureDataManager() {
         coinDetailDataManager.delegate = self
+        coinDetailDataManager.configureDetailCoin(coin: coin!)
         coinDetailDataManager.fetchTickerWebSocket()
         coinDetailDataManager.fetchTransactionWebSocket()
     }
 }
 
 extension CoinDetailViewController: CoinDetailDataManagerDelegate {
-    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin) {
-        
+    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin?) {
+        print(coin)
     }
 }
 
