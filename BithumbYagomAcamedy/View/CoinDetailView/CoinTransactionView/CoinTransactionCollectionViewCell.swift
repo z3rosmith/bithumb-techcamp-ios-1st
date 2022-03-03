@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class TransactionCollectionViewCell: UICollectionViewListCell {
+final class CoinTransactionCollectionViewCell: UICollectionViewListCell {
+    
+    // MARK: - Static Property
+    static let identifier = "CoinTransactionCollectionViewCell"
+    
     
     // MARK: - IBOutlet
     
@@ -19,8 +23,8 @@ final class TransactionCollectionViewCell: UICollectionViewListCell {
     
     func update(_ item: Transaction) {
         dateLabel.text = item.convertedDate
-        priceLabel.text = item.price
-        quantityLabel.text = item.quantity
+        priceLabel.text = item.commaPrice
+        quantityLabel.text = item.roundedQuantity
         priceLabel.textColor = labelColor(type: item.type)
         quantityLabel.textColor = labelColor(type: item.type)
     }

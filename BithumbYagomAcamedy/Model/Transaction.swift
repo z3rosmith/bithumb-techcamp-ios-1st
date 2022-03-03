@@ -12,7 +12,7 @@ enum TransactionType {
     case ask
 }
 
-struct Transaction {
+struct Transaction: Hashable {
     
     // MARK: - Property
     
@@ -20,6 +20,15 @@ struct Transaction {
     private(set) var type: TransactionType
     private(set) var price: String
     private(set) var quantity: String
+    private let uuid: UUID = UUID()
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
+    }
+    
+    static func == (lhs: Transaction, rhs: Transaction) -> Bool {
+        return lhs.uuid == rhs.uuid
+    }
 }
 
 // MARK: - Computed Property
@@ -36,5 +45,24 @@ extension Transaction {
         formatter.dateFormat = "HH:mm:ss"
         
         return formatter.string(from: date)
+    }
+    
+    var commaPrice: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let price = Double(price)
+        
+        return formatter.string(for: price) ?? String()
+    }
+    
+    var roundedQuantity: String {
+        if let quantity = Double(quantity) {
+            let digit: Double = pow(10, 5)
+            let roundedQuantity = round(quantity * digit) / digit
+            
+            return String(roundedQuantity)
+        }
+        
+        return String()
     }
 }
