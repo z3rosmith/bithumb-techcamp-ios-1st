@@ -23,6 +23,7 @@ final class CoinTransactionViewController: UIViewController {
     
     @IBOutlet private weak var coinTransactionCollectionView: UICollectionView!
     @IBOutlet private weak var coinQuantityLabel: UILabel!
+    
     // MARK: - Property
     
     private let coinTransactionDataManager = CoinTransactionDataManager()
@@ -30,7 +31,7 @@ final class CoinTransactionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDataSource()
+        configureDataManager()
         configureCollectionViewDataSource()
         configureCollectionViewLayout()
     }
@@ -84,7 +85,7 @@ extension CoinTransactionViewController {
 // MARK: - CoinTransaction DataManager
 
 extension CoinTransactionViewController {
-    private func configureDataSource() {
+    private func configureDataManager() {
         coinTransactionDataManager.delegate = self
         coinTransactionDataManager.fetchTransaction()
         coinTransactionDataManager.fetchTransactionWebSocket()

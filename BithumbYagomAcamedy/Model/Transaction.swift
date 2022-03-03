@@ -26,7 +26,7 @@ struct Transaction: Hashable {
         hasher.combine(uuid)
     }
     
-    static func ==(lhs: Transaction, rhs: Transaction) -> Bool {
+    static func == (lhs: Transaction, rhs: Transaction) -> Bool {
         return lhs.uuid == rhs.uuid
     }
 }
@@ -57,7 +57,7 @@ extension Transaction {
     
     var roundedQuantity: String {
         if let quantity = Double(quantity) {
-            let digit: Double = pow(10, 4)
+            let digit: Double = pow(10, 5)
             let roundedQuantity = round(quantity * digit) / digit
             
             return String(roundedQuantity)

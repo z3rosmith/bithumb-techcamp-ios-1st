@@ -45,23 +45,35 @@ extension CoinTransactionDataManager {
         let api = TransactionHistoryAPI(orderCurrency: "BTC", count: 100)
         
         httpNetworkService.request(api: api) { [weak self] result in
-            switch result {
-            case .success(let data):
-                do {
-                    let response = try JSONParser().decode(
-                        data: data,
-                        type: TranscationValueObject.self
-                    )
-                    guard response.status == "0000" else {
-                        return
-                    }
-                    self?.setTransaction(from: response.transaction)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+            guard let data = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
             }
+            
+            let transactionValueObject = try? self?.parseTranscation(to: data)
+            
+            guard let transactionValueObject = transactionValueObject,
+                  transactionValueObject.status == "0000"
+            else {
+                return
+            }
+            
+            self?.setTransaction(from: transactionValueObject.transaction)
+        }
+    }
+    
+    private func parseTranscation(to data: Data) throws -> TranscationValueObject {
+        do {
+            let transcationValueObject = try JSONParser().decode(
+                data: data,
+                type: TranscationValueObject.self
+            )
+            
+            return transcationValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
         }
     }
     
@@ -79,33 +91,48 @@ extension CoinTransactionDataManager {
         let api = TransactionWebSocket(symbol: "BTC")
         
         webSocketService.open(webSocketAPI: api) { [weak self] result in
-            switch result {
-            case .success(let message):
-                switch message {
-                case .string(let response):
-                    guard let responseData = response.data(using: .utf8) else {
-                        break
-                    }
-                    if let transaction = try? JSONParser().decode(
-                        data: responseData,
-                        type: WebSocketTransactionValueObject.self
-                    ).webSocketTransactionData {
-                        self?.insertTransaction(transaction.list)
-                    }
-                default:
-                    break
+            guard let message = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
+            }
+            
+            switch message {
+            case .string(let response):
+                let transaction = try? self?.parseWebSocketTranscation(to: response)
+                
+                guard let transactionList = transaction?.webSocketTransactionData.list else {
+                    return
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
+                
+                self?.insertTransaction(transactionList)
+            default:
+                break
             }
         }
     }
     
+    private func parseWebSocketTranscation(
+        to string: String
+    ) throws -> WebSocketTransactionValueObject {
+        do {
+            let webSocketTransactionValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketTransactionValueObject.self
+            )
+            
+            return webSocketTransactionValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+    
     private func insertTransaction(
-        _ transaction: [WebSocketTransactionData.WebSocketTransaction],
+        _ transactions: [WebSocketTransactionData.WebSocketTransaction],
         at index: Int = Int.zero
     ) {
-        let convertedTransactions = transaction.map {
+        let convertedTransactions = transactions.map {
             $0.generate()
         }.reversed()
         
