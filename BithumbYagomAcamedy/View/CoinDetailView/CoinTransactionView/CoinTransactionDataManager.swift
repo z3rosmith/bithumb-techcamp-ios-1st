@@ -45,20 +45,20 @@ extension CoinTransactionDataManager {
         let api = TransactionHistoryAPI(orderCurrency: "BTC", count: 100)
         
         httpNetworkService.request(api: api) { [weak self] result in
-            switch result {
-            case .success(let data):
-                let transactionValueObject = try? self?.parseTranscation(to: data)
-                
-                guard let transactionValueObject = transactionValueObject,
-                      transactionValueObject.status == "0000"
-                else {
-                    return
-                }
-                
-                self?.setTransaction(from: transactionValueObject.transaction)
-            case .failure(let error):
-                print(error.localizedDescription)
+            guard let data = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
             }
+            
+            let transactionValueObject = try? self?.parseTranscation(to: data)
+            
+            guard let transactionValueObject = transactionValueObject,
+                  transactionValueObject.status == "0000"
+            else {
+                return
+            }
+            
+            self?.setTransaction(from: transactionValueObject.transaction)
         }
     }
     
@@ -91,22 +91,22 @@ extension CoinTransactionDataManager {
         let api = TransactionWebSocket(symbol: "BTC")
         
         webSocketService.open(webSocketAPI: api) { [weak self] result in
-            switch result {
-            case .success(let message):
-                switch message {
-                case .string(let response):
-                    let transaction = try? self?.parseWebSocketTranscation(to: response)
-                    
-                    guard let transactionList = transaction?.webSocketTransactionData.list else {
-                        return
-                    }
-                    
-                    self?.insertTransaction(transactionList)
-                default:
-                    break
+            guard let message = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
+            }
+            
+            switch message {
+            case .string(let response):
+                let transaction = try? self?.parseWebSocketTranscation(to: response)
+                
+                guard let transactionList = transaction?.webSocketTransactionData.list else {
+                    return
                 }
-            case .failure(let error):
-                print(error.localizedDescription)
+                
+                self?.insertTransaction(transactionList)
+            default:
+                break
             }
         }
     }
