@@ -47,15 +47,15 @@ extension CoinTransactionDataManager {
         httpNetworkService.request(api: api) { [weak self] result in
             switch result {
             case .success(let data):
-                let transcationValueObject = try? self?.parseTranscation(to: data)
+                let transactionValueObject = try? self?.parseTranscation(to: data)
                 
-                guard let transcationValueObject = transcationValueObject,
-                      transcationValueObject.status == "0000"
+                guard let transactionValueObject = transactionValueObject,
+                      transactionValueObject.status == "0000"
                 else {
                     return
                 }
                 
-                self?.setTransaction(from: transcationValueObject.transaction)
+                self?.setTransaction(from: transactionValueObject.transaction)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -95,21 +95,36 @@ extension CoinTransactionDataManager {
             case .success(let message):
                 switch message {
                 case .string(let response):
-                    guard let responseData = response.data(using: .utf8) else {
-                        break
+                    let transaction = try? self?.parseWebSocketTranscation(to: response)
+                    
+                    guard let transactionList = transaction?.webSocketTransactionData.list else {
+                        return
                     }
-                    if let transaction = try? JSONParser().decode(
-                        data: responseData,
-                        type: WebSocketTransactionValueObject.self
-                    ).webSocketTransactionData {
-                        self?.insertTransaction(transaction.list)
-                    }
+                    
+                    self?.insertTransaction(transactionList)
                 default:
                     break
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func parseWebSocketTranscation(
+        to string: String
+    ) throws -> WebSocketTransactionValueObject {
+        do {
+            let webSocketTransactionValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketTransactionValueObject.self
+            )
+            
+            return webSocketTransactionValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
         }
     }
     
