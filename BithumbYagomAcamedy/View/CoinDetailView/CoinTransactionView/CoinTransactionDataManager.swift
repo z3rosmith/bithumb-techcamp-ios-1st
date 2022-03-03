@@ -47,21 +47,33 @@ extension CoinTransactionDataManager {
         httpNetworkService.request(api: api) { [weak self] result in
             switch result {
             case .success(let data):
-                do {
-                    let response = try JSONParser().decode(
-                        data: data,
-                        type: TranscationValueObject.self
-                    )
-                    guard response.status == "0000" else {
-                        return
-                    }
-                    self?.setTransaction(from: response.transaction)
-                } catch {
-                    print(error.localizedDescription)
+                let transcationValueObject = try? self?.parseTranscation(to: data)
+                
+                guard let transcationValueObject = transcationValueObject,
+                      transcationValueObject.status == "0000"
+                else {
+                    return
                 }
+                
+                self?.setTransaction(from: transcationValueObject.transaction)
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func parseTranscation(to data: Data) throws -> TranscationValueObject {
+        do {
+            let transcationValueObject = try JSONParser().decode(
+                data: data,
+                type: TranscationValueObject.self
+            )
+            
+            return transcationValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
         }
     }
     
