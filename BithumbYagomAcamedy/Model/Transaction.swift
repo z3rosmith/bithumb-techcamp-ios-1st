@@ -26,7 +26,7 @@ struct Transaction: Hashable {
         hasher.combine(uuid)
     }
     
-    static func ==(lhs: Transaction, rhs: Transaction) -> Bool {
+    static func == (lhs: Transaction, rhs: Transaction) -> Bool {
         return lhs.uuid == rhs.uuid
     }
 }

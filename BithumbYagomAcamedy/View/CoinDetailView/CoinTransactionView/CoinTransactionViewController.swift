@@ -30,7 +30,7 @@ final class CoinTransactionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDataSource()
+        configureDataManager()
         configureCollectionViewDataSource()
         configureCollectionViewLayout()
     }
@@ -84,7 +84,7 @@ extension CoinTransactionViewController {
 // MARK: - CoinTransaction DataManager
 
 extension CoinTransactionViewController {
-    private func configureDataSource() {
+    private func configureDataManager() {
         coinTransactionDataManager.delegate = self
         coinTransactionDataManager.fetchTransaction()
         coinTransactionDataManager.fetchTransactionWebSocket()

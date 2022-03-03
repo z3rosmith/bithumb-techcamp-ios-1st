@@ -102,10 +102,10 @@ extension CoinTransactionDataManager {
     }
     
     private func insertTransaction(
-        _ transaction: [WebSocketTransactionData.WebSocketTransaction],
+        _ transactions: [WebSocketTransactionData.WebSocketTransaction],
         at index: Int = Int.zero
     ) {
-        let convertedTransactions = transaction.map {
+        let convertedTransactions = transactions.map {
             $0.generate()
         }.reversed()
         
