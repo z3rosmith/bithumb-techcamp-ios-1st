@@ -16,6 +16,7 @@ final class CoinDetailViewController: UIViewController {
     // MARK: - Property
     
     var coin: Coin?
+    private let coinDetailDataManager = CoinDetailDataManager()
     
     // MARK: - Life Cycle
     
@@ -23,6 +24,7 @@ final class CoinDetailViewController: UIViewController {
         super.viewDidLoad()
         configureTitle()
         configureNavigationBackButton()
+        configureDataManager()
     }
 }
 
@@ -45,4 +47,20 @@ extension CoinDetailViewController {
         navigationController?.navigationBar.topItem?.title = String()
     }
 }
+
+// MARK: - CoinTransaction DataManager
+
+extension CoinDetailViewController {
+    private func configureDataManager() {
+        coinDetailDataManager.delegate = self
+        coinDetailDataManager.fetchTickerWebSocket()
+    }
+}
+
+extension CoinDetailViewController: CoinDetailDataManagerDelegate {
+    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin) {
+        
+    }
+}
+
 
