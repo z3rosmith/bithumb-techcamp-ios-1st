@@ -15,9 +15,18 @@ final class CoinOrderbookViewController: UIViewController {
     
     // MARK: - Section
     
-    private enum Section {
+    enum Section: CaseIterable {
         case ask
         case bid
+        
+        var description: String {
+            switch self {
+            case .ask:
+                return "매도"
+            case .bid:
+                return "매수"
+            }
+        }
     }
     
     // MARK: - IBOutlet
@@ -62,10 +71,27 @@ extension CoinOrderbookViewController {
                 item: item
             )
         }
+        
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = Section.allCases[indexPath.section].description
+            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
+            configuration.textProperties.color = .label
+            headerView.contentConfiguration = configuration
+        }
+        
+        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+            if elementKind == UICollectionView.elementKindSectionHeader {
+                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+            } else {
+                return nil
+            }
+        }
     }
     
     private func configureCollectionViewLayout() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+        configuration.headerMode = .supplementary
         coinOrderbookCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
@@ -73,11 +99,12 @@ extension CoinOrderbookViewController {
 // MARK: - Snapshot
 
 extension CoinOrderbookViewController {
-    private func applySnapshot(_ orderbook: [Orderbook]) {
+    private func applySnapshot(_ askOrderbooks: [Orderbook], _ bidOrderbooks: [Orderbook]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Orderbook>()
         
         snapshot.appendSections([.ask, .bid])
-        snapshot.appendItems(orderbook)
+        snapshot.appendItems(askOrderbooks, toSection: .ask)
+        snapshot.appendItems(bidOrderbooks, toSection: .bid)
         
         DispatchQueue.main.async {
             self.dataSource?.apply(snapshot, animatingDifferences: false)
@@ -98,7 +125,7 @@ extension CoinOrderbookViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
-    func coinOrderbookDataManager(didChange orderbook: [Orderbook]) {
-        applySnapshot(orderbook)
+    func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook]) {
+        applySnapshot(askOrderbooks, bidOrderbooks)
     }
 }

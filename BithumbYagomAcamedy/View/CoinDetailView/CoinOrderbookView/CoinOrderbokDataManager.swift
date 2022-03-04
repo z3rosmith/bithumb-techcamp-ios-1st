@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
-    func coinOrderbookDataManager(didChange orderbook: [Orderbook])
+    func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook])
 }
 
 final class CoinOrderbookDataManager {
@@ -20,12 +20,12 @@ final class CoinOrderbookDataManager {
     private var webSocketService: WebSocketService
     private var asksOrderbook: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: asksOrderbook)
+            delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
         }
     }
     private var bidsOrderbook: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: bidsOrderbook)
+            delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
         }
     }
     
