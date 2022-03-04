@@ -56,7 +56,7 @@ extension CoinOrderbookDataManager {
                 return
             }
             
-            let orderbookValueObject = try? self?.parseTranscation(to: data)
+            let orderbookValueObject = try? self?.parseOrderbook(to: data)
             
             guard let orderbookValueObject = orderbookValueObject,
                   orderbookValueObject.status == "0000"
@@ -68,7 +68,7 @@ extension CoinOrderbookDataManager {
         }
     }
     
-    private func parseTranscation(to data: Data) throws -> OrderbookValueObject {
+    private func parseOrderbook(to data: Data) throws -> OrderbookValueObject {
         do {
             let orderbookValueObject = try JSONParser().decode(
                 data: data,
@@ -85,11 +85,11 @@ extension CoinOrderbookDataManager {
     
     private func setTransaction(from orderbook: OrderbookData) {
         asksOrderbook = orderbook.asks.map {
-            $0.generate()
+            $0.generate(type: .ask)
         }.reversed()
         
         bidsOrderbook = orderbook.bids.map {
-            $0.generate()
+            $0.generate(type: .bid)
         }
     }
 }

@@ -7,12 +7,18 @@
 
 import Foundation
 
+enum OrderbookType {
+    case bid
+    case ask
+}
+
 struct Orderbook: Hashable {
     
     // MARK: - Property
     
     private(set) var price: String
     private(set) var quantity: String
+    private(set) var type: OrderbookType
     private let uuid: UUID = UUID()
     
     func hash(into hasher: inout Hasher) {
