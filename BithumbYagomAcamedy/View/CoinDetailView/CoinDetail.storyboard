@@ -20,7 +20,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="isW-Ko-yCe">
                                 <rect key="frame" x="0.0" y="194" width="414" height="668"/>
                                 <connections>
-                                    <segue destination="fgk-gk-BL8" kind="embed" id="DmB-ZK-oZc"/>
+                                    <segue destination="fgk-gk-BL8" kind="embed" identifier="CoinDetailPageViewController" id="DmB-ZK-oZc"/>
                                 </connections>
                             </containerView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="3aa-f0-Hlq" customClass="CoinDetailMenuStackView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
@@ -34,6 +34,7 @@
                                         <state key="normal" title="차트"/>
                                         <connections>
                                             <action selector="chartMenuButton:" destination="cdU-z2-zH9" eventType="touchUpInside" id="atb-Ug-JQY"/>
+                                            <action selector="chartMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="k1M-is-E0I"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9KY-nK-TwC">
@@ -42,6 +43,9 @@
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="호가"/>
+                                        <connections>
+                                            <action selector="orderbookMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="LRC-n3-4fa"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYJ-1b-8cd">
                                         <rect key="frame" x="276" y="0.0" width="138" height="33"/>
@@ -49,6 +53,9 @@
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="채결 내역"/>
+                                        <connections>
+                                            <action selector="transactionMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="LdI-9T-PAO"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>

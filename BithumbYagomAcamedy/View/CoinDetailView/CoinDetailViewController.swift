@@ -12,6 +12,7 @@ final class CoinDetailViewController: UIViewController {
     // MARK: - View
    
     @IBOutlet private weak var coinDetailPriceView: CoinDetailPriceView!
+    private var pageViewController : CoinDetailPageViewController?
     private lazy var titleButton = makeTitleButton(coin: coin)
     
     // MARK: - Property
@@ -26,6 +27,33 @@ final class CoinDetailViewController: UIViewController {
         configureTitle()
         configureNavigationBackButton()
         configureDataManager()
+    }
+    
+    // MARK: - Override Method
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CoinDetailPageViewController" {
+            guard let pageViewController = segue.destination as? CoinDetailPageViewController else {
+                return
+            }
+            
+            self.pageViewController = pageViewController
+        }
+    }
+    
+    // MARK: - IBAction
+    
+    
+    @IBAction private func chartMenuButtonTap(_ sender: Any) {
+        pageViewController?.setViewcontrollersFromIndex(index: 0)
+    }
+    
+    @IBAction private func orderbookMenuButtonTap(_ sender: Any) {
+        pageViewController?.setViewcontrollersFromIndex(index: 1)
+    }
+    
+    @IBAction private func transactionMenuButtonTap(_ sender: Any) {
+        pageViewController?.setViewcontrollersFromIndex(index: 2)
     }
 }
 
@@ -49,7 +77,7 @@ extension CoinDetailViewController {
     }
 }
 
-// MARK: - CoinTransaction DataManager
+// MARK: - Coin Detail DataManager
 
 extension CoinDetailViewController {
     private func configureDataManager() {

@@ -64,9 +64,15 @@ final class CoinDetailPageViewController: UIPageViewController {
             return
         }
         
+        var derection: NavigationDirection = .forward
+        
+        if index < currentIndex {
+            derection = .reverse
+        }
+        
         self.setViewControllers(
             [viewsList[index]],
-            direction: .forward,
+            direction: derection,
             animated: true,
             completion: nil
         )
