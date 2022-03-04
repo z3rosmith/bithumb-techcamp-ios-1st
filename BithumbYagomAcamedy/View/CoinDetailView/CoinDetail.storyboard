@@ -116,6 +116,7 @@
                     </view>
                     <connections>
                         <outlet property="CoinDetailPriceView" destination="UKg-gS-b0A" id="v7Z-EJ-ptv"/>
+                        <outlet property="menuButtonStackView" destination="3aa-f0-Hlq" id="Eon-cP-PHJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

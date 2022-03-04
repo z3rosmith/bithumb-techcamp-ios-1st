@@ -40,34 +40,25 @@ final class CoinDetailMenuStackView: UIStackView {
     
     private let underLineAnimation = CABasicAnimation(keyPath: "position")
     
-    // MARK: - Method
+    // MARK: - Configure
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUnderLine()
-        configureMenuButtons()
     }
     
     private func configureUnderLine() {
         layer.addSublayer(underLineLayer)
     }
-    
-    private func configureMenuButtons() {
-        subviews
-            .compactMap { subview in
-                subview as? UIButton
-            }
-            .forEach { button in
-                button.addTarget(
-                    self,
-                    action: #selector(moveUnderLine),
-                    for: .touchUpInside
-                )
-            }
-    }
         
     @objc private func moveUnderLine(_ sender: UIButton) {
-        let destinationX = sender.frame.origin.x + sender.frame.width / 2
+        
+    }
+    
+    // MARK: - Method
+    
+    func moveUnderLine(index: Int) {
+        let destinationX = subviews[index].frame.origin.x + subviews[index].frame.width / 2
         
         underLineAnimation.fromValue = [
             currentUnderLinePoint.x,

@@ -87,7 +87,11 @@ final class CoinDetailDataManager {
 // MARK: - Data Processing
 
 extension CoinDetailDataManager {
-    func configureDetailCoin(coin: Coin) {
+    func configureDetailCoin(coin: Coin?) {
+        guard let coin = coin else {
+            return
+        }
+        
         detailCoin = DetailViewCoin(
             name: coin.symbolName,
             price: coin.currentPrice,

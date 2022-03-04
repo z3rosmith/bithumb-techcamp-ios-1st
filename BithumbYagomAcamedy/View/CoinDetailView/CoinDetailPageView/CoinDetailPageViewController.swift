@@ -32,6 +32,7 @@ final class CoinDetailPageViewController: UIPageViewController {
     
     private func configure() {
         dataSource = self
+        delegate = self
         
         guard let firstViewController = viewsList.first else {
             return
@@ -76,7 +77,23 @@ final class CoinDetailPageViewController: UIPageViewController {
             animated: true,
             completion: nil
         )
+        
         completeHandler?(currentIndex)
+    }
+}
+
+// MARK: - UIPageViewController Delegate
+
+extension CoinDetailPageViewController: UIPageViewControllerDelegate {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool
+    ) {
+        if completed {
+            completeHandler?(currentIndex)
+        }
     }
 }
 
@@ -113,7 +130,7 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
         if nextIndex == viewsList.count {
             return nil
         }
-        
+                
         return viewsList[nextIndex]
     }
 }

@@ -14,11 +14,17 @@ final class CoinDetailViewController: UIViewController {
     @IBOutlet private weak var coinDetailPriceView: CoinDetailPriceView!
     private var pageViewController : CoinDetailPageViewController?
     private lazy var titleButton = makeTitleButton(coin: coin)
+    @IBOutlet weak var menuButtonStackView: CoinDetailMenuStackView!
     
     // MARK: - Property
     
     var coin: Coin?
     private let coinDetailDataManager = CoinDetailDataManager()
+    private var currentIndex : Int = 0 {
+        didSet{
+            menuButtonStackView.moveUnderLine(index: currentIndex)
+        }
+    }
     
     // MARK: - Life Cycle
     
@@ -38,6 +44,9 @@ final class CoinDetailViewController: UIViewController {
             }
             
             self.pageViewController = pageViewController
+            self.pageViewController?.completeHandler = { [weak self] index in
+                self?.currentIndex = index
+            }
         }
     }
     
@@ -82,7 +91,7 @@ extension CoinDetailViewController {
 extension CoinDetailViewController {
     private func configureDataManager() {
         coinDetailDataManager.delegate = self
-        coinDetailDataManager.configureDetailCoin(coin: coin!)
+        coinDetailDataManager.configureDetailCoin(coin: coin)
         coinDetailDataManager.fetchTickerWebSocket()
         coinDetailDataManager.fetchTransactionWebSocket()
     }
