@@ -34,7 +34,6 @@ final class CoinListViewController: UIViewController {
     
     private let coinListDataManager = CoinListDataManager()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Coin>?
-//    private var currentCoinSortType: CoinListDataManager.CoinSortType = .popularity(isDescend: true)
     
     // MARK: - Life Cycle
     
@@ -60,22 +59,22 @@ final class CoinListViewController: UIViewController {
     // MARK: - IBAction
     
     @IBAction func nameButtonTapped(_ sender: UIButton) {
-        coinListDataManager.sortCoinList(for: .all, by: .name(isDescend: sender.isSelected))
+        coinListDataManager.sortCoinList(what: .sortAll, by: .name(isDescend: sender.isSelected), filteredBy: searchBar.text)
         sender.isSelected.toggle()
     }
     
     @IBAction func priceButtonTapped(_ sender: UIButton) {
-        coinListDataManager.sortCoinList(for: .all, by: .price(isDescend: sender.isSelected))
+        coinListDataManager.sortCoinList(what: .sortAll, by: .price(isDescend: sender.isSelected), filteredBy: searchBar.text)
         sender.isSelected.toggle()
     }
     
     @IBAction func changeRateButtonTapped(_ sender: UIButton) {
-        coinListDataManager.sortCoinList(for: .all, by: .changeRate(isDescend: sender.isSelected))
+        coinListDataManager.sortCoinList(what: .sortAll, by: .changeRate(isDescend: sender.isSelected), filteredBy: searchBar.text)
         sender.isSelected.toggle()
     }
     
     @IBAction func popularityButtonTapped(_ sender: UIButton) {
-        coinListDataManager.sortCoinList(for: .all, by: .popularity(isDescend: sender.isSelected))
+        coinListDataManager.sortCoinList(what: .sortAll, by: .popularity(isDescend: sender.isSelected), filteredBy: searchBar.text)
         sender.isSelected.toggle()
     }
 }
@@ -94,7 +93,8 @@ extension CoinListViewController {
             cell.toggleFavorite = { [weak self] in
                 self?.coinListDataManager.toggleFavorite(
                     coinCallingName: item.callingName,
-                    isAlreadyFavorite: item.isFavorite
+                    isAlreadyFavorite: item.isFavorite,
+                    filteredBy: self?.searchBar.text
                 )
             }
         }
@@ -146,20 +146,8 @@ extension CoinListViewController {
 // MARK: - CoinListDataSourceDelegate
 
 extension CoinListViewController: CoinListDataManagerDelegate {
-    func coinListDataManager(didFetchCurrentPrice favoriteCoinList: [Coin], allCoinList: [Coin]) {
+    func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
         applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
-    }
-    
-    func coinListDataManager(didSortCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
-        applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
-    }
-    
-    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin]) {
-        applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
-    }
-    
-    func coinListDataManager(didFilterCoinList filteredFavoriteCoinList: [Coin], filteredAllCoinList: [Coin]) {
-        applySnapshot(favoriteCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
     }
 }
 
