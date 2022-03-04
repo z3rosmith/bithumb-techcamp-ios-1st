@@ -9,6 +9,7 @@ import Foundation
 
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
     func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook])
+    func coinOrderbookDataManager(didCalculate totalQuntity: Double, type: OrderbookType)
 }
 
 final class CoinOrderbookDataManager {
@@ -21,11 +22,13 @@ final class CoinOrderbookDataManager {
     private var asksOrderbook: [Orderbook] = [] {
         didSet {
             delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
+            calculateTotalOrderQuantity(orderbooks: asksOrderbook, type: .ask)
         }
     }
     private var bidsOrderbook: [Orderbook] = [] {
         didSet {
             delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
+            calculateTotalOrderQuantity(orderbooks: asksOrderbook, type: .bid)
         }
     }
     
@@ -41,6 +44,24 @@ final class CoinOrderbookDataManager {
     
     deinit {
         webSocketService.close()
+    }
+}
+
+// MARK: - Data Processing
+
+extension CoinOrderbookDataManager {
+    private func calculateTotalOrderQuantity(
+        orderbooks: [Orderbook],
+        type: OrderbookType
+    ) {
+        let totalQuantity = orderbooks.compactMap { orderbook in
+            Double(orderbook.quantity)
+        }.reduce(0, +)
+        
+        let digit: Double = pow(10, 5)
+        let roundedQuantity = round(totalQuantity * digit) / digit
+        
+        delegate?.coinOrderbookDataManager(didCalculate: roundedQuantity, type: type)
     }
 }
 

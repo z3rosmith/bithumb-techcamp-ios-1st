@@ -61,6 +61,7 @@
 		08CA8B5527D1F3FB00ECD245 /* CoinOrderbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CA8B5427D1F3FB00ECD245 /* CoinOrderbookViewController.swift */; };
 		08CA8B5727D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */; };
 		08CA8B5927D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CA8B5827D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift */; };
+		08CA8B5B27D2752100ECD245 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CA8B5A27D2752100ECD245 /* ShadowView.swift */; };
 		08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4627C626350031EF4C /* CoinList.storyboard */; };
 		08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */; };
 		08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */; };
@@ -162,6 +163,7 @@
 		08CA8B5427D1F3FB00ECD245 /* CoinOrderbookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOrderbookViewController.swift; sourceTree = "<group>"; };
 		08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinOrderbookCollectionViewCell.xib; sourceTree = "<group>"; };
 		08CA8B5827D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOrderbookCollectionViewCell.swift; sourceTree = "<group>"; };
+		08CA8B5A27D2752100ECD245 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				08CA8B5427D1F3FB00ECD245 /* CoinOrderbookViewController.swift */,
 				08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */,
 				08CA8B5827D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift */,
+				08CA8B5A27D2752100ECD245 /* ShadowView.swift */,
 			);
 			path = CoinOrderbookView;
 			sourceTree = "<group>";
@@ -755,6 +758,7 @@
 				3CCB27D027C77F2800F84C80 /* AssetsStatusAllValueObject.swift in Sources */,
 				0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */,
 				08AF803627C755A600790762 /* URLSession+extension.swift in Sources */,
+				08CA8B5B27D2752100ECD245 /* ShadowView.swift in Sources */,
 				0810E82627D1E87A00064BA5 /* CoinOrderbokDataManager.swift in Sources */,
 				3707832927C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift in Sources */,
 				0830F70D27CCB0FE00A65EBA /* TickerAPI.swift in Sources */,

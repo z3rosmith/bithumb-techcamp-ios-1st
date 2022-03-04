@@ -32,6 +32,8 @@ final class CoinOrderbookViewController: UIViewController {
     // MARK: - IBOutlet
     
     @IBOutlet private weak var coinOrderbookCollectionView: UICollectionView!
+    @IBOutlet private weak var totalAsksQuantityLabel: UILabel!
+    @IBOutlet private weak var totalBidsQuantityLabel: UILabel!
     
     // MARK: - Property
     
@@ -70,27 +72,10 @@ extension CoinOrderbookViewController {
                 item: item
             )
         }
-        
-//        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
-//            var configuration = headerView.defaultContentConfiguration()
-//            configuration.text = Section.allCases[indexPath.section].description
-//            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
-//            configuration.textProperties.color = .label
-//            headerView.contentConfiguration = configuration
-//        }
-//
-//        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
-//            if elementKind == UICollectionView.elementKindSectionHeader {
-//                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-//            } else {
-//                return nil
-//            }
-//        }
     }
     
     private func configureCollectionViewLayout() {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-//        configuration.headerMode = .supplementary
         configuration.showsSeparators = false
         coinOrderbookCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
     }
@@ -125,6 +110,16 @@ extension CoinOrderbookViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
+    func coinOrderbookDataManager(didCalculate totalQuntity: Double, type: OrderbookType) {
+        DispatchQueue.main.async { [weak self] in
+            if type == .ask {
+                self?.totalAsksQuantityLabel.text = String(totalQuntity)
+            } else {
+                self?.totalBidsQuantityLabel.text = String(totalQuntity)
+            }
+        }
+    }
+    
     func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook]) {
         applySnapshot(askOrderbooks, bidOrderbooks)
     }
