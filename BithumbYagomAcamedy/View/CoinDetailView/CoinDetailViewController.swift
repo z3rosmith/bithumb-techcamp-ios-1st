@@ -9,12 +9,15 @@ import UIKit
 
 final class CoinDetailViewController: UIViewController {
 
-    // MARK: - View
+    // MARK: - IBOutlet
    
     @IBOutlet private weak var coinDetailPriceView: CoinDetailPriceView!
+    @IBOutlet weak var menuButtonStackView: CoinDetailMenuStackView!
+    
+    // MARK: - View
+    
     private var pageViewController : CoinDetailPageViewController?
     private lazy var titleButton = makeTitleButton(coin: coin)
-    @IBOutlet weak var menuButtonStackView: CoinDetailMenuStackView!
     
     // MARK: - Property
     
