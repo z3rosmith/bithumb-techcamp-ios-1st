@@ -19,7 +19,7 @@ final class CoinDetailMenuStackView: UIStackView {
             return layer
         }
         
-        layer.frame = .init(
+        layer.frame = CGRect(
             x: firstButtonFrame.origin.x + 15,
             y: firstButtonFrame.height,
             width: firstButtonFrame.width - 30,

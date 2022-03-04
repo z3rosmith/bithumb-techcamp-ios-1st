@@ -64,12 +64,17 @@ final class CoinDetailPageViewController: UIPageViewController {
             return
         }
         
-        self.setViewControllers([viewsList[index]], direction: .forward, animated: true, completion: nil)
+        self.setViewControllers(
+            [viewsList[index]],
+            direction: .forward,
+            animated: true,
+            completion: nil
+        )
         completeHandler?(currentIndex)
     }
 }
 
-// MARK: - UIPageViewControllerDataSource
+// MARK: - UIPageViewController DataSource
 
 extension CoinDetailPageViewController: UIPageViewControllerDataSource {
     func pageViewController(
@@ -89,7 +94,10 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
         return viewsList[previousIndex]
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController
+    ) -> UIViewController? {
         guard let index = viewsList.firstIndex(of: viewController) else {
             return nil
         }
