@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0810E82227D1013600064BA5 /* CoinDetailMenuStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0810E82127D1013600064BA5 /* CoinDetailMenuStackView.swift */; };
 		0810E82627D1E87A00064BA5 /* CoinOrderbokDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0810E82527D1E87A00064BA5 /* CoinOrderbokDataManager.swift */; };
+		0810E82827D1EC7E00064BA5 /* Orderbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0810E82727D1EC7E00064BA5 /* Orderbook.swift */; };
 		0830F6FF27CC942A00A65EBA /* WebSocketSendJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 0830F6FE27CC942A00A65EBA /* WebSocketSendJSON.json */; };
 		0830F70D27CCB0FE00A65EBA /* TickerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0830F70C27CCB0FE00A65EBA /* TickerAPI.swift */; };
 		0830F70F27CCB12000A65EBA /* OrderbookAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0830F70E27CCB12000A65EBA /* OrderbookAPI.swift */; };
@@ -106,6 +107,7 @@
 /* Begin PBXFileReference section */
 		0810E82127D1013600064BA5 /* CoinDetailMenuStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailMenuStackView.swift; sourceTree = "<group>"; };
 		0810E82527D1E87A00064BA5 /* CoinOrderbokDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOrderbokDataManager.swift; sourceTree = "<group>"; };
+		0810E82727D1EC7E00064BA5 /* Orderbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orderbook.swift; sourceTree = "<group>"; };
 		0830F6FE27CC942A00A65EBA /* WebSocketSendJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = WebSocketSendJSON.json; sourceTree = "<group>"; };
 		0830F70C27CCB0FE00A65EBA /* TickerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerAPI.swift; sourceTree = "<group>"; };
 		0830F70E27CCB12000A65EBA /* OrderbookAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderbookAPI.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				370C4B2227CC6BA700EE2C68 /* AssetsStatus.swift */,
 				370C4B2027CC688800EE2C68 /* DepositWithdrawalStatusDataManager.swift */,
 				08B46D9727CE65F40072CBBF /* Transaction.swift */,
+				0810E82727D1EC7E00064BA5 /* Orderbook.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */,
 				08B46DB127CF4DFC0072CBBF /* CoinTransactionDataManager.swift in Sources */,
 				08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */,
+				0810E82827D1EC7E00064BA5 /* Orderbook.swift in Sources */,
 				3707833827C8C469009ECBBC /* DepositWithdrawalStatusViewController.swift in Sources */,
 				08B46DA727CF30630072CBBF /* CoinDetailPageViewController.swift in Sources */,
 				0830F71127CCB14800A65EBA /* TransactionHistoryAPI.swift in Sources */,
