@@ -11,6 +11,7 @@ import Charts
 final class CoinChartViewController: UIViewController {
     @IBOutlet private weak var coinChartView: CandleStickChartView!
     private var dataManager: CoinChartDataManager?
+    private var coin: String = "BTC"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,76 +19,73 @@ final class CoinChartViewController: UIViewController {
         configureCoinChartLayout()
         configureCoinChartXAxisFormatter()
         configureDataManager()
-        setChartData()
     }
     
     private func configureCoinChartLayout() {
+        coinChartView.xAxis.axisLineWidth = 2
         coinChartView.xAxis.gridLineWidth = 0.2
         coinChartView.rightAxis.gridLineWidth = 0.2
         coinChartView.xAxis.gridColor = .lightGray
         coinChartView.rightAxis.gridColor = .lightGray
         coinChartView.xAxis.labelPosition = .bottom
+        coinChartView.legend.enabled = false
         coinChartView.leftAxis.enabled = false
-        coinChartView.autoScaleMinMaxEnabled = true
     }
     
     private func configureCoinChartXAxisFormatter() {
         coinChartView.xAxis.valueFormatter = DefaultAxisValueFormatter() { value, axis in
             let dateFormatter = DateFormatter()
             
-            dateFormatter.dateFormat = "YYYY-MM-DD"
+            dateFormatter.dateFormat = "yy-MM-dd"
             
-            return dateFormatter.string(from: Date(timeIntervalSince1970: value))
+            return dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(value / 1000)))
         }
     }
     
     private func configureDataManager() {
-        dataManager = CoinChartDataManager()
+        dataManager = CoinChartDataManager(symbol: coin)
+        dataManager?.delegate = self
         dataManager?.requestChart()
-    }
-    
-    private func setChartData() {
-        let yVals1 = (0..<100).map { (i) -> CandleChartDataEntry in
-            let mult = 10
-            let val = Double(Int(arc4random_uniform(40)) + mult)
-            let high = Double(arc4random_uniform(9) + 8)
-            let low = Double(arc4random_uniform(9) + 8)
-            let open = Double(arc4random_uniform(6) + 1)
-            let close = Double(arc4random_uniform(6) + 1)
-            let even = i % 2 == 0
-            
-            return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close)
-        }
-        
-        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
-        set1.axisDependency = .left
-        set1.setColor(UIColor(white: 80/255, alpha: 1))
-        set1.drawIconsEnabled = false
-        set1.shadowColor = .darkGray
-        set1.shadowWidth = 0.7
-        set1.decreasingColor = .red
-        set1.decreasingFilled = true
-        set1.increasingColor = UIColor(red: 122/255, green: 242/255, blue: 84/255, alpha: 1)
-        set1.increasingFilled = false
-        set1.neutralColor = .blue
-        
-        let data = CandleChartData(dataSet: set1)
-        coinChartView.data = data
+        dataManager?.requestRealTimeChart()
     }
 }
 
 extension CoinChartViewController: CoinChartDataManagerDelegate {
-    func coinChartDataManager(didSet: [Candlestick]) {
+    func coinChartDataManager(didSet candlestick: [Candlestick]) {
+        let dataEnties = candlestick.map {
+            create(candlestick: $0)
+        }
+        let dataSet = create(dataSet: dataEnties)
+        let data = CandleChartData(dataSet: dataSet)
         
+        DispatchQueue.main.async {
+            self.coinChartView.data = data
+            self.coinChartView.data?.notifyDataChanged()
+        }
     }
     
-    func create(candlestick: Candlestick) -> CandleChartDataEntry {
+    private func create(dataSet dataEntries: [CandleChartDataEntry]) -> CandleChartDataSet {
+        let dataSet = CandleChartDataSet(entries: dataEntries)
+        
+        dataSet.axisDependency = .left
+        dataSet.barSpace = 0.2
+        dataSet.shadowWidth = 0.5
+        dataSet.shadowColor = .black
+        dataSet.neutralColor = .black
+        dataSet.increasingColor = .red
+        dataSet.decreasingColor = .blue
+        dataSet.increasingFilled = true
+        
+        return dataSet
+    }
+    
+    private func create(candlestick: Candlestick) -> CandleChartDataEntry {
         return CandleChartDataEntry(
-            x: Double(candlestick.time),
-            shadowH: Double(candlestick.highPrice),
-            shadowL: Double(candlestick.lowPrice),
-            open: Double(candlestick.openPrice),
-            close: Double(candlestick.closePrice)
+            x: candlestick.time,
+            shadowH: candlestick.highPrice,
+            shadowL: candlestick.lowPrice,
+            open: candlestick.openPrice,
+            close: candlestick.closePrice
         )
     }
 }

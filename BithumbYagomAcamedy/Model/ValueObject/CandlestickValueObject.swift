@@ -23,32 +23,32 @@ struct CandlestickValueObject {
 }
 
 struct Candlestick {
-    let time: Int64
-    let openPrice: Int
-    let closePrice: Int
-    let lowPrice: Int
-    let highPrice: Int
+    let time: Double
+    let openPrice: Double
+    let closePrice: Double
+    let lowPrice: Double
+    let highPrice: Double
     let volume: Double
     
     init?(array: [Any]) {
         guard let time = array[0] as? Int64,
               let openPrice = array[1] as? String,
               let closePrice = array[2] as? String,
-              let lowPrice = array[3] as? String,
-              let highPrice = array[4] as? String,
+              let highPrice = array[3] as? String,
+              let lowPrice = array[4] as? String,
               let volume = array[5] as? String else {
                   return nil
               }
         
-        guard let openPrice = Int(openPrice),
-              let closePrice = Int(closePrice),
-              let lowPrice = Int(lowPrice),
-              let highPrice = Int(highPrice),
+        guard let openPrice = Double(openPrice),
+              let closePrice = Double(closePrice),
+              let lowPrice = Double(lowPrice),
+              let highPrice = Double(highPrice),
               let volume = Double(volume) else {
                   return nil
               }
         
-        self.time = time
+        self.time = Double(time)
         self.openPrice = openPrice
         self.closePrice = closePrice
         self.lowPrice = lowPrice

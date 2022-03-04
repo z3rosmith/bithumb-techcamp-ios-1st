@@ -83,6 +83,11 @@
 		37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */; };
 		37A15AE427C61D0D00585F4A /* BithumbYagomAcamedyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */; };
 		37E2A06327CFA10D00051F28 /* CoinChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E2A06227CFA10D00051F28 /* CoinChartViewController.swift */; };
+		37FF671827D1B7CF001DCF57 /* MockCandlestickDataMinute1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37FF671327D1B7CF001DCF57 /* MockCandlestickDataMinute1.json */; };
+		37FF671927D1B7CF001DCF57 /* MockCandlestickDataHour24.json in Resources */ = {isa = PBXBuildFile; fileRef = 37FF671427D1B7CF001DCF57 /* MockCandlestickDataHour24.json */; };
+		37FF671A27D1B7CF001DCF57 /* MockCandlestickDataMinute10.json in Resources */ = {isa = PBXBuildFile; fileRef = 37FF671527D1B7CF001DCF57 /* MockCandlestickDataMinute10.json */; };
+		37FF671B27D1B7CF001DCF57 /* MockCandlestickDataHour1.json in Resources */ = {isa = PBXBuildFile; fileRef = 37FF671627D1B7CF001DCF57 /* MockCandlestickDataHour1.json */; };
+		37FF671C27D1B7CF001DCF57 /* MockCandlestickDataMinute30.json in Resources */ = {isa = PBXBuildFile; fileRef = 37FF671727D1B7CF001DCF57 /* MockCandlestickDataMinute30.json */; };
 		3CC98F3827C879F200B9A6EF /* CoinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */; };
 		3CC98F3A27C896C400B9A6EF /* CoinListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */; };
 		3CCB27C827C7473D00F84C80 /* TickersValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCB27C727C7473D00F84C80 /* TickersValueObject.swift */; };
@@ -182,6 +187,11 @@
 		37A15ADF27C61D0D00585F4A /* BithumbYagomAcamedyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BithumbYagomAcamedyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A15AE327C61D0D00585F4A /* BithumbYagomAcamedyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbYagomAcamedyTests.swift; sourceTree = "<group>"; };
 		37E2A06227CFA10D00051F28 /* CoinChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinChartViewController.swift; sourceTree = "<group>"; };
+		37FF671327D1B7CF001DCF57 /* MockCandlestickDataMinute1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockCandlestickDataMinute1.json; sourceTree = "<group>"; };
+		37FF671427D1B7CF001DCF57 /* MockCandlestickDataHour24.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockCandlestickDataHour24.json; sourceTree = "<group>"; };
+		37FF671527D1B7CF001DCF57 /* MockCandlestickDataMinute10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockCandlestickDataMinute10.json; sourceTree = "<group>"; };
+		37FF671627D1B7CF001DCF57 /* MockCandlestickDataHour1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockCandlestickDataHour1.json; sourceTree = "<group>"; };
+		37FF671727D1B7CF001DCF57 /* MockCandlestickDataMinute30.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MockCandlestickDataMinute30.json; sourceTree = "<group>"; };
 		3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewController.swift; sourceTree = "<group>"; };
 		3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListDataManager.swift; sourceTree = "<group>"; };
 		3CCB27C727C7473D00F84C80 /* TickersValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersValueObject.swift; sourceTree = "<group>"; };
@@ -289,6 +299,7 @@
 		0830F70827CCAFC100A65EBA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				37FF670A27D1B6E4001DCF57 /* Mock */,
 				0830F71427CCB22600A65EBA /* BithumbWebSocketURL.swift */,
 				0830F71627CCB7A400A65EBA /* WebSocketModels */,
 				0830F71927CCBC1000A65EBA /* WebSocketMessageConverter.swift */,
@@ -557,6 +568,18 @@
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
 		};
+		37FF670A27D1B6E4001DCF57 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				37FF671627D1B7CF001DCF57 /* MockCandlestickDataHour1.json */,
+				37FF671427D1B7CF001DCF57 /* MockCandlestickDataHour24.json */,
+				37FF671327D1B7CF001DCF57 /* MockCandlestickDataMinute1.json */,
+				37FF671527D1B7CF001DCF57 /* MockCandlestickDataMinute10.json */,
+				37FF671727D1B7CF001DCF57 /* MockCandlestickDataMinute30.json */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		3CCB27C527C73E3C00F84C80 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,15 +696,20 @@
 				08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */,
 				08B46DA927CF30830072CBBF /* CoinDetailPage.storyboard in Resources */,
 				37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */,
+				37FF671827D1B7CF001DCF57 /* MockCandlestickDataMinute1.json in Resources */,
 				37A15AD627C61D0C00585F4A /* Assets.xcassets in Resources */,
 				371D997C27C77C5E000368AC /* CoinListCollectionViewCell.xib in Resources */,
 				08B46DA527CF2F280072CBBF /* CoinTransaction.storyboard in Resources */,
 				08B46DA127CF2F0D0072CBBF /* CoinChart.storyboard in Resources */,
 				08B46D9F27CF2D8E0072CBBF /* CoinDetail.storyboard in Resources */,
+				37FF671927D1B7CF001DCF57 /* MockCandlestickDataHour24.json in Resources */,
 				3CEC2A0C27CC725000294531 /* Localizable.strings in Resources */,
+				37FF671B27D1B7CF001DCF57 /* MockCandlestickDataHour1.json in Resources */,
 				37A15AD127C61D0A00585F4A /* MainTabBar.storyboard in Resources */,
+				37FF671A27D1B7CF001DCF57 /* MockCandlestickDataMinute10.json in Resources */,
 				08B46D9427CE55420072CBBF /* CoinTransactionCollectionViewCell.xib in Resources */,
 				08F5EA4A27C626E60031EF4C /* MoreDetail.storyboard in Resources */,
+				37FF671C27D1B7CF001DCF57 /* MockCandlestickDataMinute30.json in Resources */,
 				3707832A27C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib in Resources */,
 				08F5EA4727C626350031EF4C /* CoinList.storyboard in Resources */,
 				08B46DA327CF2F1C0072CBBF /* CoinOrderbook.storyboard in Resources */,

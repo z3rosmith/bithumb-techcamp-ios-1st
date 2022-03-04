@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WebSocketTickerValueObjcet: Decodable {
+struct WebSocketTickerValueObject: Decodable {
     let type: String
     let webSocketTickerData: WebSocketTickerData
     
