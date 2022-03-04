@@ -6,17 +6,18 @@
 //
 
 import Foundation
+import Charts
 
 protocol CoinChartDataManagerDelegate {
-    func coinChartDataManager(didSet candlestick: [Candlestick])
+    func coinChartDataManager(didSet candlesticks: [Candlestick])
 }
 
 final class CoinChartDataManager {
     private let httpService: HTTPNetworkService
     private var webSocketService: WebSocketService
-    private var candlesticks: [Candlestick] {
+    private(set) var candlesticks: [Candlestick] {
         didSet {
-            delegate?.coinChartDataManager(didSet: Array())
+            delegate?.coinChartDataManager(didSet: candlesticks)
         }
     }
     private let symbol: String
@@ -44,20 +45,10 @@ final class CoinChartDataManager {
                 guard let candlestickValueObject = try? self?.parsedCandlestickValueObject(from: data) else {
                     return
                 }
-                self?.candlesticks = candlestickValueObject.data.compactMap {
-                    Candlestick(array: $0)
-                }
-                print(self?.candlesticks[...10])
-            case .failure(let error):
-//                guard let url = Bundle.main.url(forResource: "MockCandlestickDataHour24", withExtension: "json"),
-//                      let data = try? Data(contentsOf: url),
-//                      let candlestickValueObject = try? self?.parsedCandlestickValueObject(from: data) else {
-//                          return
-//                      }
-//                self?.candlesticks = candlestickValueObject.data.compactMap {
-//                    Candlestick(array: $0)
-//                }
+                let candlesticks = candlestickValueObject.data.compactMap { Candlestick(array: $0) }
                 
+                self?.candlesticks = candlesticks
+            case .failure(let error):
                 print(error.localizedDescription)
             }
         }
@@ -74,14 +65,39 @@ final class CoinChartDataManager {
             
             switch message {
             case .string(let string):
-                guard let valueObject = try? self?.parsedWebSocketTickerValueObject(string: string) else {
+                guard let tickerData = try? self?.parsedWebSocketTickerValueObject(string: string).webSocketTickerData else {
                     return
                 }
-                print(valueObject)
                 
+                self?.update(candlesticks: tickerData)
             default:
                 break
             }
+        }
+    }
+    
+    private func update(candlesticks tickerData: WebSocketTickerData) {
+        guard let updateCandlestick = Candlestick(ticker: tickerData) else {
+            return
+        }
+        let recentCandlestick = candlesticks[candlesticks.endIndex - 1]
+        
+        if recentCandlestick.time == updateCandlestick.time {
+            candlesticks[candlesticks.endIndex - 1] = updateCandlestick
+        } else {
+            candlesticks.append(updateCandlestick)
+        }
+    }
+    
+    private func parsedCandlestickValueObject(from data: Data) throws -> CandlestickValueObject? {
+        do {
+            let parsedData = try JSONParser().decode(data: data)
+            
+            return CandlestickValueObject(serializedData: parsedData)
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
         }
     }
     
@@ -91,18 +107,6 @@ final class CoinChartDataManager {
             let parsedData = try parser.decode(string: string, type: WebSocketTickerValueObject.self)
             
             return parsedData
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
-        }
-    }
-    
-    private func parsedCandlestickValueObject(from data: Data) throws -> CandlestickValueObject? {
-        do {
-            let parsedData = try JSONParser().decode(data: data)
-            
-            return CandlestickValueObject(serializedData: parsedData)
         } catch {
             print(error.localizedDescription)
             

@@ -14,8 +14,8 @@ struct CandlestickValueObject {
     init?(serializedData: [String: Any]?) {
         guard let status = serializedData?["status"] as? String,
               let candlestickData = serializedData?["data"] as? [[Any]] else {
-            return nil
-        }
+                  return nil
+              }
         
         self.status = status
         self.data = candlestickData
@@ -49,6 +49,27 @@ struct Candlestick {
               }
         
         self.time = Double(time)
+        self.openPrice = openPrice
+        self.closePrice = closePrice
+        self.lowPrice = lowPrice
+        self.highPrice = highPrice
+        self.volume = volume
+    }
+    
+    init?(ticker: WebSocketTickerData) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        let date = formatter.date(from: ticker.date)
+        guard let time = date?.timeIntervalSince1970,
+              let openPrice = Double(ticker.openPrice),
+              let closePrice = Double(ticker.closePrice),
+              let lowPrice = Double(ticker.lowPrice),
+              let highPrice = Double(ticker.highPrice),
+              let volume = Double(ticker.volume) else {
+                  return nil
+              }
+        
+        self.time = Double(time * 1000)
         self.openPrice = openPrice
         self.closePrice = closePrice
         self.lowPrice = lowPrice
