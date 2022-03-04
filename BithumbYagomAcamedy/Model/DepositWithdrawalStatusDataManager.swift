@@ -73,7 +73,8 @@ final class DepositWithdrawalStatusDataManager {
             delegate?.depositWithdrawalStatusDataManagerDidSetData(statuses)
         } else {
             let containedData = statuses.filter {
-                $0.coinName.contains(searchText) || $0.coinSymbol.contains(searchText)
+                return $0.coinName.localizedStandardContains(searchText) ||
+                $0.coinSymbol.localizedStandardContains(searchText)
             }
             
             delegate?.depositWithdrawalStatusDataManagerDidSetData(containedData)
