@@ -33,13 +33,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-RF-jT9">
-                                <rect key="frame" x="0.0" y="142" width="414" height="671"/>
+                                <rect key="frame" x="0.0" y="126" width="414" height="687"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
                                 <cells/>
                             </collectionView>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="QiV-ve-AIc">
+                                <rect key="frame" x="0.0" y="44" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa">
-                                <rect key="frame" x="56" y="85" width="302" height="31"/>
+                                <rect key="frame" x="56" y="95" width="302" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmW-cd-a0L" userLabel="인기순">
                                         <rect key="frame" x="0.0" y="0.0" width="60.5" height="31"/>
@@ -74,20 +78,20 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="2S2-i3-KmA"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" constant="26" id="49l-Wb-tS8"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="QiV-ve-AIc" secondAttribute="bottom" id="6I8-oo-btZ"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="IxT-AF-AwJ"/>
                             <constraint firstItem="cyP-DE-3sa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="QpE-Ng-ASJ"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="SBl-oH-2yf"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="X1G-C1-SIe"/>
-                            <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="41" id="bJD-nl-A28"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="iuQ-tA-C35"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sbb-RF-jT9" secondAttribute="trailing" id="ne6-gr-saR"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" id="rsr-Wn-bvs"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="거래소" image="chart.line.uptrend.xyaxis" catalog="system" id="MPo-jd-qVp"/>
@@ -95,6 +99,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
+                        <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

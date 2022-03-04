@@ -19,16 +19,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="144"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp0-kb-B2K" userLabel="Favorite Button">
-                        <rect key="frame" x="0.0" y="61.5" width="45.5" height="31"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp0-kb-B2K" userLabel="Favorite Button">
+                        <rect key="frame" x="10" y="61.5" width="45.5" height="31"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal">
+                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                        </state>
                         <buttonConfiguration key="configuration" style="plain">
                             <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
                         </buttonConfiguration>
+                        <connections>
+                            <action selector="favoriteButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Mdr-yW-1rn"/>
+                        </connections>
                     </button>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="IqQ-w7-K65" userLabel="Coin Name Stack View">
-                        <rect key="frame" x="45.5" y="59" width="55" height="36"/>
+                        <rect key="frame" x="65.5" y="59" width="55" height="36"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트코인" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWi-6t-iiq" userLabel="Coin Name Label">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트코인" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWi-6t-iiq" userLabel="Coin Name Label">
                                 <rect key="frame" x="0.0" y="0.0" width="55" height="18"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="textColor"/>
@@ -77,9 +84,9 @@
                 <constraint firstItem="Sp0-kb-B2K" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="azG-gq-BIc"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="XdU-Wv-oBx" secondAttribute="trailing" constant="20" id="gU6-mY-Idl"/>
                 <constraint firstItem="Ohp-oP-U23" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="gfm-XU-4zz"/>
-                <constraint firstItem="Sp0-kb-B2K" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gwL-ym-Qr7"/>
+                <constraint firstItem="Sp0-kb-B2K" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="gwL-ym-Qr7"/>
                 <constraint firstItem="IqQ-w7-K65" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="hZX-Ii-4Fc"/>
-                <constraint firstItem="IqQ-w7-K65" firstAttribute="leading" secondItem="Sp0-kb-B2K" secondAttribute="trailing" id="jl4-yp-hM3"/>
+                <constraint firstItem="IqQ-w7-K65" firstAttribute="leading" secondItem="Sp0-kb-B2K" secondAttribute="trailing" constant="10" id="jl4-yp-hM3"/>
                 <constraint firstItem="IqQ-w7-K65" firstAttribute="top" relation="lessThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="15" id="lXl-pe-Ufj"/>
                 <constraint firstItem="XdU-Wv-oBx" firstAttribute="top" relation="lessThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="15" id="ofI-te-MUJ"/>
                 <constraint firstItem="Ohp-oP-U23" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IqQ-w7-K65" secondAttribute="trailing" constant="10" id="ts2-Vo-SdJ"/>
@@ -89,6 +96,7 @@
             <connections>
                 <outlet property="changePriceLabel" destination="33g-mu-GMT" id="9cJ-4M-irY"/>
                 <outlet property="changeRateLabel" destination="1p5-jk-ueO" id="vrE-oU-y3R"/>
+                <outlet property="favoriteButton" destination="Sp0-kb-B2K" id="B9S-Rt-Kwo"/>
                 <outlet property="nameLabel" destination="sWi-6t-iiq" id="M1x-gF-s8i"/>
                 <outlet property="priceLabel" destination="Ohp-oP-U23" id="94a-1I-fAi"/>
                 <outlet property="symbolPerCurrencyLabel" destination="YOR-L8-RDd" id="u1l-hx-t4q"/>
