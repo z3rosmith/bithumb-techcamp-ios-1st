@@ -12,7 +12,7 @@ final class CoinDetailPageViewController: UIPageViewController {
     // MARK: - Property
     
     private lazy var viewsList = configureViewList()
-    var completeHandler : ((Int)->())?
+    var completeHandler : ((Int) -> Void)?
     var currentIndex : Int {
         guard let viewController = viewControllers?.first else {
             return Int.zero

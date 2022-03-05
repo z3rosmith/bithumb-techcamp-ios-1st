@@ -63,7 +63,7 @@ extension CoinDetailDataManager {
 
 extension CoinDetailDataManager {
     func fetchTickerWebSocket() {
-        guard let symbol = detailCoin?.name else {
+        guard let symbol = detailCoin?.symbol else {
             return
         }
         
@@ -85,8 +85,8 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                self?.detailCoin?.changePrice = Double(changePrice)
-                self?.detailCoin?.changeRate = Double(changeRate)
+                self?.detailCoin?.setChangePrice(Double(changePrice))
+                self?.detailCoin?.setChangeRate(Double(changeRate))
             default:
                 break
             }
@@ -115,7 +115,7 @@ extension CoinDetailDataManager {
 
 extension CoinDetailDataManager {
     func fetchTransactionWebSocket() {
-        guard let symbol = detailCoin?.name else {
+        guard let symbol = detailCoin?.symbol else {
             return
         }
         
@@ -137,7 +137,7 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                self?.detailCoin?.price = Double(latestTransaction.price)
+                self?.detailCoin?.setPrice(Double(latestTransaction.price))
             default:
                 break
             }

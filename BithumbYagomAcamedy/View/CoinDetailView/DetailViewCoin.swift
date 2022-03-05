@@ -8,12 +8,16 @@
 import Foundation
 
 struct DetailViewCoin {
-    let name: String
-    var price: Double?
-    var changePrice: Double?
-    var changeRate: Double?
+    private let name: String
+    private(set) var price: Double?
+    private(set) var changePrice: Double?
+    private(set) var changeRate: Double?
     
     // MARK: - DetailViewCoin Computed Property
+    
+    var symbol: String {
+        return name
+    }
     
     var commaPrice: String {
         guard let price = price else {
@@ -48,5 +52,32 @@ struct DetailViewCoin {
         }
         
         return String(changeRate) + "%"
+    }
+    
+    // MARK: - Init
+    init(
+        name: String,
+        price: Double?,
+        changePrice: Double?,
+        changeRate: Double?
+    ) {
+        self.name = name
+        self.price = price
+        self.changePrice = changePrice
+        self.changeRate = changeRate
+    }
+    
+    // MARK: - Method
+    
+    mutating func setPrice(_ price: Double?) {
+        self.price = price
+    }
+    
+    mutating func setChangePrice(_ changePrice: Double?) {
+        self.changePrice = changePrice
+    }
+    
+    mutating func setChangeRate(_ changeRate: Double?) {
+        self.changeRate = changeRate
     }
 }
