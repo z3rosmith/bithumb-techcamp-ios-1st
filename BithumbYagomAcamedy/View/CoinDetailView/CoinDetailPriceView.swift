@@ -17,7 +17,7 @@ final class CoinDetailPriceView: UIView {
         
     // MARK: - Method
     
-    func update(_ coin: CoinDetailDataManager.DetailViewCoin) {
+    func update(_ coin: DetailViewCoin) {
         guard let changeRate = coin.changeRate else {
             return
         }

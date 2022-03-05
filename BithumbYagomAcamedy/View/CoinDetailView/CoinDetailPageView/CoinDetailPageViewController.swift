@@ -60,7 +60,7 @@ final class CoinDetailPageViewController: UIPageViewController {
         return [chartViewController, orderbookViewController, transactionViewController]
     }
     
-    func setViewcontrollersFromIndex(index : Int){
+    func setViewcontrollersFromIndex(index : Int) {
         guard index >= Int.zero && index < viewsList.count else {
             return
         }
@@ -71,7 +71,7 @@ final class CoinDetailPageViewController: UIPageViewController {
             derection = .reverse
         }
         
-        self.setViewControllers(
+        setViewControllers(
             [viewsList[index]],
             direction: derection,
             animated: true,
@@ -114,7 +114,7 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
             return nil
         }
         
-        return viewsList[previousIndex]
+        return viewsList[safe: previousIndex]
     }
     
     func pageViewController(
@@ -131,6 +131,6 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
             return nil
         }
                 
-        return viewsList[nextIndex]
+        return viewsList[safe: nextIndex]
     }
 }
