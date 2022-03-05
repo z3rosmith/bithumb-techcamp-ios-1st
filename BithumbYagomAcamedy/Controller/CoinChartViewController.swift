@@ -44,15 +44,15 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         let dataSet = CoinCandleChartDataSet(candlesticks: candlesticks)
         let data = CandleChartData(dataSet: dataSet)
         
-        DispatchQueue.main.async {
-            guard let dateStrings = self.dataManager?.xAxisDateString() else {
+        DispatchQueue.main.async { [weak self] in
+            guard let dateStrings = self?.dataManager?.xAxisDateString() else {
                 return
             }
             let dateFormatter = IndexAxisValueFormatter(values: dateStrings)
             
-            self.coinChartView.data = data
-            self.coinChartView.xAxis.valueFormatter = dateFormatter
-            self.coinChartView.notifyDataSetChanged()
+            self?.coinChartView.data = data
+            self?.coinChartView.xAxis.valueFormatter = dateFormatter
+            self?.coinChartView.notifyDataSetChanged()
         }
     }
 }

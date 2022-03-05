@@ -7,21 +7,21 @@
 
 import Foundation
 
-protocol CoinChartDataManagerDelegate {
+protocol CoinChartDataManagerDelegate: AnyObject {
     func coinChartDataManager(didSet candlesticks: [Candlestick])
 }
 
 final class CoinChartDataManager {
     private let httpService: HTTPNetworkService
     private var webSocketService: WebSocketService
-    private(set) var candlesticks: [Candlestick] {
+    private var candlesticks: [Candlestick] {
         didSet {
             delegate?.coinChartDataManager(didSet: candlesticks)
         }
     }
     private let symbol: String
     private let formatType: DateFormat
-    var delegate: CoinChartDataManagerDelegate?
+    weak var delegate: CoinChartDataManagerDelegate?
     
     init(
         symbol: String,
