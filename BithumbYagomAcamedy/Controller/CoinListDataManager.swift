@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CoinListDataManagerDelegate {
+protocol CoinListDataManagerDelegate: AnyObject {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
     func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin])
 }
@@ -31,7 +31,7 @@ final class CoinListDataManager {
     
     // MARK: - Property
     
-    var delegate: CoinListDataManagerDelegate?
+    weak var delegate: CoinListDataManagerDelegate?
     private let successStatusCode = "0000"
     private let httpNetworkService: HTTPNetworkService
     private var favoriteCoinList: [Coin] = []
