@@ -104,6 +104,7 @@ extension CoinOrderbookViewController {
     private func configureDataManager() {
         coinOrderbookDataManager.delegate = self
         coinOrderbookDataManager.fetchOrderbook()
+        coinOrderbookDataManager.fetchOrderbookWebSocket()
     }
 }
 

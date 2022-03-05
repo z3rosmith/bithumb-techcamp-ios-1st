@@ -28,7 +28,7 @@ final class CoinOrderbookDataManager {
     private var bidsOrderbook: [Orderbook] = [] {
         didSet {
             delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
-            calculateTotalOrderQuantity(orderbooks: asksOrderbook, type: .bid)
+            calculateTotalOrderQuantity(orderbooks: bidsOrderbook, type: .bid)
         }
     }
     
@@ -85,7 +85,7 @@ extension CoinOrderbookDataManager {
                 return
             }
             
-            self?.setTransaction(from: orderbookValueObject.orderbook)
+            self?.setOrderbooks(from: orderbookValueObject.orderbook)
         }
     }
     
@@ -104,7 +104,7 @@ extension CoinOrderbookDataManager {
         }
     }
     
-    private func setTransaction(from orderbook: OrderbookData) {
+    private func setOrderbooks(from orderbook: OrderbookData) {
         asksOrderbook = orderbook.asks.map {
             $0.generate(type: .ask)
         }.reversed()
@@ -114,3 +114,68 @@ extension CoinOrderbookDataManager {
         }
     }
 }
+
+// MARK: - WebSocket Network
+
+extension CoinOrderbookDataManager {
+    func fetchOrderbookWebSocket() {
+        let api = OrderBookDepthWebSocket(symbol: "BTC")
+        
+        webSocketService.open(webSocketAPI: api) { [weak self] result in
+            guard let message = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
+            }
+            
+            switch message {
+            case .string(let response):
+                let orderbook = try? self?.parseWebSocketOrderbook(to: response)
+                
+                guard let orderbookList = orderbook?.webSocketOrderBookDepthData.list else {
+                    return
+                }
+                
+                self?.insertOrderbook(orderbookList)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func parseWebSocketOrderbook(
+        to string: String
+    ) throws -> WebSocketOrderBookDepthValueObject {
+        do {
+            let webSocketOrderbookValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketOrderBookDepthValueObject.self
+            )
+            
+            return webSocketOrderbookValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+    
+    private func insertOrderbook(
+        _ orderbooks: [WebSocketOrderBookDepthData.OrderBookDepthData],
+        at index: Int = Int.zero
+    ) {
+        let askOrderbooks = orderbooks.filter {
+            $0.orderType == .ask
+        }.map {
+            $0.generate()
+        }
+        self.asksOrderbook.append(contentsOf: askOrderbooks)
+        
+        let bidOrderbooks = orderbooks.filter {
+            $0.orderType == .bid
+        }.map {
+            $0.generate()
+        }
+        self.bidsOrderbook.insert(contentsOf: bidOrderbooks, at: Int.zero)
+    }
+}
+
