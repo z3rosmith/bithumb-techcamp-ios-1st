@@ -43,6 +43,10 @@ struct DetailViewCoin {
             return "오류 발생"
         }
         
+        if changeRate > 0 {
+            return "+" + String(changeRate) + "%"
+        }
+        
         return String(changeRate) + "%"
     }
 }
