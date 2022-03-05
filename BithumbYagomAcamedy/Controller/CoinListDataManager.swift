@@ -9,6 +9,7 @@ import Foundation
 
 protocol CoinListDataManagerDelegate {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
+    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin])
 }
 
 final class CoinListDataManager {
@@ -77,7 +78,7 @@ extension CoinListDataManager {
         let sortedFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
         let sortedAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)
         
-        delegate?.coinListDataManager(didChangeCoinList: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
+        delegate?.coinListDataManager(didToggleFavorite: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
     }
     
     func sortCoinList(what list: SortOption, by sortType: SortType, filteredBy text: String?) {
@@ -186,8 +187,8 @@ extension CoinListDataManager {
 }
 
 private extension Array where Element == Coin {
-    func sorted(by sortType: CoinListDataManager.SortType) -> [Coin] {
-        let sortedCoinList: [Coin]
+    func sorted(by sortType: CoinListDataManager.SortType) -> [Element] {
+        let sortedCoinList: [Element]
         switch sortType {
         case .popularity(let isDescend):
             if isDescend {

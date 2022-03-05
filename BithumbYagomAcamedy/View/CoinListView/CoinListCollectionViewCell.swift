@@ -22,6 +22,10 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
         super.awakeFromNib()
     }
     
+    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+        toggleFavorite()
+    }
+    
     func update(item: Coin) {
         favoriteButton.isSelected = item.isFavorite
         nameLabel.text = item.callingName
@@ -29,9 +33,21 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
         priceLabel.text = item.priceString
         changeRateLabel.text = item.changeRateString
         changePriceLabel.text = item.changePriceString
+        
+        guard let changeRate = item.changeRate else { return }
+        
+        if changeRate == 0 {
+            changeLabelColor(.label)
+        } else if changeRate > 0 {
+            changeLabelColor(.systemRed)
+        } else {
+            changeLabelColor(.systemBlue)
+        }
     }
     
-    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
-        toggleFavorite()
+    private func changeLabelColor(_ color: UIColor) {
+        priceLabel.textColor = color
+        changePriceLabel.textColor = color
+        changeRateLabel.textColor = color
     }
 }
