@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Charts
 
 protocol CoinChartDataManagerDelegate {
     func coinChartDataManager(didSet candlesticks: [Candlestick])
@@ -21,14 +20,17 @@ final class CoinChartDataManager {
         }
     }
     private let symbol: String
+    private let formatType: DateFormat
     var delegate: CoinChartDataManagerDelegate?
     
     init(
         symbol: String,
+        formatType: DateFormat = .hour24,
         httpService: HTTPNetworkService = HTTPNetworkService(),
         webSocketService: WebSocketService = WebSocketService()
     ) {
         self.symbol = symbol
+        self.formatType = formatType
         self.httpService = httpService
         self.webSocketService = webSocketService
         self.candlesticks = []
@@ -60,6 +62,7 @@ final class CoinChartDataManager {
         webSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {
                 print(result.error?.localizedDescription as Any)
+                
                 return
             }
             
@@ -76,14 +79,27 @@ final class CoinChartDataManager {
         }
     }
     
+    func xAxisDateString() -> [String] {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = formatType.format
+        
+        return candlesticks.map { candlestick in
+            let date = Date(timeIntervalSince1970: candlestick.time)
+            
+            return dateFormatter.string(from: date)
+        }
+    }
+    
     private func update(candlesticks tickerData: WebSocketTickerData) {
-        guard let updateCandlestick = Candlestick(ticker: tickerData) else {
+        guard let updateCandlestick = Candlestick(ticker: tickerData),
+              let recentCandlestick = candlesticks.last else {
             return
         }
-        let recentCandlestick = candlesticks[candlesticks.endIndex - 1]
+        let remainTime = updateCandlestick.time - recentCandlestick.time
         
-        if recentCandlestick.time == updateCandlestick.time {
-            candlesticks[candlesticks.endIndex - 1] = updateCandlestick
+        if Int(remainTime) < formatType.second {
+            candlesticks[candlesticks.index(before: candlesticks.endIndex)] = updateCandlestick
         } else {
             candlesticks.append(updateCandlestick)
         }
