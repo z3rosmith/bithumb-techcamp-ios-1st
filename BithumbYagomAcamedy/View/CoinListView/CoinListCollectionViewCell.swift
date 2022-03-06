@@ -16,14 +16,14 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
     @IBOutlet private weak var changeRateLabel: UILabel!
     @IBOutlet private weak var changePriceLabel: UILabel!
     
-    var toggleFavorite: () -> Void = {}
+    var toggleFavorite: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
-        toggleFavorite()
+        toggleFavorite?()
     }
     
     func update(item: Coin) {

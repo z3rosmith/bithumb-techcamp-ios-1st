@@ -56,7 +56,7 @@ final class CoinListDataManager {
 
 extension CoinListDataManager {
     func toggleFavorite(coinCallingName: String, isAlreadyFavorite: Bool, filteredBy text: String?) {
-        guard let indexOfAllCoinList = allCoinList.firstIndex(where: {
+        guard let indexInAllCoinList = allCoinList.firstIndex(where: {
             $0.callingName == coinCallingName
         }) else {
             return
@@ -69,11 +69,11 @@ extension CoinListDataManager {
                 favoriteCoinList.remove(at: index)
             }
         } else {
-            let favoritedCoin = Coin(toggleFavorite: allCoinList[indexOfAllCoinList])
+            let favoritedCoin = Coin(toggleFavorite: allCoinList[indexInAllCoinList])
             favoriteCoinList.append(favoritedCoin)
         }
         
-        allCoinList[indexOfAllCoinList].isFavorite.toggle()
+        allCoinList[indexInAllCoinList].isFavorite.toggle()
         
         let sortedFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
         let sortedAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)

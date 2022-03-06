@@ -46,9 +46,7 @@ final class CoinListViewController: UIViewController {
         configureDataSource()
         configureCoinListController()
         coinListDataManager.fetchCoinList()
-        if let sortByPopularityButton = sortButtonStackView.subviews.first as? UIButton {
-            sortByPopularityButton.isSelected = true
-        }
+        configureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,8 +119,8 @@ final class CoinListViewController: UIViewController {
             ofKind: UICollectionView.elementKindSectionHeader,
             at: IndexPath(item: 0, section: 1)
            ) {
-            let sectionHeaderOrign = headerLayoutAttr.frame.origin
-            let point = CGPoint(x: sectionHeaderOrign.x, y: sectionHeaderOrign.y + 2)
+            let sectionHeaderOrigin = headerLayoutAttr.frame.origin
+            let point = CGPoint(x: sectionHeaderOrigin.x, y: sectionHeaderOrigin.y + 2)
             coinListCollectionView.setContentOffset(point, animated: false)
         }
     }
@@ -130,8 +128,7 @@ final class CoinListViewController: UIViewController {
     private func restoreSortButtons(exclude button: UIButton) {
         sortButtonStackView
             .subviews
-            .map { $0 as? UIButton }
-            .compactMap { $0 }
+            .compactMap { $0 as? UIButton }
             .filter { $0 != button }
             .forEach {
                 $0.isSelected = false
@@ -144,6 +141,12 @@ final class CoinListViewController: UIViewController {
 extension CoinListViewController {
     private func configureCoinListController() {
         coinListDataManager.delegate = self
+    }
+    
+    private func configureButton() {
+        if let sortByPopularityButton = sortButtonStackView.subviews.first as? UIButton {
+            sortByPopularityButton.isSelected = true
+        }
     }
     
     private func configureDataSource() {
@@ -184,6 +187,26 @@ extension CoinListViewController {
     private func configureCollectionView() {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.headerMode = .supplementary
+        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            guard let item = self?.dataSource?.itemIdentifier(for: indexPath) else {
+                return nil
+            }
+            let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+                self?.coinListDataManager.toggleFavorite(
+                    coinCallingName: item.callingName,
+                    isAlreadyFavorite: item.isFavorite,
+                    filteredBy: self?.searchBar.text
+                )
+                completion(true)
+            }
+            favoriteAction.backgroundColor = .systemOrange
+            if item.isFavorite {
+                favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(.white)
+            } else {
+                favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(.white)
+            }
+            return UISwipeActionsConfiguration(actions: [favoriteAction])
+        }
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.delegate = self
     }
