@@ -12,7 +12,7 @@ final class CoinDetailPageViewController: UIPageViewController {
     // MARK: - Property
     
     private lazy var viewsList = configureViewList()
-    var completeHandler : ((Int)->())?
+    var completeHandler : ((Int) -> Void)?
     var currentIndex : Int {
         guard let viewController = viewControllers?.first else {
             return Int.zero
@@ -32,6 +32,7 @@ final class CoinDetailPageViewController: UIPageViewController {
     
     private func configure() {
         dataSource = self
+        delegate = self
         
         guard let firstViewController = viewsList.first else {
             return
@@ -59,17 +60,44 @@ final class CoinDetailPageViewController: UIPageViewController {
         return [chartViewController, orderbookViewController, transactionViewController]
     }
     
-    func setViewcontrollersFromIndex(index : Int){
+    func setViewcontrollersFromIndex(index : Int) {
         guard index >= Int.zero && index < viewsList.count else {
             return
         }
         
-        self.setViewControllers([viewsList[index]], direction: .forward, animated: true, completion: nil)
+        var derection: NavigationDirection = .forward
+        
+        if index < currentIndex {
+            derection = .reverse
+        }
+        
+        setViewControllers(
+            [viewsList[index]],
+            direction: derection,
+            animated: true,
+            completion: nil
+        )
+        
         completeHandler?(currentIndex)
     }
 }
 
-// MARK: - UIPageViewControllerDataSource
+// MARK: - UIPageViewController Delegate
+
+extension CoinDetailPageViewController: UIPageViewControllerDelegate {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool
+    ) {
+        if completed {
+            completeHandler?(currentIndex)
+        }
+    }
+}
+
+// MARK: - UIPageViewController DataSource
 
 extension CoinDetailPageViewController: UIPageViewControllerDataSource {
     func pageViewController(
@@ -86,10 +114,13 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
             return nil
         }
         
-        return viewsList[previousIndex]
+        return viewsList[safe: previousIndex]
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController
+    ) -> UIViewController? {
         guard let index = viewsList.firstIndex(of: viewController) else {
             return nil
         }
@@ -99,7 +130,7 @@ extension CoinDetailPageViewController: UIPageViewControllerDataSource {
         if nextIndex == viewsList.count {
             return nil
         }
-        
-        return viewsList[nextIndex]
+                
+        return viewsList[safe: nextIndex]
     }
 }
