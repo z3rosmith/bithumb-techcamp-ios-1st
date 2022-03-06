@@ -19,7 +19,7 @@ struct CandlestickAPI: Gettable {
         let url = URL(
             string: "\(baseURL.baseURL)candlestick/\(orderCurrency)_\(paymentCurrency)/\(chartIntervals)"
         )
-       
+        
         self.url = url
     }
 }
