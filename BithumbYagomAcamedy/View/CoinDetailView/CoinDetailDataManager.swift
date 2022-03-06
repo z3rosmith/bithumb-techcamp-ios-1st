@@ -95,11 +95,11 @@ extension CoinDetailDataManager {
     
     private func parseWebSocketTicker(
         to string: String
-    ) throws -> WebSocketTickerValueObjcet {
+    ) throws -> WebSocketTickerValueObject {
         do {
             let webSocketTickerValueObjcet = try JSONParser().decode(
                 string: string,
-                type: WebSocketTickerValueObjcet.self
+                type: WebSocketTickerValueObject.self
             )
             
             return webSocketTickerValueObjcet

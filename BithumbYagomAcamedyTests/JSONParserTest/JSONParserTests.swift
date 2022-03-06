@@ -75,7 +75,7 @@ class JSONParserTests: XCTestCase {
         let url = try XCTUnwrap(Bundle(for: type(of: self))
                                     .url(forResource: "WebSocketTickerJSONFile", withExtension: "json"))
         let data = try XCTUnwrap(Data(contentsOf: url))
-        let value = try XCTUnwrap(parser?.decode(data: data, type: WebSocketTickerValueObjcet.self))
+        let value = try XCTUnwrap(parser?.decode(data: data, type: WebSocketTickerValueObject.self))
         
         XCTAssertEqual(value.type, "ticker")
         XCTAssertEqual(value.webSocketTickerData.tickType, "30M")
