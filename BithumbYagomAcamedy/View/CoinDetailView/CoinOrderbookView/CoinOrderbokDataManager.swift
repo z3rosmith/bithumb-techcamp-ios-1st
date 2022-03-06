@@ -19,16 +19,16 @@ final class CoinOrderbookDataManager {
     weak var delegate: CoinOrderbookDataManagerDelegate?
     private let httpNetworkService: HTTPNetworkService
     private var webSocketService: WebSocketService
-    private var asksOrderbook: [Orderbook] = [] {
+    private var askOrderbooks: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
-            calculateTotalOrderQuantity(orderbooks: asksOrderbook, type: .ask)
+            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, bidOrderbooks: bidOrderbooks)
+            calculateTotalOrderQuantity(orderbooks: askOrderbooks, type: .ask)
         }
     }
-    private var bidsOrderbook: [Orderbook] = [] {
+    private var bidOrderbooks: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: asksOrderbook, bidOrderbooks: bidsOrderbook)
-            calculateTotalOrderQuantity(orderbooks: bidsOrderbook, type: .bid)
+            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, bidOrderbooks: bidOrderbooks)
+            calculateTotalOrderQuantity(orderbooks: bidOrderbooks, type: .bid)
         }
     }
     
@@ -62,6 +62,37 @@ extension CoinOrderbookDataManager {
         let roundedQuantity = round(totalQuantity * digit) / digit
         
         delegate?.coinOrderbookDataManager(didCalculate: roundedQuantity, type: type)
+    }
+    
+    private func updateOrderbook(
+        orderbooks: [Orderbook],
+        to currentOrderbooks: inout [Orderbook],
+        type : OrderbookType
+    ) {
+        var newOrderbooks: [String: Double] = [:]
+        var oldOrderbooks: [String: Double] = [:]
+        
+        orderbooks.forEach { orderbook in
+            newOrderbooks[orderbook.price] = Double(orderbook.quantity)
+        }
+        
+        currentOrderbooks.forEach { orderbook in
+            oldOrderbooks[orderbook.price] = Double(orderbook.quantity)
+        }
+        
+        newOrderbooks.merge(oldOrderbooks) { (new, _) in new }
+        
+        let resultOrderbooks: [Orderbook] = newOrderbooks
+            .filter { $0.value > 0 }
+            .map { Orderbook(price: $0.key, quantity: String($0.value), type: type) }
+            .sorted { $0.price > $1.price }
+        
+        if resultOrderbooks.count > 30 {
+            currentOrderbooks = resultOrderbooks.dropLast(resultOrderbooks.count - 30)
+            return
+        }
+        
+        currentOrderbooks = resultOrderbooks
     }
 }
 
@@ -105,11 +136,11 @@ extension CoinOrderbookDataManager {
     }
     
     private func setOrderbooks(from orderbook: OrderbookData) {
-        asksOrderbook = orderbook.asks.map {
+        askOrderbooks = orderbook.asks.map {
             $0.generate(type: .ask)
         }.reversed()
         
-        bidsOrderbook = orderbook.bids.map {
+        bidOrderbooks = orderbook.bids.map {
             $0.generate(type: .bid)
         }
     }
@@ -163,19 +194,21 @@ extension CoinOrderbookDataManager {
         _ orderbooks: [WebSocketOrderBookDepthData.OrderBookDepthData],
         at index: Int = Int.zero
     ) {
-        let askOrderbooks = orderbooks.filter {
+        let webSocketAskOrderbooks = orderbooks.filter {
             $0.orderType == .ask
         }.map {
             $0.generate()
         }
-        self.asksOrderbook.append(contentsOf: askOrderbooks)
         
-        let bidOrderbooks = orderbooks.filter {
+        updateOrderbook(orderbooks: webSocketAskOrderbooks, to: &askOrderbooks, type: .ask)
+        
+        let webSocketBidOrderbooks = orderbooks.filter {
             $0.orderType == .bid
         }.map {
             $0.generate()
         }
-        self.bidsOrderbook.insert(contentsOf: bidOrderbooks, at: Int.zero)
+
+        updateOrderbook(orderbooks: webSocketBidOrderbooks, to: &bidOrderbooks, type: .bid)
     }
 }
 
