@@ -50,3 +50,31 @@ struct WebSocketTransactionData: Decodable {
         case down = "dn"
     }
 }
+
+// MARK: - Generate
+
+extension WebSocketTransactionData.WebSocketTransaction {
+    func generate() -> Transaction {
+        let type = convert(type: type)
+        let removedMillisecondDate = removeMillisecond(date: date)
+        
+        return Transaction(
+            date: removedMillisecondDate,
+            type: type,
+            price: price,
+            quantity: quantity
+        )
+    }
+    
+    private func convert(type: WebSocketTransactionData.TransactionType) -> TransactionType {
+        return type == .bid ? .bid : .ask
+    }
+    
+    private func removeMillisecond(date: String) -> String {
+        if let removedMillisecondDate = date.components(separatedBy: ".").first {
+            return removedMillisecondDate
+        }
+        
+        return String()
+    }
+}

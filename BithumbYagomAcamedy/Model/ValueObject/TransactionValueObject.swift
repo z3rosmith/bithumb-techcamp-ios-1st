@@ -24,3 +24,22 @@ struct TransactionData: Decodable {
     let price: String
     let total: String
 }
+
+// MARK: - Generate
+
+extension TransactionData {
+    func generate() -> Transaction {
+        let type = convert(type: type)
+        
+        return Transaction(
+            date: transactionDate,
+            type: type,
+            price: price,
+            quantity: unitsTraded
+        )
+    }
+    
+    private func convert(type: String) -> TransactionType {
+        return type == "bid" ? .bid : .ask
+    }
+}
