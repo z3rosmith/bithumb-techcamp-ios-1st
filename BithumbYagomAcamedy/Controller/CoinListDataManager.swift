@@ -151,37 +151,43 @@ extension CoinListDataManager {
     }
     
     private func fetchCurrentPrice() {
-        var count: Int = 0
-        let serialQueue = DispatchQueue(label: "serial")
-        
-        for i in 0..<allCoinList.count {
-            let api = TransactionHistoryAPI(orderCurrency: allCoinList[i].symbolName)
-            httpNetworkService.request(api: api) { [weak self] result in
+        let group = DispatchGroup()
+        for i in 0..<self.allCoinList.count {
+            group.enter()
+            let api = TransactionHistoryAPI(orderCurrency: self.allCoinList[i].symbolName)
+            self.httpNetworkService.request(api: api) { [weak self] result in
+                defer {
+                    group.leave()
+                }
                 switch result {
                 case .success(let data):
-                    do {
-                        let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
-                        guard response.status == self?.successStatusCode else {
-                            print(response.status)
-                            return
-                        }
-                        if let firstItem = response.transaction.first {
-                            self?.allCoinList[i].currentPrice = Double(firstItem.price)
-                            serialQueue.async {
-                                count += 1
-                                if count == self?.allCoinList.count,
-                                   let self = self {
-                                    self.sortCoinList(what: .sortBoth, by: .popularity(isDescend: true), filteredBy: nil)
-                                }
-                            }
-                        }
-                    } catch {
-                        print(error.localizedDescription)
+                    guard let transactionValueObject = try? self?.parsedTranscationValueObject(from: data),
+                          let transactionData = transactionValueObject.transaction.first
+                    else {
+                        return
                     }
+                    self?.allCoinList[i].currentPrice = Double(transactionData.price)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
+        }
+        group.notify(queue: .main) { [weak self] in
+            self?.sortCoinList(what: .sortBoth, by: .popularity(isDescend: true), filteredBy: nil)
+        }
+    }
+    
+    private func parsedTranscationValueObject(from data: Data) throws -> TranscationValueObject? {
+        do {
+            let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
+            guard response.status == successStatusCode else {
+                print(response.status)
+                return nil
+            }
+            return response
+        } catch {
+            print(error.localizedDescription)
+            throw error
         }
     }
 }

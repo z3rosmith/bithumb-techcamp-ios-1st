@@ -72,7 +72,7 @@ extension Coin {
         }
         
         if changeRate > 0 {
-            return "+" + String(changeRate)
+            return "+" + String(changeRate) + "%"
         }
         
         return String(changeRate) + "%"
