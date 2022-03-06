@@ -27,6 +27,9 @@ final class CoinListViewController: UIViewController {
     
     // MARK: - IBOutlet
     
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var coinListMenuStackView: CoinListMenuStackView!
+    @IBOutlet private weak var sortButtonStackView: UIStackView!
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
     
     // MARK: - Property
@@ -38,10 +41,12 @@ final class CoinListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSearchBar()
         configureCollectionView()
         configureDataSource()
         configureCoinListController()
         coinListDataManager.fetchCoinList()
+        configureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,78 +61,105 @@ final class CoinListViewController: UIViewController {
     
     // MARK: - IBAction
     
-    @IBAction func nameButtonTapped(_ sender: UIButton) {
-        if sender.isSelected {
-            coinListDataManager.coinSortAction = { $0.callingName > $1.callingName }
-        } else {
-            coinListDataManager.coinSortAction = { $0.callingName < $1.callingName }
-        }
-        sender.isSelected.toggle()
+    @IBAction func favoriteCoinButtonTapped(_ sender: UIButton) {
+        coinListMenuStackView.moveUnderLine(index: 0)
+        coinListCollectionView.setContentOffset(.zero, animated: false)
     }
     
-    @IBAction func priceButtonTapped(_ sender: UIButton) {
-        if sender.isSelected {
-            coinListDataManager.coinSortAction = {
-                let first = $0.currentPrice ?? -Double.greatestFiniteMagnitude
-                let second = $1.currentPrice ?? -Double.greatestFiniteMagnitude
-                return first > second
-            }
-        } else {
-            coinListDataManager.coinSortAction = {
-                let first = $0.currentPrice ?? Double.greatestFiniteMagnitude
-                let second = $1.currentPrice ?? Double.greatestFiniteMagnitude
-                return first < second
-            }
-        }
-        sender.isSelected.toggle()
-    }
-    
-    @IBAction func changeRateButtonTapped(_ sender: UIButton) {
-        if sender.isSelected {
-            coinListDataManager.coinSortAction = {
-                let first = $0.changeRate ?? -Double.greatestFiniteMagnitude
-                let second = $1.changeRate ?? -Double.greatestFiniteMagnitude
-                return first > second
-            }
-        } else {
-            coinListDataManager.coinSortAction = {
-                let first = $0.changeRate ?? Double.greatestFiniteMagnitude
-                let second = $1.changeRate ?? Double.greatestFiniteMagnitude
-                return first < second
-            }
-        }
-        sender.isSelected.toggle()
+    @IBAction func allCoinButtonTapped(_ sender: UIButton) {
+        coinListMenuStackView.moveUnderLine(index: 1)
+        scrollToAllSectionHeader()
     }
     
     @IBAction func popularityButtonTapped(_ sender: UIButton) {
-        if sender.isSelected {
-            coinListDataManager.coinSortAction = {
-                let first = $0.popularity ?? -Double.greatestFiniteMagnitude
-                let second = $1.popularity ?? -Double.greatestFiniteMagnitude
-                return first > second
-            }
-        } else {
-            coinListDataManager.coinSortAction = {
-                let first = $0.popularity ?? Double.greatestFiniteMagnitude
-                let second = $1.popularity ?? Double.greatestFiniteMagnitude
-                return first < second
-            }
-        }
         sender.isSelected.toggle()
+        coinListDataManager.sortCoinList(
+            what: .sortAll,
+            by: .popularity(isDescend: sender.isSelected),
+            filteredBy: searchBar.text
+        )
+        restoreSortButtons(exclude: sender)
+    }
+    
+    @IBAction func nameButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        coinListDataManager.sortCoinList(
+            what: .sortAll,
+            by: .name(isDescend: sender.isSelected),
+            filteredBy: searchBar.text
+        )
+        restoreSortButtons(exclude: sender)
+    }
+    
+    @IBAction func priceButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        coinListDataManager.sortCoinList(
+            what: .sortAll,
+            by: .price(isDescend: sender.isSelected),
+            filteredBy: searchBar.text
+        )
+        restoreSortButtons(exclude: sender)
+    }
+    
+    @IBAction func changeRateButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        coinListDataManager.sortCoinList(
+            what: .sortAll,
+            by: .changeRate(isDescend: sender.isSelected),
+            filteredBy: searchBar.text
+        )
+        restoreSortButtons(exclude: sender)
+    }
+    
+    // MARK: - Helper
+    
+    private func scrollToAllSectionHeader() {
+        if let layout = coinListCollectionView.collectionViewLayout as? UICollectionViewCompositionalLayout,
+           let headerLayoutAttr = layout.layoutAttributesForSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            at: IndexPath(item: 0, section: 1)
+           ) {
+            let sectionHeaderOrigin = headerLayoutAttr.frame.origin
+            let point = CGPoint(x: sectionHeaderOrigin.x, y: sectionHeaderOrigin.y + 2)
+            coinListCollectionView.setContentOffset(point, animated: false)
+        }
+    }
+    
+    private func restoreSortButtons(exclude button: UIButton) {
+        sortButtonStackView
+            .subviews
+            .compactMap { $0 as? UIButton }
+            .filter { $0 != button }
+            .forEach {
+                $0.isSelected = false
+            }
     }
 }
 
 // MARK: - Configuration
 
 extension CoinListViewController {
-    func configureCoinListController() {
+    private func configureCoinListController() {
         coinListDataManager.delegate = self
     }
     
-    func configureDataSource() {
+    private func configureButton() {
+        if let sortByPopularityButton = sortButtonStackView.subviews.first as? UIButton {
+            sortByPopularityButton.isSelected = true
+        }
+    }
+    
+    private func configureDataSource() {
         let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
         let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, Coin>(cellNib: cellNib) { cell, indexPath, item in
             cell.update(item: item)
+            cell.toggleFavorite = { [weak self] in
+                self?.coinListDataManager.toggleFavorite(
+                    coinCallingName: item.callingName,
+                    isAlreadyFavorite: item.isFavorite,
+                    filteredBy: self?.searchBar.text
+                )
+            }
         }
         dataSource = UICollectionViewDiffableDataSource<Section, Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
@@ -148,9 +180,33 @@ extension CoinListViewController {
         }
     }
     
-    func configureCollectionView() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+    private func configureSearchBar() {
+        searchBar.delegate = self
+    }
+    
+    private func configureCollectionView() {
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.headerMode = .supplementary
+        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            guard let item = self?.dataSource?.itemIdentifier(for: indexPath) else {
+                return nil
+            }
+            let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+                self?.coinListDataManager.toggleFavorite(
+                    coinCallingName: item.callingName,
+                    isAlreadyFavorite: item.isFavorite,
+                    filteredBy: self?.searchBar.text
+                )
+                completion(true)
+            }
+            favoriteAction.backgroundColor = .systemOrange
+            if item.isFavorite {
+                favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(.white)
+            } else {
+                favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(.white)
+            }
+            return UISwipeActionsConfiguration(actions: [favoriteAction])
+        }
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.delegate = self
     }
@@ -159,13 +215,13 @@ extension CoinListViewController {
 // MARK: - Snapshot
 
 extension CoinListViewController {
-    func applySnapshot() {
-        let allCoinList = coinListDataManager.sortedCoinList()
+    func applySnapshot(favoriteCoinList: [Coin], allCoinList: [Coin]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Coin>()
-        snapshot.appendSections([.all])
+        snapshot.appendSections([.favorite, .all])
+        snapshot.appendItems(favoriteCoinList, toSection: .favorite)
         snapshot.appendItems(allCoinList, toSection: .all)
         DispatchQueue.main.async {
-            self.dataSource?.apply(snapshot, animatingDifferences: true)
+            self.dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
 }
@@ -173,27 +229,39 @@ extension CoinListViewController {
 // MARK: - CoinListDataSourceDelegate
 
 extension CoinListViewController: CoinListDataManagerDelegate {
-    func coinListDataManagerDidSetCoinSortAction() {
-        applySnapshot()
+    func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
+        applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
     }
     
-    func coinListDataManagerDidFetchCurrentPrice() {
-        applySnapshot()
+    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin]) {
+        applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension CoinListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let coin = dataSource?.itemIdentifier(for: indexPath)
+        collectionView.deselectItem(at: indexPath, animated: false)
         
+        let coin = dataSource?.itemIdentifier(for: indexPath)
         let coinDetailStoryBoard = UIStoryboard(name: "CoinDetail", bundle: nil)
+        
         guard let coinDetailViewController = coinDetailStoryBoard.instantiateViewController(
             withIdentifier: "CoinDetailViewController"
         ) as? CoinDetailViewController else {
             return
         }
-        coinDetailViewController.coin = coin
         
+        coinDetailViewController.coin = coin
         navigationController?.show(coinDetailViewController, sender: nil)
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension CoinListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        coinListDataManager.filterCoinList(by: searchText)
     }
 }
