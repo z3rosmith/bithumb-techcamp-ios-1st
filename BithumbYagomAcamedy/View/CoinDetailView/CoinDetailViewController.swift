@@ -101,7 +101,7 @@ extension CoinDetailViewController {
 }
 
 extension CoinDetailViewController: CoinDetailDataManagerDelegate {
-    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin?) {
+    func coinDetailDataManager(didChange coin: DetailViewCoin?) {
         guard let coin = coin else {
             return
         }

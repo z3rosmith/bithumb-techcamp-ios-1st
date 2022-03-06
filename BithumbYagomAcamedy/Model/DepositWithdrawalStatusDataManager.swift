@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DepositWithdrawalStatusDataManagerDelegate {
+protocol DepositWithdrawalStatusDataManagerDelegate: AnyObject {
     func depositWithdrawalStatusDataManagerDidSetData(_ statuses: [AssetsStatus])
 }
 
@@ -33,7 +33,7 @@ final class DepositWithdrawalStatusDataManager {
     private var statuses: [AssetsStatus]
     private var filteredStatuses: [AssetsStatus]
     
-    var delegate: DepositWithdrawalStatusDataManagerDelegate?
+    weak var delegate: DepositWithdrawalStatusDataManagerDelegate?
     
     // MARK: - Initializer
     

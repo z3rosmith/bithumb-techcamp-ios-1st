@@ -11,9 +11,18 @@ final class CoinDetailMenuStackView: UIStackView {
     
     // MARK: - Property
     
+    @IBInspectable var layerColor: UIColor {
+        get {
+            let color = underLineLayer.backgroundColor ?? UIColor.clear.cgColor
+            return UIColor(cgColor: color)
+        }
+        set {
+            underLineLayer.backgroundColor = newValue.cgColor
+        }
+    }
+    
     private lazy var underLineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.backgroundColor = UIColor.label.cgColor
         
         guard let firstButtonFrame = subviews.first?.frame else {
             return layer
@@ -50,11 +59,7 @@ final class CoinDetailMenuStackView: UIStackView {
     private func configureUnderLine() {
         layer.addSublayer(underLineLayer)
     }
-        
-    @objc private func moveUnderLine(_ sender: UIButton) {
-        
-    }
-    
+
     // MARK: - Method
     
     func moveUnderLine(index: Int) {

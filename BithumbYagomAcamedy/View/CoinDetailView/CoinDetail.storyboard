@@ -58,6 +58,11 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layerColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UKg-gS-b0A" customClass="CoinDetailPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
                                 <rect key="frame" x="4" y="48" width="207" height="98"/>

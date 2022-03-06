@@ -8,53 +8,11 @@
 import Foundation
 
 protocol CoinDetailDataManagerDelegate: AnyObject {
-    func coinDetailDataManager(didChange coin: CoinDetailDataManager.DetailViewCoin?)
+    func coinDetailDataManager(didChange coin: DetailViewCoin?)
 }
 
 final class CoinDetailDataManager {
-    
-    // MARK: - Nested Type
-    
-    struct DetailViewCoin {
-        let name: String
-        var price: Double?
-        var changePrice: Double?
-        var changeRate: Double?
         
-        // MARK: - DetailViewCoin Computed Property
-        
-        var commaPrice: String {
-            guard let price = price else {
-                return "오류 발생"
-            }
-            
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            
-            return formatter.string(for: price) ?? String()
-        }
-        
-        var changePriceString: String {
-            guard let changePrice = changePrice else {
-                return "오류 발생"
-            }
-            
-            if changePrice > 0 {
-                return "+" + String(changePrice)
-            }
-            
-            return String(changePrice)
-        }
-        
-        var changeRateString: String {
-            guard let changeRate = changeRate else {
-                return "오류 발생"
-            }
-            
-            return String(changeRate) + "%"
-        }
-    }
-    
     // MARK: - Property
     
     weak var delegate: CoinDetailDataManagerDelegate?
@@ -105,7 +63,7 @@ extension CoinDetailDataManager {
 
 extension CoinDetailDataManager {
     func fetchTickerWebSocket() {
-        guard let symbol = detailCoin?.name else {
+        guard let symbol = detailCoin?.symbol else {
             return
         }
         
@@ -127,8 +85,8 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                self?.detailCoin?.changePrice = Double(changePrice)
-                self?.detailCoin?.changeRate = Double(changeRate)
+                self?.detailCoin?.setChangePrice(Double(changePrice))
+                self?.detailCoin?.setChangeRate(Double(changeRate))
             default:
                 break
             }
@@ -137,11 +95,11 @@ extension CoinDetailDataManager {
     
     private func parseWebSocketTicker(
         to string: String
-    ) throws -> WebSocketTickerValueObjcet {
+    ) throws -> WebSocketTickerValueObject {
         do {
             let webSocketTickerValueObjcet = try JSONParser().decode(
                 string: string,
-                type: WebSocketTickerValueObjcet.self
+                type: WebSocketTickerValueObject.self
             )
             
             return webSocketTickerValueObjcet
@@ -157,7 +115,7 @@ extension CoinDetailDataManager {
 
 extension CoinDetailDataManager {
     func fetchTransactionWebSocket() {
-        guard let symbol = detailCoin?.name else {
+        guard let symbol = detailCoin?.symbol else {
             return
         }
         
@@ -179,7 +137,7 @@ extension CoinDetailDataManager {
                     return
                 }
                 
-                self?.detailCoin?.price = Double(latestTransaction.price)
+                self?.detailCoin?.setPrice(Double(latestTransaction.price))
             default:
                 break
             }
