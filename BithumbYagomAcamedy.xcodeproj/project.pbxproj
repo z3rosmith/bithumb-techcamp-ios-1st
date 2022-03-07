@@ -24,6 +24,7 @@
 		0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */; };
 		08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */; };
 		08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E627CD2211005553BD /* OrderBookDepth.swift */; };
+		08ADD5A527D6355A00AFC950 /* BallonSpeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */; };
 		08AF803127C742AB00790762 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803027C742AB00790762 /* APIable.swift */; };
 		08AF803427C7452300790762 /* URLRequest+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803327C7452300790762 /* URLRequest+extension.swift */; };
 		08AF803627C755A600790762 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803527C755A600790762 /* URLSession+extension.swift */; };
@@ -138,6 +139,7 @@
 		0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServicable.swift; sourceTree = "<group>"; };
 		08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionWebSocket.swift; sourceTree = "<group>"; };
 		08A5A8E627CD2211005553BD /* OrderBookDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDepth.swift; sourceTree = "<group>"; };
+		08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallonSpeakView.swift; sourceTree = "<group>"; };
 		08AF803027C742AB00790762 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		08AF803327C7452300790762 /* URLRequest+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+extension.swift"; sourceTree = "<group>"; };
 		08AF803527C755A600790762 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 				08F5EA4627C626350031EF4C /* CoinList.storyboard */,
 				371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */,
 				371D997A27C77C5E000368AC /* CoinListCollectionViewCell.xib */,
+				08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */,
 			);
 			path = CoinListView;
 			sourceTree = "<group>";
@@ -810,6 +813,7 @@
 				08B46DB627D08D1D0072CBBF /* Result+extension.swift in Sources */,
 				37E61AF827D34B8C00FE0B83 /* Candlestick.swift in Sources */,
 				08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */,
+				08ADD5A527D6355A00AFC950 /* BallonSpeakView.swift in Sources */,
 				37E61AFC27D35E0700FE0B83 /* CoinCandleChartDataSet.swift in Sources */,
 				08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */,
 				37A15ACE27C61D0A00585F4A /* MainTabBarController.swift in Sources */,
