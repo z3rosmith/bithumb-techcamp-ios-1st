@@ -190,7 +190,7 @@ extension CoinDetailDataManager {
                 return
             }
             
-            self?.drawChart(from: candlestickValueObject)
+            self?.setupChartData(from: candlestickValueObject)
         }
     }
     
@@ -208,7 +208,7 @@ extension CoinDetailDataManager {
         }
     }
     
-    private func drawChart(from candlestickValueObject: CandlestickValueObject) {
+    private func setupChartData(from candlestickValueObject: CandlestickValueObject) {
         let threeMonthsAgo = Date().timeIntervalSince1970 - (86400 * 90)
         
         let openPrice = candlestickValueObject.data
