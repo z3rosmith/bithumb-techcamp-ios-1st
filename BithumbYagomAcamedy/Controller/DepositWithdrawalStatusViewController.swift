@@ -78,7 +78,10 @@ final class DepositWithdrawalStatusViewController: UIViewController {
     // MARK: - IBAction
     
     @IBAction func filterSegmentedControlValueChanged(_ sender: Any) {
-        dataManager?.filteredStatuses(by: .init(rawValue: filterSegmentedControl.selectedSegmentIndex))
+        dataManager?.filteredStatuses(
+            by: .init(rawValue: filterSegmentedControl.selectedSegmentIndex),
+            with: statusSearchBar.text ?? ""
+        )
         nameSortButton.restoreButton()
         depositSortButton.restoreButton()
         withdrawalSortButton.restoreButton()
@@ -109,7 +112,14 @@ final class DepositWithdrawalStatusViewController: UIViewController {
 
 extension DepositWithdrawalStatusViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        dataManager?.containedStatuses(in: searchText)
+        dataManager?.filteredStatuses(
+            by: .init(rawValue: filterSegmentedControl.selectedSegmentIndex),
+            with: searchText
+        )
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 
