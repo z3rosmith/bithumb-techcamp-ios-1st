@@ -13,11 +13,11 @@ struct CandlestickAPI: Gettable {
     init(
         orderCurrency: String = "BTC",
         paymentCurrency: String = "KRW",
-        chartIntervals: DateFormat = .hour24,
+        tickType: TickType = .hour24,
         baseURL: BaseURLable = BithumbPublicAPIURL()
     ) {
         let url = URL(
-            string: "\(baseURL.baseURL)candlestick/\(orderCurrency)_\(paymentCurrency)/\(chartIntervals)"
+            string: "\(baseURL.baseURL)candlestick/\(orderCurrency)_\(paymentCurrency)/\(tickType)"
         )
         
         self.url = url

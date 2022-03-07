@@ -10,6 +10,7 @@ import Charts
 
 final class CoinChartViewController: UIViewController {
     @IBOutlet private weak var coinChartView: CandleStickChartView!
+    @IBOutlet weak var timeSegmentedControl: UISegmentedControl!
     private var dataManager: CoinChartDataManager?
     private var coin: String = "BTC"
     
@@ -34,8 +35,21 @@ final class CoinChartViewController: UIViewController {
     private func configureDataManager() {
         dataManager = CoinChartDataManager(symbol: coin)
         dataManager?.delegate = self
-        dataManager?.requestChart()
-        dataManager?.requestRealTimeChart()
+        requestChartData()
+    }
+    
+    @IBAction func timeSegmentedControlValueChanged(_ sender: Any) {
+        requestChartData()
+    }
+    
+    private func requestChartData() {
+        guard let tickType = TickType(
+            rawValue: timeSegmentedControl.selectedSegmentIndex
+        ) else {
+            return
+        }
+        
+        dataManager?.changeTickType(to: tickType)
     }
 }
 

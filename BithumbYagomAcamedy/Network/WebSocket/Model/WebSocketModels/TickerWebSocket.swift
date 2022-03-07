@@ -18,7 +18,7 @@ struct TickerWebSocket: WebSocketable {
     
     init(
         symbol: String,
-        tickType: TickType = .hour24,
+        tickType: TickType? = .hour24,
         url: BithumbWebSocketURL = BithumbWebSocketURL()
     ) {
         self.url = URL(string: url.baseURL)

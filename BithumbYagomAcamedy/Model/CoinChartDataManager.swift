@@ -14,23 +14,23 @@ protocol CoinChartDataManagerDelegate: AnyObject {
 final class CoinChartDataManager {
     private let httpService: HTTPNetworkService
     private var webSocketService: WebSocketService
+    private let symbol: String
+    private var tickType: TickType
     private var candlesticks: [Candlestick] {
         didSet {
             delegate?.coinChartDataManager(didSet: candlesticks)
         }
     }
-    private let symbol: String
-    private let formatType: DateFormat
     weak var delegate: CoinChartDataManagerDelegate?
     
     init(
         symbol: String,
-        formatType: DateFormat = .hour24,
+        tickType: TickType = .hour24,
         httpService: HTTPNetworkService = HTTPNetworkService(),
         webSocketService: WebSocketService = WebSocketService()
     ) {
         self.symbol = symbol
-        self.formatType = formatType
+        self.tickType = tickType
         self.httpService = httpService
         self.webSocketService = webSocketService
         self.candlesticks = []
@@ -40,8 +40,29 @@ final class CoinChartDataManager {
         webSocketService.close()
     }
     
-    func requestChart() {
-        httpService.request(api: CandlestickAPI(orderCurrency: symbol)) { [weak self] result in
+    func changeTickType(to tickType: TickType) {
+        self.tickType = tickType
+        webSocketService.close()
+        requestChart()
+        requestRealTimeChart()
+    }
+    
+    func xAxisDateString() -> [String] {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = tickType.dateFormat
+        
+        return candlesticks.map { candlestick in
+            let date = Date(timeIntervalSince1970: candlestick.time)
+            
+            return dateFormatter.string(from: date)
+        }
+    }
+    
+    private func requestChart() {
+        let api = CandlestickAPI(orderCurrency: symbol, tickType: tickType)
+        
+        httpService.request(api: api) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let candlestickValueObject = try? self?.parsedCandlestickValueObject(from: data) else {
@@ -56,8 +77,8 @@ final class CoinChartDataManager {
         }
     }
     
-    func requestRealTimeChart() {
-        let api = TickerWebSocket(symbol: symbol)
+    private func requestRealTimeChart() {
+        let api = TickerWebSocket(symbol: symbol, tickType: tickType)
         
         webSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {
@@ -68,9 +89,13 @@ final class CoinChartDataManager {
             
             switch message {
             case .string(let string):
-                guard let tickerData = try? self?.parsedWebSocketTickerValueObject(string: string).webSocketTickerData else {
+                guard let ticketValueObject = try? self?.parsedWebSocketTickerValueObject(
+                    string: string
+                ) else {
                     return
                 }
+                
+                let tickerData = ticketValueObject.webSocketTickerData
                 
                 self?.update(candlesticks: tickerData)
             default:
@@ -79,29 +104,19 @@ final class CoinChartDataManager {
         }
     }
     
-    func xAxisDateString() -> [String] {
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = formatType.format
-        
-        return candlesticks.map { candlestick in
-            let date = Date(timeIntervalSince1970: candlestick.time)
-            
-            return dateFormatter.string(from: date)
-        }
-    }
-    
     private func update(candlesticks tickerData: WebSocketTickerData) {
-        guard let updateCandlestick = Candlestick(ticker: tickerData),
+        guard let updateCandlestick = Candlestick(ticker: tickerData, tickType: tickType),
               let recentCandlestick = candlesticks.last else {
             return
         }
         let remainTime = updateCandlestick.time - recentCandlestick.time
         
-        if Int(remainTime) < formatType.second {
-            candlesticks[candlesticks.index(before: candlesticks.endIndex)] = updateCandlestick
-        } else {
+        if remainTime == tickType.second {
             candlesticks.append(updateCandlestick)
+        } else {
+            let lastIndex = candlesticks.index(before: candlesticks.endIndex)
+            
+            candlesticks[lastIndex] = updateCandlestick
         }
     }
     

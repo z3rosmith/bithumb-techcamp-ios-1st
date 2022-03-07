@@ -1,29 +1,35 @@
 //
-//  DateFormat.swift
+//  TickType.swift
 //  BithumbYagomAcamedy
 //
-//  Created by Oh Donggeon on 2022/03/05.
+//  Created by Oh Donggeon on 2022/03/07.
 //
 
 import Foundation
 
-enum DateFormat: CustomStringConvertible {
+enum TickType: Int, CustomStringConvertible {
     case minute1
     case minute10
     case minute30
     case hour1
     case hour24
     
-    var format: String {
+    var description: String {
         switch self {
-        case .minute1, .minute10, .minute30, .hour1:
-            return "yy.MM.dd HH:mm"
+        case .minute1:
+            return "1M"
+        case .minute10:
+            return "10M"
+        case .minute30:
+            return "30M"
+        case .hour1:
+            return "1H"
         case .hour24:
-            return "yy.MM.dd"
+            return "24H"
         }
     }
     
-    var second: Int {
+    var second: Double {
         switch self {
         case .minute1:
             return 60
@@ -38,18 +44,12 @@ enum DateFormat: CustomStringConvertible {
         }
     }
     
-    var description: String {
+    var dateFormat: String {
         switch self {
-        case .minute1:
-            return "1m"
-        case .minute10:
-            return "10m"
-        case .minute30:
-            return "30m"
-        case .hour1:
-            return "1h"
+        case .minute1, .minute10, .minute30, .hour1:
+            return "yy.MM.dd HH:mm"
         case .hour24:
-            return "24h"
+            return "yy.MM.dd"
         }
     }
 }

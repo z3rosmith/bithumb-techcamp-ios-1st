@@ -41,11 +41,27 @@ struct Candlestick {
         self.volume = volume
     }
     
-    init?(ticker: WebSocketTickerData) {
+    init?(ticker: WebSocketTickerData, tickType: TickType) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        let date = formatter.date(from: ticker.date)
-        guard let time = date?.timeIntervalSince1970,
+        let startIndex = ticker.time.startIndex
+        let endIndex = ticker.time.endIndex
+        var dateString: String
+        
+        switch tickType {
+        case .minute1, .minute10, .minute30:
+            let lastIndex = ticker.time.index(endIndex, offsetBy: -2)
+            formatter.dateFormat =  "yyyyMMddHHmm"
+            dateString = ticker.date + ticker.time[startIndex..<lastIndex]
+        case .hour1:
+            formatter.dateFormat =  "yyyyMMddHH"
+            let lastIndex = ticker.time.index(endIndex, offsetBy: -4)
+            dateString = ticker.date + ticker.time[startIndex..<lastIndex]
+        case .hour24:
+            formatter.dateFormat = "yyyyMMdd"
+            dateString = ticker.date
+        }
+        
+        guard let date = formatter.date(from: dateString),
               let openPrice = Double(ticker.openPrice),
               let closePrice = Double(ticker.closePrice),
               let lowPrice = Double(ticker.lowPrice),
@@ -53,8 +69,10 @@ struct Candlestick {
               let volume = Double(ticker.volume) else {
                   return nil
               }
+        let sliceUnit = Int(date.timeIntervalSince1970 / tickType.second)
+        let timeUnit = Double(sliceUnit) * tickType.second
         
-        self.time = Double(time)
+        self.time = timeUnit
         self.openPrice = openPrice
         self.closePrice = closePrice
         self.lowPrice = lowPrice
