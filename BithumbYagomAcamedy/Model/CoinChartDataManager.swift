@@ -9,6 +9,8 @@ import Foundation
 
 protocol CoinChartDataManagerDelegate: AnyObject {
     func coinChartDataManager(didSet candlesticks: [Candlestick])
+    func coinChartDataManager(didUpdate candlestick: Candlestick)
+    func coinChartDataManager(didAdd candlestick: Candlestick)
 }
 
 final class CoinChartDataManager {
@@ -16,11 +18,7 @@ final class CoinChartDataManager {
     private var webSocketService: WebSocketService
     private let symbol: String
     private var tickType: TickType
-    private var candlesticks: [Candlestick] {
-        didSet {
-            delegate?.coinChartDataManager(didSet: candlesticks)
-        }
-    }
+    private var candlesticks: [Candlestick]
     weak var delegate: CoinChartDataManagerDelegate?
     
     init(
@@ -71,6 +69,7 @@ final class CoinChartDataManager {
                 let candlesticks = candlestickValueObject.data.compactMap { Candlestick(array: $0) }
                 
                 self?.candlesticks = candlesticks
+                self?.delegate?.coinChartDataManager(didSet: candlesticks)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -97,14 +96,14 @@ final class CoinChartDataManager {
                 
                 let tickerData = ticketValueObject.webSocketTickerData
                 
-                self?.update(candlesticks: tickerData)
+                self?.update(candlestick: tickerData)
             default:
                 break
             }
         }
     }
     
-    private func update(candlesticks tickerData: WebSocketTickerData) {
+    private func update(candlestick tickerData: WebSocketTickerData) {
         guard let updateCandlestick = Candlestick(ticker: tickerData, tickType: tickType),
               let recentCandlestick = candlesticks.last else {
             return
@@ -113,10 +112,12 @@ final class CoinChartDataManager {
         
         if remainTime == tickType.second {
             candlesticks.append(updateCandlestick)
+            delegate?.coinChartDataManager(didAdd: updateCandlestick)
         } else {
             let lastIndex = candlesticks.index(before: candlesticks.endIndex)
             
             candlesticks[lastIndex] = updateCandlestick
+            delegate?.coinChartDataManager(didUpdate: updateCandlestick)
         }
     }
     
