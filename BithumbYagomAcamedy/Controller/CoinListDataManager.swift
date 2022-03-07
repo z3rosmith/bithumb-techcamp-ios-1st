@@ -7,46 +7,106 @@
 
 import Foundation
 
-protocol CoinListDataManagerDelegate {
-    func coinListDataManagerDidFetchCurrentPrice()
-    func coinListDataManagerDidSetCoinSortAction()
+protocol CoinListDataManagerDelegate: AnyObject {
+    func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
+    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin])
 }
 
 final class CoinListDataManager {
     
-    typealias CoinSortAction = (Coin, Coin) -> Bool
+    // MARK: - Nested Type
+    
+    enum SortType {
+        case popularity(isDescend: Bool)
+        case name(isDescend: Bool)
+        case price(isDescend: Bool)
+        case changeRate(isDescend: Bool)
+    }
+    
+    enum SortOption {
+        case sortFavorite
+        case sortAll
+        case sortBoth
+    }
     
     // MARK: - Property
     
+    weak var delegate: CoinListDataManagerDelegate?
     private let successStatusCode = "0000"
-    private let networkService: HTTPNetworkService
-    private var coinList: [Coin] = []
-    var delegate: CoinListDataManagerDelegate?
-    var coinSortAction: CoinSortAction? {
-        didSet {
-            delegate?.coinListDataManagerDidSetCoinSortAction()
-        }
-    }
+    private let httpNetworkService: HTTPNetworkService
+    private var favoriteCoinList: [Coin] = []
+    private var allCoinList: [Coin] = []
+    
+    private var currentFavoriteSortType: SortType
+    private var currentAllSortType: SortType
     
     // MARK: - Init
     
-    init(networkService: HTTPNetworkService = HTTPNetworkService()) {
-        self.networkService = networkService
+    init(
+        httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
+        initialSortType: SortType = .popularity(isDescend: true)
+    ) {
+        self.httpNetworkService = httpNetworkService
+        self.currentFavoriteSortType = initialSortType
+        self.currentAllSortType = initialSortType
     }
 }
 
 // MARK: - Data Processing
 
 extension CoinListDataManager {
-    func sortedCoinList() -> [Coin] {
-        guard let coinSortAction = coinSortAction else {
-            return coinList.sorted {
-                let first = $0.popularity ?? -Double.greatestFiniteMagnitude
-                let second = $1.popularity ?? -Double.greatestFiniteMagnitude
-                return first > second
-            }
+    func toggleFavorite(coinCallingName: String, isAlreadyFavorite: Bool, filteredBy text: String?) {
+        guard let indexInAllCoinList = allCoinList.firstIndex(where: {
+            $0.callingName == coinCallingName
+        }) else {
+            return
         }
-        return coinList.sorted(by: coinSortAction)
+        
+        if isAlreadyFavorite {
+            if let index = favoriteCoinList.firstIndex(where: {
+                $0.callingName == coinCallingName
+            }) {
+                favoriteCoinList.remove(at: index)
+            }
+        } else {
+            let favoritedCoin = Coin(toggleFavorite: allCoinList[indexInAllCoinList])
+            favoriteCoinList.append(favoritedCoin)
+        }
+        
+        allCoinList[indexInAllCoinList].isFavorite.toggle()
+        
+        let sortedFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
+        let sortedAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)
+        
+        delegate?.coinListDataManager(didToggleFavorite: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
+    }
+    
+    func sortCoinList(what list: SortOption, by sortType: SortType, filteredBy text: String?) {
+        var sortedFavoriteCoinList: [Coin] = favoriteCoinList
+        var sortedAllCoinList: [Coin] = allCoinList
+        
+        switch list {
+        case .sortFavorite:
+            currentFavoriteSortType = sortType
+            sortedFavoriteCoinList = favoriteCoinList.sorted(by: sortType).filter(by: text)
+        case .sortAll:
+            currentAllSortType = sortType
+            sortedAllCoinList = allCoinList.sorted(by: sortType).filter(by: text)
+        case .sortBoth:
+            currentFavoriteSortType = sortType
+            currentAllSortType = sortType
+            sortedFavoriteCoinList = favoriteCoinList.sorted(by: sortType).filter(by: text)
+            sortedAllCoinList = allCoinList.sorted(by: sortType).filter(by: text)
+        }
+        
+        delegate?.coinListDataManager(didChangeCoinList: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
+    }
+    
+    func filterCoinList(by text: String) {
+        let filteredFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
+        let filteredAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)
+        
+        delegate?.coinListDataManager(didChangeCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
     }
 }
 
@@ -54,7 +114,7 @@ extension CoinListDataManager {
 
 extension CoinListDataManager {
     func fetchCoinList() {
-        networkService.request(api: TickerAPI()) { [weak self] result in
+        httpNetworkService.request(api: TickerAPI()) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -81,89 +141,121 @@ extension CoinListDataManager {
                     currentPrice: 0,
                     changeRate: Double(tickerData.fluctateRate24Hour),
                     changePrice: Double(tickerData.fluctate24Hour),
-                    popularity: Double(tickerData.accTradeValue24Hour)
+                    popularity: Double(tickerData.accTradeValue24Hour),
+                    isFavorite: false
                 )
-                coinList.append(coin)
+                allCoinList.append(coin)
             }
         }
+        // TODO: favoriteCoinList 를 CoreData에서 가져오는 로직 추가
     }
     
     private func fetchCurrentPrice() {
-        var count: Int = 0
-        let serialQueue = DispatchQueue(label: "serial")
-        
-        for i in 0..<coinList.count {
-            let api = TransactionHistoryAPI(orderCurrency: coinList[i].symbolName)
-            networkService.request(api: api) { [weak self] result in
+        let group = DispatchGroup()
+        for i in 0..<self.allCoinList.count {
+            group.enter()
+            let api = TransactionHistoryAPI(orderCurrency: self.allCoinList[i].symbolName)
+            self.httpNetworkService.request(api: api) { [weak self] result in
+                defer {
+                    group.leave()
+                }
                 switch result {
                 case .success(let data):
-                    do {
-                        let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
-                        guard response.status == self?.successStatusCode else { return }
-                        if let firstItem = response.transaction.first {
-                            self?.coinList[i].currentPrice = Double(firstItem.price)
-                            serialQueue.async {
-                                count += 1
-                                if count == self?.coinList.count {
-                                    self?.delegate?.coinListDataManagerDidFetchCurrentPrice()
-                                }
-                            }
-                        }
-                    } catch {
-                        print(error.localizedDescription)
+                    guard let transactionValueObject = try? self?.parsedTranscationValueObject(from: data),
+                          let transactionData = transactionValueObject.transaction.first
+                    else {
+                        return
                     }
+                    self?.allCoinList[i].currentPrice = Double(transactionData.price)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
         }
+        group.notify(queue: .main) { [weak self] in
+            self?.sortCoinList(what: .sortBoth, by: .popularity(isDescend: true), filteredBy: nil)
+        }
+    }
+    
+    private func parsedTranscationValueObject(from data: Data) throws -> TranscationValueObject? {
+        do {
+            let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
+            guard response.status == successStatusCode else {
+                print(response.status)
+                return nil
+            }
+            return response
+        } catch {
+            print(error.localizedDescription)
+            throw error
+        }
     }
 }
 
-struct Coin: Hashable {
-    let callingName: String
-    let symbolName: String
-    var currentPrice: Double?
-    var changeRate: Double?
-    var changePrice: Double?
-    var popularity: Double?
-    let identifier = UUID()
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
+private extension Array where Element == Coin {
+    func sorted(by sortType: CoinListDataManager.SortType) -> [Element] {
+        let sortedCoinList: [Element]
+        switch sortType {
+        case .popularity(let isDescend):
+            if isDescend {
+                sortedCoinList = self.sorted {
+                    let first = $0.popularity ?? -Double.greatestFiniteMagnitude
+                    let second = $1.popularity ?? -Double.greatestFiniteMagnitude
+                    return first > second
+                }
+            } else {
+                sortedCoinList = self.sorted {
+                    let first = $0.popularity ?? Double.greatestFiniteMagnitude
+                    let second = $1.popularity ?? Double.greatestFiniteMagnitude
+                    return first < second
+                }
+            }
+        case .name(let isDescend):
+            if isDescend {
+                sortedCoinList = self.sorted { $0.callingName > $1.callingName }
+            } else {
+                sortedCoinList = self.sorted { $0.callingName < $1.callingName }
+            }
+        case .price(let isDescend):
+            if isDescend {
+                sortedCoinList = self.sorted {
+                    let first = $0.currentPrice ?? -Double.greatestFiniteMagnitude
+                    let second = $1.currentPrice ?? -Double.greatestFiniteMagnitude
+                    return first > second
+                }
+            } else {
+                sortedCoinList = self.sorted {
+                    let first = $0.currentPrice ?? Double.greatestFiniteMagnitude
+                    let second = $1.currentPrice ?? Double.greatestFiniteMagnitude
+                    return first < second
+                }
+            }
+        case .changeRate(let isDescend):
+            if isDescend {
+                sortedCoinList = self.sorted {
+                    let first = $0.changeRate ?? -Double.greatestFiniteMagnitude
+                    let second = $1.changeRate ?? -Double.greatestFiniteMagnitude
+                    return first > second
+                }
+            } else {
+                sortedCoinList = self.sorted {
+                    let first = $0.changeRate ?? Double.greatestFiniteMagnitude
+                    let second = $1.changeRate ?? Double.greatestFiniteMagnitude
+                    return first < second
+                }
+            }
+        }
+        return sortedCoinList
     }
     
-    static func == (lhs: Coin, rhs: Coin) -> Bool {
-        return lhs.identifier == rhs.identifier
+    func filter(by text: String?) -> [Element] {
+        guard let text = text,
+              text.isEmpty == false
+        else { return self }
+        
+        return self.filter {
+            $0.callingName.localizedStandardContains(text) ||
+                $0.symbolName.localizedStandardContains(text)
+        }
     }
 }
-
-// MARK: - Coin Computed Property
-
-extension Coin {
-    var symbolPerKRW: String {
-        return symbolName + "/KRW"
-    }
-    
-    var priceString: String {
-        guard let currentPrice = currentPrice else {
-            return "오류발생"
-        }
-        return String(currentPrice)
-    }
-    
-    var changeRateString: String {
-        guard let changeRate = changeRate else {
-            return "오류발생"
-        }
-        return String(changeRate)
-    }
-    
-    var changePriceString: String {
-        guard let changePrice = changePrice else {
-            return "오류발생"
-        }
-        return String(changePrice)
-    }
-}
-
