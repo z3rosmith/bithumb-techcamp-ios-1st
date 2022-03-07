@@ -31,15 +31,20 @@ struct DetailViewCoin {
     }
     
     var changePriceString: String {
-        guard let changePrice = changePrice else {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        guard let changePrice = changePrice,
+              let commaChangePrice = formatter.string(for: changePrice)
+        else {
             return "오류 발생"
         }
         
         if changePrice > 0 {
-            return "+" + String(changePrice)
+            return "+" + commaChangePrice
         }
         
-        return String(changePrice)
+        return commaChangePrice
     }
     
     var changeRateString: String {
