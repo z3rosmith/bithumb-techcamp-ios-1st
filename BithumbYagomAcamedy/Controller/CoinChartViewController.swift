@@ -32,7 +32,6 @@ final class CoinChartViewController: UIViewController {
         coinChartView.leftAxis.enabled = false
         coinChartView.legend.enabled = false
         coinChartView.doubleTapToZoomEnabled = false
-        coinChartView.delegate = self
     }
     
     private func configureDataManager() {
@@ -51,13 +50,6 @@ final class CoinChartViewController: UIViewController {
         }
         
         dataManager?.changeTickType(to: tickType)
-    }
-}
-
-extension CoinChartViewController: ChartViewDelegate {
-    func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
-        
-        print(coinChartView.scaleX, " ", coinChartView.scaleY)
     }
 }
 
