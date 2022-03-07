@@ -102,14 +102,21 @@
                                     <outlet property="priceLabel" destination="ujn-kN-lGm" id="Flz-dN-cW6"/>
                                 </connections>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nWv-jC-CPg" customClass="CoinDetailChartImageView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nWv-jC-CPg" customClass="CoinDetailChartImageView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
                                 <rect key="frame" x="211.5" y="60" width="186.5" height="82"/>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 3개월 차트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-CM-Bih">
+                                <rect key="frame" x="327.5" y="44.5" width="70.5" height="13.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                <color key="textColor" systemColor="systemGray2Color"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="2ya-CM-Bih" secondAttribute="bottom" constant="2" id="0bh-Dm-efo"/>
                             <constraint firstItem="UKg-gS-b0A" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="4" id="1fc-Jw-lDL"/>
                             <constraint firstItem="isW-Ko-yCe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="6eN-Cj-iyt"/>
                             <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="8A7-7Y-XmX"/>
@@ -122,6 +129,7 @@
                             <constraint firstItem="isW-Ko-yCe" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="bDQ-Jc-wXv"/>
                             <constraint firstItem="isW-Ko-yCe" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="150" id="f8P-9x-VcL"/>
                             <constraint firstItem="isW-Ko-yCe" firstAttribute="top" secondItem="3aa-f0-Hlq" secondAttribute="bottom" constant="8" id="fKP-R1-8ja"/>
+                            <constraint firstItem="2ya-CM-Bih" firstAttribute="trailing" secondItem="nWv-jC-CPg" secondAttribute="trailing" id="jLw-Pg-lZd"/>
                             <constraint firstItem="UKg-gS-b0A" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="kIq-OL-d0R"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="nWv-jC-CPg" secondAttribute="trailing" constant="16" id="rvU-iT-M8j"/>
                             <constraint firstItem="UKg-gS-b0A" firstAttribute="width" secondItem="vDu-zF-Fre" secondAttribute="width" multiplier="0.5" id="ztV-7K-b76"/>
@@ -129,6 +137,7 @@
                     </view>
                     <connections>
                         <outlet property="CoinDetailPriceView" destination="UKg-gS-b0A" id="v7Z-EJ-ptv"/>
+                        <outlet property="coinChartImageView" destination="nWv-jC-CPg" id="5QN-I1-IoT"/>
                         <outlet property="menuButtonStackView" destination="3aa-f0-Hlq" id="Eon-cP-PHJ"/>
                     </connections>
                 </viewController>
@@ -153,8 +162,8 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
