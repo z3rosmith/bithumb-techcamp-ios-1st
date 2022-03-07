@@ -39,14 +39,20 @@ final class CoinOrderbookViewController: UIViewController {
     
     private let coinOrderbookDataManager = CoinOrderbookDataManager()
     private var dataSource: DiffableDataSource?
+    private var isFirstScrollCenter: Bool = false
     
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureDataManager()
         configureCollectionViewDataSource()
         configureCollectionViewLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        scrollCollectionViewCenter()
     }
 }
 
@@ -79,6 +85,12 @@ extension CoinOrderbookViewController {
         configuration.showsSeparators = false
         coinOrderbookCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
     }
+    
+    private func scrollCollectionViewCenter() {
+        let centerY = coinOrderbookCollectionView.contentSize.height / 2 - coinOrderbookCollectionView.frame.height / 2
+        
+        coinOrderbookCollectionView.setContentOffset(CGPoint(x: 0, y: centerY), animated: false)
+    }
 }
 
 // MARK: - Snapshot
@@ -91,12 +103,17 @@ extension CoinOrderbookViewController {
         snapshot.appendItems(askOrderbooks, toSection: .ask)
         snapshot.appendItems(bidOrderbooks, toSection: .bid)
         
-        DispatchQueue.main.async {
-            self.dataSource?.apply(snapshot, animatingDifferences: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.dataSource?.apply(snapshot, animatingDifferences: false) {
+                if askOrderbooks.count + bidOrderbooks.count == 60,
+                   self?.isFirstScrollCenter == false {
+                    self?.isFirstScrollCenter = true
+                    self?.scrollCollectionViewCenter()
+                }
+            }
         }
     }
 }
-
 
 // MARK: - CoinOrderbook DataManager
 
@@ -104,14 +121,17 @@ extension CoinOrderbookViewController {
     private func configureDataManager() {
         coinOrderbookDataManager.delegate = self
         coinOrderbookDataManager.fetchOrderbook()
-        coinOrderbookDataManager.fetchOrderbookWebSocket() // TODO: 구현 중
+        coinOrderbookDataManager.fetchOrderbookWebSocket()
     }
 }
 
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
-    func coinOrderbookDataManager(didCalculate totalQuntity: Double, type: OrderbookType) {
+    func coinOrderbookDataManager(
+        didCalculate totalQuntity: Double,
+        type: OrderbookType
+    ) {
         DispatchQueue.main.async { [weak self] in
             if type == .ask {
                 self?.totalAsksQuantityLabel.text = String(totalQuntity)
@@ -121,7 +141,10 @@ extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
         }
     }
     
-    func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook]) {
+    func coinOrderbookDataManager(
+        didChange askOrderbooks: [Orderbook],
+        bidOrderbooks: [Orderbook]
+    ) {
         applySnapshot(askOrderbooks, bidOrderbooks)
     }
 }
