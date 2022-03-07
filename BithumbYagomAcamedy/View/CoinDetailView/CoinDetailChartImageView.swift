@@ -26,37 +26,63 @@ final class CoinDetailChartImageView: UIImageView {
         UIGraphicsEndImageContext()
     }
     
+    private func drawPath(
+        from previousPoint: CGPoint,
+        to nextPoint: CGPoint,
+        with context: CGContext
+    ) {
+        context.move(to: previousPoint)
+        context.addLine(to: nextPoint)
+        context.strokePath()
+    }
+    
+    private func setPathColor(
+        from previousPoint: CGPoint,
+        to nextPoint: CGPoint,
+        with context: CGContext
+    ) {
+        if previousPoint.y < nextPoint.y {
+            context.setStrokeColor(UIColor.systemBlue.cgColor)
+        } else {
+            context.setStrokeColor(UIColor.systemRed.cgColor)
+        }
+    }
+    
+    private func setAxisUnit(price: [Double]) -> (x: CGFloat, y: CGFloat) {
+        guard let min = price.min(),
+              let max = price.max()
+        else {
+            return (CGFloat.zero, CGFloat.zero)
+        }
+        
+        let xUnit = layer.frame.width / CGFloat(price.count)
+        let yUnit = layer.frame.height / (max - min)
+        
+        return (xUnit, yUnit)
+    }
+    
     func drawChart(price: [Double]) {
         guard let context = getContext() else {
             return
         }
         
-        let min = price.min()
-        let max = price.max()
-        let xUnit = layer.frame.width / CGFloat(price.count)
-        let yUnit = layer.frame.height / (max! - min!)
-        
-        context.setStrokeColor(UIColor.systemRed.cgColor)
-        context.move(to: CGPoint(x: 0, y: 0))
-        let startPoint = CGPoint(x: CGFloat.zero, y: price[0] * yUnit)
-        
+        let axisUnit = setAxisUnit(price: price)
+        let startPoint = CGPoint(
+            x: CGFloat.zero,
+            y: frame.height - (price[0] * axisUnit.y)
+        )
         var previousPoint = startPoint
         context.move(to: previousPoint)
         
         for (index, price) in price.enumerated() {
+            let nextPoint = CGPoint(
+                x: axisUnit.x * CGFloat(index),
+                y: frame.height - (axisUnit.y * price)
+            )
             
+            setPathColor(from: previousPoint, to: nextPoint, with: context)
+            drawPath(from: previousPoint, to: nextPoint, with: context)
             
-            let nextPoint = CGPoint(x: xUnit * CGFloat(index), y: yUnit * price)
-            
-            if previousPoint.y < nextPoint.y {
-                context.setStrokeColor(UIColor.systemRed.cgColor)
-            } else {
-                context.setStrokeColor(UIColor.systemBlue.cgColor)
-            }
-            context.move(to: previousPoint)
-            context.addLine(to: nextPoint)
-            print(previousPoint, nextPoint)
-            context.strokePath()
             previousPoint = nextPoint
         }
         
