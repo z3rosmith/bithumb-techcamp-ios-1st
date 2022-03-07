@@ -19,16 +19,17 @@ final class BallonSpeakView: UIView {
     }
     
     func configureBackgroundLayer() {
+        let unit = frame.size.height * 0.15
+        
         let roundedBackgroundLayer = CAShapeLayer()
-
         roundedBackgroundLayer.frame = CGRect(
             x: 0,
-            y: 10,
+            y: unit,
             width: frame.size.width,
-            height: frame.size.height - 10
+            height: frame.size.height - unit
         )
         roundedBackgroundLayer.backgroundColor = UIColor.systemGray6.cgColor
-        roundedBackgroundLayer.cornerRadius = 10
+        roundedBackgroundLayer.cornerRadius = unit
         
         backgroundView.layer.addSublayer(roundedBackgroundLayer)
         
@@ -39,9 +40,9 @@ final class BallonSpeakView: UIView {
         tailLayer.lineWidth = 1
         
         tailPath.lineCapStyle = .round
-        tailPath.move(to: CGPoint(x: 8, y: 12))
-        tailPath.addLine(to: CGPoint(x: 18, y: 0))
-        tailPath.addLine(to: CGPoint(x: 28, y: 12))
+        tailPath.move(to: CGPoint(x: unit, y: unit + 2))
+        tailPath.addLine(to: CGPoint(x: unit * 2, y: 0))
+        tailPath.addLine(to: CGPoint(x: unit * 3, y: unit + 2))
         
         tailLayer.path = tailPath.cgPath
         
