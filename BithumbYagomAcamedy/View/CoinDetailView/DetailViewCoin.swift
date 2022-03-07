@@ -50,11 +50,7 @@ extension DetailViewCoin {
     }
     
     var commaPrice: String {
-        guard let price = price else {
-            return "오류 발생"
-        }
-        
-        return price.commaPrice
+        return price?.commaPrice ?? "오류 발생"
     }
     
     var changePriceString: String {
@@ -62,13 +58,7 @@ extension DetailViewCoin {
             return "오류 발생"
         }
         
-        let commaChangePrice = changePrice.commaPrice
-        
-        if changePrice > 0 {
-            return "+" + commaChangePrice
-        }
-        
-        return commaChangePrice
+        return changePrice.changePriceString
     }
     
     var changeRateString: String {
@@ -76,10 +66,6 @@ extension DetailViewCoin {
             return "오류 발생"
         }
         
-        if changeRate > 0 {
-            return "+" + String(changeRate) + "%"
-        }
-        
-        return String(changeRate) + "%"
+        return changeRate.changeRateString
     }
 }

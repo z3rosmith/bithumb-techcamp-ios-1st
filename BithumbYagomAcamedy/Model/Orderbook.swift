@@ -34,21 +34,10 @@ struct Orderbook: Hashable {
 
 extension Orderbook {
     var commaPrice: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        let price = Double(price)
-        
-        return formatter.string(for: price) ?? String()
+        return Double(price)?.commaPrice ?? "오류 발생"
     }
     
     var roundedQuantity: String {
-        if let quantity = Double(quantity) {
-            let digit: Double = pow(10, 5)
-            let roundedQuantity = round(quantity * digit) / digit
-            
-            return String(roundedQuantity)
-        }
-        
-        return String()
+        return Double(quantity)?.roundedQuantity ?? "오류 발생"
     }
 }
