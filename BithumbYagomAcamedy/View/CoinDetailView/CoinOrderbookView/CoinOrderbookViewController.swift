@@ -37,7 +37,7 @@ final class CoinOrderbookViewController: UIViewController {
     
     // MARK: - Property
     
-    private let coinOrderbookDataManager = CoinOrderbookDataManager()
+    private var coinOrderbookDataManager: CoinOrderbookDataManager?
     private var dataSource: DiffableDataSource?
     private var isFirstScrollCenter: Bool = false
     
@@ -119,9 +119,10 @@ extension CoinOrderbookViewController {
 
 extension CoinOrderbookViewController {
     private func configureDataManager() {
-        coinOrderbookDataManager.delegate = self
-        coinOrderbookDataManager.fetchOrderbook()
-        coinOrderbookDataManager.fetchOrderbookWebSocket()
+        coinOrderbookDataManager = CoinOrderbookDataManager()
+        coinOrderbookDataManager?.delegate = self
+        coinOrderbookDataManager?.fetchOrderbook()
+        coinOrderbookDataManager?.fetchOrderbookWebSocket()
     }
 }
 
@@ -129,21 +130,21 @@ extension CoinOrderbookViewController {
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
     func coinOrderbookDataManager(
-        didCalculate totalQuntity: Double,
+        didCalculate totalQuantity: Double,
         type: OrderbookType
     ) {
         DispatchQueue.main.async { [weak self] in
             if type == .ask {
-                self?.totalAsksQuantityLabel.text = String(totalQuntity)
+                self?.totalAsksQuantityLabel.text = String(totalQuantity)
             } else {
-                self?.totalBidsQuantityLabel.text = String(totalQuntity)
+                self?.totalBidsQuantityLabel.text = String(totalQuantity)
             }
         }
     }
     
     func coinOrderbookDataManager(
         didChange askOrderbooks: [Orderbook],
-        bidOrderbooks: [Orderbook]
+        and bidOrderbooks: [Orderbook]
     ) {
         applySnapshot(askOrderbooks, bidOrderbooks)
     }

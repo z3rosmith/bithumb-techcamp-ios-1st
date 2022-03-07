@@ -8,8 +8,8 @@
 import Foundation
 
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
-    func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], bidOrderbooks: [Orderbook])
-    func coinOrderbookDataManager(didCalculate totalQuntity: Double, type: OrderbookType)
+    func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], and bidOrderbooks: [Orderbook])
+    func coinOrderbookDataManager(didCalculate totalQuantity: Double, type: OrderbookType)
 }
 
 final class CoinOrderbookDataManager {
@@ -21,13 +21,13 @@ final class CoinOrderbookDataManager {
     private var webSocketService: WebSocketService
     private var askOrderbooks: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, bidOrderbooks: bidOrderbooks)
+            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: askOrderbooks, type: .ask)
         }
     }
     private var bidOrderbooks: [Orderbook] = [] {
         didSet {
-            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, bidOrderbooks: bidOrderbooks)
+            delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: bidOrderbooks, type: .bid)
         }
     }
@@ -162,11 +162,11 @@ extension CoinOrderbookDataManager {
             case .string(let response):
                 let orderbook = try? self?.parseWebSocketOrderbook(to: response)
                 
-                guard let orderbookList = orderbook?.webSocketOrderBookDepthData.list else {
+                guard let orderbook = orderbook?.webSocketOrderBookDepthData else {
                     return
                 }
                 
-                self?.insertOrderbook(orderbookList)
+                self?.insertOrderbook(orderbook)
             default:
                 break
             }
@@ -191,20 +191,16 @@ extension CoinOrderbookDataManager {
     }
     
     private func insertOrderbook(
-        _ orderbooks: [WebSocketOrderBookDepthData.OrderBookDepthData],
+        _ orderbooks: WebSocketOrderBookDepthData,
         at index: Int = Int.zero
     ) {
-        let webSocketAskOrderbooks = orderbooks.filter {
-            $0.orderType == .ask
-        }.map {
+        let webSocketAskOrderbooks = orderbooks.asks.map {
             $0.generate()
         }
         
         updateOrderbook(orderbooks: webSocketAskOrderbooks, to: &askOrderbooks, type: .ask)
         
-        let webSocketBidOrderbooks = orderbooks.filter {
-            $0.orderType == .bid
-        }.map {
+        let webSocketBidOrderbooks = orderbooks.bids.map {
             $0.generate()
         }
 
