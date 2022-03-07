@@ -30,7 +30,7 @@
                                             <segment title="일"/>
                                         </segments>
                                         <connections>
-                                            <action selector="timeSegmentedControlValueChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="fAd-sc-hxL"/>
+                                            <action selector="timeSegmentedControlValueChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="uVH-zd-3po"/>
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
@@ -52,7 +52,7 @@
                     </view>
                     <connections>
                         <outlet property="coinChartView" destination="nOP-2U-oDY" id="B1U-up-q8s"/>
-                        <outlet property="timeSegmentedControl" destination="0dB-co-bQR" id="1nM-7z-Gyd"/>
+                        <outlet property="timeSegmentedControl" destination="0dB-co-bQR" id="EG6-oZ-4Jw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

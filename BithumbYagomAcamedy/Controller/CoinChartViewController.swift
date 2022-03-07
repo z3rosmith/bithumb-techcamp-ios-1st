@@ -10,7 +10,7 @@ import Charts
 
 final class CoinChartViewController: UIViewController {
     @IBOutlet private weak var coinChartView: CandleStickChartView!
-    @IBOutlet weak var timeSegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var timeSegmentedControl: UISegmentedControl!
     private var dataManager: CoinChartDataManager?
     private var coin: String = "BTC"
     
@@ -21,6 +21,7 @@ final class CoinChartViewController: UIViewController {
     }
     
     private func configureCoinChartLayout() {
+        coinChartView.xAxis.spaceMax = 10.0
         coinChartView.xAxis.axisLineWidth = 3
         coinChartView.xAxis.gridLineWidth = 0.2
         coinChartView.xAxis.labelPosition = .bottom
@@ -35,17 +36,15 @@ final class CoinChartViewController: UIViewController {
     private func configureDataManager() {
         dataManager = CoinChartDataManager(symbol: coin)
         dataManager?.delegate = self
-        requestChartData()
+        requestChartData(at: timeSegmentedControl.selectedSegmentIndex)
     }
     
-    @IBAction func timeSegmentedControlValueChanged(_ sender: Any) {
-        requestChartData()
+    @IBAction func timeSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        requestChartData(at: sender.selectedSegmentIndex)
     }
     
-    private func requestChartData() {
-        guard let tickType = TickType(
-            rawValue: timeSegmentedControl.selectedSegmentIndex
-        ) else {
+    private func requestChartData(at index: Int) {
+        guard let tickType = TickType(rawValue: index) else {
             return
         }
         
