@@ -23,13 +23,27 @@ final class CoreDataManager {
     
     func fetch<T: NSManagedObject>(request: NSFetchRequest<T>) -> [T] {
         do {
-            let fetchResult = try self.context.fetch(request)
+            let fetchResult = try context.fetch(request)
             
             return fetchResult
         } catch {
             print(error.localizedDescription)
             
             return []
+        }
+    }
+    
+    func delete<T: NSManagedObject>(request: NSFetchRequest<T>) {
+        do {
+            let fetchResult = try context.fetch(request)
+            
+            fetchResult.forEach {
+                context.delete($0)
+            }
+            
+            saveContext()
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
