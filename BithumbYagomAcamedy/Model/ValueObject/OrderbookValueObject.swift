@@ -29,3 +29,11 @@ struct OrderbookData: Decodable {
         let quantity: String
     }
 }
+
+// MARK: - Generate
+
+extension OrderbookData.Order {
+    func generate(type: OrderbookType) -> Orderbook {
+        return Orderbook(price: price, quantity: quantity, type: type)
+    }
+}

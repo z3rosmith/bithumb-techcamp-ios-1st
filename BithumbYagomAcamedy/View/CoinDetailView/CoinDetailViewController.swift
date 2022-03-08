@@ -12,7 +12,8 @@ final class CoinDetailViewController: UIViewController {
     // MARK: - IBOutlet
    
     @IBOutlet private weak var coinDetailPriceView: CoinDetailPriceView!
-    @IBOutlet weak var menuButtonStackView: CoinDetailMenuStackView!
+    @IBOutlet private weak var menuButtonStackView: CoinDetailMenuStackView!
+    @IBOutlet private weak var coinChartImageView: CoinDetailChartImageView!
     
     // MARK: - View
     
@@ -95,6 +96,7 @@ extension CoinDetailViewController {
     private func configureDataManager() {
         coinDetailDataManager.delegate = self
         coinDetailDataManager.configureDetailCoin(coin: coin)
+        coinDetailDataManager.fetchChart()
         coinDetailDataManager.fetchTickerWebSocket()
         coinDetailDataManager.fetchTransactionWebSocket()
     }
@@ -108,6 +110,12 @@ extension CoinDetailViewController: CoinDetailDataManagerDelegate {
 
         DispatchQueue.main.async { [weak self] in
             self?.coinDetailPriceView.update(coin)
+        }
+    }
+    
+    func coinDetailDataManager(didFetchChartData price: [Double]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.coinChartImageView.drawChart(price: price)
         }
     }
 }

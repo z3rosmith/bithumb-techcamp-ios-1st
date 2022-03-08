@@ -39,3 +39,29 @@ struct WebSocketOrderBookDepthData: Decodable {
         case bid = "bid"
     }
 }
+
+extension WebSocketOrderBookDepthData {
+    var bids: [OrderBookDepthData] {
+        return list.filter { $0.orderType == .bid }
+    }
+    
+    var asks: [OrderBookDepthData] {
+        return list.filter { $0.orderType == .ask }
+    }
+}
+
+extension WebSocketOrderBookDepthData.OrderBookDepthData {
+    func generate() -> Orderbook {
+        let type = convert(type: orderType)
+        
+        return Orderbook(
+            price: price,
+            quantity: quantity,
+            type: type
+        )
+    }
+    
+    private func convert(type: WebSocketOrderBookDepthData.OrderType) -> OrderbookType {
+        return type == .bid ? .bid : .ask
+    }
+}

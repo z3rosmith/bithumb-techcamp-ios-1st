@@ -68,29 +68,16 @@ final class DepositWithdrawalStatusDataManager {
         }
     }
     
-    func containedStatuses(in searchText: String) {
-        if searchText.isEmpty {
-            delegate?.depositWithdrawalStatusDataManagerDidSetData(statuses)
-        } else {
-            let containedData = statuses.filter {
+    func filteredStatuses(by type: FilterType?, with searchText: String) {
+        filteredStatuses = filteredStatuses(by: type)
+        
+        if searchText.isEmpty == false {
+            let searchTextContainedStatuses = filteredStatuses.filter {
                 return $0.coinName.localizedStandardContains(searchText) ||
                 $0.coinSymbol.localizedStandardContains(searchText)
             }
             
-            delegate?.depositWithdrawalStatusDataManagerDidSetData(containedData)
-        }
-    }
-    
-    func filteredStatuses(by type: FilterType?) {
-        switch type {
-        case .all:
-            filteredStatuses = statuses
-        case .normal:
-            filteredStatuses = statuses.filter { $0.isValidDeposit && $0.isValidWithdrawal }
-        case .stop:
-            filteredStatuses = statuses.filter { !$0.isValidDeposit || !$0.isValidWithdrawal }
-        default:
-            break
+            filteredStatuses = searchTextContainedStatuses
         }
         
         delegate?.depositWithdrawalStatusDataManagerDidSetData(filteredStatuses)
@@ -131,6 +118,23 @@ final class DepositWithdrawalStatusDataManager {
         }
         
         delegate?.depositWithdrawalStatusDataManagerDidSetData(sortedData)
+    }
+    
+    private func filteredStatuses(by type: FilterType?) -> [AssetsStatus] {
+        var filteredStatuses: [AssetsStatus] = []
+        
+        switch type {
+        case .all:
+            filteredStatuses = statuses
+        case .normal:
+            filteredStatuses = statuses.filter { $0.isValidDeposit && $0.isValidWithdrawal }
+        case .stop:
+            filteredStatuses = statuses.filter { !$0.isValidDeposit || !$0.isValidWithdrawal }
+        default:
+            break
+        }
+        
+        return filteredStatuses
     }
     
     private func parseAssetsStatuses(to data: Data) throws -> [AssetsStatus] {
