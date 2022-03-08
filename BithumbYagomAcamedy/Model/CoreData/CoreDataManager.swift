@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     
     static let shared: CoreDataManager = CoreDataManager()
     private(set) lazy var context: NSManagedObjectContext = {
@@ -32,11 +32,6 @@ class CoreDataManager {
             return []
         }
     }
-    
-//    func save(object: T) {
-//        context.insert(object.generate())
-//        saveContext()
-//    }
     
     func saveContext() {
         if context.hasChanges {
