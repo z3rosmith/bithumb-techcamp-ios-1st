@@ -72,4 +72,22 @@ struct WebSocketMessageConverter {
         
         return message.data(using: .utf8) ?? Data()
     }
+    
+    func data(
+        type: WebSocketType,
+        symbols: [String],
+        tickType: TickType? = nil
+    ) -> Data {
+        let symbolsTransformed = symbols.map { "\"\($0)_KRW\"" }.joined(separator: ", ")
+        
+        var message = #"{"type":"\#(type)", "symbols":[\#(symbolsTransformed)]"#
+        
+        if let tickType = tickType {
+            message += #", "tickTypes": ["\#(tickType)" ]"#
+        }
+        
+        message += "}"
+        
+        return message.data(using: .utf8) ?? Data()
+    }
 }
