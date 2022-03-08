@@ -93,7 +93,8 @@ final class CoinChartDataManager {
     
     private func update(candlesticks tickerData: WebSocketTickerData) {
         guard let updateCandlestick = Candlestick(ticker: tickerData),
-              let recentCandlestick = candlesticks.last else {
+              let recentCandlestick = candlesticks.last
+        else {
             return
         }
         let remainTime = updateCandlestick.time - recentCandlestick.time
