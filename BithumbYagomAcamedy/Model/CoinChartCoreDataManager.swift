@@ -85,15 +85,17 @@ struct CoinChartCoreDataManager {
         description: NSEntityDescription,
         context: NSManagedObjectContext
     ) {
-        let chart = CandlestickChart(entity: description, insertInto: context)
-        
-        chart.time = candlestick.time
-        chart.highPrice = candlestick.highPrice
-        chart.lowPrice = candlestick.lowPrice
-        chart.openPrice = candlestick.openPrice
-        chart.closePrice = candlestick.closePrice
-        chart.symbol = symbol
-        chart.timeInterval = dateFormat.description
+        context.performAndWait {
+            let chart = CandlestickChart(entity: description, insertInto: context)
+            
+            chart.time = candlestick.time
+            chart.highPrice = candlestick.highPrice
+            chart.lowPrice = candlestick.lowPrice
+            chart.openPrice = candlestick.openPrice
+            chart.closePrice = candlestick.closePrice
+            chart.symbol = symbol
+            chart.timeInterval = dateFormat.description
+        }
     }
     
     private func createDescription() -> NSEntityDescription? {

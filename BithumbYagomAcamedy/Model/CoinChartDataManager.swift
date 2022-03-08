@@ -43,11 +43,8 @@ final class CoinChartDataManager {
     func changeChartDateFormat(to dateFormat: ChartDateFormat) {
         self.dateFormat = dateFormat
         webSocketService.close()
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.requestCoreDataChart()
-            self?.requestRealTimeChart()
-        }
+        requestCoreDataChart()
+        requestRealTimeChart()
     }
     
     func xAxisDateString() -> [String] {
