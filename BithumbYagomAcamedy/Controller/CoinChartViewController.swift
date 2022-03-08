@@ -45,11 +45,11 @@ final class CoinChartViewController: UIViewController {
     }
     
     private func requestChartData(at index: Int) {
-        guard let tickType = TickType(rawValue: index) else {
+        guard let tickType = ChartDateFormat(rawValue: index) else {
             return
         }
         
-        dataManager?.changeTickType(to: tickType)
+        dataManager?.changeChartDateFormat(to: tickType)
     }
 }
 
@@ -106,9 +106,10 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
     
     private func moveChartPosition(entry: ChartDataEntry?) {
         guard let x = entry?.x,
-              let y = entry?.y else {
-                  return
-              }
+              let y = entry?.y
+        else {
+            return
+        }
         
         coinChartView.zoom(
             scaleX: 80,

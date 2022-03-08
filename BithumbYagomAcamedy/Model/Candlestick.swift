@@ -41,13 +41,13 @@ struct Candlestick {
         self.volume = volume
     }
     
-    init?(ticker: WebSocketTickerData, tickType: TickType) {
+    init?(ticker: WebSocketTickerData, dateFormat: ChartDateFormat) {
         let formatter = DateFormatter()
         let startIndex = ticker.time.startIndex
         let endIndex = ticker.time.endIndex
         var dateString: String
         
-        switch tickType {
+        switch dateFormat {
         case .minute1, .minute10, .minute30:
             let lastIndex = ticker.time.index(endIndex, offsetBy: -2)
             formatter.dateFormat =  "yyyyMMddHHmm"
@@ -69,8 +69,8 @@ struct Candlestick {
               let volume = Double(ticker.volume) else {
                   return nil
               }
-        let sliceUnit = Int(date.timeIntervalSince1970 / tickType.second)
-        let timeUnit = Double(sliceUnit) * tickType.second
+        let sliceUnit = Int(date.timeIntervalSince1970 / dateFormat.second)
+        let timeUnit = Double(sliceUnit) * dateFormat.second
         
         self.time = timeUnit
         self.openPrice = openPrice

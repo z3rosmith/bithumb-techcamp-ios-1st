@@ -28,4 +28,21 @@ struct TickerWebSocket: WebSocketable {
             tickType: tickType
         )
     }
+    
+    init?(symbol: String, dateFormat: ChartDateFormat) {
+        let tickType: TickType
+        
+        switch dateFormat {
+        case .minute1, .minute10:
+            return nil
+        case .minute30:
+            tickType = .minute30
+        case .hour1:
+            tickType = .hour1
+        case .hour24:
+            tickType = .hour24
+        }
+        
+        self.init(symbol: symbol, tickType: tickType)
+    }
 }
