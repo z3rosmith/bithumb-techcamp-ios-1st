@@ -52,7 +52,7 @@ final class CoinOrderbookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        scrollCollectionViewCenter()
+        scrollToCollectionViewCenter()
     }
 }
 
@@ -86,7 +86,7 @@ extension CoinOrderbookViewController {
         coinOrderbookCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
-    private func scrollCollectionViewCenter() {
+    private func scrollToCollectionViewCenter() {
         let centerY = coinOrderbookCollectionView.contentSize.height / 2 - coinOrderbookCollectionView.frame.height / 2
         
         coinOrderbookCollectionView.setContentOffset(CGPoint(x: 0, y: centerY), animated: false)
@@ -108,7 +108,7 @@ extension CoinOrderbookViewController {
                 if askOrderbooks.count + bidOrderbooks.count == 60,
                    self?.isFirstScrollCenter == false {
                     self?.isFirstScrollCenter = true
-                    self?.scrollCollectionViewCenter()
+                    self?.scrollToCollectionViewCenter()
                 }
             }
         }
