@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 struct Candlestick {
     let time: Double
