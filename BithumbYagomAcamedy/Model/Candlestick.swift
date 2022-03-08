@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import CoreData
 
-struct Candlestick {
+struct Candlestick: CoreDataSavable {
     let time: Double
     let openPrice: Double
     let closePrice: Double
