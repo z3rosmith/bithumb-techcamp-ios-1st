@@ -21,7 +21,6 @@ extension CandlestickChart: Identifiable {
     @NSManaged public var lowPrice: Double
     @NSManaged public var highPrice: Double
     @NSManaged public var volume: Double
+    @NSManaged public var symbol: String
     @NSManaged public var timeInterval: String
-    
-    
 }

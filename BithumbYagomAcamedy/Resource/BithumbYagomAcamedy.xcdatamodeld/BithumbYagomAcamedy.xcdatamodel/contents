@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CandlestickChart" representedClassName="CandlestickChart" syncable="YES">
-        <attribute name="closePrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="highPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="lowPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="openPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="closePrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="highPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lowPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="openPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="symbol" attributeType="String"/>
+        <attribute name="time" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="timeInterval" attributeType="String"/>
-        <attribute name="volume" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="volume" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <entity name="FavoriteCoin" representedClassName="FavoriteCoin" syncable="YES">
         <attribute name="symbol" attributeType="String"/>
     </entity>
     <elements>
         <element name="FavoriteCoin" positionX="-63" positionY="-18" width="128" height="14"/>
-        <element name="CandlestickChart" positionX="-54" positionY="-9" width="128" height="134"/>
+        <element name="CandlestickChart" positionX="-54" positionY="-9" width="128" height="149"/>
     </elements>
 </model>
