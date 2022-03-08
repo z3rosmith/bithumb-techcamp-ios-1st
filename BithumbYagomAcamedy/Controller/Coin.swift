@@ -54,39 +54,22 @@ extension Coin {
     }
     
     var priceString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        
-        guard let currentPrice = currentPrice,
-              let formattedPrice = formatter.string(for: currentPrice)
-        else {
-            return "오류발생"
-        }
-        
-        return formattedPrice
-    }
-    
-    var changeRateString: String {
-        guard let changeRate = changeRate else {
-            return "오류발생"
-        }
-        
-        if changeRate > 0 {
-            return "+" + String(changeRate) + "%"
-        }
-        
-        return String(changeRate) + "%"
+        return currentPrice?.commaPrice ?? "오류 발생"
     }
     
     var changePriceString: String {
         guard let changePrice = changePrice else {
-            return "오류발생"
+            return "오류 발생"
         }
         
-        if changePrice > 0 {
-            return "+" + String(changePrice)
+        return changePrice.changePriceString
+    }
+    
+    var changeRateString: String {
+        guard let changeRate = changeRate else {
+            return "오류 발생"
         }
         
-        return "\(changePrice)"
+        return changeRate.changeRateString
     }
 }
