@@ -42,20 +42,10 @@ final class CoinDetailPageViewController: UIPageViewController {
     }
     
     private func configureViewList() -> [UIViewController] {
-        let chartStoryBoard = UIStoryboard(name: "CoinChart", bundle: nil)
-        let chartViewController = chartStoryBoard.instantiateViewController(
-            withIdentifier: "CoinChartViewController"
-        )
-        
-        let orderbookStoryBoard = UIStoryboard(name: "CoinOrderbook", bundle: nil)
-        let orderbookViewController = orderbookStoryBoard.instantiateViewController(
-            withIdentifier: "CoinOrderbookViewController"
-        )
-        
-        let transactionStoryBoard = UIStoryboard(name: "CoinTransaction", bundle: nil)
-        let transactionViewController = transactionStoryBoard.instantiateViewController(
-            withIdentifier: "CoinTransactionViewController"
-        )
+        let instantiater = ViewControllerInstantiater()
+        let chartViewController = instantiater.instantiate(CoinChartViewInstantiateInformation())
+        let orderbookViewController = instantiater.instantiate(CoinOrderbookViewInstantiateInformation())
+        let transactionViewController = instantiater.instantiate(CoinTransactionViewInstantiateInformation())
         
         return [chartViewController, orderbookViewController, transactionViewController]
     }
