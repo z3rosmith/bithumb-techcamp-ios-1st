@@ -24,6 +24,8 @@ final class CoinListViewController: UIViewController {
     @IBOutlet private weak var sortButtonStackView: UIStackView!
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
     
+    @IBOutlet private var sortButtons: [SortButton]!
+    
     // MARK: - Property
     
     private let coinListDataManager = CoinListDataManager()
@@ -120,9 +122,7 @@ final class CoinListViewController: UIViewController {
     }
     
     private func restoreSortButtons(exclude button: SortButton) {
-        sortButtonStackView
-            .subviews
-            .compactMap { $0 as? SortButton }
+        sortButtons
             .filter { $0 != button }
             .forEach {
                 $0.restoreButton()

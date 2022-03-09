@@ -197,6 +197,10 @@
                         <outlet property="coinListMenuStackView" destination="rec-na-Pjs" id="hIq-NL-mwu"/>
                         <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
                         <outlet property="sortButtonStackView" destination="cyP-DE-3sa" id="ine-AR-Y8T"/>
+                        <outletCollection property="sortButtons" destination="EmW-cd-a0L" collectionClass="NSMutableArray" id="fst-1e-LYA"/>
+                        <outletCollection property="sortButtons" destination="0Mv-8N-uur" collectionClass="NSMutableArray" id="cEf-hU-97h"/>
+                        <outletCollection property="sortButtons" destination="hgW-XA-gmW" collectionClass="NSMutableArray" id="Nk7-nC-BRd"/>
+                        <outletCollection property="sortButtons" destination="OmU-Q5-9fL" collectionClass="NSMutableArray" id="frI-hp-KwR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
