@@ -9,7 +9,7 @@ import UIKit
 
 final class CoinListCollectionViewCell: UICollectionViewListCell {
 
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet private weak var favoriteButton: UIButton!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var symbolPerCurrencyLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
