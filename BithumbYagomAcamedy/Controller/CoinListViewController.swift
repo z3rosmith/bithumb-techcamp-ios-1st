@@ -148,9 +148,9 @@ extension CoinListViewController {
             cell.toggleFavorite = { [weak self] in
                 self?.coinListDataManager.toggleFavorite(
                     coinSymbolName: item.symbolName,
-                    isAlreadyFavorite: item.isFavorite,
-                    filteredBy: self?.searchBar.text
+                    isAlreadyFavorite: item.isFavorite
                 )
+                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
             }
         }
         dataSource = UICollectionViewDiffableDataSource<Section, Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
@@ -186,9 +186,9 @@ extension CoinListViewController {
             let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
                 self?.coinListDataManager.toggleFavorite(
                     coinSymbolName: item.symbolName,
-                    isAlreadyFavorite: item.isFavorite,
-                    filteredBy: self?.searchBar.text
+                    isAlreadyFavorite: item.isFavorite
                 )
+                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
                 completion(true)
             }
             favoriteAction.backgroundColor = .systemOrange

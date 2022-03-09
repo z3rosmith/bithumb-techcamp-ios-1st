@@ -30,6 +30,7 @@ final class CoinListDataManager {
     private let successStatusCode = "0000"
     private let httpNetworkService: HTTPNetworkService
     private var webSocketService: WebSocketService
+    private let favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager
     
     private var favoriteCoinList: [Coin] = []
     private var allCoinList: [Coin] = []
@@ -43,10 +44,12 @@ final class CoinListDataManager {
     init(
         httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
         webSocketService: WebSocketService = WebSocketService(),
+        favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager = FavoriteCoinCoreDataManager(),
         initialSortType: SortType = .popularity(isDescend: true)
     ) {
         self.httpNetworkService = httpNetworkService
         self.webSocketService = webSocketService
+        self.favoriteCoinCoreDataManager = favoriteCoinCoreDataManager
         self.currentSortType = initialSortType
     }
     
@@ -58,7 +61,7 @@ final class CoinListDataManager {
 // MARK: - Data Processing
 
 extension CoinListDataManager {
-    func toggleFavorite(coinSymbolName: String, isAlreadyFavorite: Bool, filteredBy text: String?) {
+    func toggleFavorite(coinSymbolName: String, isAlreadyFavorite: Bool) {
         guard let indexInAllCoinList = allCoinList.firstIndex(where: {
             $0.symbolName == coinSymbolName
         }) else {
@@ -70,32 +73,26 @@ extension CoinListDataManager {
                 $0.symbolName == coinSymbolName
             }) {
                 favoriteCoinList.remove(at: index)
+                favoriteCoinCoreDataManager.delete(symbol: coinSymbolName)
             }
         } else {
             let favoritedCoin = Coin(toggleFavorite: allCoinList[indexInAllCoinList])
             favoriteCoinList.append(favoritedCoin)
+            favoriteCoinCoreDataManager.save(symbol: coinSymbolName)
         }
         
         allCoinList[indexInAllCoinList].isFavorite.toggle()
+    }
+    
+    func sortCoinList(by sortType: SortType? = nil, filteredBy text: String? = nil) {
+        if let sortType = sortType {
+            currentSortType = sortType
+        }
         
         filteredFavoriteCoinList = favoriteCoinList.sorted(by: currentSortType).filter(by: text)
         filteredAllCoinList = allCoinList.sorted(by: currentSortType).filter(by: text)
         
-        delegate?.coinListDataManager(didToggleFavorite: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
-    }
-    
-    func sortCoinList(by sortType: SortType, filteredBy text: String?) {
-        currentSortType = sortType
-        
-        filteredFavoriteCoinList = favoriteCoinList.sorted(by: sortType).filter(by: text)
-        filteredAllCoinList = allCoinList.sorted(by: sortType).filter(by: text)
-        
         delegate?.coinListDataManager(didChangeCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
-    }
-    
-    func applyCurrentPrice(to item: Coin) {
-        print("in")
-        delegate?.coinListDataManager(didSetCurrentPriceInAllCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
     }
     
     func filterCoinList(by text: String) {
@@ -122,6 +119,30 @@ extension CoinListDataManager {
                 return "원화"
             }
         }
+    }
+    
+    private func applyCurrentPrice(to item: Coin) {
+        delegate?.coinListDataManager(didSetCurrentPriceInAllCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
+    }
+}
+
+// MARK: - FavoriteCoinCoreDataManager
+
+extension CoinListDataManager {
+    private func fetchFavoriteCoinList() {
+        let favoriteCoinSymbolsCoreData = favoriteCoinCoreDataManager.fetch()
+        let allCoinList = allCoinList
+        
+        for favoriteCoinSymbol in favoriteCoinSymbolsCoreData {
+            for coin in allCoinList {
+                if favoriteCoinSymbol == coin.symbolName {
+                    // 코어데이터에 저장된 코인이 모든 코인 목록 중에 있으면 관심목록으로 올리기
+                    toggleFavorite(coinSymbolName: favoriteCoinSymbol, isAlreadyFavorite: false)
+                    break
+                }
+            }
+        }
+        sortCoinList()
     }
 }
 
@@ -188,7 +209,7 @@ extension CoinListDataManager {
             }
         }
         group.notify(queue: .main) { [weak self] in
-            self?.sortCoinList(by: .popularity(isDescend: true), filteredBy: nil)
+            self?.fetchFavoriteCoinList()
 //            self?.fetchCurrentPriceWebSocket()
         }
     }
@@ -231,7 +252,7 @@ extension CoinListDataManager {
                     return
                 }
                 
-                self?.setCurrentPrice(of: transactionFirst.symbol, currentPrice: transactionFirst.price)
+                self?.setCurrentValue(of: transactionFirst.symbol, currentValue: transactionFirst)
             default:
                 break
             }
@@ -255,15 +276,20 @@ extension CoinListDataManager {
         }
     }
     
-    private func setCurrentPrice(of symbol: String, currentPrice: String) {
+    private func setCurrentValue(
+        of symbol: String,
+        currentValue: WebSocketTransactionData.WebSocketTransaction
+    ) {
         let symbolSlice = symbol.components(separatedBy: "_")[0]
         guard let index = filteredAllCoinList.firstIndex(where: {
             $0.symbolName == symbolSlice
         }) else {
             return
         }
-        filteredAllCoinList[index].currentPrice = Double(currentPrice)
-        print("changed: ", symbol, currentPrice)
+        
+        let newPrice = Double(currentValue.price)
+        
+        filteredAllCoinList[index].currentPrice = newPrice
         applyCurrentPrice(to: filteredAllCoinList[index])
     }
 }
