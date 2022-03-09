@@ -11,6 +11,8 @@ final class CoinDetailPageViewController: UIPageViewController {
 
     // MARK: - Property
     
+    var coin: Coin?
+    
     private lazy var viewsList = configureViewList()
     var completeHandler : ((Int) -> Void)?
     var currentIndex : Int {
@@ -26,6 +28,7 @@ final class CoinDetailPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        configureFirstViewController()
     }
     
     // MARK: - configure
@@ -33,29 +36,41 @@ final class CoinDetailPageViewController: UIPageViewController {
     private func configure() {
         dataSource = self
         delegate = self
+    }
+    
+    func configureSubViewControllerCompletion(coin: Coin?) {
+        guard let coin = coin else {
+            return
+        }
         
+        var pageViewControllerables = viewsList.compactMap {
+            $0 as? PageViewControllerable
+        }
+        
+        for index in pageViewControllerables.indices {
+            pageViewControllerables[index].completion = {
+                pageViewControllerables[index].configureDataManager(coin: coin)
+            }
+        }
+    }
+    
+    private func configureFirstViewController() {
         guard let firstViewController = viewsList.first else {
             return
         }
         
-        setViewControllers([firstViewController], direction: .forward, animated: true)
+        setViewControllers(
+            [firstViewController],
+            direction: .forward,
+            animated: true
+        )
     }
     
     private func configureViewList() -> [UIViewController] {
-        let chartStoryBoard = UIStoryboard(name: "CoinChart", bundle: nil)
-        let chartViewController = chartStoryBoard.instantiateViewController(
-            withIdentifier: "CoinChartViewController"
-        )
-        
-        let orderbookStoryBoard = UIStoryboard(name: "CoinOrderbook", bundle: nil)
-        let orderbookViewController = orderbookStoryBoard.instantiateViewController(
-            withIdentifier: "CoinOrderbookViewController"
-        )
-        
-        let transactionStoryBoard = UIStoryboard(name: "CoinTransaction", bundle: nil)
-        let transactionViewController = transactionStoryBoard.instantiateViewController(
-            withIdentifier: "CoinTransactionViewController"
-        )
+        let instantiater = ViewControllerInstantiater()
+        let chartViewController = instantiater.instantiate(CoinChartViewInstantiateInformation())
+        let orderbookViewController = instantiater.instantiate(CoinOrderbookViewInstantiateInformation())
+        let transactionViewController = instantiater.instantiate(CoinTransactionViewInstantiateInformation())
         
         return [chartViewController, orderbookViewController, transactionViewController]
     }
@@ -74,8 +89,7 @@ final class CoinDetailPageViewController: UIPageViewController {
         setViewControllers(
             [viewsList[index]],
             direction: derection,
-            animated: true,
-            completion: nil
+            animated: true
         )
         
         completeHandler?(currentIndex)

@@ -241,7 +241,10 @@ extension CoinListViewController: CoinListDataManagerDelegate {
 // MARK: - UICollectionViewDelegate
 
 extension CoinListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
         collectionView.deselectItem(at: indexPath, animated: false)
         
         let coin = dataSource?.itemIdentifier(for: indexPath)
