@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CoinTransactionViewController: UIViewController {
-    
+final class CoinTransactionViewController: UIViewController, PageViewControllerable {
+        
     // MARK: - Typealias
     
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, Transaction>
@@ -25,15 +25,22 @@ final class CoinTransactionViewController: UIViewController {
     @IBOutlet private weak var coinQuantityLabel: UILabel!
     
     // MARK: - Property
-    
-    private let coinTransactionDataManager = CoinTransactionDataManager()
+    var completion: (() -> Void)?
+    private var coinTransactionDataManager: CoinTransactionDataManager?
     private var dataSource: DiffableDataSource?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDataManager()
+        completion?()
         configureCollectionViewDataSource()
         configureCollectionViewLayout()
+    }
+    
+    func configureDataManager(coin: Coin) {
+        coinTransactionDataManager = CoinTransactionDataManager(symbol: coin.symbolName)
+        coinTransactionDataManager?.delegate = self
+        coinTransactionDataManager?.fetchTransaction()
+        coinTransactionDataManager?.fetchTransactionWebSocket()
     }
 }
 
@@ -79,16 +86,6 @@ extension CoinTransactionViewController {
         DispatchQueue.main.async {
             self.dataSource?.apply(snapshot, animatingDifferences: false)
         }
-    }
-}
-
-// MARK: - CoinTransaction DataManager
-
-extension CoinTransactionViewController {
-    private func configureDataManager() {
-        coinTransactionDataManager.delegate = self
-        coinTransactionDataManager.fetchTransaction()
-        coinTransactionDataManager.fetchTransactionWebSocket()
     }
 }
 
