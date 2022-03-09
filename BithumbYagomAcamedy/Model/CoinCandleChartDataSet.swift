@@ -18,7 +18,7 @@ final class CoinCandleChartDataSet: CandleChartDataSet {
         barSpace = 0.2
         shadowWidth = 0.7
         axisDependency = .right
-        shadowColor = .black
+        shadowColor = .label
         neutralColor = .black
         increasingColor = .red
         decreasingColor = .blue
