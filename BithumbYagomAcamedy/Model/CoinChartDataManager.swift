@@ -16,6 +16,7 @@ protocol CoinChartDataManagerDelegate: AnyObject {
 final class CoinChartDataManager {
     private let httpService: HTTPNetworkService
     private var webSocketService: WebSocketService
+    private let coreDataManager: CoinChartCoreDataManager
     private let symbol: String
     private var dateFormat: ChartDateFormat
     private var candlesticks: [Candlestick]
@@ -31,6 +32,7 @@ final class CoinChartDataManager {
         self.dateFormat = dateFormat
         self.httpService = httpService
         self.webSocketService = webSocketService
+        self.coreDataManager = CoinChartCoreDataManager(symbol: symbol)
         self.candlesticks = []
     }
     
@@ -41,7 +43,7 @@ final class CoinChartDataManager {
     func changeChartDateFormat(to dateFormat: ChartDateFormat) {
         self.dateFormat = dateFormat
         webSocketService.close()
-        requestChart()
+        requestCoreDataChart()
         requestRealTimeChart()
     }
     
@@ -54,6 +56,17 @@ final class CoinChartDataManager {
             let date = Date(timeIntervalSince1970: candlestick.time)
             
             return dateFormatter.string(from: date)
+        }
+    }
+    
+    private func requestCoreDataChart() {
+        let candlesticks = coreDataManager.fetch(dateFormat: dateFormat)
+        
+        if candlesticks.isEmpty == true {
+            requestChart()
+        } else {
+            self.candlesticks = candlesticks
+            self.delegate?.coinChartDataManager(didSet: candlesticks)
         }
     }
     
@@ -77,6 +90,7 @@ final class CoinChartDataManager {
             }
             
             self?.candlesticks = candlesticks
+            self?.saveCoreData(candlesticks: candlesticks)
             self?.delegate?.coinChartDataManager(didSet: candlesticks)
         }
     }
@@ -119,10 +133,16 @@ final class CoinChartDataManager {
         
         if remainTime == dateFormat.second {
             candlesticks.append(updateCandlestick)
+            coreDataManager.save(candlestick: updateCandlestick, dateFormat: dateFormat)
             delegate?.coinChartDataManager(didAdd: updateCandlestick)
         } else {
             let lastIndex = candlesticks.index(before: candlesticks.endIndex)
             
+            coreDataManager.update(
+                candlestick: candlesticks[lastIndex],
+                to: updateCandlestick,
+                dateFormat: dateFormat
+            )
             candlesticks[lastIndex] = updateCandlestick
             delegate?.coinChartDataManager(didUpdate: updateCandlestick)
         }
@@ -151,5 +171,12 @@ final class CoinChartDataManager {
             
             throw error
         }
+    }
+    
+    private func saveCoreData(candlesticks: [Candlestick]) {
+        coreDataManager.save(
+            candlesticks: candlesticks,
+            dateFormat: dateFormat
+        )
     }
 }

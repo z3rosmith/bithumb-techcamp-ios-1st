@@ -15,6 +15,38 @@ extension CandlestickChart: Identifiable {
         return NSFetchRequest<CandlestickChart>(entityName: "CandlestickChart")
     }
     
+    @nonobjc class func fetchRequest(
+        symbol: String,
+        dateFormat: ChartDateFormat
+    ) -> NSFetchRequest<CandlestickChart> {
+        let request = fetchRequest()
+        let symbolPredicate = NSPredicate(format: "symbol == %@", symbol)
+        let dateFormatPredicate = NSPredicate(format: "timeInterval == %@", dateFormat.description)
+        
+        request.predicate = NSCompoundPredicate(
+            andPredicateWithSubpredicates: [symbolPredicate, dateFormatPredicate]
+        )
+        
+        return request
+    }
+    
+    @nonobjc class func fetchRequest(
+        symbol: String,
+        dateFormat: ChartDateFormat,
+        time: Double
+    ) -> NSFetchRequest<CandlestickChart> {
+        let request = fetchRequest()
+        let symbolPredicate = NSPredicate(format: "symbol == %@", symbol)
+        let dateFormatPredicate = NSPredicate(format: "timeInterval == %@", dateFormat.description)
+        let timePredicate = NSPredicate(format: "time == %lf", time)
+        
+        request.predicate = NSCompoundPredicate(
+            andPredicateWithSubpredicates: [symbolPredicate, dateFormatPredicate, timePredicate]
+        )
+        
+        return request
+    }
+    
     @NSManaged public var time: Double
     @NSManaged public var openPrice: Double
     @NSManaged public var closePrice: Double
