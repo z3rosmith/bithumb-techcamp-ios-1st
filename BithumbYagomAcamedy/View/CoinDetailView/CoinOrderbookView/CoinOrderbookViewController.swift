@@ -130,14 +130,14 @@ extension CoinOrderbookViewController {
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
     func coinOrderbookDataManager(
-        didCalculate totalQuantity: Double,
+        didCalculate totalQuantity: String,
         type: OrderbookType
     ) {
         DispatchQueue.main.async { [weak self] in
             if type == .ask {
-                self?.totalAsksQuantityLabel.text = String(totalQuantity)
+                self?.totalAsksQuantityLabel.text = totalQuantity
             } else {
-                self?.totalBidsQuantityLabel.text = String(totalQuantity)
+                self?.totalBidsQuantityLabel.text = totalQuantity
             }
         }
     }

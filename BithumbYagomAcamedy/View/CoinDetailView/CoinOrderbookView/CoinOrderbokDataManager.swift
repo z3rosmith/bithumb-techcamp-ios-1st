@@ -9,7 +9,7 @@ import Foundation
 
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
     func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], and bidOrderbooks: [Orderbook])
-    func coinOrderbookDataManager(didCalculate totalQuantity: Double, type: OrderbookType)
+    func coinOrderbookDataManager(didCalculate totalQuantity: String, type: OrderbookType)
 }
 
 final class CoinOrderbookDataManager {
@@ -58,10 +58,12 @@ extension CoinOrderbookDataManager {
             Double(orderbook.quantity)
         }.reduce(0, +)
         
-        let digit: Double = pow(10, 5)
-        let roundedQuantity = round(totalQuantity * digit) / digit
         
-        delegate?.coinOrderbookDataManager(didCalculate: roundedQuantity, type: type)
+        
+        delegate?.coinOrderbookDataManager(
+            didCalculate: totalQuantity.roundedQuantity,
+            type: type
+        )
     }
     
     private func updateOrderbook(

@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-796" y="138"/>
         </scene>
-        <!--거래소-->
+        <!--Coin List View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="CoinListViewController" id="Y6W-OH-hqX" customClass="CoinListViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
@@ -162,7 +162,7 @@
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="거래소" image="chart.line.uptrend.xyaxis" catalog="system" id="MPo-jd-qVp"/>
+                    <tabBarItem key="tabBarItem" id="MPo-jd-qVp"/>
                     <navigationItem key="navigationItem" id="Yih-V7-UNV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -178,7 +178,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.line.uptrend.xyaxis" catalog="system" width="128" height="101"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

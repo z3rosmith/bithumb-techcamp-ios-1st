@@ -42,6 +42,7 @@ final class CoinListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchBar()
+        configureTabBar()
         configureCollectionView()
         configureDataSource()
         configureCoinListController()
@@ -209,6 +210,14 @@ extension CoinListViewController {
         }
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.delegate = self
+    }
+    
+    private func configureTabBar() {
+        tabBarItem = UITabBarItem(
+            title: "거래소",
+            image: UIImage(named: "chart_gray"),
+            selectedImage: UIImage(named: "chart_black")
+        )
     }
 }
 
