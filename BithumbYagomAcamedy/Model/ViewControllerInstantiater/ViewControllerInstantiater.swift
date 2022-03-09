@@ -10,7 +10,7 @@ import UIKit
 
 struct ViewControllerInstantiater {
     func instantiate(
-        _ instantiateInformation: ViewControllerinstantiatable
+        _ instantiateInformation: ViewControllerInstantiatable
     ) -> UIViewController {
         let storyboard = UIStoryboard(
             name: instantiateInformation.storyboardName,

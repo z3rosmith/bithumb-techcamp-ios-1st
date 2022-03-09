@@ -29,7 +29,7 @@
 		08ADD5A127D5AC8500AFC950 /* CoinDetailChartImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A027D5AC8500AFC950 /* CoinDetailChartImageView.swift */; };
 		08ADD5A327D5F9ED00AFC950 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */; };
 		08ADD5A527D6355A00AFC950 /* BallonSpeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */; };
-		08ADD5A927D73BFD00AFC950 /* ViewControllerinstantiatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A827D73BFD00AFC950 /* ViewControllerinstantiatable.swift */; };
+		08ADD5A927D73BFD00AFC950 /* ViewControllerInstantiatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A827D73BFD00AFC950 /* ViewControllerInstantiatable.swift */; };
 		08ADD5AB27D73C7D00AFC950 /* ViewControllerInstantiater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5AA27D73C7D00AFC950 /* ViewControllerInstantiater.swift */; };
 		08ADD5AE27D745B400AFC950 /* CoinChartViewInstantiateInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5AD27D745B400AFC950 /* CoinChartViewInstantiateInformation.swift */; };
 		08ADD5B027D745E200AFC950 /* CoinOrderbookViewInstantiateInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5AF27D745E200AFC950 /* CoinOrderbookViewInstantiateInformation.swift */; };
@@ -161,7 +161,7 @@
 		08ADD5A027D5AC8500AFC950 /* CoinDetailChartImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailChartImageView.swift; sourceTree = "<group>"; };
 		08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallonSpeakView.swift; sourceTree = "<group>"; };
-		08ADD5A827D73BFD00AFC950 /* ViewControllerinstantiatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerinstantiatable.swift; sourceTree = "<group>"; };
+		08ADD5A827D73BFD00AFC950 /* ViewControllerInstantiatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerInstantiatable.swift; sourceTree = "<group>"; };
 		08ADD5AA27D73C7D00AFC950 /* ViewControllerInstantiater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerInstantiater.swift; sourceTree = "<group>"; };
 		08ADD5AD27D745B400AFC950 /* CoinChartViewInstantiateInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinChartViewInstantiateInformation.swift; sourceTree = "<group>"; };
 		08ADD5AF27D745E200AFC950 /* CoinOrderbookViewInstantiateInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOrderbookViewInstantiateInformation.swift; sourceTree = "<group>"; };
@@ -404,7 +404,7 @@
 		08ADD5A727D73BD700AFC950 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				08ADD5A827D73BFD00AFC950 /* ViewControllerinstantiatable.swift */,
+				08ADD5A827D73BFD00AFC950 /* ViewControllerInstantiatable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -886,7 +886,7 @@
 				37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */,
 				08B46DB127CF4DFC0072CBBF /* CoinTransactionDataManager.swift in Sources */,
 				08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */,
-				08ADD5A927D73BFD00AFC950 /* ViewControllerinstantiatable.swift in Sources */,
+				08ADD5A927D73BFD00AFC950 /* ViewControllerInstantiatable.swift in Sources */,
 				0810E82827D1EC7E00064BA5 /* Orderbook.swift in Sources */,
 				3707833827C8C469009ECBBC /* DepositWithdrawalStatusViewController.swift in Sources */,
 				08B46DA727CF30630072CBBF /* CoinDetailPageViewController.swift in Sources */,

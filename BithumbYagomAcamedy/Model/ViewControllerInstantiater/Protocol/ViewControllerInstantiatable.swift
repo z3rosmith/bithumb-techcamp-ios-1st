@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ViewControllerinstantiatable {
+protocol ViewControllerInstantiatable {
     var storyboardName: String { get }
     var viewControllerName: String { get }
 }
