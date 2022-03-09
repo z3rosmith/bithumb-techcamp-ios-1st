@@ -51,7 +51,7 @@
                                 <rect key="frame" x="10" y="146" width="62.5" height="31"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="이름">
+                                <buttonConfiguration key="configuration" style="plain" title="이름">
                                     <imageReference key="image" image="chevron.up.chevron.down" catalog="system" symbolScale="medium"/>
                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                 </buttonConfiguration>
@@ -63,7 +63,7 @@
                                 <rect key="frame" x="341.5" y="146" width="62.5" height="31"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="출금">
+                                <buttonConfiguration key="configuration" style="plain" title="출금">
                                     <imageReference key="image" image="chevron.up.chevron.down" catalog="system" symbolScale="medium"/>
                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                 </buttonConfiguration>
@@ -75,7 +75,7 @@
                                 <rect key="frame" x="176" y="146" width="62.5" height="31"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="입금">
+                                <buttonConfiguration key="configuration" style="plain" title="입금">
                                     <imageReference key="image" image="chevron.up.chevron.down" catalog="system" symbolScale="medium"/>
                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                 </buttonConfiguration>
