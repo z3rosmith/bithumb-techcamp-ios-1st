@@ -11,14 +11,5 @@ final class MoreViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTabBar()
-    }
-
-    func configureTabBar() {
-        tabBarItem = UITabBarItem(
-            title: "더보기",
-            image: UIImage(named: "ellipsis"),
-            selectedImage: UIImage(named: "ellipsis")
-        )
     }
 }

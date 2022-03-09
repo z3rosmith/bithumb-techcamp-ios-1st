@@ -17,13 +17,6 @@ class MainTabBarController: UITabBarController {
     private func configureTabBarItem() {
         tabBar.tintColor = .label
         tabBar.unselectedItemTintColor = .systemGray2
-        
-        
-        let moreViewController = viewControllers?.compactMap { viewController in
-            viewController as? MoreViewController
-        }
-        
-        moreViewController?[0].configureTabBar()
     }
         
 }
