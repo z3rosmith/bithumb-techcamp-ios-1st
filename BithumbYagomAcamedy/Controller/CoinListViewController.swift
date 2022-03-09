@@ -37,7 +37,6 @@ final class CoinListViewController: UIViewController {
         configureDataSource()
         configureCoinListController()
         coinListDataManager.fetchCoinList()
-        configureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,37 +61,33 @@ final class CoinListViewController: UIViewController {
         scrollToAllSectionHeader()
     }
     
-    @IBAction func popularityButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func popularityButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .popularity(isDescend: sender.isSelected),
+            by: .popularity(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func nameButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func nameButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .name(isDescend: sender.isSelected),
+            by: .name(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func priceButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func priceButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .price(isDescend: sender.isSelected),
+            by: .price(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func changeRateButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func changeRateButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .changeRate(isDescend: sender.isSelected),
+            by: .changeRate(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
@@ -117,13 +112,13 @@ final class CoinListViewController: UIViewController {
         }
     }
     
-    private func restoreSortButtons(exclude button: UIButton) {
+    private func restoreSortButtons(exclude button: SortButton) {
         sortButtonStackView
             .subviews
-            .compactMap { $0 as? UIButton }
+            .compactMap { $0 as? SortButton }
             .filter { $0 != button }
             .forEach {
-                $0.isSelected = false
+                $0.restoreButton()
             }
     }
 }
@@ -133,12 +128,6 @@ final class CoinListViewController: UIViewController {
 extension CoinListViewController {
     private func configureCoinListController() {
         coinListDataManager.delegate = self
-    }
-    
-    private func configureButton() {
-        if let sortByPopularityButton = sortButtonStackView.subviews.first as? UIButton {
-            sortByPopularityButton.isSelected = true
-        }
     }
     
     private func configureDataSource() {
