@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vwf-dr-fEA">
-                                <rect key="frame" x="20" y="187" width="374" height="626"/>
+                                <rect key="frame" x="0.0" y="187" width="414" height="626"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ljw-XM-Gb1">
                                     <size key="itemSize" width="128" height="128"/>
@@ -89,13 +89,13 @@
                         <constraints>
                             <constraint firstItem="j4G-z7-lNo" firstAttribute="top" secondItem="w2d-J5-fyx" secondAttribute="bottom" constant="10" id="28c-zc-XSQ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="w2d-J5-fyx" secondAttribute="trailing" id="3lQ-lD-oeD"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vwf-dr-fEA" secondAttribute="trailing" constant="20" id="98w-FN-VVQ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vwf-dr-fEA" secondAttribute="trailing" id="98w-FN-VVQ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="vwf-dr-fEA" secondAttribute="bottom" id="GPd-7e-ohV"/>
                             <constraint firstItem="EFm-NF-6Z8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="j4G-z7-lNo" secondAttribute="trailing" constant="10" id="Lfa-H7-N2I"/>
                             <constraint firstItem="vN0-PA-455" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="MNN-kH-eKe"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="2az-XF-pyO" secondAttribute="trailing" id="Ndh-0C-90K"/>
                             <constraint firstItem="2az-XF-pyO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="RTA-69-NWL"/>
-                            <constraint firstItem="vwf-dr-fEA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UeX-Ph-hdh"/>
+                            <constraint firstItem="vwf-dr-fEA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="UeX-Ph-hdh"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="EFm-NF-6Z8" secondAttribute="trailing" constant="10" id="VoT-7q-1JJ"/>
                             <constraint firstItem="EFm-NF-6Z8" firstAttribute="top" secondItem="w2d-J5-fyx" secondAttribute="bottom" constant="10" id="ZnF-q6-Uff"/>
                             <constraint firstItem="w2d-J5-fyx" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="cA7-b7-KkS"/>
