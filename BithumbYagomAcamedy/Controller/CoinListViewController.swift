@@ -18,6 +18,7 @@ final class CoinListViewController: UIViewController {
     
     // MARK: - IBOutlet
     
+    @IBOutlet private weak var balloonSpeakView: BallonSpeakView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var coinListMenuStackView: CoinListMenuStackView!
     @IBOutlet private weak var sortButtonStackView: UIStackView!
@@ -37,6 +38,8 @@ final class CoinListViewController: UIViewController {
         configureDataSource()
         configureCoinListController()
         coinListDataManager.fetchCoinList()
+        configureBalloonSpeakView()
+        addTapGestureToView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,6 +62,10 @@ final class CoinListViewController: UIViewController {
     @IBAction func allCoinButtonTapped(_ sender: UIButton) {
 //        coinListMenuStackView.moveUnderLine(index: Section.all.rawValue)
         scrollToAllSectionHeader()
+    }
+    
+    @IBAction func infoButtonTapped(_ sender: Any) {
+        animateBalloonSpeakView(isHidden: false)
     }
     
     @IBAction func popularityButtonTapped(_ sender: SortButton) {
@@ -121,6 +128,16 @@ final class CoinListViewController: UIViewController {
                 $0.restoreButton()
             }
     }
+    
+    private func animateBalloonSpeakView(isHidden: Bool) {
+        UIView.transition(with: balloonSpeakView, duration: 0.5, options: .transitionCrossDissolve) {
+            self.balloonSpeakView.isHidden = isHidden
+        }
+    }
+    
+    @objc func viewTapped() {
+        animateBalloonSpeakView(isHidden: true)
+    }
 }
 
 // MARK: - Configuration
@@ -128,6 +145,10 @@ final class CoinListViewController: UIViewController {
 extension CoinListViewController {
     private func configureCoinListController() {
         coinListDataManager.delegate = self
+    }
+    
+    private func configureBalloonSpeakView() {
+        balloonSpeakView.isHidden = true
     }
     
     private func configureDataSource() {
@@ -192,6 +213,12 @@ extension CoinListViewController {
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.delegate = self
         coinListCollectionView.keyboardDismissMode = .onDrag
+    }
+    
+    private func addTapGestureToView() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
     }
 }
 
