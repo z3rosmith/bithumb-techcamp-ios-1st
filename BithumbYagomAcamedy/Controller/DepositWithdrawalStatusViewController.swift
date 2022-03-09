@@ -75,6 +75,12 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         dataManager?.requestData()
     }
     
+    private func scrollToTop() {
+        let topIndexPath = IndexPath(row: 0, section: 0)
+        
+        collectionView.scrollToItem(at: topIndexPath, at: .top, animated: true)
+    }
+    
     // MARK: - IBAction
     
     @IBAction func filterSegmentedControlValueChanged(_ sender: Any) {
@@ -85,24 +91,28 @@ final class DepositWithdrawalStatusViewController: UIViewController {
         nameSortButton.restoreButton()
         depositSortButton.restoreButton()
         withdrawalSortButton.restoreButton()
+        scrollToTop()
     }
     
     @IBAction func nameSortButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .name, nameSortButton.isAscend)
         depositSortButton.restoreButton()
         withdrawalSortButton.restoreButton()
+        scrollToTop()
     }
     
     @IBAction func depositSortButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .deposit, depositSortButton.isAscend)
         nameSortButton.restoreButton()
         withdrawalSortButton.restoreButton()
+        scrollToTop()
     }
     
     @IBAction func withdrawalButtonTouched(_ sender: Any) {
         dataManager?.sortedStatuses(by: .withdrawal, withdrawalSortButton.isAscend)
         nameSortButton.restoreButton()
         depositSortButton.restoreButton()
+        scrollToTop()
     }
 }
 
