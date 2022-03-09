@@ -15,5 +15,16 @@ extension FavoriteCoin: Identifiable {
         return NSFetchRequest<FavoriteCoin>(entityName: "FavoriteCoin")
     }
     
+    @nonobjc public class func fetchRequest(symbol: String) -> NSFetchRequest<FavoriteCoin> {
+        let request = fetchRequest()
+        let symbolPredicate = NSPredicate(format: "symbol == %@", symbol)
+        
+        request.predicate = NSCompoundPredicate(
+            andPredicateWithSubpredicates: [symbolPredicate]
+        )
+        
+        return request
+    }
+    
     @NSManaged public var symbol: String
 }

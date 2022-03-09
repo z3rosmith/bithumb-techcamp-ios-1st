@@ -29,6 +29,9 @@
                         <state key="selected">
                             <imageReference key="image" image="heart.fill" catalog="system" symbolScale="large"/>
                         </state>
+                        <state key="highlighted">
+                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                        </state>
                         <connections>
                             <action selector="favoriteButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Mdr-yW-1rn"/>
                         </connections>

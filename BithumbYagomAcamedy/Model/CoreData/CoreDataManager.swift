@@ -33,6 +33,20 @@ final class CoreDataManager {
         }
     }
     
+    func delete<T: NSManagedObject>(request: NSFetchRequest<T>) {
+        do {
+            let fetchResult = try context.fetch(request)
+            
+            fetchResult.forEach {
+                context.delete($0)
+            }
+            
+            saveContext()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     func saveContext() {
         if context.hasChanges {
             do {
