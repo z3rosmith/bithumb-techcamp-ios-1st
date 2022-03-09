@@ -18,10 +18,13 @@ final class CoinListViewController: UIViewController {
     
     // MARK: - IBOutlet
     
+    @IBOutlet private weak var balloonSpeakView: BallonSpeakView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var coinListMenuStackView: CoinListMenuStackView!
     @IBOutlet private weak var sortButtonStackView: UIStackView!
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
+    
+    @IBOutlet private var sortButtons: [SortButton]!
     
     // MARK: - Property
     
@@ -37,7 +40,8 @@ final class CoinListViewController: UIViewController {
         configureDataSource()
         configureCoinListController()
         coinListDataManager.fetchCoinList()
-        configureButton()
+        configureBalloonSpeakView()
+        addTapGestureToView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,37 +66,37 @@ final class CoinListViewController: UIViewController {
         scrollToAllSectionHeader()
     }
     
-    @IBAction func popularityButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func infoButtonTapped(_ sender: Any) {
+        animateBalloonSpeakView(isHidden: false)
+    }
+    
+    @IBAction func popularityButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .popularity(isDescend: sender.isSelected),
+            by: .popularity(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func nameButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func nameButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .name(isDescend: sender.isSelected),
+            by: .name(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func priceButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func priceButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .price(isDescend: sender.isSelected),
+            by: .price(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
     }
     
-    @IBAction func changeRateButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
+    @IBAction func changeRateButtonTapped(_ sender: SortButton) {
         coinListDataManager.sortCoinList(
-            by: .changeRate(isDescend: sender.isSelected),
+            by: .changeRate(isDescend: !sender.isAscend),
             filteredBy: searchBar.text
         )
         restoreSortButtons(exclude: sender)
@@ -117,14 +121,22 @@ final class CoinListViewController: UIViewController {
         }
     }
     
-    private func restoreSortButtons(exclude button: UIButton) {
-        sortButtonStackView
-            .subviews
-            .compactMap { $0 as? UIButton }
+    private func restoreSortButtons(exclude button: SortButton) {
+        sortButtons
             .filter { $0 != button }
             .forEach {
-                $0.isSelected = false
+                $0.restoreButton()
             }
+    }
+    
+    private func animateBalloonSpeakView(isHidden: Bool) {
+        UIView.transition(with: balloonSpeakView, duration: 0.5, options: .transitionCrossDissolve) {
+            self.balloonSpeakView.isHidden = isHidden
+        }
+    }
+    
+    @objc func viewTapped() {
+        animateBalloonSpeakView(isHidden: true)
     }
 }
 
@@ -135,10 +147,8 @@ extension CoinListViewController {
         coinListDataManager.delegate = self
     }
     
-    private func configureButton() {
-        if let sortByPopularityButton = sortButtonStackView.subviews.first as? UIButton {
-            sortByPopularityButton.isSelected = true
-        }
+    private func configureBalloonSpeakView() {
+        balloonSpeakView.isHidden = true
     }
     
     private func configureDataSource() {
@@ -162,6 +172,7 @@ extension CoinListViewController {
             configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
             configuration.textProperties.color = .label
             headerView.contentConfiguration = configuration
+            headerView.backgroundColor = .white
         }
         dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             if elementKind == UICollectionView.elementKindSectionHeader {
@@ -202,6 +213,12 @@ extension CoinListViewController {
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.delegate = self
         coinListCollectionView.keyboardDismissMode = .onDrag
+    }
+    
+    private func addTapGestureToView() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
     }
 }
 
