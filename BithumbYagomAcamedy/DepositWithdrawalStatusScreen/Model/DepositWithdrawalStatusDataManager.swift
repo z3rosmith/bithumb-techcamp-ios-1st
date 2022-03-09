@@ -55,13 +55,16 @@ final class DepositWithdrawalStatusDataManager {
             
             switch result {
             case .success(let data):
-                guard let parsedData = try? self.parseAssetsStatuses(to: data) else {
+                guard let parsedAssetsStatuses = try? self.parseAssetsStatuses(to: data) else {
                     return
                 }
+                let sortedAssetsStatuses = parsedAssetsStatuses.sorted {
+                    $0.coinName < $1.coinName
+                }
                 
-                self.statuses = parsedData
-                self.filteredStatuses = parsedData
-                self.delegate?.depositWithdrawalStatusDataManagerDidSetData(parsedData)
+                self.statuses = sortedAssetsStatuses
+                self.filteredStatuses = sortedAssetsStatuses
+                self.delegate?.depositWithdrawalStatusDataManagerDidSetData(sortedAssetsStatuses)
             case .failure(let error):
                 print(error.localizedDescription)
             }
