@@ -15,6 +15,22 @@ struct Candlestick {
     let highPrice: Double
     let volume: Double
     
+    init(
+        time: Double,
+        openPrice: Double,
+        closePrice: Double,
+        lowPrice: Double,
+        highPrice: Double,
+        volume: Double
+    ) {
+        self.time = time
+        self.openPrice = openPrice
+        self.closePrice = closePrice
+        self.lowPrice = lowPrice
+        self.highPrice = highPrice
+        self.volume = volume
+    }
+    
     init?(array: [Any]) {
         guard let time = array[0] as? Int64,
               let openPrice = array[1] as? String,

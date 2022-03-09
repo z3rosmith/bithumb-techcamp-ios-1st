@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct CoinTransactionViewInstantiateInformation: ViewControllerinstantiatable {
-    var storyboardName: String
-    var viewControllerName: String
+struct CoinTransactionViewInstantiateInformation: ViewControllerInstantiatable {
+    private(set) var storyboardName: String
+    private(set) var viewControllerName: String
     
     init(
         storyboardName: String = "CoinTransaction",

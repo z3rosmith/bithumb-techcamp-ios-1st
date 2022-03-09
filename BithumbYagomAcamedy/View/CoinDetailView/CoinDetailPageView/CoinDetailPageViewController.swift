@@ -11,8 +11,6 @@ final class CoinDetailPageViewController: UIPageViewController {
 
     // MARK: - Property
     
-    var coin: Coin?
-    
     private lazy var viewsList = configureViewList()
     var completeHandler : ((Int) -> Void)?
     var currentIndex : Int {
