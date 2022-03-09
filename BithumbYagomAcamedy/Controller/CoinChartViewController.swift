@@ -11,9 +11,9 @@ import Charts
 final class CoinChartViewController: UIViewController, PageViewControllerable {
     
     @IBOutlet private weak var coinChartView: CandleStickChartView!
-    var completion: (() -> Void)?
     @IBOutlet private weak var timeSegmentedControl: UISegmentedControl!
     private var dataManager: CoinChartDataManager?
+    var completion: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.coinChartView.data = data
             self?.updateXAxisValueFormat()
-            self?.moveChartPosition(entry: dataSet.last)
+            self?.moveChartPosition(entry: dataSet.last, count: candlesticks.count)
             self?.coinChartView.notifyDataSetChanged()
         }
     }
@@ -105,16 +105,21 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         coinChartView.xAxis.valueFormatter = dateFormatter
     }
     
-    private func moveChartPosition(entry: ChartDataEntry?) {
+    private func moveChartPosition(entry: ChartDataEntry?, count: Int) {
         guard let x = entry?.x,
               let y = entry?.y
         else {
             return
         }
+        let count = Double(count)
+        let calibrationOfScaleX = 0.025
+        let calibrationOfScaleY = 0.005
+        
+        print(count * calibrationOfScaleX, count * calibrationOfScaleY)
         
         coinChartView.zoom(
-            scaleX: 80,
-            scaleY: 5,
+            scaleX: count * calibrationOfScaleX,
+            scaleY: count * calibrationOfScaleY,
             xValue: x,
             yValue: y,
             axis: .right
