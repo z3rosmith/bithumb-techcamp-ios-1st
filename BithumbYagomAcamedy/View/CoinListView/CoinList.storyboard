@@ -33,59 +33,131 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-RF-jT9">
-                                <rect key="frame" x="0.0" y="142" width="414" height="671"/>
+                                <rect key="frame" x="0.0" y="185" width="414" height="628"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
                                 <cells/>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa">
-                                <rect key="frame" x="56" y="85" width="302" height="31"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="코인이름 또는 심볼" translatesAutoresizingMaskIntoConstraints="NO" id="QiV-ve-AIc">
+                                <rect key="frame" x="0.0" y="44" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rec-na-Pjs" userLabel="Category Stack View" customClass="CoinListMenuStackView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="95" width="150" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxA-Ta-WN9">
+                                        <rect key="frame" x="0.0" y="12.5" width="75" height="35"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="관심"/>
+                                        <connections>
+                                            <action selector="favoriteCoinButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1qd-TV-uXx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GPh-t1-wUv">
+                                        <rect key="frame" x="75" y="12.5" width="75" height="35"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="원화"/>
+                                        <connections>
+                                            <action selector="allCoinButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="XT5-9h-tK2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Sp0-to-Ia7"/>
+                                    <constraint firstAttribute="height" constant="60" id="e8g-tD-Qzo"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa" userLabel="Sort Stack View">
+                                <rect key="frame" x="0.0" y="155" width="414" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmW-cd-a0L" userLabel="인기순">
-                                        <rect key="frame" x="0.0" y="0.0" width="60.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="인기순"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="103.5" height="30"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="인기순"/>
                                         <connections>
                                             <action selector="popularityButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="xhu-1K-VYH"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Mv-8N-uur">
-                                        <rect key="frame" x="80.5" y="0.0" width="60.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="이름"/>
+                                        <rect key="frame" x="103.5" y="0.0" width="103.5" height="30"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="이름"/>
                                         <connections>
                                             <action selector="nameButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="C0q-Yf-Wzx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW">
-                                        <rect key="frame" x="161" y="0.0" width="60.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="현재가"/>
+                                        <rect key="frame" x="207" y="0.0" width="103.5" height="30"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="현재가"/>
                                         <connections>
                                             <action selector="priceButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BT0-xU-YQO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL">
-                                        <rect key="frame" x="241.5" y="0.0" width="60.5" height="31"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="변동률"/>
+                                        <rect key="frame" x="310.5" y="0.0" width="103.5" height="30"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="변동률"/>
                                         <connections>
                                             <action selector="changeRateButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BsE-wG-sdy"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="2S2-i3-KmA"/>
-                                </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" id="wYy-bT-KBm" customClass="BallonSpeakView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="234" y="95" width="160" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kve-1r-sOG">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3H1-9D-6t9">
+                                        <rect key="frame" x="0.0" y="10" width="160" height="50"/>
+                                        <string key="text">전날 24시간 거래금액으로 
+정렬합니다.</string>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="2Y8-Js-7Ct"/>
+                                    <constraint firstAttribute="bottom" secondItem="kve-1r-sOG" secondAttribute="bottom" id="UI2-mq-rS8"/>
+                                    <constraint firstAttribute="bottom" secondItem="3H1-9D-6t9" secondAttribute="bottom" id="Y4J-am-Wsk"/>
+                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" constant="10" id="fr9-ST-aKh"/>
+                                    <constraint firstAttribute="trailing" secondItem="kve-1r-sOG" secondAttribute="trailing" id="npr-Wn-TdJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="3H1-9D-6t9" secondAttribute="trailing" id="sWJ-sx-Hh0"/>
+                                    <constraint firstItem="kve-1r-sOG" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" id="sYx-ZX-hYT"/>
+                                    <constraint firstItem="kve-1r-sOG" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="yfY-5Q-pmH"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="backgroundView" destination="kve-1r-sOG" id="gng-cC-TbC"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" constant="26" id="49l-Wb-tS8"/>
-                            <constraint firstItem="cyP-DE-3sa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="QpE-Ng-ASJ"/>
+                            <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" id="4qs-O6-Qhw"/>
+                            <constraint firstItem="rec-na-Pjs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="EUF-wk-jQp"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cyP-DE-3sa" secondAttribute="trailing" id="I79-o4-D6T"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="IxT-AF-AwJ"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="SBl-oH-2yf"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="X1G-C1-SIe"/>
-                            <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="41" id="bJD-nl-A28"/>
+                            <constraint firstItem="rec-na-Pjs" firstAttribute="top" secondItem="QiV-ve-AIc" secondAttribute="bottom" id="ZBk-a7-jvR"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="bRq-ch-bSx"/>
+                            <constraint firstItem="QiV-ve-AIc" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="iuQ-tA-C35"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="rec-na-Pjs" secondAttribute="bottom" id="izE-1S-yGe"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sbb-RF-jT9" secondAttribute="trailing" id="ne6-gr-saR"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
                         </constraints>
@@ -95,6 +167,9 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
+                        <outlet property="coinListMenuStackView" destination="rec-na-Pjs" id="hIq-NL-mwu"/>
+                        <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
+                        <outlet property="sortButtonStackView" destination="cyP-DE-3sa" id="ine-AR-Y8T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -104,6 +179,9 @@
     </scenes>
     <resources>
         <image name="chart.line.uptrend.xyaxis" catalog="system" width="128" height="101"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

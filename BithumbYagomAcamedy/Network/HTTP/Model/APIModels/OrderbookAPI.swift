@@ -18,7 +18,7 @@ struct OrderbookAPI: Gettable {
     init(
         orderCurrency: String = "ALL",
         paymentCurrency: String = "KRW",
-        count: Int = 1,
+        count: Int = 30,
         baseURL: BaseURLable = BithumbPublicAPIURL()
     ) {
         var urlComponents = URLComponents(
