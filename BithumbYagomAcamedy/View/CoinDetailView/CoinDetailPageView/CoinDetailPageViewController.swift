@@ -28,7 +28,6 @@ final class CoinDetailPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        configureSubViewControllerCompletion()
         configureFirstViewController()
     }
     
@@ -39,7 +38,7 @@ final class CoinDetailPageViewController: UIPageViewController {
         delegate = self
     }
     
-    private func configureSubViewControllerCompletion() {
+    func configureSubViewControllerCompletion(coin: Coin?) {
         guard let coin = coin else {
             return
         }
