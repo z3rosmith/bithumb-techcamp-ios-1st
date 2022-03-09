@@ -8,15 +8,16 @@
 import UIKit
 import Charts
 
-final class CoinChartViewController: UIViewController {
+final class CoinChartViewController: UIViewController, PageViewControllerable {
+    
     @IBOutlet private weak var coinChartView: CandleStickChartView!
+    var completion: (() -> Void)?
     private var dataManager: CoinChartDataManager?
-    private var coin: String = "BTC"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        completion?()
         configureCoinChartLayout()
-        configureDataManager()
     }
     
     private func configureCoinChartLayout() {
@@ -31,8 +32,8 @@ final class CoinChartViewController: UIViewController {
         coinChartView.doubleTapToZoomEnabled = false
     }
     
-    private func configureDataManager() {
-        dataManager = CoinChartDataManager(symbol: coin)
+    func configureDataManager(coin: Coin) {
+        dataManager = CoinChartDataManager(symbol: coin.symbolName)
         dataManager?.delegate = self
         dataManager?.requestChart()
         dataManager?.requestRealTimeChart()

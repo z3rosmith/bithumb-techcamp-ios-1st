@@ -11,6 +11,8 @@ final class CoinDetailPageViewController: UIPageViewController {
 
     // MARK: - Property
     
+    var coin: Coin?
+    
     private lazy var viewsList = configureViewList()
     var completeHandler : ((Int) -> Void)?
     var currentIndex : Int {
@@ -26,6 +28,8 @@ final class CoinDetailPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        configureSubViewControllerCompletion()
+        configureFirstViewController()
     }
     
     // MARK: - configure
@@ -33,12 +37,34 @@ final class CoinDetailPageViewController: UIPageViewController {
     private func configure() {
         dataSource = self
         delegate = self
+    }
+    
+    private func configureSubViewControllerCompletion() {
+        guard let coin = coin else {
+            return
+        }
         
+        var pageViewControllerables = viewsList.compactMap {
+            $0 as? PageViewControllerable
+        }
+        
+        for index in pageViewControllerables.indices {
+            pageViewControllerables[index].completion = {
+                pageViewControllerables[index].configureDataManager(coin: coin)
+            }
+        }
+    }
+    
+    private func configureFirstViewController() {
         guard let firstViewController = viewsList.first else {
             return
         }
         
-        setViewControllers([firstViewController], direction: .forward, animated: true)
+        setViewControllers(
+            [firstViewController],
+            direction: .forward,
+            animated: true
+        )
     }
     
     private func configureViewList() -> [UIViewController] {
@@ -64,8 +90,7 @@ final class CoinDetailPageViewController: UIPageViewController {
         setViewControllers(
             [viewsList[index]],
             direction: derection,
-            animated: true,
-            completion: nil
+            animated: true
         )
         
         completeHandler?(currentIndex)
