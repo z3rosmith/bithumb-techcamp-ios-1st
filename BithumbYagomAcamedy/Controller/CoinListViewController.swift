@@ -162,6 +162,7 @@ extension CoinListViewController {
             configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
             configuration.textProperties.color = .label
             headerView.contentConfiguration = configuration
+            headerView.backgroundColor = .white
         }
         dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             if elementKind == UICollectionView.elementKindSectionHeader {
