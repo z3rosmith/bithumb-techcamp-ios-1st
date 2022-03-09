@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class CoinOrderbookViewController: UIViewController {
-
+final class CoinOrderbookViewController: UIViewController, PageViewControllerable {
+    
     // MARK: - Typealias
     
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, Orderbook>
@@ -37,6 +37,7 @@ final class CoinOrderbookViewController: UIViewController {
     
     // MARK: - Property
     
+    var completion: (() -> Void)?
     private var coinOrderbookDataManager: CoinOrderbookDataManager?
     private var dataSource: DiffableDataSource?
     private var isFirstScrollCenter: Bool = false
@@ -45,7 +46,7 @@ final class CoinOrderbookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureDataManager()
+        completion?()
         configureCollectionViewDataSource()
         configureCollectionViewLayout()
     }
@@ -53,6 +54,13 @@ final class CoinOrderbookViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scrollToCollectionViewCenter()
+    }
+    
+    func configureDataManager(coin: Coin) {
+        coinOrderbookDataManager = CoinOrderbookDataManager(symbol: coin.symbolName)
+        coinOrderbookDataManager?.delegate = self
+        coinOrderbookDataManager?.fetchOrderbook()
+        coinOrderbookDataManager?.fetchOrderbookWebSocket()
     }
 }
 
@@ -107,22 +115,12 @@ extension CoinOrderbookViewController {
             self?.dataSource?.apply(snapshot, animatingDifferences: false) {
                 if askOrderbooks.count + bidOrderbooks.count == 60,
                    self?.isFirstScrollCenter == false {
+                    self?.coinOrderbookCollectionView.layoutIfNeeded()
                     self?.isFirstScrollCenter = true
                     self?.scrollToCollectionViewCenter()
                 }
             }
         }
-    }
-}
-
-// MARK: - CoinOrderbook DataManager
-
-extension CoinOrderbookViewController {
-    private func configureDataManager() {
-        coinOrderbookDataManager = CoinOrderbookDataManager()
-        coinOrderbookDataManager?.delegate = self
-        coinOrderbookDataManager?.fetchOrderbook()
-        coinOrderbookDataManager?.fetchOrderbookWebSocket()
     }
 }
 

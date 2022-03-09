@@ -14,7 +14,9 @@ protocol CoinTransactionDataManagerDelegate: AnyObject {
 final class CoinTransactionDataManager {
     
     // MARK: - Property
+    
     weak var delegate: CoinTransactionDataManagerDelegate?
+    private let symbol: String
     private let httpNetworkService: HTTPNetworkService
     private var webSocketService: WebSocketService
     private var coinTransactions: [Transaction] = [] {
@@ -26,9 +28,11 @@ final class CoinTransactionDataManager {
     // MARK: - Init
     
     init(
+        symbol: String,
         httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
         webSocketService: WebSocketService = WebSocketService()
     ) {
+        self.symbol = symbol
         self.httpNetworkService = httpNetworkService
         self.webSocketService = webSocketService
     }
@@ -42,7 +46,7 @@ final class CoinTransactionDataManager {
 
 extension CoinTransactionDataManager {
     func fetchTransaction() {
-        let api = TransactionHistoryAPI(orderCurrency: "BTC", count: 100)
+        let api = TransactionHistoryAPI(orderCurrency: symbol, count: 20)
         
         httpNetworkService.request(api: api) { [weak self] result in
             guard let data = result.value else {
@@ -88,7 +92,7 @@ extension CoinTransactionDataManager {
 
 extension CoinTransactionDataManager {
     func fetchTransactionWebSocket() {
-        let api = TransactionWebSocket(symbol: "BTC")
+        let api = TransactionWebSocket(symbol: symbol)
         
         webSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {

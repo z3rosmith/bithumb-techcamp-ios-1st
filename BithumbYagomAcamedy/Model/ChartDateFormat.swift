@@ -8,7 +8,7 @@
 import Foundation
 
 
-enum ChartDateFormat: Int {
+enum ChartDateFormat: Int, CustomStringConvertible {
     case minute1
     case minute10
     case minute30
@@ -36,6 +36,21 @@ enum ChartDateFormat: Int {
             return "yy.MM.dd\nHH:mm"
         case .hour24:
             return "yy.MM.dd"
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .minute1:
+            return "1m"
+        case .minute10:
+            return "10m"
+        case .minute30:
+            return "30m"
+        case .hour1:
+            return "1h"
+        case .hour24:
+            return "24h"
         }
     }
 }

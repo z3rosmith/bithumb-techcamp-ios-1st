@@ -71,20 +71,40 @@
                                     <constraint firstAttribute="height" constant="60" id="e8g-tD-Qzo"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa" userLabel="Sort Stack View">
-                                <rect key="frame" x="0.0" y="155" width="414" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa" userLabel="Sort Stack View">
+                                <rect key="frame" x="30" y="155" width="354" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmW-cd-a0L" userLabel="인기순">
-                                        <rect key="frame" x="0.0" y="0.0" width="103.5" height="30"/>
-                                        <color key="tintColor" systemColor="labelColor"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="인기순"/>
-                                        <connections>
-                                            <action selector="popularityButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="xhu-1K-VYH"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Mv-8N-uur">
-                                        <rect key="frame" x="103.5" y="0.0" width="103.5" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bye-LJ-2el">
+                                        <rect key="frame" x="0.0" y="0.0" width="57" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmW-cd-a0L" userLabel="인기순" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.5" width="37" height="29"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="인기순"/>
+                                                <connections>
+                                                    <action selector="popularityButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="xhu-1K-VYH"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgr-kO-zzP">
+                                                <rect key="frame" x="42" y="7.5" width="15" height="15"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="15" id="3cf-lp-Z1N"/>
+                                                    <constraint firstAttribute="width" constant="15" id="TQI-tz-FQX"/>
+                                                </constraints>
+                                                <color key="tintColor" systemColor="labelColor"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="questionmark.circle" catalog="system"/>
+                                                <connections>
+                                                    <action selector="infoButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="yRh-cG-Csz"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Mv-8N-uur" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="116" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="이름"/>
@@ -92,8 +112,9 @@
                                             <action selector="nameButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="C0q-Yf-Wzx"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW">
-                                        <rect key="frame" x="207" y="0.0" width="103.5" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="214.5" y="0.0" width="37" height="30"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="현재가"/>
@@ -101,8 +122,9 @@
                                             <action selector="priceButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="BT0-xU-YQO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL">
-                                        <rect key="frame" x="310.5" y="0.0" width="103.5" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="317" y="0.0" width="37" height="30"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="변동률"/>
@@ -111,19 +133,19 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5fo-Br-3pX"/>
+                                </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" id="wYy-bT-KBm" customClass="BallonSpeakView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                <rect key="frame" x="234" y="95" width="160" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SP6-6w-TrR" userLabel="Message Ballon View" customClass="BallonSpeakView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="62" y="177.5" width="160" height="60"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kve-1r-sOG">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YY7-8c-s5n">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3H1-9D-6t9">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="전날 24시간 거래금액으로 정렬합니다." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cz-p4-mMJ" customClass="Ballo">
                                         <rect key="frame" x="0.0" y="10" width="160" height="50"/>
-                                        <string key="text">전날 24시간 거래금액으로 
-정렬합니다.</string>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -131,17 +153,19 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="2Y8-Js-7Ct"/>
-                                    <constraint firstAttribute="bottom" secondItem="kve-1r-sOG" secondAttribute="bottom" id="UI2-mq-rS8"/>
-                                    <constraint firstAttribute="bottom" secondItem="3H1-9D-6t9" secondAttribute="bottom" id="Y4J-am-Wsk"/>
-                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" constant="10" id="fr9-ST-aKh"/>
-                                    <constraint firstAttribute="trailing" secondItem="kve-1r-sOG" secondAttribute="trailing" id="npr-Wn-TdJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="3H1-9D-6t9" secondAttribute="trailing" id="sWJ-sx-Hh0"/>
-                                    <constraint firstItem="kve-1r-sOG" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" id="sYx-ZX-hYT"/>
-                                    <constraint firstItem="kve-1r-sOG" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="yfY-5Q-pmH"/>
+                                    <constraint firstItem="1cz-p4-mMJ" firstAttribute="leading" secondItem="SP6-6w-TrR" secondAttribute="leading" id="45M-bG-5LX"/>
+                                    <constraint firstAttribute="trailing" secondItem="YY7-8c-s5n" secondAttribute="trailing" id="67C-nU-z6Z"/>
+                                    <constraint firstAttribute="bottom" secondItem="YY7-8c-s5n" secondAttribute="bottom" id="AkU-3e-7yz"/>
+                                    <constraint firstAttribute="height" constant="60" id="JYo-sf-Nvi"/>
+                                    <constraint firstItem="YY7-8c-s5n" firstAttribute="leading" secondItem="SP6-6w-TrR" secondAttribute="leading" id="Neh-PD-dsD"/>
+                                    <constraint firstAttribute="trailing" secondItem="1cz-p4-mMJ" secondAttribute="trailing" id="ZGO-Ba-Bdx"/>
+                                    <constraint firstItem="1cz-p4-mMJ" firstAttribute="top" secondItem="SP6-6w-TrR" secondAttribute="top" constant="10" id="eIy-TM-dh6"/>
+                                    <constraint firstAttribute="bottom" secondItem="1cz-p4-mMJ" secondAttribute="bottom" id="gDn-2n-Ao5"/>
+                                    <constraint firstItem="YY7-8c-s5n" firstAttribute="top" secondItem="SP6-6w-TrR" secondAttribute="top" id="nxN-2g-esu"/>
+                                    <constraint firstAttribute="width" constant="160" id="sDb-R5-sun"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="backgroundView" destination="kve-1r-sOG" id="gng-cC-TbC"/>
+                                    <outlet property="backgroundView" destination="YY7-8c-s5n" id="MaP-q4-v29"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -149,27 +173,34 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="top" secondItem="cyP-DE-3sa" secondAttribute="bottom" id="4qs-O6-Qhw"/>
+                            <constraint firstItem="SP6-6w-TrR" firstAttribute="top" secondItem="rgr-kO-zzP" secondAttribute="bottom" id="6t6-DB-kIb"/>
                             <constraint firstItem="rec-na-Pjs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="EUF-wk-jQp"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cyP-DE-3sa" secondAttribute="trailing" id="I79-o4-D6T"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cyP-DE-3sa" secondAttribute="trailing" constant="30" id="I79-o4-D6T"/>
                             <constraint firstItem="QiV-ve-AIc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="IxT-AF-AwJ"/>
                             <constraint firstItem="QiV-ve-AIc" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="SBl-oH-2yf"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="X1G-C1-SIe"/>
                             <constraint firstItem="rec-na-Pjs" firstAttribute="top" secondItem="QiV-ve-AIc" secondAttribute="bottom" id="ZBk-a7-jvR"/>
-                            <constraint firstItem="cyP-DE-3sa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="bRq-ch-bSx"/>
+                            <constraint firstItem="cyP-DE-3sa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="bRq-ch-bSx"/>
                             <constraint firstItem="QiV-ve-AIc" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="iuQ-tA-C35"/>
                             <constraint firstItem="cyP-DE-3sa" firstAttribute="top" secondItem="rec-na-Pjs" secondAttribute="bottom" id="izE-1S-yGe"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sbb-RF-jT9" secondAttribute="trailing" id="ne6-gr-saR"/>
                             <constraint firstItem="sbb-RF-jT9" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="p7a-D5-QYH"/>
+                            <constraint firstItem="SP6-6w-TrR" firstAttribute="leading" secondItem="rgr-kO-zzP" secondAttribute="leading" constant="-10" id="zOV-sr-rUG"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" id="MPo-jd-qVp"/>
                     <navigationItem key="navigationItem" id="Yih-V7-UNV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="balloonSpeakView" destination="SP6-6w-TrR" id="TJ2-TC-osc"/>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
                         <outlet property="coinListMenuStackView" destination="rec-na-Pjs" id="hIq-NL-mwu"/>
                         <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
                         <outlet property="sortButtonStackView" destination="cyP-DE-3sa" id="ine-AR-Y8T"/>
+                        <outletCollection property="sortButtons" destination="EmW-cd-a0L" collectionClass="NSMutableArray" id="fst-1e-LYA"/>
+                        <outletCollection property="sortButtons" destination="0Mv-8N-uur" collectionClass="NSMutableArray" id="cEf-hU-97h"/>
+                        <outletCollection property="sortButtons" destination="hgW-XA-gmW" collectionClass="NSMutableArray" id="Nk7-nC-BRd"/>
+                        <outletCollection property="sortButtons" destination="OmU-Q5-9fL" collectionClass="NSMutableArray" id="frI-hp-KwR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -178,6 +209,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chart.line.uptrend.xyaxis" catalog="system" width="128" height="101"/>
+        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

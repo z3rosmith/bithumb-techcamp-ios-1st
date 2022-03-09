@@ -10,6 +10,7 @@ import Foundation
 protocol CoinListDataManagerDelegate: AnyObject {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
     func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin])
+    func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
 }
 
 final class CoinListDataManager {
@@ -23,94 +24,123 @@ final class CoinListDataManager {
         case changeRate(isDescend: Bool)
     }
     
-    enum SortOption {
-        case sortFavorite
-        case sortAll
-        case sortBoth
-    }
-    
     // MARK: - Property
     
     weak var delegate: CoinListDataManagerDelegate?
     private let successStatusCode = "0000"
     private let httpNetworkService: HTTPNetworkService
+    private var webSocketService: WebSocketService
+    private let favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager
+    
     private var favoriteCoinList: [Coin] = []
     private var allCoinList: [Coin] = []
+    private var filteredFavoriteCoinList: [Coin] = []
+    private var filteredAllCoinList: [Coin] = []
     
-    private var currentFavoriteSortType: SortType
-    private var currentAllSortType: SortType
+    private var currentSortType: SortType
     
     // MARK: - Init
     
     init(
         httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
+        webSocketService: WebSocketService = WebSocketService(),
+        favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager = FavoriteCoinCoreDataManager(),
         initialSortType: SortType = .popularity(isDescend: true)
     ) {
         self.httpNetworkService = httpNetworkService
-        self.currentFavoriteSortType = initialSortType
-        self.currentAllSortType = initialSortType
+        self.webSocketService = webSocketService
+        self.favoriteCoinCoreDataManager = favoriteCoinCoreDataManager
+        self.currentSortType = initialSortType
+    }
+    
+    deinit {
+        webSocketService.close()
     }
 }
 
 // MARK: - Data Processing
 
 extension CoinListDataManager {
-    func toggleFavorite(coinCallingName: String, isAlreadyFavorite: Bool, filteredBy text: String?) {
+    func toggleFavorite(coinSymbolName: String, isAlreadyFavorite: Bool) {
         guard let indexInAllCoinList = allCoinList.firstIndex(where: {
-            $0.callingName == coinCallingName
+            $0.symbolName == coinSymbolName
         }) else {
             return
         }
         
         if isAlreadyFavorite {
             if let index = favoriteCoinList.firstIndex(where: {
-                $0.callingName == coinCallingName
+                $0.symbolName == coinSymbolName
             }) {
                 favoriteCoinList.remove(at: index)
+                favoriteCoinCoreDataManager.delete(symbol: coinSymbolName)
             }
         } else {
             let favoritedCoin = Coin(toggleFavorite: allCoinList[indexInAllCoinList])
             favoriteCoinList.append(favoritedCoin)
+            favoriteCoinCoreDataManager.save(symbol: coinSymbolName)
         }
         
         allCoinList[indexInAllCoinList].isFavorite.toggle()
-        
-        let sortedFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
-        let sortedAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)
-        
-        delegate?.coinListDataManager(didToggleFavorite: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
     }
     
-    func sortCoinList(what list: SortOption, by sortType: SortType, filteredBy text: String?) {
-        var sortedFavoriteCoinList: [Coin] = favoriteCoinList
-        var sortedAllCoinList: [Coin] = allCoinList
-        
-        switch list {
-        case .sortFavorite:
-            currentFavoriteSortType = sortType
-            sortedFavoriteCoinList = favoriteCoinList.sorted(by: sortType).filter(by: text)
-        case .sortAll:
-            currentAllSortType = sortType
-            sortedAllCoinList = allCoinList.sorted(by: sortType).filter(by: text)
-        case .sortBoth:
-            currentFavoriteSortType = sortType
-            currentAllSortType = sortType
-            sortedFavoriteCoinList = favoriteCoinList.sorted(by: sortType).filter(by: text)
-            sortedAllCoinList = allCoinList.sorted(by: sortType).filter(by: text)
+    func sortCoinList(by sortType: SortType? = nil, filteredBy text: String? = nil) {
+        if let sortType = sortType {
+            currentSortType = sortType
         }
         
-        delegate?.coinListDataManager(didChangeCoinList: sortedFavoriteCoinList, allCoinList: sortedAllCoinList)
-    }
-    
-    func filterCoinList(by text: String) {
-        let filteredFavoriteCoinList = favoriteCoinList.sorted(by: currentFavoriteSortType).filter(by: text)
-        let filteredAllCoinList = allCoinList.sorted(by: currentAllSortType).filter(by: text)
+        filteredFavoriteCoinList = favoriteCoinList.sorted(by: currentSortType).filter(by: text)
+        filteredAllCoinList = allCoinList.sorted(by: currentSortType).filter(by: text)
         
         delegate?.coinListDataManager(didChangeCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
     }
+    
+    func filterCoinList(by text: String) {
+        filteredFavoriteCoinList = favoriteCoinList.sorted(by: currentSortType).filter(by: text)
+        filteredAllCoinList = allCoinList.sorted(by: currentSortType).filter(by: text)
+        
+        delegate?.coinListDataManager(didChangeCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
+    }
+    
+    func nameOfSectionHeader(index: Int) -> String? {
+        let favoriteCoinListIsEmpty = filteredFavoriteCoinList.isEmpty
+        let allCoinListIsEmpty = filteredAllCoinList.isEmpty
+        
+        if favoriteCoinListIsEmpty && allCoinListIsEmpty {
+            return nil
+        } else if favoriteCoinListIsEmpty {
+            return "원화"
+        } else if allCoinListIsEmpty {
+            return "관심"
+        } else {
+            if index == 0 {
+                return "관심"
+            } else {
+                return "원화"
+            }
+        }
+    }
+    
+    private func applyCurrentPrice(to item: Coin) {
+        delegate?.coinListDataManager(didSetCurrentPriceInAllCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
+    }
 }
 
-// MARK: - Networking
+// MARK: - FavoriteCoinCoreDataManager
+
+extension CoinListDataManager {
+    private func fetchFavoriteCoinList() {
+        let favoriteSymbolSet = Set(favoriteCoinCoreDataManager.fetch())
+        let allSymbolSet = Set(allCoinList.map { $0.symbolName })
+        let symbolToToggle = favoriteSymbolSet.intersection(allSymbolSet)
+        symbolToToggle.forEach {
+            toggleFavorite(coinSymbolName: $0, isAlreadyFavorite: false)
+        }
+        sortCoinList()
+    }
+}
+
+// MARK: - HTTP Network
 
 extension CoinListDataManager {
     func fetchCoinList() {
@@ -173,7 +203,8 @@ extension CoinListDataManager {
             }
         }
         group.notify(queue: .main) { [weak self] in
-            self?.sortCoinList(what: .sortBoth, by: .popularity(isDescend: true), filteredBy: nil)
+            self?.fetchFavoriteCoinList()
+//            self?.fetchCurrentPriceWebSocket()
         }
     }
     
@@ -191,6 +222,72 @@ extension CoinListDataManager {
         }
     }
 }
+
+// MARK: - WebSocket Network
+
+extension CoinListDataManager {
+    private func fetchCurrentPriceWebSocket() {
+        let symbols = allCoinList.map { $0.symbolName }
+        let api = TransactionWebSocket(symbols: symbols)
+        
+        webSocketService.open(webSocketAPI: api) { [weak self] result in
+            guard let message = result.value else {
+                print(result.error?.localizedDescription as Any)
+                return
+            }
+            
+            switch message {
+            case .string(let response):
+                let transaction = try? self?.parsedWebSocketTranscation(from: response)
+                
+                guard let transactionList = transaction?.webSocketTransactionData.list,
+                      let transactionFirst = transactionList.first
+                else {
+                    return
+                }
+                
+                self?.setCurrentValue(currentValue: transactionFirst)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func parsedWebSocketTranscation(
+        from string: String
+    ) throws -> WebSocketTransactionValueObject {
+        do {
+            let webSocketTransactionValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketTransactionValueObject.self
+            )
+            
+            return webSocketTransactionValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+    
+    private func setCurrentValue(
+        currentValue: WebSocketTransactionData.WebSocketTransaction
+    ) {
+        let symbolSlice = currentValue.symbol.components(separatedBy: "_")[0]
+        guard let index = filteredAllCoinList.firstIndex(where: {
+            $0.symbolName == symbolSlice
+        }) else {
+            return
+        }
+        
+        let newPrice = Double(currentValue.price)
+        
+        filteredAllCoinList[index].currentPrice = newPrice
+        applyCurrentPrice(to: filteredAllCoinList[index])
+    }
+}
+
+// MARK: - Extension Of Array
 
 private extension Array where Element == Coin {
     func sorted(by sortType: CoinListDataManager.SortType) -> [Element] {

@@ -17,6 +17,7 @@ final class CoinOrderbookDataManager {
     // MARK: - Property
     
     weak var delegate: CoinOrderbookDataManagerDelegate?
+    private let symbol: String
     private let httpNetworkService: HTTPNetworkService
     private var webSocketService: WebSocketService
     private var askOrderbooks: [Orderbook] = [] {
@@ -35,9 +36,11 @@ final class CoinOrderbookDataManager {
     // MARK: - Init
     
     init(
+        symbol: String,
         httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
         webSocketService: WebSocketService = WebSocketService()
     ) {
+        self.symbol = symbol
         self.httpNetworkService = httpNetworkService
         self.webSocketService = webSocketService
     }
@@ -102,7 +105,7 @@ extension CoinOrderbookDataManager {
 
 extension CoinOrderbookDataManager {
     func fetchOrderbook() {
-        let api = OrderbookAPI(orderCurrency: "BTC")
+        let api = OrderbookAPI(orderCurrency: symbol)
         
         httpNetworkService.request(api: api) { [weak self] result in
             guard let data = result.value else {
@@ -152,7 +155,7 @@ extension CoinOrderbookDataManager {
 
 extension CoinOrderbookDataManager {
     func fetchOrderbookWebSocket() {
-        let api = OrderBookDepthWebSocket(symbol: "BTC")
+        let api = OrderBookDepthWebSocket(symbol: symbol)
         
         webSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {

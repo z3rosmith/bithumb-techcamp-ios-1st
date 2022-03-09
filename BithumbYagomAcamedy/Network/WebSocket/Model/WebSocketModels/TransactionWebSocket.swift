@@ -26,4 +26,15 @@ struct TransactionWebSocket: WebSocketable {
             symbol: symbol
         )
     }
+    
+    init(
+        symbols: [String],
+        url: BithumbWebSocketURL = BithumbWebSocketURL()
+    ) {
+        self.url = URL(string: url.baseURL)
+        self.message = WebSocketMessageConverter().data(
+            type: .transaction,
+            symbols: symbols
+        )
+    }
 }

@@ -48,6 +48,7 @@ final class CoinDetailViewController: UIViewController {
             }
             
             self.pageViewController = pageViewController
+            self.pageViewController?.configureSubViewControllerCompletion(coin: coin)
             self.pageViewController?.completeHandler = { [weak self] index in
                 self?.currentIndex = index
             }
