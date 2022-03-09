@@ -130,17 +130,11 @@ extension CoinListDataManager {
 
 extension CoinListDataManager {
     private func fetchFavoriteCoinList() {
-        let favoriteCoinSymbolsCoreData = favoriteCoinCoreDataManager.fetch()
-        let allCoinList = allCoinList
-        
-        for favoriteCoinSymbol in favoriteCoinSymbolsCoreData {
-            for coin in allCoinList {
-                if favoriteCoinSymbol == coin.symbolName {
-                    // 코어데이터에 저장된 코인이 모든 코인 목록 중에 있으면 관심목록으로 올리기
-                    toggleFavorite(coinSymbolName: favoriteCoinSymbol, isAlreadyFavorite: false)
-                    break
-                }
-            }
+        let favoriteSymbolSet = Set(favoriteCoinCoreDataManager.fetch())
+        let allSymbolSet = Set(allCoinList.map { $0.symbolName })
+        let symbolToToggle = favoriteSymbolSet.intersection(allSymbolSet)
+        symbolToToggle.forEach {
+            toggleFavorite(coinSymbolName: $0, isAlreadyFavorite: false)
         }
         sortCoinList()
     }
@@ -252,7 +246,7 @@ extension CoinListDataManager {
                     return
                 }
                 
-                self?.setCurrentValue(of: transactionFirst.symbol, currentValue: transactionFirst)
+                self?.setCurrentValue(currentValue: transactionFirst)
             default:
                 break
             }
@@ -277,10 +271,9 @@ extension CoinListDataManager {
     }
     
     private func setCurrentValue(
-        of symbol: String,
         currentValue: WebSocketTransactionData.WebSocketTransaction
     ) {
-        let symbolSlice = symbol.components(separatedBy: "_")[0]
+        let symbolSlice = currentValue.symbol.components(separatedBy: "_")[0]
         guard let index = filteredAllCoinList.firstIndex(where: {
             $0.symbolName == symbolSlice
         }) else {
