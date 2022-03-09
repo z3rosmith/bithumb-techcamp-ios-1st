@@ -112,6 +112,38 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" id="wYy-bT-KBm" customClass="BallonSpeakView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="234" y="95" width="160" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kve-1r-sOG">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3H1-9D-6t9">
+                                        <rect key="frame" x="0.0" y="10" width="160" height="50"/>
+                                        <string key="text">전날 24시간 거래금액으로 
+정렬합니다.</string>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="2Y8-Js-7Ct"/>
+                                    <constraint firstAttribute="bottom" secondItem="kve-1r-sOG" secondAttribute="bottom" id="UI2-mq-rS8"/>
+                                    <constraint firstAttribute="bottom" secondItem="3H1-9D-6t9" secondAttribute="bottom" id="Y4J-am-Wsk"/>
+                                    <constraint firstItem="3H1-9D-6t9" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" constant="10" id="fr9-ST-aKh"/>
+                                    <constraint firstAttribute="trailing" secondItem="kve-1r-sOG" secondAttribute="trailing" id="npr-Wn-TdJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="3H1-9D-6t9" secondAttribute="trailing" id="sWJ-sx-Hh0"/>
+                                    <constraint firstItem="kve-1r-sOG" firstAttribute="top" secondItem="wYy-bT-KBm" secondAttribute="top" id="sYx-ZX-hYT"/>
+                                    <constraint firstItem="kve-1r-sOG" firstAttribute="leading" secondItem="wYy-bT-KBm" secondAttribute="leading" id="yfY-5Q-pmH"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="backgroundView" destination="kve-1r-sOG" id="gng-cC-TbC"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
