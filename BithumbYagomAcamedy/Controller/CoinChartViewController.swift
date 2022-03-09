@@ -115,8 +115,6 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         let calibrationOfScaleX = 0.025
         let calibrationOfScaleY = 0.005
         
-        print(count * calibrationOfScaleX, count * calibrationOfScaleY)
-        
         coinChartView.zoom(
             scaleX: count * calibrationOfScaleX,
             scaleY: count * calibrationOfScaleY,
