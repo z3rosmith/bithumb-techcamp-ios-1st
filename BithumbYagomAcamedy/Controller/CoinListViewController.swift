@@ -250,10 +250,10 @@ extension CoinListViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: false)
         
         let coin = dataSource?.itemIdentifier(for: indexPath)
-        let coinDetailStoryBoard = UIStoryboard(name: "CoinDetail", bundle: nil)
+        let instantiater = ViewControllerInstantiater()
         
-        guard let coinDetailViewController = coinDetailStoryBoard.instantiateViewController(
-            withIdentifier: "CoinDetailViewController"
+        guard let coinDetailViewController = instantiater.instantiate(
+            CoinDetailViewInstantiateInformation()
         ) as? CoinDetailViewController else {
             return
         }
