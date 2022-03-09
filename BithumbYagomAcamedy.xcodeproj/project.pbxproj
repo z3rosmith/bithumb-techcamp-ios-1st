@@ -100,6 +100,7 @@
 		375E495827D729B2002AA73A /* CandlestickChart+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E495427D729B2002AA73A /* CandlestickChart+CoreDataProperties.swift */; };
 		375E495927D729B2002AA73A /* FavoriteCoin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E495527D729B2002AA73A /* FavoriteCoin+CoreDataClass.swift */; };
 		375E495A27D729B2002AA73A /* FavoriteCoin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E495627D729B2002AA73A /* FavoriteCoin+CoreDataProperties.swift */; };
+		375E495E27D7486B002AA73A /* CoinChartCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E495D27D7486B002AA73A /* CoinChartCoreDataManager.swift */; };
 		375F506A27D092A600ABAF2A /* CoinChartDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F506927D092A600ABAF2A /* CoinChartDataManager.swift */; };
 		375F506C27D0966500ABAF2A /* CandlestickAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F506B27D0966500ABAF2A /* CandlestickAPI.swift */; };
 		375F506E27D0A55300ABAF2A /* CandlestickValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F506D27D0A55300ABAF2A /* CandlestickValueObject.swift */; };
@@ -238,6 +239,7 @@
 		375E495427D729B2002AA73A /* CandlestickChart+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CandlestickChart+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		375E495527D729B2002AA73A /* FavoriteCoin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteCoin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		375E495627D729B2002AA73A /* FavoriteCoin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteCoin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		375E495D27D7486B002AA73A /* CoinChartCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinChartCoreDataManager.swift; sourceTree = "<group>"; };
 		375F506927D092A600ABAF2A /* CoinChartDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinChartDataManager.swift; sourceTree = "<group>"; };
 		375F506B27D0966500ABAF2A /* CandlestickAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlestickAPI.swift; sourceTree = "<group>"; };
 		375F506D27D0A55300ABAF2A /* CandlestickValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlestickValueObject.swift; sourceTree = "<group>"; };
@@ -725,11 +727,13 @@
 				370C4B2227CC6BA700EE2C68 /* AssetsStatus.swift */,
 				370C4B2027CC688800EE2C68 /* DepositWithdrawalStatusDataManager.swift */,
 				08B46D9727CE65F40072CBBF /* Transaction.swift */,
-				375F506927D092A600ABAF2A /* CoinChartDataManager.swift */,
 				37E61AF727D34B8C00FE0B83 /* Candlestick.swift */,
 				37E61AFB27D35E0700FE0B83 /* CoinCandleChartDataSet.swift */,
 				37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */,
+				375E494E27D6F473002AA73A /* ChartDateFormat.swift */,
 				0810E82727D1EC7E00064BA5 /* Orderbook.swift */,
+				375F506927D092A600ABAF2A /* CoinChartDataManager.swift */,
+				375E495D27D7486B002AA73A /* CoinChartCoreDataManager.swift */,
 				375E494E27D6F473002AA73A /* ChartDateFormat.swift */,
 				37971AD027D8369E000D1274 /* CandlestickDateFormatter.swift */,
 			);
@@ -918,6 +922,7 @@
 				3CCBAA5727D2534000221473 /* CoinListMenuStackView.swift in Sources */,
 				3CC98F3827C879F200B9A6EF /* CoinListViewController.swift in Sources */,
 				37A15AD427C61D0A00585F4A /* BithumbYagomAcamedy.xcdatamodeld in Sources */,
+				375E495E27D7486B002AA73A /* CoinChartCoreDataManager.swift in Sources */,
 				08B46DB127CF4DFC0072CBBF /* CoinTransactionDataManager.swift in Sources */,
 				08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */,
 				08ADD5A927D73BFD00AFC950 /* ViewControllerInstantiatable.swift in Sources */,
