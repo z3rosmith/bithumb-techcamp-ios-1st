@@ -170,32 +170,34 @@ extension CoinDetailDataManager {
 // MARK: - Core Data
 
 extension CoinDetailDataManager {
-    func loadChartCoreData() {
+    func loadChartData() {
         guard let symbol = detailCoin?.symbol else {
             return
         }
         
+        if loadChardCoreData(symbol: symbol) == false {
+            fetchChart(symbol: symbol)
+        }
+    }
+    
+    private func loadChardCoreData(symbol: String) -> Bool {
         coreDataManager = CoinChartCoreDataManager(symbol: symbol)
         
         guard let candlesticks = coreDataManager?.fetch(dateFormat: .hour24),
               candlesticks.isEmpty == false
         else {
-            fetchChart()
-            return
+            return false
         }
         
         setupChartData(from: candlesticks)
+        return true
     }
 }
 
 // MARK: - HTTP Network
 
 extension CoinDetailDataManager {
-    private func fetchChart() {
-        guard let symbol = detailCoin?.symbol else {
-            return
-        }
-        
+    private func fetchChart(symbol: String) {
         let api = CandlestickAPI(orderCurrency: symbol)
         
         httpNetworkService.request(api: api) { [weak self] result in
@@ -235,7 +237,7 @@ extension CoinDetailDataManager {
         to candlestickValueObject: CandlestickValueObject
     ) -> [Candlestick] {
         return candlestickValueObject.data
-            .compactMap { Candlestick(array: $0) }
+                  .compactMap { Candlestick(array: $0) }
     }
     
     private func setupChartData(from candlesticks: [Candlestick]) {
