@@ -20,6 +20,7 @@ final class CoinDetailDataManager {
     private let httpNetworkService: HTTPNetworkService
     private var tickerWebSocketService: WebSocketService
     private var transactionWebSocketService: WebSocketService
+    private var coreDataManager: CoinChartCoreDataManager?
     private var detailCoin: DetailViewCoin? {
         didSet {
             delegate?.coinDetailDataManager(didChange: detailCoin)
@@ -166,14 +167,37 @@ extension CoinDetailDataManager {
     }
 }
 
-// MARK: - HTTP Network
+// MARK: - Core Data
 
 extension CoinDetailDataManager {
-    func fetchChart() {
+    func loadChartData() {
         guard let symbol = detailCoin?.symbol else {
             return
         }
         
+        if loadChardCoreData(symbol: symbol) == false {
+            fetchChart(symbol: symbol)
+        }
+    }
+    
+    private func loadChardCoreData(symbol: String) -> Bool {
+        coreDataManager = CoinChartCoreDataManager(symbol: symbol)
+        
+        guard let candlesticks = coreDataManager?.fetch(dateFormat: .hour24),
+              candlesticks.isEmpty == false
+        else {
+            return false
+        }
+        
+        setupChartData(from: candlesticks)
+        return true
+    }
+}
+
+// MARK: - HTTP Network
+
+extension CoinDetailDataManager {
+    private func fetchChart(symbol: String) {
         let api = CandlestickAPI(orderCurrency: symbol)
         
         httpNetworkService.request(api: api) { [weak self] result in
@@ -185,12 +209,13 @@ extension CoinDetailDataManager {
             let candlestickValueObject = try? self?.parseChart(to: data)
             
             guard let candlestickValueObject = candlestickValueObject,
-                  candlestickValueObject.status == "0000"
+                  candlestickValueObject.status == "0000",
+                  let candlesticks = self?.convert(to: candlestickValueObject)
             else {
                 return
             }
             
-            self?.setupChartData(from: candlestickValueObject)
+            self?.setupChartData(from: candlesticks)
         }
     }
     
@@ -208,11 +233,17 @@ extension CoinDetailDataManager {
         }
     }
     
-    private func setupChartData(from candlestickValueObject: CandlestickValueObject) {
+    private func convert(
+        to candlestickValueObject: CandlestickValueObject
+    ) -> [Candlestick] {
+        return candlestickValueObject.data
+                  .compactMap { Candlestick(array: $0) }
+    }
+    
+    private func setupChartData(from candlesticks: [Candlestick]) {
         let threeMonthsAgo = Date().timeIntervalSince1970 - (86400 * 90)
         
-        let openPrice = candlestickValueObject.data
-            .compactMap{ Candlestick(array: $0) }
+        let openPrice = candlesticks
             .filter({ candleStick in
                 candleStick.time > threeMonthsAgo
             })
