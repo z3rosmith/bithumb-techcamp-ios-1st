@@ -25,20 +25,20 @@ final class CandlestickInfoTextView: UITextView {
     private func updatePriceTextColor(
         to color: UIColor, candlestickPrice: CandlestickPrice
     ) -> NSMutableAttributedString {
-        let priceString = candlestickPrice.priceString
-        let attributedString = NSMutableAttributedString(string: priceString)
+        let priceInformation = candlestickPrice.priceInformation
+        let attributedString = NSMutableAttributedString(string: priceInformation)
         
         attributedString.addAttribute(
             .foregroundColor,
             value: UIColor.label,
-            range: (priceString as NSString).range(of: priceString)
+            range: (priceInformation as NSString).range(of: priceInformation)
         )
         
-        candlestickPrice.prices.forEach { price in
+        candlestickPrice.pricesString.forEach { priceString in
             attributedString.addAttribute(
                 .foregroundColor,
                 value: color,
-                range: (priceString as NSString).range(of: "\(price)")
+                range: (priceInformation as NSString).range(of: "\(priceString)")
             )
         }
         

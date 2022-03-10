@@ -17,6 +17,27 @@ struct CandlestickPrice {
         return [open, high, low, close]
     }
     
+    var pricesString: [String] {
+        var pricesString: [String] = []
+        
+        prices.forEach { price in
+            let removedPriceDecimal = Int(price)
+            let priceDecimal = price - Double(removedPriceDecimal)
+            
+            if priceDecimal == Double.zero {
+                pricesString.append(String(removedPriceDecimal))
+            } else {
+                pricesString.append(String(price))
+            }
+        }
+        
+        return pricesString
+    }
+    
+    var priceInformation: String {
+        return String(format: "시 %@ 고 %@ 저 %@ 종 %@", arguments: pricesString)
+    }
+    
     var isIncreasePrice: Bool {
         return `open` - close < Double.zero ? true : false
     }
@@ -27,9 +48,5 @@ struct CandlestickPrice {
     
     var isEqualPrice: Bool {
         return `open` - close == Double.zero ? true : false
-    }
-    
-    var priceString: String {
-        "시 \(open) 고 \(high) 저 \(low) 종 \(close)"
     }
 }
