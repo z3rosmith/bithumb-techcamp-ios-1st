@@ -21,11 +21,11 @@ struct CandlestickPrice {
         var pricesString: [String] = []
         
         prices.forEach { price in
-            let removedPriceDecimal = Int(price)
-            let priceDecimal = price - Double(removedPriceDecimal)
+            let removedPriceDecimalPoint = Int(price)
+            let priceDecimal = price - Double(removedPriceDecimalPoint)
             
             if priceDecimal == Double.zero {
-                pricesString.append(String(removedPriceDecimal))
+                pricesString.append(String(removedPriceDecimalPoint))
             } else {
                 pricesString.append(String(price))
             }
