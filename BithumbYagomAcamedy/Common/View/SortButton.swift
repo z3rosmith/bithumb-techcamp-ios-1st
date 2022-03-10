@@ -24,6 +24,10 @@ class SortButton: UIButton {
         setTitle(title, for: .normal)
     }
     
+    func toggle() {
+        touchedSortButton()
+    }
+    
     func restoreButton() {
         setImage(UIImage(named: defaultImageName), for: .normal)
         self.isAscend = false

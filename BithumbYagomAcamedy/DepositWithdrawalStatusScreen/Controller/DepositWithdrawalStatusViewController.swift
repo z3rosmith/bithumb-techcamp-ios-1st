@@ -35,6 +35,7 @@ final class DepositWithdrawalStatusViewController: UIViewController, NetworkFail
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionViewLayout()
+        configureSortButton()
         configureDiffableDataSource()
         configureDataManager()
     }
@@ -46,6 +47,10 @@ final class DepositWithdrawalStatusViewController: UIViewController, NetworkFail
         let layout = UICollectionViewCompositionalLayout.list(using: listConfig)
         
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func configureSortButton() {
+        nameSortButton.toggle()
     }
     
     private func configureDiffableDataSource() {

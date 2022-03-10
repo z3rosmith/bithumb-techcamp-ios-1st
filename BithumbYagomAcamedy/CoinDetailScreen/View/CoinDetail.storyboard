@@ -106,17 +106,19 @@
                                 <rect key="frame" x="211.5" y="60" width="186.5" height="82"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 3개월 차트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-CM-Bih">
-                                <rect key="frame" x="327.5" y="44.5" width="70.5" height="13.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 3개월 시가 차트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-CM-Bih">
+                                <rect key="frame" x="305" y="60" width="93" height="13.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                 <color key="textColor" systemColor="systemGray2Color"/>
                                 <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="1" height="1"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="2ya-CM-Bih" secondAttribute="bottom" constant="2" id="0bh-Dm-efo"/>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="2ya-CM-Bih" secondAttribute="top" id="0bh-Dm-efo"/>
                             <constraint firstItem="UKg-gS-b0A" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="4" id="1fc-Jw-lDL"/>
                             <constraint firstItem="isW-Ko-yCe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="6eN-Cj-iyt"/>
                             <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="8A7-7Y-XmX"/>

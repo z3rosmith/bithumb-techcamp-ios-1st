@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "chevron_under_black.png",
+      "filename" : "chart_black.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "chevron_under_white.png",
+      "filename" : "chart_white.png",
       "idiom" : "universal"
     }
   ],
