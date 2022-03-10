@@ -11,9 +11,14 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configureTabBarItem()
     }
 
-
+    private func configureTabBarItem() {
+        tabBar.barTintColor = .systemBackground
+        tabBar.tintColor = .label
+        tabBar.unselectedItemTintColor = .systemGray2
+    }
+        
 }
 

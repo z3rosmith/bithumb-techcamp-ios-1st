@@ -67,6 +67,7 @@
 		08B46DB827D09B9E0072CBBF /* CoinDetailDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46DB727D09B9E0072CBBF /* CoinDetailDataManager.swift */; };
 		08B46DBA27D0B6E40072CBBF /* CoinDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46DB927D0B6E40072CBBF /* CoinDetailPriceView.swift */; };
 		08B4916227C9C29F0082E379 /* WebSocketable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4916127C9C29F0082E379 /* WebSocketable.swift */; };
+		08B4B11227D895A200B59073 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4B11127D895A200B59073 /* MoreViewController.swift */; };
 		08B4B11427D8B92E00B59073 /* CoinDetailViewInstantiateInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4B11327D8B92E00B59073 /* CoinDetailViewInstantiateInformation.swift */; };
 		08CA8B5527D1F3FB00ECD245 /* CoinOrderbookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CA8B5427D1F3FB00ECD245 /* CoinOrderbookViewController.swift */; };
 		08CA8B5727D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */; };
@@ -201,6 +202,7 @@
 		08B46DB727D09B9E0072CBBF /* CoinDetailDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailDataManager.swift; sourceTree = "<group>"; };
 		08B46DB927D0B6E40072CBBF /* CoinDetailPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailPriceView.swift; sourceTree = "<group>"; };
 		08B4916127C9C29F0082E379 /* WebSocketable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketable.swift; sourceTree = "<group>"; };
+		08B4B11127D895A200B59073 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		08B4B11327D8B92E00B59073 /* CoinDetailViewInstantiateInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailViewInstantiateInformation.swift; sourceTree = "<group>"; };
 		08CA8B5427D1F3FB00ECD245 /* CoinOrderbookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinOrderbookViewController.swift; sourceTree = "<group>"; };
 		08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinOrderbookCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -525,6 +527,7 @@
 			isa = PBXGroup;
 			children = (
 				08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */,
+				08B4B11127D895A200B59073 /* MoreViewController.swift */,
 			);
 			path = MoreDetailView;
 			sourceTree = "<group>";
@@ -1095,6 +1098,7 @@
 				375E494D27D6F388002AA73A /* ChartInterval.swift in Sources */,
 				3CCB27CA27C7737900F84C80 /* TickerValueObject.swift in Sources */,
 				371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */,
+				08B4B11227D895A200B59073 /* MoreViewController.swift in Sources */,
 				3CC98F3A27C896C400B9A6EF /* CoinListDataManager.swift in Sources */,
 				3CCBAA5527D2122100221473 /* Coin.swift in Sources */,
 				08CA8B5D27D34B9800ECD245 /* Array+extension.swift in Sources */,
