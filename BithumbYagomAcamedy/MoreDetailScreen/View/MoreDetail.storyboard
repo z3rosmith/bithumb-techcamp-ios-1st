@@ -24,13 +24,13 @@
                                         <rect key="frame" x="0.0" y="41" width="414" height="169"/>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="License" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFL-PU-Cr3" userLabel="License Label">
-                                        <rect key="frame" x="10" y="467" width="65.5" height="23"/>
+                                        <rect key="frame" x="10" y="48" width="65.5" height="23"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="test" textAlignment="natural" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsK-ph-Btp" userLabel="License Text View">
-                                        <rect key="frame" x="0.0" y="500" width="414" height="35"/>
+                                        <rect key="frame" x="0.0" y="81" width="414" height="35"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -42,23 +42,33 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oO1-WD-kuP" userLabel="Line View">
+                                        <rect key="frame" x="20" y="43" width="374" height="3"/>
+                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="Yxp-oh-n7J"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="EsK-ph-Btp" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" id="0JH-Gj-rbv"/>
                                     <constraint firstItem="Uv1-1R-RwG" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" constant="10" id="1aB-rW-1G8"/>
+                                    <constraint firstItem="oO1-WD-kuP" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" constant="20" id="42q-va-355"/>
                                     <constraint firstItem="EsK-ph-Btp" firstAttribute="bottom" secondItem="OP4-Sf-sYj" secondAttribute="bottom" id="566-n5-EeK"/>
                                     <constraint firstItem="gFL-PU-Cr3" firstAttribute="leading" secondItem="s1R-bS-P9S" secondAttribute="leading" constant="10" id="6Wm-kq-zMz"/>
                                     <constraint firstItem="Uv1-1R-RwG" firstAttribute="top" secondItem="OP4-Sf-sYj" secondAttribute="top" constant="10" id="6nk-mD-lnw"/>
                                     <constraint firstItem="xE5-fu-4dY" firstAttribute="width" secondItem="s1R-bS-P9S" secondAttribute="width" id="AAp-MV-Pni"/>
+                                    <constraint firstItem="oO1-WD-kuP" firstAttribute="top" secondItem="xE5-fu-4dY" secondAttribute="bottom" constant="30" id="DXp-d2-ZwS"/>
                                     <constraint firstItem="xE5-fu-4dY" firstAttribute="top" secondItem="Uv1-1R-RwG" secondAttribute="bottom" constant="10" id="LZg-lg-gsf"/>
                                     <constraint firstItem="s1R-bS-P9S" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gFL-PU-Cr3" secondAttribute="trailing" constant="10" id="Lde-uf-sr7"/>
                                     <constraint firstItem="EsK-ph-Btp" firstAttribute="top" secondItem="gFL-PU-Cr3" secondAttribute="bottom" constant="10" id="ZLL-gw-wdU"/>
                                     <constraint firstItem="EsK-ph-Btp" firstAttribute="width" secondItem="s1R-bS-P9S" secondAttribute="width" id="fjw-SR-hCU"/>
-                                    <constraint firstItem="gFL-PU-Cr3" firstAttribute="top" secondItem="xE5-fu-4dY" secondAttribute="bottom" constant="10" id="hmr-Hi-OJT"/>
+                                    <constraint firstItem="OP4-Sf-sYj" firstAttribute="trailing" secondItem="oO1-WD-kuP" secondAttribute="trailing" constant="20" id="gIt-A9-e5e"/>
                                     <constraint firstItem="OP4-Sf-sYj" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Uv1-1R-RwG" secondAttribute="trailing" constant="10" id="ksy-jR-AyT"/>
                                     <constraint firstItem="EsK-ph-Btp" firstAttribute="trailing" secondItem="OP4-Sf-sYj" secondAttribute="trailing" id="pdN-7j-IZb"/>
                                     <constraint firstItem="xE5-fu-4dY" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" id="rgS-lu-Xxk"/>
                                     <constraint firstItem="xE5-fu-4dY" firstAttribute="trailing" secondItem="OP4-Sf-sYj" secondAttribute="trailing" id="vYB-RT-Qik"/>
+                                    <constraint firstItem="gFL-PU-Cr3" firstAttribute="top" secondItem="oO1-WD-kuP" secondAttribute="bottom" constant="10" id="y7S-ou-EHW"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="OP4-Sf-sYj"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="s1R-bS-P9S"/>
