@@ -76,6 +76,13 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vwg-co-R4G" userLabel="UnderLine View">
+                        <rect key="frame" x="241" y="90.5" width="89" height="3"/>
+                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="3" id="gLu-RU-phE"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -83,8 +90,11 @@
             <constraints>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="IqQ-w7-K65" secondAttribute="bottom" constant="15" id="7Sl-Ud-Kpg"/>
                 <constraint firstItem="Ohp-oP-U23" firstAttribute="trailing" secondItem="ZTg-uK-7eu" secondAttribute="centerX" multiplier="1.25" priority="250" constant="30" id="9WK-9J-jU3"/>
+                <constraint firstItem="vwg-co-R4G" firstAttribute="top" secondItem="Ohp-oP-U23" secondAttribute="bottom" constant="3" id="J5w-9V-5nP"/>
                 <constraint firstItem="XdU-Wv-oBx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ohp-oP-U23" secondAttribute="trailing" constant="10" id="JxD-HA-Q2f"/>
+                <constraint firstItem="vwg-co-R4G" firstAttribute="trailing" secondItem="Ohp-oP-U23" secondAttribute="trailing" id="LpT-Db-bH9"/>
                 <constraint firstItem="XdU-Wv-oBx" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="TGx-0I-yrg"/>
+                <constraint firstItem="vwg-co-R4G" firstAttribute="leading" secondItem="Ohp-oP-U23" secondAttribute="leading" id="TUb-Pt-40m"/>
                 <constraint firstItem="Sp0-kb-B2K" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="azG-gq-BIc"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="XdU-Wv-oBx" secondAttribute="trailing" constant="20" id="gU6-mY-Idl"/>
                 <constraint firstItem="Ohp-oP-U23" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="gfm-XU-4zz"/>
@@ -104,6 +114,7 @@
                 <outlet property="nameLabel" destination="sWi-6t-iiq" id="M1x-gF-s8i"/>
                 <outlet property="priceLabel" destination="Ohp-oP-U23" id="94a-1I-fAi"/>
                 <outlet property="symbolPerCurrencyLabel" destination="YOR-L8-RDd" id="u1l-hx-t4q"/>
+                <outlet property="underlineView" destination="vwg-co-R4G" id="0eN-4N-M4T"/>
             </connections>
             <point key="canvasLocation" x="-463.768115942029" y="-158.70535714285714"/>
         </collectionViewCell>
@@ -111,6 +122,9 @@
     <resources>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

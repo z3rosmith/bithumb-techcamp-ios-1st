@@ -30,6 +30,12 @@ final class CoinListViewController: UIViewController {
     
     private let coinListDataManager = CoinListDataManager()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Coin>?
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.center = view.center
+        indicator.startAnimating()
+        return indicator
+    }()
     
     // MARK: - Life Cycle
     
@@ -39,6 +45,7 @@ final class CoinListViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         configureCoinListController()
+        configureActivityIndicator()
         coinListDataManager.fetchCoinList()
         configureBalloonSpeakView()
         addTapGestureToView()
@@ -47,22 +54,22 @@ final class CoinListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        coinListDataManager.fetchCurrentPriceWebSocket()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
+        coinListDataManager.stopFetchCurrentPriceWebSocket()
     }
     
     // MARK: - IBAction
     
     @IBAction func favoriteCoinButtonTapped(_ sender: UIButton) {
-//        coinListMenuStackView.moveUnderLine(index: Section.favorite.rawValue)
         coinListCollectionView.setContentOffset(.zero, animated: false)
     }
     
     @IBAction func allCoinButtonTapped(_ sender: UIButton) {
-//        coinListMenuStackView.moveUnderLine(index: Section.all.rawValue)
         scrollToAllSectionHeader()
     }
     
@@ -101,9 +108,11 @@ final class CoinListViewController: UIViewController {
         )
         restoreSortButtons(exclude: sender)
     }
-    
-    // MARK: - Helper
-    
+}
+
+// MARK: - Helper
+
+extension CoinListViewController {
     private func scrollToAllSectionHeader() {
         if let headerAttributes = coinListCollectionView.collectionViewLayout.layoutAttributesForSupplementaryView(
             ofKind: UICollectionView.elementKindSectionHeader,
@@ -138,6 +147,13 @@ final class CoinListViewController: UIViewController {
     @objc func viewTapped() {
         animateBalloonSpeakView(isHidden: true)
     }
+    
+    private func endActivityIndicator() {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.stopAnimating()
+            self?.activityIndicator.isHidden = true
+        }
+    }
 }
 
 // MARK: - Configuration
@@ -149,6 +165,10 @@ extension CoinListViewController {
     
     private func configureBalloonSpeakView() {
         balloonSpeakView.isHidden = true
+    }
+    
+    private func configureActivityIndicator() {
+        view.addSubview(activityIndicator)
     }
     
     private func configureDataSource() {
@@ -220,6 +240,14 @@ extension CoinListViewController {
         tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
     }
+    
+    private func getVisibleCellsForCoinListDataManager() {
+        let visibleCellsSymbols = coinListCollectionView
+            .visibleCells
+            .compactMap { coinListCollectionView.indexPath(for: $0) }
+            .compactMap { dataSource?.itemIdentifier(for: $0)?.symbolName }
+        coinListDataManager.visibleCellsSymbols = visibleCellsSymbols
+    }
 }
 
 // MARK: - Snapshot
@@ -227,16 +255,31 @@ extension CoinListViewController {
 extension CoinListViewController {
     func applySnapshot(favoriteCoinList: [Coin], allCoinList: [Coin]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Coin>()
+        
         if favoriteCoinList.isEmpty == false {
             snapshot.appendSections([.favorite])
             snapshot.appendItems(favoriteCoinList, toSection: .favorite)
         }
+        
         if allCoinList.isEmpty == false {
             snapshot.appendSections([.all])
             snapshot.appendItems(allCoinList, toSection: .all)
         }
+        
         DispatchQueue.main.async {
-            self.dataSource?.apply(snapshot, animatingDifferences: false)
+            self.checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinList: favoriteCoinList.isEmpty)
+            
+            self.dataSource?.apply(snapshot, animatingDifferences: false) {
+                self.getVisibleCellsForCoinListDataManager()
+            }
+        }
+    }
+    
+    private func checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinList isEmpty: Bool) {
+        if isEmpty {
+            coinListMenuStackView.moveUnderLine(index: Section.all.rawValue)
+        } else if let oldSnapshot = dataSource?.snapshot(), oldSnapshot.sectionIdentifiers.contains(.favorite) == false {
+            coinListMenuStackView.moveUnderLine(index: Section.favorite.rawValue)
         }
     }
 }
@@ -246,10 +289,7 @@ extension CoinListViewController {
 extension CoinListViewController: CoinListDataManagerDelegate {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
         applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
-    }
-    
-    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin]) {
-        applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
+        endActivityIndicator()
     }
     
     func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
@@ -296,6 +336,17 @@ extension CoinListViewController: UICollectionViewDelegate {
                 coinListMenuStackView.moveUnderLine(index: Section.favorite.rawValue)
             }
         }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate {
+            return
+        }
+        getVisibleCellsForCoinListDataManager()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        getVisibleCellsForCoinListDataManager()
     }
 }
 

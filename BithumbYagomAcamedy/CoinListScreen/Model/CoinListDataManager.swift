@@ -9,7 +9,6 @@ import Foundation
 
 protocol CoinListDataManagerDelegate: AnyObject {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
-    func coinListDataManager(didToggleFavorite favoriteCoinList: [Coin], allCoinList: [Coin])
     func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
 }
 
@@ -38,6 +37,8 @@ final class CoinListDataManager {
     private var filteredAllCoinList: [Coin] = []
     
     private var currentSortType: SortType
+    
+    var visibleCellsSymbols: [String] = []
     
     // MARK: - Init
     
@@ -121,7 +122,7 @@ extension CoinListDataManager {
         }
     }
     
-    private func applyCurrentPrice(to item: Coin) {
+    private func applyCurrentPrice() {
         delegate?.coinListDataManager(didSetCurrentPriceInAllCoinList: filteredFavoriteCoinList, allCoinList: filteredAllCoinList)
     }
 }
@@ -169,6 +170,7 @@ extension CoinListDataManager {
                     callingName: NSLocalizedString(key, comment: ""),
                     symbolName: key,
                     currentPrice: 0,
+                    closingPrice: Double(tickerData.closingPrice),
                     changeRate: Double(tickerData.fluctateRate24Hour),
                     changePrice: Double(tickerData.fluctate24Hour),
                     popularity: Double(tickerData.accTradeValue24Hour),
@@ -201,10 +203,13 @@ extension CoinListDataManager {
                     print(error.localizedDescription)
                 }
             }
+            // 빗썸 Public API의 데이터 요청 횟수가 1초에 135개로 제한되어 있어서
+            // 1초에 100개를 요청하도록 sleep을 줌
+            Thread.sleep(forTimeInterval: 0.01)
         }
         group.notify(queue: .main) { [weak self] in
             self?.fetchFavoriteCoinList()
-//            self?.fetchCurrentPriceWebSocket()
+            self?.fetchCurrentPriceWebSocket()
         }
     }
     
@@ -226,10 +231,10 @@ extension CoinListDataManager {
 // MARK: - WebSocket Network
 
 extension CoinListDataManager {
-    private func fetchCurrentPriceWebSocket() {
+    func fetchCurrentPriceWebSocket() {
         let symbols = allCoinList.map { $0.symbolName }
         let api = TransactionWebSocket(symbols: symbols)
-        
+        webSocketService.close()
         webSocketService.open(webSocketAPI: api) { [weak self] result in
             guard let message = result.value else {
                 print(result.error?.localizedDescription as Any)
@@ -253,6 +258,10 @@ extension CoinListDataManager {
         }
     }
     
+    func stopFetchCurrentPriceWebSocket() {
+        webSocketService.close()
+    }
+    
     private func parsedWebSocketTranscation(
         from string: String
     ) throws -> WebSocketTransactionValueObject {
@@ -274,16 +283,50 @@ extension CoinListDataManager {
         currentValue: WebSocketTransactionData.WebSocketTransaction
     ) {
         let symbolSlice = currentValue.symbol.components(separatedBy: "_")[0]
-        guard let index = filteredAllCoinList.firstIndex(where: {
-            $0.symbolName == symbolSlice
-        }) else {
+        
+        guard visibleCellsSymbols.contains(symbolSlice) else {
             return
         }
         
         let newPrice = Double(currentValue.price)
         
-        filteredAllCoinList[index].currentPrice = newPrice
-        applyCurrentPrice(to: filteredAllCoinList[index])
+        if let indexInAllCoin = filteredAllCoinList.firstIndex(where: { $0.symbolName == symbolSlice }) {
+            setChanged(for: &filteredAllCoinList, at: indexInAllCoin, newPrice: newPrice)
+        }
+        
+        if let indexInFavoriteCoin = filteredFavoriteCoinList.firstIndex(where: { $0.symbolName == symbolSlice }) {
+            setChanged(for: &filteredFavoriteCoinList, at: indexInFavoriteCoin, newPrice: newPrice)
+        }
+        
+        applyCurrentPrice()
+    }
+    
+    private func setChanged(for coinList: inout [Coin], at index: Int, newPrice: Double?) {
+        let pivotPrice = coinList[index].closingPrice
+        
+        calculateChange(pivotPrice: pivotPrice, newPrice: newPrice) { changePrice, changeRate in
+            coinList[index].changePrice = changePrice
+            coinList[index].changeRate = changeRate
+        }
+        
+        coinList[index].currentPrice = newPrice
+    }
+    
+    private func calculateChange(
+        pivotPrice: Double?,
+        newPrice: Double?,
+        completion: (_ changePrice: Double, _ changeRate: Double) -> Void
+    ) {
+        guard let pivotPrice = pivotPrice,
+              let newPrice = newPrice
+        else {
+            return
+        }
+
+        let changePrice = newPrice - pivotPrice
+        let changeRate = (changePrice / pivotPrice * 10000).rounded() / 100
+        
+        completion(changePrice, changeRate)
     }
 }
 

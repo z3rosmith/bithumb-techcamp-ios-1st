@@ -15,5 +15,6 @@ extension URLRequest {
         
         self.init(url: url)
         self.httpMethod = "\(api.method)"
+        self.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
     }
 }
