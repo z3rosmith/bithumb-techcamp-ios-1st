@@ -13,6 +13,10 @@ struct CandlestickPrice {
     let low: Double
     let close: Double
     
+    var prices: [Double] {
+        return [open, high, low, close]
+    }
+    
     var isIncreasePrice: Bool {
         return `open` - close < Double.zero ? true : false
     }
@@ -26,6 +30,6 @@ struct CandlestickPrice {
     }
     
     var priceString: String {
-        "시 \(Int(open)) 고 \(Int(high)) 저 \(Int(low)) 종 \(Int(close))"
+        "시 \(open) 고 \(high) 저 \(low) 종 \(close)"
     }
 }
