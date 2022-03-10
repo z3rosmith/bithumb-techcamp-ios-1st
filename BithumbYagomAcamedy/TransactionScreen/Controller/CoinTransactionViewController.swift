@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CoinTransactionViewController: UIViewController, PageViewControllerable {
+final class CoinTransactionViewController: UIViewController, PageViewControllerable, NetworkFailAlertPresentable {
         
     // MARK: - Typealias
     
@@ -92,6 +92,14 @@ extension CoinTransactionViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinTransactionViewController: CoinTransactionDataManagerDelegate {
+    func coinTransactionDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.coinTransactionDataManager?.fetchTransaction()
+            }
+        }
+    }
+    
     func coinTransactionDataManager(didChange transactions: [Transaction]) {
         applySnapshot(transactions)
     }

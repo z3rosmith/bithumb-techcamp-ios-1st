@@ -119,6 +119,10 @@ extension CoinDetailViewController: CoinDetailDataManagerDelegate {
             self?.coinChartImageView.drawChart(price: price)
         }
     }
+    
+    func coinDetailDataManagerDidFetchFail() {
+        
+    }
 }
 
 

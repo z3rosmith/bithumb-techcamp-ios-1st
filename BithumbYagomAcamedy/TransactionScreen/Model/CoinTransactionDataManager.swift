@@ -9,6 +9,7 @@ import Foundation
 
 protocol CoinTransactionDataManagerDelegate: AnyObject {
     func coinTransactionDataManager(didChange transactions: [Transaction])
+    func coinTransactionDataManagerDidFetchFail()
 }
 
 final class CoinTransactionDataManager {
@@ -50,6 +51,7 @@ extension CoinTransactionDataManager {
         
         httpNetworkService.request(api: api) { [weak self] result in
             guard let data = result.value else {
+                self?.delegate?.coinTransactionDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
