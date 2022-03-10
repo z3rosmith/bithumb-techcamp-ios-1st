@@ -12,13 +12,10 @@ class CandlestickInfoTextView: UITextView {
         let priceColor: UIColor
         
         if price.isIncreasePrice {
-            print("red")
             priceColor = .red
         } else if price.isDecreasePrice {
-            print("blue")
             priceColor = .blue
         } else {
-            print("label")
             priceColor = .label
         }
         

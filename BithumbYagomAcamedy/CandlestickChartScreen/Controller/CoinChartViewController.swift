@@ -71,6 +71,8 @@ final class CoinChartViewController: UIViewController, PageViewControllerable {
 
 // MARK: - Delegate
 
+// MARK: Chart view delegate
+
 extension CoinChartViewController: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         guard let chartEntry = entry as? CandleChartDataEntry else {
@@ -88,6 +90,8 @@ extension CoinChartViewController: ChartViewDelegate {
         }
     }
 }
+
+// MARK: Coin chart data manager delegate
 
 extension CoinChartViewController: CoinChartDataManagerDelegate {
     func coinChartDataManager(didSet candlesticks: [Candlestick]) {
