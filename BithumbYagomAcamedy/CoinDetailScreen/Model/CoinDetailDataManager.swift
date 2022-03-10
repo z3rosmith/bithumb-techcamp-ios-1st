@@ -20,6 +20,7 @@ final class CoinDetailDataManager {
     private let httpNetworkService: HTTPNetworkService
     private var tickerWebSocketService: WebSocketService
     private var transactionWebSocketService: WebSocketService
+    private var coreDataManager: CoinChartCoreDataManager?
     private var detailCoin: DetailViewCoin? {
         didSet {
             delegate?.coinDetailDataManager(didChange: detailCoin)
@@ -162,6 +163,24 @@ extension CoinDetailDataManager {
             print(error.localizedDescription)
             
             throw error
+        }
+    }
+}
+
+// MARK: - Core Data
+
+extension CoinDetailDataManager {
+    func loadChartCoreData() {
+        guard let symbol = detailCoin?.symbol else {
+            return
+        }
+        
+        coreDataManager = CoinChartCoreDataManager(symbol: symbol)
+        let candlesticks = coreDataManager?.fetch(dateFormat: .hour24)
+        
+        guard candlesticks?.isEmpty == true else {
+            fetchChart()
+            return
         }
     }
 }
