@@ -32,6 +32,12 @@ class CandlestickInfoTextView: UITextView {
         let prices = [Int(price.open), Int(price.high), Int(price.low), Int(price.close)]
         let text = price.priceString
         
+        attributedString.addAttribute(
+            .foregroundColor,
+            value: UIColor.label,
+            range: (text as NSString).range(of: text)
+        )
+        
         prices.forEach { price in
             attributedString.addAttribute(
                 .foregroundColor,
