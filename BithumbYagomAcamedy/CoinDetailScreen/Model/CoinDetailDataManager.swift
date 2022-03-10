@@ -176,19 +176,22 @@ extension CoinDetailDataManager {
         }
         
         coreDataManager = CoinChartCoreDataManager(symbol: symbol)
-        let candlesticks = coreDataManager?.fetch(dateFormat: .hour24)
         
-        guard candlesticks?.isEmpty == true else {
+        guard let candlesticks = coreDataManager?.fetch(dateFormat: .hour24),
+              candlesticks.isEmpty == false
+        else {
             fetchChart()
             return
         }
+        
+        setupChartData(from: candlesticks)
     }
 }
 
 // MARK: - HTTP Network
 
 extension CoinDetailDataManager {
-    func fetchChart() {
+    private func fetchChart() {
         guard let symbol = detailCoin?.symbol else {
             return
         }
@@ -204,12 +207,13 @@ extension CoinDetailDataManager {
             let candlestickValueObject = try? self?.parseChart(to: data)
             
             guard let candlestickValueObject = candlestickValueObject,
-                  candlestickValueObject.status == "0000"
+                  candlestickValueObject.status == "0000",
+                  let candlesticks = self?.convert(to: candlestickValueObject)
             else {
                 return
             }
             
-            self?.setupChartData(from: candlestickValueObject)
+            self?.setupChartData(from: candlesticks)
         }
     }
     
@@ -227,11 +231,17 @@ extension CoinDetailDataManager {
         }
     }
     
-    private func setupChartData(from candlestickValueObject: CandlestickValueObject) {
+    private func convert(
+        to candlestickValueObject: CandlestickValueObject
+    ) -> [Candlestick] {
+        return candlestickValueObject.data
+            .compactMap { Candlestick(array: $0) }
+    }
+    
+    private func setupChartData(from candlesticks: [Candlestick]) {
         let threeMonthsAgo = Date().timeIntervalSince1970 - (86400 * 90)
         
-        let openPrice = candlestickValueObject.data
-            .compactMap{ Candlestick(array: $0) }
+        let openPrice = candlesticks
             .filter({ candleStick in
                 candleStick.time > threeMonthsAgo
             })
