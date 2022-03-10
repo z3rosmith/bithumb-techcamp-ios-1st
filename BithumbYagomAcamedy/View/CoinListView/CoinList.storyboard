@@ -38,7 +38,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
                                 <cells/>
                             </collectionView>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="코인이름 또는 심볼" translatesAutoresizingMaskIntoConstraints="NO" id="QiV-ve-AIc">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="코인명 및 심볼 검색" translatesAutoresizingMaskIntoConstraints="NO" id="QiV-ve-AIc">
                                 <rect key="frame" x="0.0" y="44" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
