@@ -535,7 +535,6 @@
 				08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */,
 				3707832827C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib */,
 				3707832727C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift */,
-				370C4B4627CD1DEC00EE2C68 /* SortButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -800,6 +799,7 @@
 			children = (
 				3CCBAA5627D2534000221473 /* CoinListMenuStackView.swift */,
 				0810E82127D1013600064BA5 /* CoinDetailMenuStackView.swift */,
+				370C4B4627CD1DEC00EE2C68 /* SortButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
