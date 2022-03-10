@@ -127,14 +127,6 @@ extension CoinOrderbookViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
-    func coinOrderbookDataManagerDidFetchFail() {
-        DispatchQueue.main.async { [weak self] in
-            self?.showFetchFailAlert(viewController: self) { _ in
-                self?.coinOrderbookDataManager?.fetchOrderbook()
-            }
-        }
-    }
-    
     func coinOrderbookDataManager(
         didCalculate totalQuantity: String,
         type: OrderbookType
@@ -153,5 +145,13 @@ extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
         and bidOrderbooks: [Orderbook]
     ) {
         applySnapshot(askOrderbooks, bidOrderbooks)
+    }
+    
+    func coinOrderbookDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.coinOrderbookDataManager?.fetchOrderbook()
+            }
+        }
     }
 }

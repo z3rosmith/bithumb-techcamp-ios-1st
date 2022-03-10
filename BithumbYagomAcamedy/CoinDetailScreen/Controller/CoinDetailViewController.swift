@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CoinDetailViewController: UIViewController {
+final class CoinDetailViewController: UIViewController, NetworkFailAlertPresentable {
 
     // MARK: - IBOutlet
    
@@ -121,7 +121,11 @@ extension CoinDetailViewController: CoinDetailDataManagerDelegate {
     }
     
     func coinDetailDataManagerDidFetchFail() {
-        
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.coinDetailDataManager.loadChartData()
+            }
+        }
     }
 }
 

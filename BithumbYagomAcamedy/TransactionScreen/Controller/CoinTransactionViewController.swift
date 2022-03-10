@@ -92,15 +92,15 @@ extension CoinTransactionViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinTransactionViewController: CoinTransactionDataManagerDelegate {
+    func coinTransactionDataManager(didChange transactions: [Transaction]) {
+        applySnapshot(transactions)
+    }
+    
     func coinTransactionDataManagerDidFetchFail() {
         DispatchQueue.main.async { [weak self] in
             self?.showFetchFailAlert(viewController: self) { _ in
                 self?.coinTransactionDataManager?.fetchTransaction()
             }
         }
-    }
-    
-    func coinTransactionDataManager(didChange transactions: [Transaction]) {
-        applySnapshot(transactions)
     }
 }
