@@ -9,6 +9,7 @@ import Foundation
 
 protocol DepositWithdrawalStatusDataManagerDelegate: AnyObject {
     func depositWithdrawalStatusDataManagerDidSetData(_ statuses: [AssetsStatus])
+    func depositWithdrawalStatusDataManagerDidFetchFail()
 }
 
 final class DepositWithdrawalStatusDataManager {
@@ -49,22 +50,19 @@ final class DepositWithdrawalStatusDataManager {
         let assetStatusAPI = AssetsStatusAPI()
         
         service.request(api: assetStatusAPI) { [weak self] result in
-            guard let self = self else {
+            guard let data = result.value else {
+                self?.delegate?.depositWithdrawalStatusDataManagerDidFetchFail()
+                print(result.error?.localizedDescription as Any)
                 return
             }
             
-            switch result {
-            case .success(let data):
-                guard let parsedData = try? self.parseAssetsStatuses(to: data) else {
-                    return
-                }
-                
-                self.statuses = parsedData
-                self.filteredStatuses = parsedData
-                self.delegate?.depositWithdrawalStatusDataManagerDidSetData(parsedData)
-            case .failure(let error):
-                print(error.localizedDescription)
+            guard let parsedData = try? self?.parseAssetsStatuses(to: data) else {
+                return
             }
+            
+            self?.statuses = parsedData
+            self?.filteredStatuses = parsedData
+            self?.delegate?.depositWithdrawalStatusDataManagerDidSetData(parsedData)
         }
     }
     

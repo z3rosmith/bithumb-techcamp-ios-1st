@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CoinOrderbookViewController: UIViewController, PageViewControllerable {
+final class CoinOrderbookViewController: UIViewController, PageViewControllerable, NetworkFailAlertPresentable {
     
     // MARK: - Typealias
     
@@ -127,6 +127,14 @@ extension CoinOrderbookViewController {
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
+    func coinOrderbookDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.coinOrderbookDataManager?.fetchOrderbook()
+            }
+        }
+    }
+    
     func coinOrderbookDataManager(
         didCalculate totalQuantity: Double,
         type: OrderbookType

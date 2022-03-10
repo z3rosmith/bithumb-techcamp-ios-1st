@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DepositWithdrawalStatusViewController: UIViewController {
+final class DepositWithdrawalStatusViewController: UIViewController, NetworkFailAlertPresentable {
     
     // MARK: - Section
     
@@ -136,6 +136,14 @@ extension DepositWithdrawalStatusViewController: UISearchBarDelegate {
 // MARK: DepositWithdrawalStatusDataManagerDelegate
 
 extension DepositWithdrawalStatusViewController: DepositWithdrawalStatusDataManagerDelegate {
+    func depositWithdrawalStatusDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.dataManager?.requestData()
+            }
+        }
+    }
+    
     func depositWithdrawalStatusDataManagerDidSetData(_ statuses: [AssetsStatus]) {
         applyData(with: statuses)
     }

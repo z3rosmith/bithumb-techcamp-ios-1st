@@ -41,6 +41,8 @@
 		08AF803827C7569D00790762 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803727C7569D00790762 /* NetworkServiceTests.swift */; };
 		08AF803C27C756E500790762 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF803B27C756E500790762 /* MockURLSession.swift */; };
 		08AF806E27C8BE6600790762 /* BaseURLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF806D27C8BE6600790762 /* BaseURLable.swift */; };
+		08B1A4B027D9DE3900B1E9E4 /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B1A4AF27D9DE3900B1E9E4 /* AlertFactory.swift */; };
+		08B1A4B327D9E9ED00B1E9E4 /* NetworkFailAlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B1A4B227D9E9ED00B1E9E4 /* NetworkFailAlertPresentable.swift */; };
 		08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */; };
 		08B46D8027CDE5220072CBBF /* WebSocketTransactionValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */; };
 		08B46D8227CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */; };
@@ -175,6 +177,8 @@
 		08AF803727C7569D00790762 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		08AF803B27C756E500790762 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		08AF806D27C8BE6600790762 /* BaseURLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURLable.swift; sourceTree = "<group>"; };
+		08B1A4AF27D9DE3900B1E9E4 /* AlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactory.swift; sourceTree = "<group>"; };
+		08B1A4B227D9E9ED00B1E9E4 /* NetworkFailAlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFailAlertPresentable.swift; sourceTree = "<group>"; };
 		08B46D7D27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTickerValueObject.swift; sourceTree = "<group>"; };
 		08B46D7F27CDE5220072CBBF /* WebSocketTransactionValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTransactionValueObject.swift; sourceTree = "<group>"; };
 		08B46D8127CDF3920072CBBF /* WebSocketOrderBookDepthValueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketOrderBookDepthValueObject.swift; sourceTree = "<group>"; };
@@ -429,6 +433,15 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		08B1A4B127D9E9B200B1E9E4 /* AlertFactory */ = {
+			isa = PBXGroup;
+			children = (
+				08B1A4AF27D9DE3900B1E9E4 /* AlertFactory.swift */,
+				08B1A4B227D9E9ED00B1E9E4 /* NetworkFailAlertPresentable.swift */,
+			);
+			path = AlertFactory;
+			sourceTree = "<group>";
+		};
 		08B46D7C27CDDE1F0072CBBF /* WebSocketValueObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +556,7 @@
 		08F5EA4E27C688160031EF4C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				08B1A4B127D9E9B200B1E9E4 /* AlertFactory */,
 				375AE08B27C6894D00F8F7E6 /* JSONParser.swift */,
 			);
 			path = Utility;
@@ -1082,10 +1096,12 @@
 				3707832927C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift in Sources */,
 				0830F70D27CCB0FE00A65EBA /* TickerAPI.swift in Sources */,
 				08B46DB327D060C40072CBBF /* CoinDetailTitleButton.swift in Sources */,
+				08B1A4B327D9E9ED00B1E9E4 /* NetworkFailAlertPresentable.swift in Sources */,
 				08B46D8F27CE52E70072CBBF /* WebSocketService.swift in Sources */,
 				37A15ACA27C61D0A00585F4A /* AppDelegate.swift in Sources */,
 				08B46D8D27CE52D60072CBBF /* HTTPNetworkService.swift in Sources */,
 				08B46D9C27CF2CBD0072CBBF /* CoinDetailViewController.swift in Sources */,
+				08B1A4B027D9DE3900B1E9E4 /* AlertFactory.swift in Sources */,
 				08B4916227C9C29F0082E379 /* WebSocketable.swift in Sources */,
 				08ADD5B027D745E200AFC950 /* CoinOrderbookViewInstantiateInformation.swift in Sources */,
 				08AF803127C742AB00790762 /* APIable.swift in Sources */,

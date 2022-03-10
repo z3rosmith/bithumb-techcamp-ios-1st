@@ -10,6 +10,7 @@ import Foundation
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
     func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], and bidOrderbooks: [Orderbook])
     func coinOrderbookDataManager(didCalculate totalQuantity: Double, type: OrderbookType)
+    func coinOrderbookDataManagerDidFetchFail()
 }
 
 final class CoinOrderbookDataManager {
@@ -107,6 +108,7 @@ extension CoinOrderbookDataManager {
         
         httpNetworkService.request(api: api) { [weak self] result in
             guard let data = result.value else {
+                self?.delegate?.coinOrderbookDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
