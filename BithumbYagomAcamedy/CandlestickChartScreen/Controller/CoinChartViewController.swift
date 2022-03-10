@@ -10,18 +10,34 @@ import Charts
 
 final class CoinChartViewController: UIViewController, PageViewControllerable {
     
-    @IBOutlet private weak var coinChartView: CandleStickChartView!
-    @IBOutlet private weak var timeSegmentedControl: UISegmentedControl!
+    // MARK: - Property
+    
     private var dataManager: CoinChartDataManager?
     var completion: (() -> Void)?
+    
+    // MARK: - IBOutlet
+    
+    @IBOutlet private weak var coinChartView: CandleStickChartView!
+    @IBOutlet private weak var timeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var candlestickInfoTextView: CandlestickInfoTextView!
+    
+    // MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         completion?()
-        configureCoinChartLayout()
+        configureCoinChart()
     }
     
-    private func configureCoinChartLayout() {
+    // MARK: - Configure
+    
+    func configureDataManager(coin: Coin) {
+        dataManager = CoinChartDataManager(symbol: coin.symbolName)
+        dataManager?.delegate = self
+        requestChartData(at: timeSegmentedControl.selectedSegmentIndex)
+    }
+    
+    private func configureCoinChart() {
         coinChartView.xAxis.spaceMax = 10.0
         coinChartView.xAxis.granularity = 10
         coinChartView.xAxis.axisLineWidth = 3
@@ -33,17 +49,10 @@ final class CoinChartViewController: UIViewController, PageViewControllerable {
         coinChartView.leftAxis.enabled = false
         coinChartView.legend.enabled = false
         coinChartView.doubleTapToZoomEnabled = false
+        coinChartView.delegate = self
     }
     
-    func configureDataManager(coin: Coin) {
-        dataManager = CoinChartDataManager(symbol: coin.symbolName)
-        dataManager?.delegate = self
-        requestChartData(at: timeSegmentedControl.selectedSegmentIndex)
-    }
-    
-    @IBAction func timeSegmentedControlValueChanged(_ sender: UISegmentedControl) {
-        requestChartData(at: sender.selectedSegmentIndex)
-    }
+    // MARK: - Method
     
     private func requestChartData(at index: Int) {
         guard let tickType = ChartDateFormat(rawValue: index) else {
@@ -51,6 +60,32 @@ final class CoinChartViewController: UIViewController, PageViewControllerable {
         }
         
         dataManager?.changeChartDateFormat(to: tickType)
+    }
+    
+    // MARK: - IBAction
+    
+    @IBAction func timeSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        requestChartData(at: sender.selectedSegmentIndex)
+    }
+}
+
+// MARK: - Delegate
+
+extension CoinChartViewController: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        guard let chartEntry = entry as? CandleChartDataEntry else {
+            return
+        }
+        let price = CandlestickPrice(
+            open: chartEntry.open,
+            high: chartEntry.high,
+            low: chartEntry.low,
+            close: chartEntry.close
+        )
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.candlestickInfoTextView.update(price: price)
+        }
     }
 }
 
