@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CandlestickInfoTextView: UITextView {
+final class CandlestickInfoTextView: UITextView {
     func update(price: CandlestickPrice) {
         let priceColor: UIColor
         

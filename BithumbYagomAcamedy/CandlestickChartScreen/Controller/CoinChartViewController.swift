@@ -19,7 +19,7 @@ final class CoinChartViewController: UIViewController, PageViewControllerable {
     
     @IBOutlet private weak var coinChartView: CandleStickChartView!
     @IBOutlet private weak var timeSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var candlestickInfoTextView: CandlestickInfoTextView!
+    @IBOutlet private weak var candlestickInfoTextView: CandlestickInfoTextView!
     
     // MARK: Life cycle
     
