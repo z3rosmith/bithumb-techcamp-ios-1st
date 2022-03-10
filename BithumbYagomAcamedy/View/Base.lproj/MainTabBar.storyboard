@@ -11,7 +11,7 @@
         <scene sceneID="8xz-cG-vOH">
             <objects>
                 <tabBarController id="MWA-AE-1vg" customClass="MainTabBarController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="eNJ-fc-eEk">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eNJ-fc-eEk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
