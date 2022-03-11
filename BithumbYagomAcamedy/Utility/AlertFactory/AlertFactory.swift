@@ -13,15 +13,17 @@ struct AlertFactory {
         message: String? = nil,
         preferredStyle: UIAlertController.Style = .alert,
         actions: UIAlertAction...
-    ) -> UIAlertController{
+    ) -> UIAlertController {
         let alert = UIAlertController(
             title: title,
             message: message,
             preferredStyle: preferredStyle
         )
+        
         actions.forEach { action in
             alert.addAction(action)
         }
+        
         return alert
     }
 }

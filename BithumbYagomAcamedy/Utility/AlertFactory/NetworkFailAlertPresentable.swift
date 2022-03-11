@@ -17,7 +17,7 @@ protocol NetworkFailAlertPresentable {
 extension NetworkFailAlertPresentable {
     func showFetchFailAlert(
         viewController: UIViewController?,
-        changeInventoryActionCompletion: @escaping (UIAlertAction) -> Void
+        retryActionCompletion: @escaping (UIAlertAction) -> Void
     ) {
         let noAction = UIAlertAction(
             title: "취소",
@@ -26,7 +26,7 @@ extension NetworkFailAlertPresentable {
         let okAction = UIAlertAction(
             title: "재시도",
             style: .default,
-            handler: changeInventoryActionCompletion
+            handler: retryActionCompletion
         )
         let alert = AlertFactory.create(
             title: "데이터를 가져오는데 실패했습니다",
