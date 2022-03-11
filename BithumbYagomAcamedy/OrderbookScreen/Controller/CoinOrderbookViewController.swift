@@ -124,6 +124,26 @@ extension CoinOrderbookViewController {
     }
 }
 
+extension CoinOrderbookViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let visibleCellsType = coinOrderbookCollectionView
+            .visibleCells
+            .compactMap { coinOrderbookCollectionView.indexPath(for: $0) }
+            .compactMap { dataSource?.itemIdentifier(for: $0)?.type }
+        
+        let bidVisibleCells = visibleCellsType.filter { $0 == .bid }
+        let askVisibleCells = visibleCellsType.filter { $0 == .ask }
+        
+        if bidVisibleCells.count == 0 {
+            print("비드 없음.")
+        }
+        
+        if askVisibleCells.count == 0 {
+            print("에스크 없음.")
+        }
+    }
+}
+
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {

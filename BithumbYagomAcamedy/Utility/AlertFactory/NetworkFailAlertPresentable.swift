@@ -10,7 +10,7 @@ import UIKit
 protocol NetworkFailAlertPresentable {
     func showFetchFailAlert(
         viewController: UIViewController?,
-        changeInventoryActionCompletion: @escaping (UIAlertAction) -> Void
+        retryActionCompletion: @escaping (UIAlertAction) -> Void
     )
 }
 
