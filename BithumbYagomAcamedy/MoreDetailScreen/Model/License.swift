@@ -10,8 +10,6 @@ import Foundation
 struct Lisence {
     static let apache =
         """
-        Charts
-        
         https://github.com/danielgindi/Charts
         
         Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda

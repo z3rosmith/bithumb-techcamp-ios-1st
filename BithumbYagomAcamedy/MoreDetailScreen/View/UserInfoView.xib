@@ -4,68 +4,78 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UserInfoView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="360" height="125"/>
+        <view contentMode="scaleToFill" id="9cm-zh-TKn" customClass="UserInfoView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="360" height="90"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qpB-pi-uht" userLabel="User Image View">
-                    <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
-                    <constraints>
-                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="6Bp-gd-Ymp"/>
-                        <constraint firstAttribute="width" secondItem="qpB-pi-uht" secondAttribute="height" multiplier="1:1" id="b7y-oX-ecw"/>
-                    </constraints>
-                </imageView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QPj-EF-t4y" userLabel="User Info Stack View">
-                    <rect key="frame" x="135" y="10" width="35.5" height="67"/>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="aSl-t0-eE4">
+                    <rect key="frame" x="0.0" y="44" width="360" height="46"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eLg-JQ-GmK" userLabel="User Name Label">
-                            <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxS-kn-lbU" userLabel="User Link Label">
-                            <rect key="frame" x="0.0" y="25" width="35.5" height="17"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDq-pK-xoz" userLabel="User Email Label">
-                            <rect key="frame" x="0.0" y="50" width="35.5" height="17"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IOi-rm-piP" userLabel="User Image View">
+                            <rect key="frame" x="0.0" y="0.0" width="46" height="46"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="IOi-rm-piP" secondAttribute="height" multiplier="1:1" id="8ck-io-1mU"/>
+                            </constraints>
+                        </imageView>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="aPb-z8-LBk" userLabel="User Info Stack View">
+                            <rect key="frame" x="62" y="0.0" width="298" height="46"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-MP-fyY" userLabel="User Name Label">
+                                    <rect key="frame" x="0.0" y="0.0" width="298" height="10"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HU7-O3-ohK" userLabel="User Link Label">
+                                    <rect key="frame" x="0.0" y="18" width="298" height="10"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                    <color key="textColor" name="FailStatus"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yw3-cf-4MZ" userLabel="User Email Label">
+                                    <rect key="frame" x="0.0" y="36" width="298" height="10"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                    <color key="textColor" name="FailStatus"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="IOi-rm-piP" firstAttribute="width" secondItem="aSl-t0-eE4" secondAttribute="width" multiplier="0.25" id="SHs-sM-iBC"/>
+                    </constraints>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="0nD-Ej-lQW"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="QPj-EF-t4y" firstAttribute="leading" secondItem="qpB-pi-uht" secondAttribute="trailing" constant="10" id="Hzd-Wb-Mtq"/>
-                <constraint firstAttribute="bottom" secondItem="qpB-pi-uht" secondAttribute="bottom" id="Zaw-08-ysC"/>
-                <constraint firstItem="qpB-pi-uht" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="iFn-Br-cv1"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QPj-EF-t4y" secondAttribute="trailing" constant="10" id="iOV-EN-NcG"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QPj-EF-t4y" secondAttribute="bottom" constant="10" id="oKW-UC-dWf"/>
-                <constraint firstItem="QPj-EF-t4y" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="wBa-7t-tVZ"/>
-                <constraint firstItem="qpB-pi-uht" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zOt-4U-s5f"/>
+                <constraint firstItem="0nD-Ej-lQW" firstAttribute="top" secondItem="aSl-t0-eE4" secondAttribute="top" id="2rL-uu-uKU"/>
+                <constraint firstItem="0nD-Ej-lQW" firstAttribute="bottom" secondItem="aSl-t0-eE4" secondAttribute="bottom" id="DAl-xZ-K5R"/>
+                <constraint firstItem="aSl-t0-eE4" firstAttribute="leading" secondItem="0nD-Ej-lQW" secondAttribute="leading" id="HKK-YY-TC1"/>
+                <constraint firstItem="0nD-Ej-lQW" firstAttribute="trailing" secondItem="aSl-t0-eE4" secondAttribute="trailing" id="x3u-ke-GVz"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="userEmailLabel" destination="pDq-pK-xoz" id="slW-P2-d8f"/>
-                <outlet property="userImageView" destination="qpB-pi-uht" id="AwQ-hd-0kF"/>
-                <outlet property="userLinkLabel" destination="TxS-kn-lbU" id="aOM-pA-2OA"/>
-                <outlet property="userNameLabel" destination="eLg-JQ-GmK" id="qsj-5I-WwX"/>
+                <outlet property="userEmailLabel" destination="yw3-cf-4MZ" id="6Zg-j5-cWN"/>
+                <outlet property="userImageView" destination="IOi-rm-piP" id="Bhw-Qy-ek8"/>
+                <outlet property="userLinkLabel" destination="HU7-O3-ohK" id="OyU-Ws-R6H"/>
+                <outlet property="userNameLabel" destination="DNO-MP-fyY" id="jgi-cA-4SZ"/>
             </connections>
-            <point key="canvasLocation" x="92.753623188405811" y="-159.70982142857142"/>
+            <point key="canvasLocation" x="80" y="-265"/>
         </view>
     </objects>
     <resources>
+        <namedColor name="FailStatus">
+            <color red="0.84313725490196079" green="0.40784313725490196" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

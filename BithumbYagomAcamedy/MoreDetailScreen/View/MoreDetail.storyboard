@@ -17,58 +17,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Voj-A7-JBA">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Voj-A7-JBA">
                                 <rect key="frame" x="0.0" y="44" width="414" height="759"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xE5-fu-4dY" userLabel="User Info Stack View">
-                                        <rect key="frame" x="0.0" y="41" width="414" height="169"/>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="License" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFL-PU-Cr3" userLabel="License Label">
-                                        <rect key="frame" x="10" y="48" width="65.5" height="23"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="test" textAlignment="natural" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsK-ph-Btp" userLabel="License Text View">
-                                        <rect key="frame" x="0.0" y="81" width="414" height="35"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUa-GK-jsl">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4uH-Wk-djK">
+                                                <rect key="frame" x="16" y="16" width="382" height="218"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="팀원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv1-1R-RwG">
+                                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QS0-Ft-ONx" userLabel="Line View">
+                                                        <rect key="frame" x="0.0" y="38" width="382" height="1"/>
+                                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="RBi-Cc-uIw"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="xE5-fu-4dY" userLabel="User Info Stack View">
+                                                        <rect key="frame" x="0.0" y="47" width="382" height="50"/>
+                                                    </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFL-PU-Cr3" userLabel="License Label">
+                                                        <rect key="frame" x="0.0" y="105" width="382" height="30"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oO1-WD-kuP" userLabel="Line View">
+                                                        <rect key="frame" x="0.0" y="143" width="382" height="1"/>
+                                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="Yxp-oh-n7J"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKZ-Uf-eDS" userLabel="License Label">
+                                                        <rect key="frame" x="0.0" y="152" width="382" height="23"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="test" textAlignment="natural" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsK-ph-Btp" userLabel="License Text View">
+                                                        <rect key="frame" x="0.0" y="183" width="382" height="35"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="textColor" systemColor="labelColor"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    </textView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="팀원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv1-1R-RwG">
-                                        <rect key="frame" x="10" y="10" width="33" height="23"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oO1-WD-kuP" userLabel="Line View">
-                                        <rect key="frame" x="20" y="43" width="374" height="3"/>
-                                        <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="Yxp-oh-n7J"/>
+                                            <constraint firstItem="4uH-Wk-djK" firstAttribute="leading" secondItem="OUa-GK-jsl" secondAttribute="leading" constant="16" id="apd-sj-6WM"/>
+                                            <constraint firstItem="4uH-Wk-djK" firstAttribute="top" secondItem="OUa-GK-jsl" secondAttribute="top" constant="16" id="bRn-np-mlb"/>
+                                            <constraint firstAttribute="bottom" secondItem="4uH-Wk-djK" secondAttribute="bottom" constant="16" id="duj-8U-cu4"/>
+                                            <constraint firstAttribute="trailing" secondItem="4uH-Wk-djK" secondAttribute="trailing" constant="16" id="inE-yT-L0B"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="EsK-ph-Btp" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" id="0JH-Gj-rbv"/>
-                                    <constraint firstItem="Uv1-1R-RwG" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" constant="10" id="1aB-rW-1G8"/>
-                                    <constraint firstItem="oO1-WD-kuP" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" constant="20" id="42q-va-355"/>
-                                    <constraint firstItem="EsK-ph-Btp" firstAttribute="bottom" secondItem="OP4-Sf-sYj" secondAttribute="bottom" id="566-n5-EeK"/>
-                                    <constraint firstItem="gFL-PU-Cr3" firstAttribute="leading" secondItem="s1R-bS-P9S" secondAttribute="leading" constant="10" id="6Wm-kq-zMz"/>
-                                    <constraint firstItem="Uv1-1R-RwG" firstAttribute="top" secondItem="OP4-Sf-sYj" secondAttribute="top" constant="10" id="6nk-mD-lnw"/>
-                                    <constraint firstItem="xE5-fu-4dY" firstAttribute="width" secondItem="s1R-bS-P9S" secondAttribute="width" id="AAp-MV-Pni"/>
-                                    <constraint firstItem="oO1-WD-kuP" firstAttribute="top" secondItem="xE5-fu-4dY" secondAttribute="bottom" constant="30" id="DXp-d2-ZwS"/>
-                                    <constraint firstItem="xE5-fu-4dY" firstAttribute="top" secondItem="Uv1-1R-RwG" secondAttribute="bottom" constant="10" id="LZg-lg-gsf"/>
-                                    <constraint firstItem="s1R-bS-P9S" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gFL-PU-Cr3" secondAttribute="trailing" constant="10" id="Lde-uf-sr7"/>
-                                    <constraint firstItem="EsK-ph-Btp" firstAttribute="top" secondItem="gFL-PU-Cr3" secondAttribute="bottom" constant="10" id="ZLL-gw-wdU"/>
-                                    <constraint firstItem="EsK-ph-Btp" firstAttribute="width" secondItem="s1R-bS-P9S" secondAttribute="width" id="fjw-SR-hCU"/>
-                                    <constraint firstItem="OP4-Sf-sYj" firstAttribute="trailing" secondItem="oO1-WD-kuP" secondAttribute="trailing" constant="20" id="gIt-A9-e5e"/>
-                                    <constraint firstItem="OP4-Sf-sYj" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Uv1-1R-RwG" secondAttribute="trailing" constant="10" id="ksy-jR-AyT"/>
-                                    <constraint firstItem="EsK-ph-Btp" firstAttribute="trailing" secondItem="OP4-Sf-sYj" secondAttribute="trailing" id="pdN-7j-IZb"/>
-                                    <constraint firstItem="xE5-fu-4dY" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" id="rgS-lu-Xxk"/>
-                                    <constraint firstItem="xE5-fu-4dY" firstAttribute="trailing" secondItem="OP4-Sf-sYj" secondAttribute="trailing" id="vYB-RT-Qik"/>
-                                    <constraint firstItem="gFL-PU-Cr3" firstAttribute="top" secondItem="oO1-WD-kuP" secondAttribute="bottom" constant="10" id="y7S-ou-EHW"/>
+                                    <constraint firstItem="OUa-GK-jsl" firstAttribute="leading" secondItem="OP4-Sf-sYj" secondAttribute="leading" id="Do9-vQ-M0e"/>
+                                    <constraint firstItem="OUa-GK-jsl" firstAttribute="bottom" secondItem="OP4-Sf-sYj" secondAttribute="bottom" id="O4Q-RI-SkU"/>
+                                    <constraint firstItem="OUa-GK-jsl" firstAttribute="trailing" secondItem="OP4-Sf-sYj" secondAttribute="trailing" id="Ohz-Ga-3lV"/>
+                                    <constraint firstItem="OUa-GK-jsl" firstAttribute="top" secondItem="OP4-Sf-sYj" secondAttribute="top" id="Tes-lf-imz"/>
+                                    <constraint firstItem="OUa-GK-jsl" firstAttribute="width" secondItem="s1R-bS-P9S" secondAttribute="width" id="rqe-kM-MbY"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="OP4-Sf-sYj"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="s1R-bS-P9S"/>

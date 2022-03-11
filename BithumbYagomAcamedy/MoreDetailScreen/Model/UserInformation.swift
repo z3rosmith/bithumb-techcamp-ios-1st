@@ -30,8 +30,8 @@ struct UserInformation {
             email: "zero0204@gmail.com"
         )
         let heohwangInfo = UserInformation(
-            imageURL: "Jaeha",
-            name: "황제성",
+            imageURL: "Jeha",
+            name: "황제하",
             nickName: "허황",
             link: "https://github.com/HJEHA",
             email: "hyhpwang@gmail.com"
