@@ -117,6 +117,11 @@
 		37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A15AD727C61D0C00585F4A /* LaunchScreen.storyboard */; };
 		37AC351427D5CB570096BBC0 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AC351327D5CB570096BBC0 /* TickType.swift */; };
 		37E2A06327CFA10D00051F28 /* CoinChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E2A06227CFA10D00051F28 /* CoinChartViewController.swift */; };
+		37E3EBCA27D9D1F200F0B525 /* UserInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37E3EBC927D9D1F200F0B525 /* UserInfoView.xib */; };
+		37E3EBCC27D9D38400F0B525 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBCB27D9D38400F0B525 /* UserInfoView.swift */; };
+		37E3EBD027D9D48900F0B525 /* MoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBCF27D9D48900F0B525 /* MoreDetailViewController.swift */; };
+		37E3EBD227D9D80E00F0B525 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBD127D9D80E00F0B525 /* UserInformation.swift */; };
+		37E3EBD427D9E19800F0B525 /* License.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBD327D9E19800F0B525 /* License.swift */; };
 		37E3EBC627D9918000F0B525 /* CandlestickInfoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBC527D9918000F0B525 /* CandlestickInfoTextView.swift */; };
 		37E3EBC827D9927000F0B525 /* CandlestickPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E3EBC727D9927000F0B525 /* CandlestickPrice.swift */; };
 		37E61AF827D34B8C00FE0B83 /* Candlestick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AF727D34B8C00FE0B83 /* Candlestick.swift */; };
@@ -258,6 +263,11 @@
 		37A15ADF27C61D0D00585F4A /* BithumbYagomAcamedyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BithumbYagomAcamedyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37AC351327D5CB570096BBC0 /* TickType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickType.swift; sourceTree = "<group>"; };
 		37E2A06227CFA10D00051F28 /* CoinChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinChartViewController.swift; sourceTree = "<group>"; };
+		37E3EBC927D9D1F200F0B525 /* UserInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoView.xib; sourceTree = "<group>"; };
+		37E3EBCB27D9D38400F0B525 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		37E3EBCF27D9D48900F0B525 /* MoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreDetailViewController.swift; sourceTree = "<group>"; };
+		37E3EBD127D9D80E00F0B525 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
+		37E3EBD327D9E19800F0B525 /* License.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
 		37E3EBC527D9918000F0B525 /* CandlestickInfoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlestickInfoTextView.swift; sourceTree = "<group>"; };
 		37E3EBC727D9927000F0B525 /* CandlestickPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlestickPrice.swift; sourceTree = "<group>"; };
 		37E61AF727D34B8C00FE0B83 /* Candlestick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candlestick.swift; sourceTree = "<group>"; };
@@ -541,13 +551,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		08F5EA4827C626A50031EF4C /* MoreDetailView */ = {
+		08F5EA4827C626A50031EF4C /* View */ = {
 			isa = PBXGroup;
 			children = (
 				08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */,
+				37E3EBC927D9D1F200F0B525 /* UserInfoView.xib */,
+				37E3EBCB27D9D38400F0B525 /* UserInfoView.swift */,
 				08B4B11127D895A200B59073 /* MoreViewController.swift */,
 			);
-			path = MoreDetailView;
+			path = View;
 			sourceTree = "<group>";
 		};
 		08F5EA4B27C627040031EF4C /* View */ = {
@@ -674,7 +686,9 @@
 		379D8FA727D8D3800088737F /* MoreDetailScreen */ = {
 			isa = PBXGroup;
 			children = (
-				08F5EA4827C626A50031EF4C /* MoreDetailView */,
+				37E3EBCD27D9D45A00F0B525 /* Model */,
+				08F5EA4827C626A50031EF4C /* View */,
+				37E3EBCE27D9D46800F0B525 /* Controller */,
 			);
 			path = MoreDetailScreen;
 			sourceTree = "<group>";
@@ -887,6 +901,23 @@
 			path = BithumbYagomAcamedyTests;
 			sourceTree = "<group>";
 		};
+		37E3EBCD27D9D45A00F0B525 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				37E3EBD127D9D80E00F0B525 /* UserInformation.swift */,
+				37E3EBD327D9E19800F0B525 /* License.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		37E3EBCE27D9D46800F0B525 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				37E3EBCF27D9D48900F0B525 /* MoreDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		3CCB27C527C73E3C00F84C80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1029,7 @@
 			files = (
 				08F5EA4D27C627450031EF4C /* DepositWithdrawalStatus.storyboard in Resources */,
 				08B46DA927CF30830072CBBF /* CoinDetailPage.storyboard in Resources */,
+				37E3EBCA27D9D1F200F0B525 /* UserInfoView.xib in Resources */,
 				37A15AD927C61D0C00585F4A /* LaunchScreen.storyboard in Resources */,
 				08CA8B5727D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib in Resources */,
 				37A15AD627C61D0C00585F4A /* Assets.xcassets in Resources */,
@@ -1047,6 +1079,7 @@
 				08B4B11427D8B92E00B59073 /* CoinDetailViewInstantiateInformation.swift in Sources */,
 				08B46D9127CE53010072CBBF /* BithumbPublicAPIURL.swift in Sources */,
 				375E495127D717DB002AA73A /* CoreDataManager.swift in Sources */,
+				37E3EBCC27D9D38400F0B525 /* UserInfoView.swift in Sources */,
 				37E3EBC627D9918000F0B525 /* CandlestickInfoTextView.swift in Sources */,
 				0849B49F27CBDF2F0058486F /* URLSessionWebSocketTask+extension.swift in Sources */,
 				08ADD5A327D5F9ED00AFC950 /* Double+extension.swift in Sources */,
@@ -1061,6 +1094,7 @@
 				3CCB27CE27C77F0D00F84C80 /* TransactionValueObject.swift in Sources */,
 				08B46DAF27CF4C450072CBBF /* CoinTransactionViewController.swift in Sources */,
 				3CCB27CC27C77EA500F84C80 /* OrderbookValueObject.swift in Sources */,
+				37E3EBD427D9E19800F0B525 /* License.swift in Sources */,
 				37971AD127D8369E000D1274 /* CandlestickDateFormatter.swift in Sources */,
 				08ADD5AB27D73C7D00AFC950 /* ViewControllerInstantiater.swift in Sources */,
 				0810E82227D1013600064BA5 /* CoinDetailMenuStackView.swift in Sources */,
@@ -1084,7 +1118,9 @@
 				08B46DA727CF30630072CBBF /* CoinDetailPageViewController.swift in Sources */,
 				375F506A27D092A600ABAF2A /* CoinChartDataManager.swift in Sources */,
 				0830F71127CCB14800A65EBA /* TransactionHistoryAPI.swift in Sources */,
+				37E3EBD227D9D80E00F0B525 /* UserInformation.swift in Sources */,
 				37AC351427D5CB570096BBC0 /* TickType.swift in Sources */,
+				37E3EBD027D9D48900F0B525 /* MoreDetailViewController.swift in Sources */,
 				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
 				08B46DB627D08D1D0072CBBF /* Result+extension.swift in Sources */,
 				37E61AF827D34B8C00FE0B83 /* Candlestick.swift in Sources */,
