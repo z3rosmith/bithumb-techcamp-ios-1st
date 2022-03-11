@@ -35,6 +35,8 @@ final class CoinOrderbookViewController: UIViewController, PageViewControllerabl
     @IBOutlet private weak var totalAsksQuantityLabel: UILabel!
     @IBOutlet private weak var totalBidsQuantityLabel: UILabel!
     
+    @IBOutlet private weak var askMinimumPriceView: UIView!
+    @IBOutlet private weak var bidMaximumPriceView: UIView!
     // MARK: - Property
     
     var completion: (() -> Void)?
@@ -135,11 +137,15 @@ extension CoinOrderbookViewController: UICollectionViewDelegate {
         let askVisibleCells = visibleCellsType.filter { $0 == .ask }
         
         if bidVisibleCells.count == 0 {
-            print("비드 없음.")
+            bidMaximumPriceView.isHidden = false
+        } else {
+            bidMaximumPriceView.isHidden = true
         }
         
         if askVisibleCells.count == 0 {
-            print("에스크 없음.")
+            askMinimumPriceView.isHidden = false
+        } else {
+            askMinimumPriceView.isHidden = true
         }
     }
 }
