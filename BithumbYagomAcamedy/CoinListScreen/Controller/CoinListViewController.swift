@@ -266,16 +266,16 @@ extension CoinListViewController {
             snapshot.appendItems(allCoinList, toSection: .all)
         }
         
-        DispatchQueue.main.async {
-            self.checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinList: favoriteCoinList.isEmpty)
+        DispatchQueue.main.async { [weak self] in
+            self?.checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinListIsEmpty: favoriteCoinList.isEmpty)
             
-            self.dataSource?.apply(snapshot, animatingDifferences: false) {
-                self.getVisibleCellsForCoinListDataManager()
+            self?.dataSource?.apply(snapshot, animatingDifferences: false) {
+                self?.getVisibleCellsForCoinListDataManager()
             }
         }
     }
     
-    private func checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinList isEmpty: Bool) {
+    private func checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinListIsEmpty isEmpty: Bool) {
         if isEmpty {
             coinListMenuStackView.moveUnderLine(index: Section.all.rawValue)
         } else if let oldSnapshot = dataSource?.snapshot(), oldSnapshot.sectionIdentifiers.contains(.favorite) == false {
