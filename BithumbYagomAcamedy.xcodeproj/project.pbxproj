@@ -127,6 +127,7 @@
 		37E61AF827D34B8C00FE0B83 /* Candlestick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AF727D34B8C00FE0B83 /* Candlestick.swift */; };
 		37E61AFC27D35E0700FE0B83 /* CoinCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AFB27D35E0700FE0B83 /* CoinCandleChartDataSet.swift */; };
 		37E61AFE27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */; };
+		3CC64A3127DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */; };
 		3CC98F3827C879F200B9A6EF /* CoinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */; };
 		3CC98F3A27C896C400B9A6EF /* CoinListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */; };
 		3CCA7AD227D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCA7AD127D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift */; };
@@ -273,6 +274,7 @@
 		37E61AF727D34B8C00FE0B83 /* Candlestick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candlestick.swift; sourceTree = "<group>"; };
 		37E61AFB27D35E0700FE0B83 /* CoinCandleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCandleChartDataSet.swift; sourceTree = "<group>"; };
 		37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCandleChartDataEntry.swift; sourceTree = "<group>"; };
+		3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDiffableDataSource+extension.swift"; sourceTree = "<group>"; };
 		3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewController.swift; sourceTree = "<group>"; };
 		3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListDataManager.swift; sourceTree = "<group>"; };
 		3CCA7AD127D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoinCoreDataManager.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				08B46DB527D08D1D0072CBBF /* Result+extension.swift */,
 				08CA8B5C27D34B9800ECD245 /* Array+extension.swift */,
 				08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */,
+				3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1120,6 +1123,7 @@
 				0830F71127CCB14800A65EBA /* TransactionHistoryAPI.swift in Sources */,
 				37E3EBD227D9D80E00F0B525 /* UserInformation.swift in Sources */,
 				37AC351427D5CB570096BBC0 /* TickType.swift in Sources */,
+				3CC64A3127DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift in Sources */,
 				37E3EBD027D9D48900F0B525 /* MoreDetailViewController.swift in Sources */,
 				375AE08C27C6894D00F8F7E6 /* JSONParser.swift in Sources */,
 				08B46DB627D08D1D0072CBBF /* Result+extension.swift in Sources */,

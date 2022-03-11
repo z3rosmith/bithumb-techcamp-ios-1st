@@ -23,7 +23,6 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     @IBOutlet private weak var coinListMenuStackView: CoinListMenuStackView!
     @IBOutlet private weak var sortButtonStackView: UIStackView!
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
-    
     @IBOutlet private var sortButtons: [SortButton]!
     
     // MARK: - Property
@@ -268,8 +267,7 @@ extension CoinListViewController {
         
         DispatchQueue.main.async { [weak self] in
             self?.checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinListIsEmpty: favoriteCoinList.isEmpty)
-            
-            self?.dataSource?.apply(snapshot, animatingDifferences: false) {
+            self?.dataSource?.applySnapshot(snapshot, animated: false) {
                 self?.getVisibleCellsForCoinListDataManager()
             }
         }
