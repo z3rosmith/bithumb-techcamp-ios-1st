@@ -3,6 +3,16 @@
     {
       "filename" : "chevron_up_black.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "chevron_up_white.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {
