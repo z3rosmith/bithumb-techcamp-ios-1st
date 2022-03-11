@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DepositWithdrawalStatusViewController: UIViewController {
+final class DepositWithdrawalStatusViewController: UIViewController, NetworkFailAlertPresentable {
     
     // MARK: - Section
     
@@ -153,6 +153,14 @@ extension DepositWithdrawalStatusViewController: DepositWithdrawalStatusDataMana
         
         DispatchQueue.main.async { [weak self] in
             self?.dataSource?.apply(snapshot)
+        }
+    }
+    
+    func depositWithdrawalStatusDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.dataManager?.requestData()
+            }
         }
     }
 }

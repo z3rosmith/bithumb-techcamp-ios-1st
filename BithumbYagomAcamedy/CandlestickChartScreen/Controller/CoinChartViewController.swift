@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-final class CoinChartViewController: UIViewController, PageViewControllerable {
+final class CoinChartViewController: UIViewController, PageViewControllerable, NetworkFailAlertPresentable {
     
     // MARK: - Property
     
@@ -161,5 +161,16 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
             yValue: y,
             axis: .right
         )
+    }
+    
+    func coinChartDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                guard let index = self?.timeSegmentedControl.selectedSegmentIndex else {
+                    return
+                }
+                self?.requestChartData(at: index)
+            }
+        }
     }
 }

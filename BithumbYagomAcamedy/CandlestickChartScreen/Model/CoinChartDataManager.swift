@@ -11,6 +11,7 @@ protocol CoinChartDataManagerDelegate: AnyObject {
     func coinChartDataManager(didSet candlesticks: [Candlestick])
     func coinChartDataManager(didUpdate candlestick: Candlestick)
     func coinChartDataManager(didAdd candlestick: Candlestick)
+    func coinChartDataManagerDidFetchFail()
 }
 
 final class CoinChartDataManager {
@@ -76,7 +77,7 @@ final class CoinChartDataManager {
         httpService.request(api: api) { [weak self] result in
             guard let data = result.value else {
                 let error = result.error
-                
+                self?.delegate?.coinChartDataManagerDidFetchFail()
                 print(error?.localizedDescription as Any)
                 return
             }

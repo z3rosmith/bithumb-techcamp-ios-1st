@@ -10,6 +10,7 @@ import Foundation
 protocol CoinListDataManagerDelegate: AnyObject {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
     func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin])
+    func coinListDataManagerDidFetchFail()
 }
 
 final class CoinListDataManager {
@@ -146,20 +147,37 @@ extension CoinListDataManager {
 extension CoinListDataManager {
     func fetchCoinList() {
         httpNetworkService.request(api: TickerAPI()) { [weak self] result in
-            switch result {
-            case .success(let data):
-                do {
-                    let response = try JSONParser().decode(data: data, type: TickersValueObject.self)
-                    // TODO: response.status가 "0000"이 아닐 때 처리하기
-                    guard response.status == self?.successStatusCode else { return }
-                    self?.setCoinList(from: response)
-                    self?.fetchCurrentPrice()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+            guard let data = result.value else {
+                self?.delegate?.coinListDataManagerDidFetchFail()
+                print(result.error?.localizedDescription as Any)
+                return
             }
+            
+            let response = try? self?.parseTicker(to: data)
+            // TODO: response.status가 "0000"이 아닐 때 처리하기
+            guard let response = response,
+                response.status == self?.successStatusCode
+            else {
+                return
+            }
+            
+            self?.setCoinList(from: response)
+            self?.fetchCurrentPrice()
+        }
+    }
+    
+    private func parseTicker(to data: Data) throws -> TickersValueObject {
+        do {
+            let tickersValueObject = try JSONParser().decode(
+                data: data,
+                type: TickersValueObject.self
+            )
+            
+            return tickersValueObject
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
         }
     }
     
@@ -191,17 +209,19 @@ extension CoinListDataManager {
                 defer {
                     group.leave()
                 }
-                switch result {
-                case .success(let data):
-                    guard let transactionValueObject = try? self?.parsedTranscationValueObject(from: data),
-                          let transactionData = transactionValueObject.transaction.first
-                    else {
-                        return
-                    }
-                    self?.allCoinList[i].currentPrice = Double(transactionData.price)
-                case .failure(let error):
-                    print(error.localizedDescription)
+                
+                guard let data = result.value else {
+                    print(result.error?.localizedDescription as Any)
+                    return
                 }
+                
+                guard let transactionValueObject = try? self?.parsedTranscationValueObject(from: data),
+                      let transactionData = transactionValueObject.transaction.first
+                else {
+                    return
+                }
+                
+                self?.allCoinList[i].currentPrice = Double(transactionData.price)
             }
             // 빗썸 Public API의 데이터 요청 횟수가 1초에 135개로 제한되어 있어서
             // 1초에 100개를 요청하도록 sleep을 줌

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CoinListViewController: UIViewController {
+final class CoinListViewController: UIViewController, NetworkFailAlertPresentable {
     
     // MARK: - Nested Type
     
@@ -294,6 +294,14 @@ extension CoinListViewController: CoinListDataManagerDelegate {
     
     func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
         applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
+    }
+    
+    func coinListDataManagerDidFetchFail() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showFetchFailAlert(viewController: self) { _ in
+                self?.coinListDataManager.fetchCoinList()
+            }
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import Foundation
 protocol CoinDetailDataManagerDelegate: AnyObject {
     func coinDetailDataManager(didChange coin: DetailViewCoin?)
     func coinDetailDataManager(didFetchChartData price: [Double])
+    func coinDetailDataManagerDidFetchFail()
 }
 
 final class CoinDetailDataManager {
@@ -202,6 +203,7 @@ extension CoinDetailDataManager {
         
         httpNetworkService.request(api: api) { [weak self] result in
             guard let data = result.value else {
+                self?.delegate?.coinDetailDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
