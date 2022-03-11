@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MaximunMinimunOrderPriceView: UIView {
+final class MaximumMinimumOrderPriceView: UIView {
     
     // MARK: - IBOutlet
     

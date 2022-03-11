@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -16,49 +14,49 @@
             <objects>
                 <viewController storyboardIdentifier="CoinOrderbookViewController" id="Y6W-OH-hqX" customClass="CoinOrderbookViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="4wI-CO-0IY">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eQ-2P-kLW" userLabel="AskMinPriceView" customClass="MaximunMinimunOrderPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-20" width="414" height="20"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eQ-2P-kLW" userLabel="AskMinPriceView" customClass="MaximumMinimumOrderPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="-20" width="600" height="20"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Fko-cg-WZf">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kc3-pl-MQS" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="136.5" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="198.5" height="20"/>
                                                         <color key="backgroundColor" name="Ask"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pj2-Io-EXc" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="138.5" y="0.0" width="137" height="20"/>
+                                                        <rect key="frame" x="200.5" y="0.0" width="199" height="20"/>
                                                         <color key="backgroundColor" name="Ask"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w0p-Iq-KWQ" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="277.5" y="0.0" width="136.5" height="20"/>
+                                                        <rect key="frame" x="401.5" y="0.0" width="198.5" height="20"/>
                                                         <color key="backgroundColor" name="Ask"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aBU-f2-0T3" userLabel="AllQuantityStackView">
-                                                <rect key="frame" x="10" y="10" width="394" height="0.0"/>
+                                                <rect key="frame" x="10" y="10" width="580" height="0.0"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nau-OB-Uip" userLabel="QuantityLabel">
-                                                        <rect key="frame" x="0.0" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemBlueColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="호가 모아보기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LW-ya-FVJ" userLabel="PriceLabel">
-                                                        <rect key="frame" x="138" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="200" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemBlueColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="매도 최저가" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nAo-CV-ffV">
-                                                        <rect key="frame" x="276" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="400" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="systemBlueColor"/>
                                                         <nil key="highlightedColor"/>
@@ -83,7 +81,7 @@
                                         </connections>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6Ry-hP-IGg">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="613"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="395"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9fG-th-jPu">
                                             <size key="itemSize" width="128" height="128"/>
@@ -105,43 +103,43 @@
                                             <outlet property="delegate" destination="Y6W-OH-hqX" id="bXc-Wp-DEQ"/>
                                         </connections>
                                     </collectionView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQt-ZR-blf" userLabel="bidMaxPriceView" customClass="MaximunMinimunOrderPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="614" width="414" height="20"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQt-ZR-blf" userLabel="bidMaxPriceView" customClass="MaximumMinimumOrderPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="396" width="600" height="20"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="z4j-GF-le1">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cBb-M2-bjv" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="136.5" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="198.5" height="20"/>
                                                         <color key="backgroundColor" name="Bid"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DXa-jf-vIP" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="138.5" y="0.0" width="137" height="20"/>
+                                                        <rect key="frame" x="200.5" y="0.0" width="199" height="20"/>
                                                         <color key="backgroundColor" name="Bid"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g1U-xp-9VL" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="277.5" y="0.0" width="136.5" height="20"/>
+                                                        <rect key="frame" x="401.5" y="0.0" width="198.5" height="20"/>
                                                         <color key="backgroundColor" name="Bid"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Buj-QY-ByG" userLabel="AllQuantityStackView">
-                                                <rect key="frame" x="10" y="10" width="394" height="0.0"/>
+                                                <rect key="frame" x="10" y="10" width="580" height="0.0"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="매수 최고가" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNR-oe-dpB">
-                                                        <rect key="frame" x="0.0" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" systemColor="systemRedColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="호가 모아보기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yrv-xK-gsN">
-                                                        <rect key="frame" x="138" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="200" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemRedColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMk-Sb-1Nh">
-                                                        <rect key="frame" x="276" y="0.0" width="118" height="0.0"/>
+                                                        <rect key="frame" x="400" y="0.0" width="180" height="0.0"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemRedColor"/>
                                                         <nil key="highlightedColor"/>
@@ -166,42 +164,42 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9x-0a-Ef9">
-                                        <rect key="frame" x="0.0" y="615" width="414" height="203"/>
+                                        <rect key="frame" x="0.0" y="397" width="600" height="203"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="4ru-lm-8XJ">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="203"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="203"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-GJ-nKO" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="136.5" height="203"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="198.5" height="203"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKF-zS-ox3" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="138.5" y="0.0" width="137" height="203"/>
+                                                        <rect key="frame" x="200.5" y="0.0" width="199" height="203"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9HH-41-9kY" customClass="ShadowView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                                        <rect key="frame" x="277.5" y="0.0" width="136.5" height="203"/>
+                                                        <rect key="frame" x="401.5" y="0.0" width="198.5" height="203"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="g83-Xw-wFs" userLabel="AllQuantityStackView">
-                                                <rect key="frame" x="10" y="5" width="394" height="193"/>
+                                                <rect key="frame" x="10" y="5" width="580" height="193"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e39-uq-fLm">
-                                                        <rect key="frame" x="0.0" y="0.0" width="118" height="193"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="180" height="193"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemBlueColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="호가 모아보기" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfq-Mg-74W">
-                                                        <rect key="frame" x="138" y="0.0" width="118" height="193"/>
+                                                        <rect key="frame" x="200" y="0.0" width="180" height="193"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="681-CF-SJA">
-                                                        <rect key="frame" x="276" y="0.0" width="118" height="193"/>
+                                                        <rect key="frame" x="400" y="0.0" width="180" height="193"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <color key="textColor" systemColor="systemRedColor"/>
                                                         <nil key="highlightedColor"/>

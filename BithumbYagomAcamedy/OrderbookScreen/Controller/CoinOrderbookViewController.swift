@@ -34,8 +34,8 @@ final class CoinOrderbookViewController: UIViewController, PageViewControllerabl
     @IBOutlet private weak var coinOrderbookCollectionView: UICollectionView!
     @IBOutlet private weak var totalAsksQuantityLabel: UILabel!
     @IBOutlet private weak var totalBidsQuantityLabel: UILabel!
-    @IBOutlet private weak var askMinimumPriceView: MaximunMinimunOrderPriceView!
-    @IBOutlet private weak var bidMaximumPriceView: MaximunMinimunOrderPriceView!
+    @IBOutlet private weak var askMinimumPriceView: MaximumMinimumOrderPriceView!
+    @IBOutlet private weak var bidMaximumPriceView: MaximumMinimumOrderPriceView!
     // MARK: - Property
     
     var completion: (() -> Void)?
