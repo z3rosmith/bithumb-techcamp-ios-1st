@@ -28,8 +28,8 @@ final class CoinOrderbookDataManager {
             delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: askOrderbooks, type: .ask)
             
-            if let minimunPriceAskOrderbook = askOrderbooks.last {
-                delegate?.coinOrderbookDataManager(didChangeAskMinimumPrice: minimunPriceAskOrderbook)
+            if let minimumPriceAskOrderbook = askOrderbooks.last {
+                delegate?.coinOrderbookDataManager(didChangeAskMinimumPrice: minimumPriceAskOrderbook)
             }
         }
     }
@@ -38,8 +38,8 @@ final class CoinOrderbookDataManager {
             delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: bidOrderbooks, type: .bid)
             
-            if let maximunPriceAskOrderbook = bidOrderbooks.first {
-                delegate?.coinOrderbookDataManager(didChangeBidMaximumPrice: maximunPriceAskOrderbook)
+            if let maximumPriceAskOrderbook = bidOrderbooks.first {
+                delegate?.coinOrderbookDataManager(didChangeBidMaximumPrice: maximumPriceAskOrderbook)
             }
         }
     }
