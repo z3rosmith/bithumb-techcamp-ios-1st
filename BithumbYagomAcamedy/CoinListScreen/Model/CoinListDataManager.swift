@@ -188,7 +188,7 @@ extension CoinListDataManager {
                     callingName: NSLocalizedString(key, comment: ""),
                     symbolName: key,
                     currentPrice: 0,
-                    closingPrice: Double(tickerData.closingPrice),
+                    closingPrice: Double(tickerData.prevClosingPrice),
                     changeRate: Double(tickerData.fluctateRate24Hour),
                     changePrice: Double(tickerData.fluctate24Hour),
                     popularity: Double(tickerData.accTradeValue24Hour),
