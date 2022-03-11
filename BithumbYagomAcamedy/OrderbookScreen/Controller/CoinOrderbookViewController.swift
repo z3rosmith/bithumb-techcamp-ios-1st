@@ -34,7 +34,8 @@ final class CoinOrderbookViewController: UIViewController, PageViewControllerabl
     @IBOutlet private weak var coinOrderbookCollectionView: UICollectionView!
     @IBOutlet private weak var totalAsksQuantityLabel: UILabel!
     @IBOutlet private weak var totalBidsQuantityLabel: UILabel!
-    
+    @IBOutlet private weak var askMinimumPriceView: MaximumMinimumOrderPriceView!
+    @IBOutlet private weak var bidMaximumPriceView: MaximumMinimumOrderPriceView!
     // MARK: - Property
     
     var completion: (() -> Void)?
@@ -54,6 +55,7 @@ final class CoinOrderbookViewController: UIViewController, PageViewControllerabl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scrollToCollectionViewCenter()
+        toggleMaximumMinimumPriceHidden(true)
     }
     
     func configureDataManager(coin: Coin) {
@@ -98,6 +100,12 @@ extension CoinOrderbookViewController {
         let centerY = coinOrderbookCollectionView.contentSize.height / 2 - coinOrderbookCollectionView.frame.height / 2
         
         coinOrderbookCollectionView.setContentOffset(CGPoint(x: 0, y: centerY), animated: false)
+        toggleMaximumMinimumPriceHidden(true)
+    }
+    
+    private func toggleMaximumMinimumPriceHidden(_ isHidden: Bool) {
+        bidMaximumPriceView.isHidden = isHidden
+        askMinimumPriceView.isHidden = isHidden
     }
 }
 
@@ -124,6 +132,21 @@ extension CoinOrderbookViewController {
     }
 }
 
+extension CoinOrderbookViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let visibleCellsType = coinOrderbookCollectionView
+            .visibleCells
+            .compactMap { coinOrderbookCollectionView.indexPath(for: $0) }
+            .compactMap { dataSource?.itemIdentifier(for: $0)?.type }
+        
+        let bidVisibleCellsCount = visibleCellsType.filter { $0 == .bid }.count
+        let askVisibleCellsCount = visibleCellsType.filter { $0 == .ask }.count
+        
+        bidMaximumPriceView.isHidden = bidVisibleCellsCount != Int.zero
+        askMinimumPriceView.isHidden = askVisibleCellsCount != Int.zero
+    }
+}
+
 // MARK: - CoinTransaction DataManager Delegate
 
 extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
@@ -145,6 +168,18 @@ extension CoinOrderbookViewController: CoinOrderbookDataManagerDelegate {
         and bidOrderbooks: [Orderbook]
     ) {
         applySnapshot(askOrderbooks, bidOrderbooks)
+    }
+    
+    func coinOrderbookDataManager(didChangeAskMinimumPrice orderbook: Orderbook) {
+        DispatchQueue.main.async { [weak self] in
+            self?.askMinimumPriceView.update(orderbook)
+        }
+    }
+    
+    func coinOrderbookDataManager(didChangeBidMaximumPrice orderbook: Orderbook) {
+        DispatchQueue.main.async { [weak self] in
+            self?.bidMaximumPriceView.update(orderbook)
+        }
     }
     
     func coinOrderbookDataManagerDidFetchFail() {

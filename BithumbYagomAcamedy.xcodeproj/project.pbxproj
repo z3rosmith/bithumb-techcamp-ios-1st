@@ -26,6 +26,7 @@
 		0849B4A727CC6E2D0058486F /* WebSocketServicable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */; };
 		08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */; };
 		08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5A8E627CD2211005553BD /* OrderBookDepth.swift */; };
+		08AA44C727DB19CB00A08F41 /* MaximumMinimumOrderPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AA44C627DB19CB00A08F41 /* MaximumMinimumOrderPriceView.swift */; };
 		08ADD5A127D5AC8500AFC950 /* CoinDetailChartImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A027D5AC8500AFC950 /* CoinDetailChartImageView.swift */; };
 		08ADD5A327D5F9ED00AFC950 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */; };
 		08ADD5A527D6355A00AFC950 /* BallonSpeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */; };
@@ -170,6 +171,7 @@
 		0849B4A627CC6E2D0058486F /* WebSocketServicable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServicable.swift; sourceTree = "<group>"; };
 		08A5A8E427CD21CA005553BD /* TransactionWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionWebSocket.swift; sourceTree = "<group>"; };
 		08A5A8E627CD2211005553BD /* OrderBookDepth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDepth.swift; sourceTree = "<group>"; };
+		08AA44C627DB19CB00A08F41 /* MaximumMinimumOrderPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaximumMinimumOrderPriceView.swift; sourceTree = "<group>"; };
 		08ADD5A027D5AC8500AFC950 /* CoinDetailChartImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDetailChartImageView.swift; sourceTree = "<group>"; };
 		08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		08ADD5A427D6355A00AFC950 /* BallonSpeakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallonSpeakView.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				08CA8B5627D2059700ECD245 /* CoinOrderbookCollectionViewCell.xib */,
 				08CA8B5827D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift */,
 				08CA8B5A27D2752100ECD245 /* ShadowView.swift */,
+				08AA44C627DB19CB00A08F41 /* MaximumMinimumOrderPriceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1154,6 +1157,7 @@
 				08ADD5B027D745E200AFC950 /* CoinOrderbookViewInstantiateInformation.swift in Sources */,
 				08AF803127C742AB00790762 /* APIable.swift in Sources */,
 				08B46D8027CDE5220072CBBF /* WebSocketTransactionValueObject.swift in Sources */,
+				08AA44C727DB19CB00A08F41 /* MaximumMinimumOrderPriceView.swift in Sources */,
 				08CA8B5F27D34CCC00ECD245 /* DetailViewCoin.swift in Sources */,
 				37A15ACC27C61D0A00585F4A /* SceneDelegate.swift in Sources */,
 				375E494D27D6F388002AA73A /* ChartInterval.swift in Sources */,
@@ -1347,7 +1351,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2W776SPR4X;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BithumbYagomAcamedy/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1378,7 +1382,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2W776SPR4X;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BithumbYagomAcamedy/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

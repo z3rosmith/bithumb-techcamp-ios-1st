@@ -9,6 +9,8 @@ import Foundation
 
 protocol CoinOrderbookDataManagerDelegate: AnyObject {
     func coinOrderbookDataManager(didChange askOrderbooks: [Orderbook], and bidOrderbooks: [Orderbook])
+    func coinOrderbookDataManager(didChangeAskMinimumPrice orderbook: Orderbook)
+    func coinOrderbookDataManager(didChangeBidMaximumPrice orderbook: Orderbook)
     func coinOrderbookDataManager(didCalculate totalQuantity: String, type: OrderbookType)
     func coinOrderbookDataManagerDidFetchFail()
 }
@@ -25,12 +27,20 @@ final class CoinOrderbookDataManager {
         didSet {
             delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: askOrderbooks, type: .ask)
+            
+            if let minimumPriceAskOrderbook = askOrderbooks.last {
+                delegate?.coinOrderbookDataManager(didChangeAskMinimumPrice: minimumPriceAskOrderbook)
+            }
         }
     }
     private var bidOrderbooks: [Orderbook] = [] {
         didSet {
             delegate?.coinOrderbookDataManager(didChange: askOrderbooks, and: bidOrderbooks)
             calculateTotalOrderQuantity(orderbooks: bidOrderbooks, type: .bid)
+            
+            if let maximumPriceAskOrderbook = bidOrderbooks.first {
+                delegate?.coinOrderbookDataManager(didChangeBidMaximumPrice: maximumPriceAskOrderbook)
+            }
         }
     }
     
