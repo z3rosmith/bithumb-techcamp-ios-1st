@@ -11,6 +11,7 @@ struct Coin: Hashable {
     let callingName: String
     let symbolName: String
     var currentPrice: Double?
+    var closingPrice: Double?
     var changeRate: Double?
     var changePrice: Double?
     var popularity: Double?
@@ -21,6 +22,7 @@ struct Coin: Hashable {
         callingName: String,
         symbolName: String,
         currentPrice: Double?,
+        closingPrice: Double?,
         changeRate: Double?,
         changePrice: Double?,
         popularity: Double?,
@@ -29,6 +31,7 @@ struct Coin: Hashable {
         self.callingName = callingName
         self.symbolName = symbolName
         self.currentPrice = currentPrice
+        self.closingPrice = closingPrice
         self.changeRate = changeRate
         self.changePrice = changePrice
         self.popularity = popularity
@@ -39,6 +42,7 @@ struct Coin: Hashable {
         self.callingName = coin.callingName
         self.symbolName = coin.symbolName
         self.currentPrice = coin.currentPrice
+        self.closingPrice = coin.closingPrice
         self.changeRate = coin.changeRate
         self.changePrice = coin.changePrice
         self.popularity = coin.popularity
