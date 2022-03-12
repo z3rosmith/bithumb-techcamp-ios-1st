@@ -24,7 +24,7 @@
 |https://github.com/DonggeonOh|https://github.com/z3rosmith|https://github.com/HJEHA|
 
 ### 프로젝트 기술 스택
-![](https://i.imgur.com/MCgeDzH.png)
+<img width="300" src="https://i.imgur.com/MCgeDzH.png">
 
 ## 앱 구동 화면
 ### 코인 리스트 화면
@@ -57,7 +57,9 @@
 ### 더보기 화면
 |라이트 모드|다크 모드|
 |---|---|
-|![](https://i.imgur.com/u0q9kyw.gif)|![](https://i.imgur.com/SOVlaQQ.gif)|
+|![Simulator Screen Recording - iPhone 11 - 2022-03-12 at 22 42 50](https://user-images.githubusercontent.com/98801129/158020405-13af274e-f7ae-4dc0-a93a-410c05ae0523.gif)|![Simulator Screen Recording - iPhone 11 - 2022-03-12 at 22 42 35](https://user-images.githubusercontent.com/98801129/158020402-6ff9d99c-8211-46cb-a4b1-b7830a223237.gif)|
+
+
 
 
 
