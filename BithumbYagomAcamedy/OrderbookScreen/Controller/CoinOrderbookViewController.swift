@@ -58,8 +58,8 @@ final class CoinOrderbookViewController: UIViewController, PageViewControllerabl
         toggleMaximumMinimumPriceHidden(true)
     }
     
-    func configureDataManager(coin: Coin) {
-        coinOrderbookDataManager = CoinOrderbookDataManager(symbol: coin.symbolName)
+    func configureViewController(coinSymbol: String) {
+        coinOrderbookDataManager = CoinOrderbookDataManager(symbol: coinSymbol)
         coinOrderbookDataManager?.delegate = self
         coinOrderbookDataManager?.fetchOrderbook()
         coinOrderbookDataManager?.fetchOrderbookWebSocket()

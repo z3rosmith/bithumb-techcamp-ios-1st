@@ -9,5 +9,5 @@ import Foundation
 
 protocol PageViewControllerable {
     var completion: (() -> Void)? { get set }
-    func configureDataManager(coin: Coin)
+    func configureViewController(coinSymbol: String)
 }

@@ -31,8 +31,8 @@ final class CoinChartViewController: UIViewController, PageViewControllerable, N
     
     // MARK: - Configure
     
-    func configureDataManager(coin: Coin) {
-        dataManager = CoinChartDataManager(symbol: coin.symbolName)
+    func configureViewController(coinSymbol: String) {
+        dataManager = CoinChartDataManager(symbol: coinSymbol)
         dataManager?.delegate = self
         requestChartData(at: timeSegmentedControl.selectedSegmentIndex)
     }

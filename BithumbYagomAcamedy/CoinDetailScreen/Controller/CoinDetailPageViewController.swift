@@ -47,7 +47,7 @@ final class CoinDetailPageViewController: UIPageViewController {
         
         for index in pageViewControllerables.indices {
             pageViewControllerables[index].completion = {
-                pageViewControllerables[index].configureDataManager(coin: coin)
+                pageViewControllerables[index].configureViewController(coinSymbol: coin.symbolName)
             }
         }
     }
