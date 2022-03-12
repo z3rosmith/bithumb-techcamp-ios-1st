@@ -36,11 +36,16 @@ final class CoinTransactionViewController: UIViewController, PageViewControllera
         configureCollectionViewLayout()
     }
     
+    private func configureQuantityLabel(coinSymbol: String) {
+        coinQuantityLabel.text = "체결량(\(coinSymbol))"
+    }
+    
     func configureDataManager(coin: Coin) {
         coinTransactionDataManager = CoinTransactionDataManager(symbol: coin.symbolName)
         coinTransactionDataManager?.delegate = self
         coinTransactionDataManager?.fetchTransaction()
         coinTransactionDataManager?.fetchTransactionWebSocket()
+        configureQuantityLabel(coinSymbol: coin.symbolName)
     }
 }
 
