@@ -1,0 +1,120 @@
+{
+    "type": "orderbookdepth",
+    "content": {
+        "list": [
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "65001000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "65002000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "65014000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "65015000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52477000",
+                "quantity": "0.055",
+                "total": "2"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52482000",
+                "quantity": "0.3799",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52486000",
+                "quantity": "0.0371",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52492000",
+                "quantity": "0.3802",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52497000",
+                "quantity": "0.4025",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "ask",
+                "price": "52863000",
+                "quantity": "0.25",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "52458000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "41586000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "41583000",
+                "quantity": "0",
+                "total": "0"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "52460000",
+                "quantity": "0.0314",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "52459000",
+                "quantity": "0.0333",
+                "total": "1"
+            },
+            {
+                "symbol": "BTC_KRW",
+                "orderType": "bid",
+                "price": "52456000",
+                "quantity": "0.0323",
+                "total": "1"
+            }
+        ],
+        "datetime": "1646110679529153"
+    }
+}

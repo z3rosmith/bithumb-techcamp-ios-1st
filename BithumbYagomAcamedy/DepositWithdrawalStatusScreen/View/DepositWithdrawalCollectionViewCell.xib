@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="" id="gTV-IL-0wX" customClass="DepositWithdrawalCollectionViewCell" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="466" height="147"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="466" height="147"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fjh-Zh-5GP" userLabel="Deposit Status Stack View">
+                        <rect key="frame" x="210" y="70" width="46.5" height="17"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NIX-sx-3S3">
+                                <rect key="frame" x="0.0" y="1.5" width="14" height="14"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="14" id="FC7-yw-HdK"/>
+                                    <constraint firstAttribute="height" constant="14" id="odw-4Z-gQW"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="입금" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCW-i9-WEB">
+                                <rect key="frame" x="22" y="0.0" width="24.5" height="17"/>
+                                <accessibility key="accessibilityConfiguration" label="Deposit"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="W99-bY-w2f" userLabel="Withdrawal Status Stack View">
+                        <rect key="frame" x="409.5" y="70" width="46.5" height="17"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wQF-Xh-tYQ" userLabel="Status View">
+                                <rect key="frame" x="0.0" y="1.5" width="14" height="14"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="4RW-mV-qDL"/>
+                                    <constraint firstAttribute="width" constant="14" id="RHM-jj-zKU"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="출금" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFK-2q-gN6">
+                                <rect key="frame" x="22" y="0.0" width="24.5" height="17"/>
+                                <accessibility key="accessibilityConfiguration" label="Withdrawal"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="SSN-mN-rMs" userLabel="Coin Info Stack View">
+                        <rect key="frame" x="10" y="54" width="190" height="49"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트코인" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apK-tb-JVr" userLabel="Coin Name Label">
+                                <rect key="frame" x="0.0" y="0.0" width="190" height="20.5"/>
+                                <accessibility key="accessibilityConfiguration" label="Coin name"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="BTC/KRW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNn-1l-Ioq" userLabel="Coin Symbol And Currency Label">
+                                <rect key="frame" x="0.0" y="21.5" width="190" height="27.5"/>
+                                <accessibility key="accessibilityConfiguration" label="Coin symbol and currency"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="W99-bY-w2f" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="2YA-Fe-qxj"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="W99-bY-w2f" secondAttribute="trailing" constant="10" id="3T3-Hj-MFk"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="leading" secondItem="SSN-mN-rMs" secondAttribute="trailing" constant="10" id="AKi-7K-gth"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="FSc-YW-oPU"/>
+                <constraint firstItem="W99-bY-w2f" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="GOw-TF-fvE"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="PAB-em-hIS"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fjh-Zh-5GP" secondAttribute="bottom" constant="10" id="QmW-ft-SGD"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="10" id="RRe-nW-pLx"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="SjO-EO-9ql"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="W99-bY-w2f" secondAttribute="bottom" constant="10" id="XkB-S6-G1F"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="SSN-mN-rMs" secondAttribute="bottom" constant="10" id="aCm-En-ADA"/>
+                <constraint firstItem="SSN-mN-rMs" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="10" id="bWy-bW-9Kn"/>
+                <constraint firstItem="fjh-Zh-5GP" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="q2M-mE-2Bg"/>
+            </constraints>
+            <size key="customSize" width="466" height="147"/>
+            <connections>
+                <outlet property="coinNameLabel" destination="apK-tb-JVr" id="fZ9-Da-anX"/>
+                <outlet property="coinSymbolAndCurrencyLabel" destination="kNn-1l-Ioq" id="vo1-UK-0sY"/>
+                <outlet property="depositStatusLabel" destination="yCW-i9-WEB" id="JbU-zk-fRH"/>
+                <outlet property="depositStatusView" destination="NIX-sx-3S3" id="9L4-yx-2gw"/>
+                <outlet property="withdrawalStatusLabel" destination="wFK-2q-gN6" id="GLc-VE-Zrl"/>
+                <outlet property="withdrawalStatusView" destination="wQF-Xh-tYQ" id="fif-MC-T2f"/>
+            </connections>
+            <point key="canvasLocation" x="192.75362318840581" y="53.90625"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

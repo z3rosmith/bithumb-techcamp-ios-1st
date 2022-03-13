@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Coin Detail View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="CoinDetailViewController" id="Y6W-OH-hqX" customClass="CoinDetailViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="isW-Ko-yCe">
+                                <rect key="frame" x="0.0" y="194" width="414" height="668"/>
+                                <connections>
+                                    <segue destination="fgk-gk-BL8" kind="embed" identifier="CoinDetailPageViewController" id="DmB-ZK-oZc"/>
+                                </connections>
+                            </containerView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="3aa-f0-Hlq" customClass="CoinDetailMenuStackView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="153" width="414" height="33"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4gJ-Gu-hhb">
+                                        <rect key="frame" x="0.0" y="0.0" width="138" height="33"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="차트"/>
+                                        <connections>
+                                            <action selector="chartMenuButton:" destination="cdU-z2-zH9" eventType="touchUpInside" id="atb-Ug-JQY"/>
+                                            <action selector="chartMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="k1M-is-E0I"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9KY-nK-TwC">
+                                        <rect key="frame" x="138" y="0.0" width="138" height="33"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="호가"/>
+                                        <connections>
+                                            <action selector="orderbookMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="LRC-n3-4fa"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYJ-1b-8cd">
+                                        <rect key="frame" x="276" y="0.0" width="138" height="33"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="체결 내역"/>
+                                        <connections>
+                                            <action selector="transactionMenuButtonTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="LdI-9T-PAO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layerColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UKg-gS-b0A" customClass="CoinDetailPriceView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="4" y="48" width="207" height="98"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujn-kN-lGm">
+                                        <rect key="frame" x="24" y="20" width="165.5" height="30"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kB-4k-lzj">
+                                        <rect key="frame" x="24" y="58" width="35.5" height="17"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QU1-Wl-bh4">
+                                        <rect key="frame" x="67.5" y="58" width="35.5" height="17"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="QU1-Wl-bh4" firstAttribute="leading" secondItem="5kB-4k-lzj" secondAttribute="trailing" constant="8" id="3qE-nC-km0"/>
+                                    <constraint firstItem="ujn-kN-lGm" firstAttribute="width" secondItem="UKg-gS-b0A" secondAttribute="width" multiplier="0.8" id="Pn1-oc-W90"/>
+                                    <constraint firstItem="ujn-kN-lGm" firstAttribute="leading" secondItem="UKg-gS-b0A" secondAttribute="leading" constant="24" id="Rxc-da-nPN"/>
+                                    <constraint firstItem="QU1-Wl-bh4" firstAttribute="top" secondItem="5kB-4k-lzj" secondAttribute="top" id="Wcp-ra-Nf8"/>
+                                    <constraint firstItem="5kB-4k-lzj" firstAttribute="top" secondItem="ujn-kN-lGm" secondAttribute="bottom" constant="8" id="jjC-Lx-3Ac"/>
+                                    <constraint firstItem="5kB-4k-lzj" firstAttribute="leading" secondItem="ujn-kN-lGm" secondAttribute="leading" id="klE-TW-D5B"/>
+                                    <constraint firstItem="ujn-kN-lGm" firstAttribute="top" secondItem="UKg-gS-b0A" secondAttribute="top" constant="20" symbolic="YES" id="o8L-6X-tzk"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="changePriceLabel" destination="5kB-4k-lzj" id="d1U-Nr-oKT"/>
+                                    <outlet property="changeRateLabel" destination="QU1-Wl-bh4" id="Rxv-8D-ZI2"/>
+                                    <outlet property="priceLabel" destination="ujn-kN-lGm" id="Flz-dN-cW6"/>
+                                </connections>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nWv-jC-CPg" customClass="CoinDetailChartImageView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                <rect key="frame" x="211.5" y="60" width="186.5" height="82"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최근 3개월 시가 차트" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ya-CM-Bih">
+                                <rect key="frame" x="305" y="60" width="93" height="13.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                <color key="textColor" systemColor="systemGray2Color"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="2ya-CM-Bih" secondAttribute="top" id="0bh-Dm-efo"/>
+                            <constraint firstItem="UKg-gS-b0A" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="4" id="1fc-Jw-lDL"/>
+                            <constraint firstItem="isW-Ko-yCe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="6eN-Cj-iyt"/>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="8A7-7Y-XmX"/>
+                            <constraint firstItem="UKg-gS-b0A" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.12" id="JZh-4u-biH"/>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="height" secondItem="vDu-zF-Fre" secondAttribute="height" multiplier="0.1" id="N1A-Gd-9RY"/>
+                            <constraint firstItem="nWv-jC-CPg" firstAttribute="width" secondItem="vDu-zF-Fre" secondAttribute="width" multiplier="0.45" id="NvG-el-xHY"/>
+                            <constraint firstItem="isW-Ko-yCe" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="PEF-E0-gze"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="3aa-f0-Hlq" secondAttribute="trailing" id="QFw-it-c8j"/>
+                            <constraint firstItem="3aa-f0-Hlq" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="WPk-VJ-rNO"/>
+                            <constraint firstItem="isW-Ko-yCe" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="bDQ-Jc-wXv"/>
+                            <constraint firstItem="isW-Ko-yCe" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="150" id="f8P-9x-VcL"/>
+                            <constraint firstItem="isW-Ko-yCe" firstAttribute="top" secondItem="3aa-f0-Hlq" secondAttribute="bottom" constant="8" id="fKP-R1-8ja"/>
+                            <constraint firstItem="2ya-CM-Bih" firstAttribute="trailing" secondItem="nWv-jC-CPg" secondAttribute="trailing" id="jLw-Pg-lZd"/>
+                            <constraint firstItem="UKg-gS-b0A" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="kIq-OL-d0R"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="nWv-jC-CPg" secondAttribute="trailing" constant="16" id="rvU-iT-M8j"/>
+                            <constraint firstItem="UKg-gS-b0A" firstAttribute="width" secondItem="vDu-zF-Fre" secondAttribute="width" multiplier="0.5" id="ztV-7K-b76"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CoinDetailPriceView" destination="UKg-gS-b0A" id="v7Z-EJ-ptv"/>
+                        <outlet property="coinChartImageView" destination="nWv-jC-CPg" id="5QN-I1-IoT"/>
+                        <outlet property="menuButtonStackView" destination="3aa-f0-Hlq" id="Eon-cP-PHJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="cdU-z2-zH9" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+        <!--CoinDetailPageViewController-->
+        <scene sceneID="cwu-bf-eAa">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CoinDetailPage" referencedIdentifier="CoinDetailPageViewController" id="fgk-gk-BL8" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TUG-FJ-WG8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="860" y="166"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

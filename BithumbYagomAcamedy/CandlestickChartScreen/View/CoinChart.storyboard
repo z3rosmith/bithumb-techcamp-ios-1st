@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Coin Chart View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="CoinChartViewController" id="Y6W-OH-hqX" customClass="CoinChartViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOP-2U-oDY" customClass="CandleStickChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="4" translatesAutoresizingMaskIntoConstraints="NO" id="0dB-co-bQR">
+                                        <rect key="frame" x="10" y="10" width="239" height="32"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <segments>
+                                            <segment title="1분"/>
+                                            <segment title="10분"/>
+                                            <segment title="30분"/>
+                                            <segment title="1시간"/>
+                                            <segment title="일"/>
+                                        </segments>
+                                        <color key="selectedSegmentTintColor" systemColor="systemFillColor"/>
+                                        <connections>
+                                            <action selector="timeSegmentedControlValueChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="uVH-zd-3po"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="natural" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVH-FR-asJ" userLabel="Candlestick Info Text View" customClass="CandlestickInfoTextView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="51" width="10" height="29.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="0dB-co-bQR" firstAttribute="top" secondItem="nOP-2U-oDY" secondAttribute="top" constant="10" id="4s5-jK-YdB"/>
+                                    <constraint firstItem="QVH-FR-asJ" firstAttribute="top" secondItem="0dB-co-bQR" secondAttribute="bottom" constant="10" id="8Vy-sl-yuH"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QVH-FR-asJ" secondAttribute="trailing" constant="50" id="QrK-Lt-Tx7"/>
+                                    <constraint firstItem="QVH-FR-asJ" firstAttribute="leading" secondItem="nOP-2U-oDY" secondAttribute="leading" constant="10" id="i1F-s6-tz1"/>
+                                    <constraint firstItem="0dB-co-bQR" firstAttribute="leading" secondItem="nOP-2U-oDY" secondAttribute="leading" constant="10" id="qjx-ap-FGR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nOP-2U-oDY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Afk-UC-uDT"/>
+                            <constraint firstItem="nOP-2U-oDY" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="SMN-hd-920"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="nOP-2U-oDY" secondAttribute="trailing" id="kHO-WD-DBY"/>
+                            <constraint firstItem="nOP-2U-oDY" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="stV-Yc-n9f"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="candlestickInfoTextView" destination="QVH-FR-asJ" id="eQ4-lx-ONa"/>
+                        <outlet property="coinChartView" destination="nOP-2U-oDY" id="B1U-up-q8s"/>
+                        <outlet property="timeSegmentedControl" destination="0dB-co-bQR" id="EG6-oZ-4Jw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
