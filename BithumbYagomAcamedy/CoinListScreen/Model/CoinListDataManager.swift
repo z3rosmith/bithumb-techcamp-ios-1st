@@ -146,7 +146,10 @@ extension CoinListDataManager {
 
 extension CoinListDataManager {
     func fetchCoinList() {
-        httpNetworkService.fatchTickers { [weak self] result in
+        httpNetworkService.fetch(
+            api: TickerAPI(),
+            type: TickersValueObject.self
+        ) { [weak self] result in
             guard let tickerValueObject = result.value else {
                 self?.delegate?.coinListDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
@@ -183,20 +186,19 @@ extension CoinListDataManager {
     
     private func fetchCurrentPrice() {
         let group = DispatchGroup()
-        for i in 0..<self.allCoinList.count {
+        for i in 0..<allCoinList.count {
             group.enter()
-            let api = TransactionHistoryAPI(orderCurrency: self.allCoinList[i].symbolName)
-            self.httpNetworkService.request(api: api) { [weak self] result in
+            let api = TransactionHistoryAPI(orderCurrency: allCoinList[i].symbolName)
+            
+            httpNetworkService.fetch(
+                api: api,
+                type: TranscationValueObject.self
+            ) { [weak self] result in
                 defer {
                     group.leave()
                 }
                 
-                guard let data = result.value else {
-                    print(result.error?.localizedDescription as Any)
-                    return
-                }
-                
-                guard let transactionValueObject = try? self?.parsedTranscationValueObject(from: data),
+                guard let transactionValueObject = result.value,
                       let transactionData = transactionValueObject.transaction.first
                 else {
                     return
@@ -204,6 +206,7 @@ extension CoinListDataManager {
                 
                 self?.allCoinList[i].currentPrice = Double(transactionData.price)
             }
+
             // 빗썸 Public API의 데이터 요청 횟수가 1초에 135개로 제한되어 있어서
             // 1초에 100개를 요청하도록 sleep을 줌
             Thread.sleep(forTimeInterval: 0.01)
@@ -211,20 +214,6 @@ extension CoinListDataManager {
         group.notify(queue: .main) { [weak self] in
             self?.fetchFavoriteCoinList()
             self?.fetchCurrentPriceWebSocket()
-        }
-    }
-    
-    private func parsedTranscationValueObject(from data: Data) throws -> TranscationValueObject? {
-        do {
-            let response = try JSONParser().decode(data: data, type: TranscationValueObject.self)
-            guard response.status == successStatusCode else {
-                print(response.status)
-                return nil
-            }
-            return response
-        } catch {
-            print(error.localizedDescription)
-            throw error
         }
     }
 }

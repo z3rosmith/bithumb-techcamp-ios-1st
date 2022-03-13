@@ -88,45 +88,7 @@ struct HTTPNetworkService {
 }
 
 extension HTTPNetworkService {
-    func fatchTicker(
-        orderCurrency: String = "ALL",
-        paymentCurrency: String = "KRW",
-        completionHandler: @escaping ((Result<TickerValueObject, NetworkError>) -> Void)
-    ) {
-        let api = TickerAPI(orderCurrency: orderCurrency)
-        
-        fetch(api: api, type: TickerValueObject.self) { result in
-            if let error = result.error {
-                completionHandler(.failure(error))
-                return
-            }
-            
-            if let valueObject = result.value {
-                completionHandler(.success(valueObject))
-            }
-        }
-    }
-    
-    func fatchTickers(
-        orderCurrency: String = "ALL",
-        paymentCurrency: String = "KRW",
-        completionHandler: @escaping ((Result<TickersValueObject, NetworkError>) -> Void)
-    ) {
-        let api = TickerAPI(orderCurrency: orderCurrency)
-        
-        fetch(api: api, type: TickersValueObject.self) { result in
-            if let error = result.error {
-                completionHandler(.failure(error))
-                return
-            }
-            
-            if let valueObject = result.value {
-                completionHandler(.success(valueObject))
-            }
-        }
-    }
-    
-    private func fetch<T: Decodable>(
+    func fetch<T: Decodable>(
         api: APIable,
         type: T.Type,
         completionHandler: @escaping ((Result<T, NetworkError>) -> Void)
