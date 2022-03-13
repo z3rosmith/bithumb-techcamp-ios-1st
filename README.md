@@ -112,6 +112,7 @@
 ## 가장 기억에 남았던 트러블 슈팅
 ### 오동건 (DonggeonOh)
 - Candlestick API의 가장 최신 데이터의 경우 시간에 대한 기준과 다른 경우에 대한 문제
+  
   <img width="239" alt="Screen Shot 2022-03-13 at 3 55 23 PM" src="https://user-images.githubusercontent.com/18098363/158048820-a85dcf1a-c18c-4d1d-bd42-6954ba6b5e71.png">
   
   위 (1647010800000): 2022년 3월 12일 토요일 오전 12:00:00
