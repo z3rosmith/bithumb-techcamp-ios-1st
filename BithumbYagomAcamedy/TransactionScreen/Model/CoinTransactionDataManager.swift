@@ -49,37 +49,21 @@ extension CoinTransactionDataManager {
     func fetchTransaction() {
         let api = TransactionHistoryAPI(orderCurrency: symbol, count: 20)
         
-        httpNetworkService.request(api: api) { [weak self] result in
-            guard let data = result.value else {
+        httpNetworkService.fetch(
+            api: api,
+            type: TransactionValueObject.self
+        ) { [weak self] result in
+            guard let transactionValueObject = result.value else {
                 self?.delegate?.coinTransactionDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
             
-            let transactionValueObject = try? self?.parseTranscation(to: data)
-            
-            guard let transactionValueObject = transactionValueObject,
-                  transactionValueObject.status == "0000"
-            else {
+            guard transactionValueObject.status == "0000" else {
                 return
             }
             
             self?.setTransaction(from: transactionValueObject.transaction)
-        }
-    }
-    
-    private func parseTranscation(to data: Data) throws -> TransactionValueObject {
-        do {
-            let transcationValueObject = try JSONParser().decode(
-                data: data,
-                type: TransactionValueObject.self
-            )
-            
-            return transcationValueObject
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
         }
     }
     
