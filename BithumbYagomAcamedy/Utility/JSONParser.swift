@@ -38,3 +38,41 @@ struct JSONParser {
         return data
     }
 }
+
+extension JSONParser {
+    func parse<T: Decodable>(
+        to data: Data,
+        type: T.Type
+    ) throws -> T {
+        do {
+            let valueObjcet = try JSONParser().decode(
+                data: data,
+                type: T.self
+            )
+            
+            return valueObjcet
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+    
+    func parseCandlestick(
+        to data: Data
+    ) throws -> CandlestickValueObject? {
+        do {
+            let chartValueObject = try JSONParser().decode(
+                data: data
+            )
+            
+            return CandlestickValueObject(serializedData: chartValueObject)
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
+}
+
+

@@ -49,16 +49,21 @@ final class DepositWithdrawalStatusDataManager {
     func requestData() {
         let assetStatusAPI = AssetsStatusAPI()
         
-        service.request(api: assetStatusAPI) { [weak self] result in
-            guard let data = result.value else {
+        service.fetch(
+            api: assetStatusAPI,
+            type: AssetsStatusValueObject.self
+        ) { [weak self] result in
+            guard let assetsStatusValueObject = result.value else {
                 self?.delegate?.depositWithdrawalStatusDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
-            guard let parsedAssetsStatuses = try? self?.parseAssetsStatuses(to: data) else {
+            
+            guard let assetsStatuses = self?.createAssetsStatuses(to: assetsStatusValueObject) else {
                 return
             }
-            let sortedAssetsStatuses = parsedAssetsStatuses.sorted {
+            
+            let sortedAssetsStatuses = assetsStatuses.sorted {
                 $0.coinName < $1.coinName
             }
             
@@ -136,22 +141,7 @@ final class DepositWithdrawalStatusDataManager {
         
         return filteredStatuses
     }
-    
-    private func parseAssetsStatuses(to data: Data) throws -> [AssetsStatus] {
-        do {
-            let parser = JSONParser()
-            let assetsStatusesValueObject = try parser.decode(
-                data: data, type: AssetsStatusValueObject.self
-            )
-            
-            return createAssetsStatuses(to: assetsStatusesValueObject)
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
-        }
-    }
-    
+
     private func createAssetsStatuses(to valueObject: AssetsStatusValueObject) -> [AssetsStatus] {
         var result: [AssetsStatus] = []
         

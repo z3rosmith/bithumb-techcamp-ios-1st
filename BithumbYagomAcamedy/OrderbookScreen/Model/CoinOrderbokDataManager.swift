@@ -118,37 +118,21 @@ extension CoinOrderbookDataManager {
     func fetchOrderbook() {
         let api = OrderbookAPI(orderCurrency: symbol)
         
-        httpNetworkService.request(api: api) { [weak self] result in
-            guard let data = result.value else {
+        httpNetworkService.fetch(
+            api: api,
+            type: OrderbookValueObject.self
+        ) { [weak self] result in
+            guard let orderbookValueObject = result.value else {
                 self?.delegate?.coinOrderbookDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
             
-            let orderbookValueObject = try? self?.parseOrderbook(to: data)
-            
-            guard let orderbookValueObject = orderbookValueObject,
-                  orderbookValueObject.status == "0000"
-            else {
+            guard orderbookValueObject.status == "0000" else {
                 return
             }
             
             self?.setOrderbooks(from: orderbookValueObject.orderbook)
-        }
-    }
-    
-    private func parseOrderbook(to data: Data) throws -> OrderbookValueObject {
-        do {
-            let orderbookValueObject = try JSONParser().decode(
-                data: data,
-                type: OrderbookValueObject.self
-            )
-            
-            return orderbookValueObject
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
         }
     }
     

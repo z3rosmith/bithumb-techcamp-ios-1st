@@ -74,18 +74,19 @@ final class CoinChartDataManager {
     private func requestChart() {
         let api = CandlestickAPI(symbol: symbol, dateFormat: dateFormat)
         
-        httpService.request(api: api) { [weak self] result in
-            guard let data = result.value else {
-                let error = result.error
+        httpService.fetchCandlestick(
+            api: api
+        ) { [weak self] result in
+            guard let candlestickValueObject = result.value else {
                 self?.delegate?.coinChartDataManagerDidFetchFail()
-                print(error?.localizedDescription as Any)
+                print(result.error?.localizedDescription as Any)
                 return
             }
-            guard let candlestickValueObject = try? self?.parsedCandlestickValueObject(
-                from: data
-            ) else {
+            
+            guard candlestickValueObject.status == "0000" else {
                 return
             }
+            
             let candlesticks = candlestickValueObject.data.compactMap {
                 Candlestick(array: $0)
             }
@@ -146,18 +147,6 @@ final class CoinChartDataManager {
             )
             candlesticks[lastIndex] = updateCandlestick
             delegate?.coinChartDataManager(didUpdate: updateCandlestick)
-        }
-    }
-    
-    private func parsedCandlestickValueObject(from data: Data) throws -> CandlestickValueObject? {
-        do {
-            let parsedData = try JSONParser().decode(data: data)
-            
-            return CandlestickValueObject(serializedData: parsedData)
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
         }
     }
     

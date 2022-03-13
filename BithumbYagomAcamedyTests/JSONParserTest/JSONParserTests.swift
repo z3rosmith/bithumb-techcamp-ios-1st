@@ -54,7 +54,7 @@ class JSONParserTests: XCTestCase {
         let url = try XCTUnwrap(Bundle(for: type(of: self))
                                     .url(forResource: "TransactionJSONFile", withExtension: "json"))
         let data = try XCTUnwrap(Data(contentsOf: url))
-        let value = try XCTUnwrap(parser?.decode(data: data, type: TranscationValueObject.self))
+        let value = try XCTUnwrap(parser?.decode(data: data, type: TransactionValueObject.self))
         
         XCTAssertEqual(value.status, successCode)
         XCTAssertEqual(value.transaction[Int.zero].transactionDate, "2022-02-25 13:15:49")

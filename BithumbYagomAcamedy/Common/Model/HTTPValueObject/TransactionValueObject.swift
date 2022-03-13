@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TranscationValueObject: Decodable {
+struct TransactionValueObject: Decodable {
     let status: String
     let transaction: [TransactionData]
     

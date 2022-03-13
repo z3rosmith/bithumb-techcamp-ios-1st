@@ -201,37 +201,22 @@ extension CoinDetailDataManager {
     private func fetchChart(symbol: String) {
         let api = CandlestickAPI(orderCurrency: symbol)
         
-        httpNetworkService.request(api: api) { [weak self] result in
-            guard let data = result.value else {
+        httpNetworkService.fetchCandlestick(
+            api: api
+        ) { [weak self] result in
+            guard let candlestickValueObject = result.value else {
                 self?.delegate?.coinDetailDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
             
-            let candlestickValueObject = try? self?.parseChart(to: data)
-            
-            guard let candlestickValueObject = candlestickValueObject,
-                  candlestickValueObject.status == "0000",
+            guard candlestickValueObject.status == "0000",
                   let candlesticks = self?.convert(to: candlestickValueObject)
             else {
                 return
             }
             
             self?.setupChartData(from: candlesticks)
-        }
-    }
-    
-    private func parseChart(to data: Data) throws -> CandlestickValueObject? {
-        do {
-            let chartValueObject = try JSONParser().decode(
-                data: data
-            )
-            
-            return CandlestickValueObject(serializedData: chartValueObject)
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
         }
     }
     
