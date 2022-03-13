@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CoinListCollectionViewCellDelegate: AnyObject {
-    func didCellSwipe(cell: UICollectionViewListCell, isSwiped: Bool)
+    func coinListCollectionViewCellDelegate(didUserSwipe cell: UICollectionViewListCell, isSwiped: Bool)
 }
 
 final class CoinListCollectionViewCell: UICollectionViewListCell {
@@ -31,7 +31,7 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
-        delegate?.didCellSwipe(cell: self, isSwiped: state.isSwiped)
+        delegate?.coinListCollectionViewCellDelegate(didUserSwipe: self, isSwiped: state.isSwiped)
     }
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {

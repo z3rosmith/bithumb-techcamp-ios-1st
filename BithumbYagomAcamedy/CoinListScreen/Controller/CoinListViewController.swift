@@ -374,7 +374,7 @@ extension CoinListViewController: UISearchBarDelegate {
 // MARK: - CoinListCollectionViewCellDelegate
 
 extension CoinListViewController: CoinListCollectionViewCellDelegate {
-    func didCellSwipe(cell: UICollectionViewListCell, isSwiped: Bool) {
+    func coinListCollectionViewCellDelegate(didUserSwipe cell: UICollectionViewListCell, isSwiped: Bool) {
         if isSwiped {
             excludedAtVisibleCells = cell
         } else if cell == excludedAtVisibleCells {
