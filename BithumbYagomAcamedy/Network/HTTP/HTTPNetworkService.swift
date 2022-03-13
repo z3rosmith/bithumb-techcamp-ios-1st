@@ -86,3 +86,24 @@ struct HTTPNetworkService {
         task.resume()
     }
 }
+
+extension HTTPNetworkService {
+    private func fetch<T: Decodable>(
+        api: APIable,
+        type: T.Type,
+        completionHandler: @escaping ((Result<T?, NetworkError>) -> Void)
+    ) {
+        request(api: api) { result in
+            if let error = result.error {
+                completionHandler(.failure(error))
+                return
+            }
+            
+            if let data = result.value {
+                let valueObject = try? JSONParser().parse(to: data, type: T.self)
+                completionHandler(.success(valueObject))
+                return
+            }
+        }
+    }
+}
