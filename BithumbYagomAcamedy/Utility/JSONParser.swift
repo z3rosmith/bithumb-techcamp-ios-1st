@@ -57,6 +57,22 @@ extension JSONParser {
             throw error
         }
     }
+    
+    func parseCandlestick(
+        to data: Data
+    ) throws -> CandlestickValueObject? {
+        do {
+            let chartValueObject = try JSONParser().decode(
+                data: data
+            )
+            
+            return CandlestickValueObject(serializedData: chartValueObject)
+        } catch {
+            print(error.localizedDescription)
+            
+            throw error
+        }
+    }
 }
 
 

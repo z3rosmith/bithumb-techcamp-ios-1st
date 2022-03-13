@@ -192,7 +192,7 @@ extension CoinListDataManager {
             
             httpNetworkService.fetch(
                 api: api,
-                type: TranscationValueObject.self
+                type: TransactionValueObject.self
             ) { [weak self] result in
                 defer {
                     group.leave()

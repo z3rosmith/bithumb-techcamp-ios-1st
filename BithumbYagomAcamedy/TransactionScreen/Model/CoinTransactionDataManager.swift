@@ -68,11 +68,11 @@ extension CoinTransactionDataManager {
         }
     }
     
-    private func parseTranscation(to data: Data) throws -> TranscationValueObject {
+    private func parseTranscation(to data: Data) throws -> TransactionValueObject {
         do {
             let transcationValueObject = try JSONParser().decode(
                 data: data,
-                type: TranscationValueObject.self
+                type: TransactionValueObject.self
             )
             
             return transcationValueObject

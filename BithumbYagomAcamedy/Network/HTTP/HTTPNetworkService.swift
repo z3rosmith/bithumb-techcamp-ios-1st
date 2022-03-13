@@ -108,4 +108,24 @@ extension HTTPNetworkService {
             completionHandler(.success(valueObject))
         }
     }
+    
+    func fetchCandlestick(
+        api: APIable,
+        completionHandler: @escaping ((Result<CandlestickValueObject, NetworkError>) -> Void)
+    ) {
+        request(api: api) { result in
+            if let error = result.error {
+                completionHandler(.failure(error))
+                return
+            }
+            
+            guard let data = result.value,
+                  let valueObject = try? JSONParser().parseCandlestick(to: data)
+            else {
+                return
+            }
+            
+            completionHandler(.success(valueObject))
+        }
+    }
 }
