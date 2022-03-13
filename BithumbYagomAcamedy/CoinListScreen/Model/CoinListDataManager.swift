@@ -181,7 +181,6 @@ extension CoinListDataManager {
                 allCoinList.append(coin)
             }
         }
-        // TODO: favoriteCoinList 를 CoreData에서 가져오는 로직 추가
     }
     
     private func fetchCurrentPrice() {

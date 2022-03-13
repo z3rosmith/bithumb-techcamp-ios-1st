@@ -24,7 +24,7 @@ struct CoinChartCoreDataManager {
         let request = CandlestickChart.fetchRequest(symbol: symbol, dateFormat: dateFormat)
         let chart = CoreDataManager.shared.fetch(request: request)
         
-        return chart.map { $0.candlestick }.sorted { $0.time < $1.time }
+        return chart.map { $0.candlestick }
     }
     
     func update(
