@@ -35,6 +35,7 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
         indicator.startAnimating()
         return indicator
     }()
+    private var excludedAtVisibleCells: UICollectionViewCell?
     
     // MARK: - Life Cycle
     
@@ -173,6 +174,7 @@ extension CoinListViewController {
     private func configureDataSource() {
         let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
         let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, Coin>(cellNib: cellNib) { cell, indexPath, item in
+            cell.delegate = self
             cell.update(item: item)
             cell.toggleFavorite = { [weak self] in
                 self?.coinListDataManager.toggleFavorite(
@@ -243,6 +245,7 @@ extension CoinListViewController {
     private func getVisibleCellsForCoinListDataManager() {
         let visibleCellsSymbols = coinListCollectionView
             .visibleCells
+            .filter { $0 != excludedAtVisibleCells }
             .compactMap { coinListCollectionView.indexPath(for: $0) }
             .compactMap { dataSource?.itemIdentifier(for: $0)?.symbolName }
         coinListDataManager.visibleCellsSymbols = visibleCellsSymbols
@@ -365,5 +368,17 @@ extension CoinListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+}
+
+// MARK: - CoinListCollectionViewCellDelegate
+
+extension CoinListViewController: CoinListCollectionViewCellDelegate {
+    func didCellSwipe(cell: UICollectionViewListCell, isSwiped: Bool) {
+        if isSwiped {
+            excludedAtVisibleCells = cell
+        } else if cell == excludedAtVisibleCells {
+            excludedAtVisibleCells = nil
+        }
     }
 }
