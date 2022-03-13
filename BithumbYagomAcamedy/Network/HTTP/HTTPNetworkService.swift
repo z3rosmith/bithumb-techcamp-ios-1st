@@ -88,10 +88,48 @@ struct HTTPNetworkService {
 }
 
 extension HTTPNetworkService {
+    func fatchTicker(
+        orderCurrency: String = "ALL",
+        paymentCurrency: String = "KRW",
+        completionHandler: @escaping ((Result<TickerValueObject, NetworkError>) -> Void)
+    ) {
+        let api = TickerAPI(orderCurrency: orderCurrency)
+        
+        fetch(api: api, type: TickerValueObject.self) { result in
+            if let error = result.error {
+                completionHandler(.failure(error))
+                return
+            }
+            
+            if let valueObject = result.value {
+                completionHandler(.success(valueObject))
+            }
+        }
+    }
+    
+    func fatchTickers(
+        orderCurrency: String = "ALL",
+        paymentCurrency: String = "KRW",
+        completionHandler: @escaping ((Result<TickersValueObject, NetworkError>) -> Void)
+    ) {
+        let api = TickerAPI(orderCurrency: orderCurrency)
+        
+        fetch(api: api, type: TickersValueObject.self) { result in
+            if let error = result.error {
+                completionHandler(.failure(error))
+                return
+            }
+            
+            if let valueObject = result.value {
+                completionHandler(.success(valueObject))
+            }
+        }
+    }
+    
     private func fetch<T: Decodable>(
         api: APIable,
         type: T.Type,
-        completionHandler: @escaping ((Result<T?, NetworkError>) -> Void)
+        completionHandler: @escaping ((Result<T, NetworkError>) -> Void)
     ) {
         request(api: api) { result in
             if let error = result.error {
@@ -99,11 +137,13 @@ extension HTTPNetworkService {
                 return
             }
             
-            if let data = result.value {
-                let valueObject = try? JSONParser().parse(to: data, type: T.self)
-                completionHandler(.success(valueObject))
+            guard let data = result.value,
+                  let valueObject = try? JSONParser().parse(to: data, type: T.self)
+            else {
                 return
             }
+            
+            completionHandler(.success(valueObject))
         }
     }
 }

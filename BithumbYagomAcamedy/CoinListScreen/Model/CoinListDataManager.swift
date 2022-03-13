@@ -146,38 +146,19 @@ extension CoinListDataManager {
 
 extension CoinListDataManager {
     func fetchCoinList() {
-        httpNetworkService.request(api: TickerAPI()) { [weak self] result in
-            guard let data = result.value else {
+        httpNetworkService.fatchTickers { [weak self] result in
+            guard let tickerValueObject = result.value else {
                 self?.delegate?.coinListDataManagerDidFetchFail()
                 print(result.error?.localizedDescription as Any)
                 return
             }
             
-            let response = try? self?.parseTicker(to: data)
-            // TODO: response.status가 "0000"이 아닐 때 처리하기
-            guard let response = response,
-                response.status == self?.successStatusCode
-            else {
+            guard tickerValueObject.status == self?.successStatusCode else {
                 return
             }
             
-            self?.setCoinList(from: response)
+            self?.setCoinList(from: tickerValueObject)
             self?.fetchCurrentPrice()
-        }
-    }
-    
-    private func parseTicker(to data: Data) throws -> TickersValueObject {
-        do {
-            let tickersValueObject = try JSONParser().decode(
-                data: data,
-                type: TickersValueObject.self
-            )
-            
-            return tickersValueObject
-        } catch {
-            print(error.localizedDescription)
-            
-            throw error
         }
     }
     
