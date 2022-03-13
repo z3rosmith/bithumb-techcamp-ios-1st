@@ -22,10 +22,12 @@ extension CandlestickChart: Identifiable {
         let request = fetchRequest()
         let symbolPredicate = NSPredicate(format: "symbol == %@", symbol)
         let dateFormatPredicate = NSPredicate(format: "timeInterval == %@", dateFormat.description)
+        let sortDescriptor = NSSortDescriptor(keyPath: \CandlestickChart.time, ascending: true)
         
         request.predicate = NSCompoundPredicate(
             andPredicateWithSubpredicates: [symbolPredicate, dateFormatPredicate]
         )
+        request.sortDescriptors = [sortDescriptor]
         
         return request
     }
