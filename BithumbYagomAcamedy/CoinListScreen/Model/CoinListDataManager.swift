@@ -154,7 +154,7 @@ extension CoinListDataManager {
             }
             
             let response = try? self?.parseTicker(to: data)
-            // TODO: response.status가 "0000"이 아닐 때 처리하기
+            
             guard let response = response,
                 response.status == self?.successStatusCode
             else {
@@ -197,7 +197,6 @@ extension CoinListDataManager {
                 allCoinList.append(coin)
             }
         }
-        // TODO: favoriteCoinList 를 CoreData에서 가져오는 로직 추가
     }
     
     private func fetchCurrentPrice() {
