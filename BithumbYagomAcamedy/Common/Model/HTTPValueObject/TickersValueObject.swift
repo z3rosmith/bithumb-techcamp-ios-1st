@@ -17,6 +17,29 @@ struct TickersValueObject: Decodable {
     }
 }
 
+extension TickersValueObject {
+    func asViewCoinList() -> [ViewCoin] {
+        var viewCoinList: [ViewCoin] = []
+        ticker.forEach { key, dynamicValue in
+            if let tickerData = dynamicValue.tickerData {
+                let viewCoin = ViewCoin(
+                    callingName: NSLocalizedString(key, comment: ""),
+                    symbolName: key,
+                    currentPrice: Double(tickerData.closingPrice) ?? -Double.greatestFiniteMagnitude,
+                    changeRate: Double(tickerData.fluctateRate24Hour) ?? -Double.greatestFiniteMagnitude,
+                    changePrice: Double(tickerData.fluctate24Hour) ?? -Double.greatestFiniteMagnitude,
+                    popularity: Double(tickerData.accTradeValue24Hour) ?? -Double.greatestFiniteMagnitude,
+                    isFavorite: false
+                )
+                viewCoinList.append(viewCoin)
+            }
+        }
+        return viewCoinList
+    }
+}
+
+// MARK: - DynamicValue
+
 enum DynamicValue: Decodable {
     case string(String)
     case tickerData(TickerData)
@@ -39,6 +62,24 @@ enum DynamicValue: Decodable {
         case noMatchingType
     }
 }
+
+extension DynamicValue {
+    var tickerData: TickerData? {
+        if case let .tickerData(tickerData) = self {
+            return tickerData
+        }
+        return nil
+    }
+    
+    var dateString: String? {
+        if case let .string(string) = self {
+            return string
+        }
+        return nil
+    }
+}
+
+// MARK: - TickerData
 
 struct TickerData: Decodable {
     let openingPrice: String
@@ -67,21 +108,5 @@ struct TickerData: Decodable {
         case accTradeValue24Hour = "accTradeValue24H"
         case fluctate24Hour = "fluctate24H"
         case fluctateRate24Hour = "fluctateRate24H"
-    }
-}
-
-extension DynamicValue {
-    var tickerData: TickerData? {
-        if case let .tickerData(tickerData) = self {
-            return tickerData
-        }
-        return nil
-    }
-    
-    var dateString: String? {
-        if case let .string(string) = self {
-            return string
-        }
-        return nil
     }
 }

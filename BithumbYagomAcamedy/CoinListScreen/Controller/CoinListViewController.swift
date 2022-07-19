@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxViewController
 
 final class CoinListViewController: UIViewController, NetworkFailAlertPresentable {
     
@@ -27,40 +30,47 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     
     // MARK: - Property
     
-    private let coinListDataManager = CoinListDataManager()
+    private var disposeBag: DisposeBag = .init()
+    private lazy var viewModel: CoinListViewModel = .init(
+        sortButtons: sortButtons,
+        sortButtonTypes: [.popularity, .name, .price, .changeRate]
+    )
+    private let coinListDataManager: CoinListDataManager = .init()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Coin>?
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.center = view.center
-        indicator.startAnimating()
-        return indicator
-    }()
+//    private lazy var activityIndicator: UIActivityIndicatorView = {
+//        let indicator = UIActivityIndicatorView()
+//        indicator.center = view.center
+//        indicator.startAnimating()
+//        return indicator
+//    }()
     private var excludedAtVisibleCells: UICollectionViewCell?
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSearchBar()
-        configureCollectionView()
-        configureDataSource()
-        configureCoinListController()
-        configureActivityIndicator()
-        coinListDataManager.fetchCoinList()
-        configureBalloonSpeakView()
-        addTapGestureToView()
+        registerCollectionViewCell()
+        configureCollectionViewLayout()
+        configureBindings()
+//        configureSearchBar()
+//        configureDataSource()
+//        configureCoinListController()
+//        configureActivityIndicator()
+//        coinListDataManager.fetchCoinList()
+//        configureBalloonSpeakView()
+//        addTapGestureToView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        coinListDataManager.fetchCurrentPriceWebSocket()
+//        coinListDataManager.fetchCurrentPriceWebSocket()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
-        coinListDataManager.stopFetchCurrentPriceWebSocket()
+//        coinListDataManager.stopFetchCurrentPriceWebSocket()
     }
     
     // MARK: - IBAction
@@ -76,37 +86,26 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     @IBAction func infoButtonTapped(_ sender: Any) {
         animateBalloonSpeakView(isHidden: false)
     }
-    
-    @IBAction func popularityButtonTapped(_ sender: SortButton) {
-        coinListDataManager.sortCoinList(
-            by: .popularity(isDescend: !sender.isAscend),
-            filteredBy: searchBar.text
-        )
-        restoreSortButtons(exclude: sender)
-    }
-    
-    @IBAction func nameButtonTapped(_ sender: SortButton) {
-        coinListDataManager.sortCoinList(
-            by: .name(isDescend: !sender.isAscend),
-            filteredBy: searchBar.text
-        )
-        restoreSortButtons(exclude: sender)
-    }
-    
-    @IBAction func priceButtonTapped(_ sender: SortButton) {
-        coinListDataManager.sortCoinList(
-            by: .price(isDescend: !sender.isAscend),
-            filteredBy: searchBar.text
-        )
-        restoreSortButtons(exclude: sender)
-    }
-    
-    @IBAction func changeRateButtonTapped(_ sender: SortButton) {
-        coinListDataManager.sortCoinList(
-            by: .changeRate(isDescend: !sender.isAscend),
-            filteredBy: searchBar.text
-        )
-        restoreSortButtons(exclude: sender)
+}
+
+extension CoinListViewController {
+    // MARK: - UI Binding
+
+    func configureBindings() {
+        // 처음 로딩될 떄
+        let firstLoad = rx.viewWillAppear
+            .take(1)
+            .map { _ in () }
+        
+        firstLoad
+            .bind(to: viewModel.input.fetchCoinList)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.coinList
+            .bind(to: coinListCollectionView.rx.items(cellIdentifier: CoinListCollectionViewCell.identifier, cellType: CoinListCollectionViewCell.self)) { index, coin, cell in
+                cell.update(from: coin)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -148,12 +147,12 @@ extension CoinListViewController {
         animateBalloonSpeakView(isHidden: true)
     }
     
-    private func endActivityIndicator() {
-        DispatchQueue.main.async { [weak self] in
-            self?.activityIndicator.stopAnimating()
-            self?.activityIndicator.isHidden = true
-        }
-    }
+//    private func endActivityIndicator() {
+//        DispatchQueue.main.async { [weak self] in
+//            self?.activityIndicator.stopAnimating()
+//            self?.activityIndicator.isHidden = true
+//        }
+//    }
 }
 
 // MARK: - Configuration
@@ -167,72 +166,76 @@ extension CoinListViewController {
         balloonSpeakView.isHidden = true
     }
     
-    private func configureActivityIndicator() {
-        view.addSubview(activityIndicator)
-    }
+//    private func configureActivityIndicator() {
+//        view.addSubview(activityIndicator)
+//    }
     
-    private func configureDataSource() {
-        let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
-        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, Coin>(cellNib: cellNib) { cell, indexPath, item in
-            cell.delegate = self
-            cell.update(item: item)
-            cell.toggleFavorite = { [weak self] in
-                self?.coinListDataManager.toggleFavorite(
-                    coinSymbolName: item.symbolName,
-                    isAlreadyFavorite: item.isFavorite
-                )
-                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
-            }
-        }
-        dataSource = UICollectionViewDiffableDataSource<Section, Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
-            return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
-        }
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self?.coinListDataManager.nameOfSectionHeader(index: indexPath.section)
-            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
-            configuration.textProperties.color = .label
-            headerView.contentConfiguration = configuration
-            headerView.backgroundColor = .white
-        }
-        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
-            if elementKind == UICollectionView.elementKindSectionHeader {
-                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-            } else {
-                return nil
-            }
-        }
-    }
+//    private func configureDataSource() {
+//        let cellNib = UINib(nibName: "CoinListCollectionViewCell", bundle: nil)
+//        let coinCellRegistration = UICollectionView.CellRegistration<CoinListCollectionViewCell, Coin>(cellNib: cellNib) { cell, indexPath, item in
+//            cell.delegate = self
+//            cell.update(item: item)
+//            cell.toggleFavorite = { [weak self] in
+//                self?.coinListDataManager.toggleFavorite(
+//                    coinSymbolName: item.symbolName,
+//                    isAlreadyFavorite: item.isFavorite
+//                )
+//                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
+//            }
+//        }
+//        dataSource = UICollectionViewDiffableDataSource<Section, Coin>(collectionView: coinListCollectionView) { collectionView, indexPath, item in
+//            return collectionView.dequeueConfiguredReusableCell(using: coinCellRegistration, for: indexPath, item: item)
+//        }
+//        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
+//            var configuration = headerView.defaultContentConfiguration()
+//            configuration.text = self?.coinListDataManager.nameOfSectionHeader(index: indexPath.section)
+//            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
+//            configuration.textProperties.color = .label
+//            headerView.contentConfiguration = configuration
+//            headerView.backgroundColor = .white
+//        }
+//        dataSource?.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+//            if elementKind == UICollectionView.elementKindSectionHeader {
+//                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+//            } else {
+//                return nil
+//            }
+//        }
+//    }
     
     private func configureSearchBar() {
         searchBar.delegate = self
     }
     
-    private func configureCollectionView() {
+    private func registerCollectionViewCell() {
+        coinListCollectionView.register(UINib(nibName: "CoinListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier)
+    }
+    
+    private func configureCollectionViewLayout() {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        configuration.headerMode = .supplementary
-        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-            guard let item = self?.dataSource?.itemIdentifier(for: indexPath) else {
-                return nil
-            }
-            let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
-                self?.coinListDataManager.toggleFavorite(
-                    coinSymbolName: item.symbolName,
-                    isAlreadyFavorite: item.isFavorite
-                )
-                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
-                completion(true)
-            }
-            favoriteAction.backgroundColor = .systemOrange
-            if item.isFavorite {
-                favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(.white)
-            } else {
-                favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(.white)
-            }
-            return UISwipeActionsConfiguration(actions: [favoriteAction])
-        }
+//        configuration.headerMode = .supplementary
+//        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+//            guard let item = self?.dataSource?.itemIdentifier(for: indexPath) else {
+//                return nil
+//            }
+//            let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+//                self?.coinListDataManager.toggleFavorite(
+//                    coinSymbolName: item.symbolName,
+//                    isAlreadyFavorite: item.isFavorite
+//                )
+//                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
+//                completion(true)
+//            }
+//            favoriteAction.backgroundColor = .systemOrange
+//            if item.isFavorite {
+//                favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(.white)
+//            } else {
+//                favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(.white)
+//            }
+//            return UISwipeActionsConfiguration(actions: [favoriteAction])
+//        }
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
-        coinListCollectionView.delegate = self
+//        coinListCollectionView.delegate = self
         coinListCollectionView.keyboardDismissMode = .onDrag
     }
     
@@ -290,7 +293,7 @@ extension CoinListViewController {
 extension CoinListViewController: CoinListDataManagerDelegate {
     func coinListDataManager(didChangeCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {
         applySnapshot(favoriteCoinList: favoriteCoinList, allCoinList: allCoinList)
-        endActivityIndicator()
+//        endActivityIndicator()
     }
     
     func coinListDataManager(didSetCurrentPriceInAllCoinList favoriteCoinList: [Coin], allCoinList: [Coin]) {

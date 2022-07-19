@@ -21,6 +21,8 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
     @IBOutlet private weak var changePriceLabel: UILabel!
     @IBOutlet private weak var underlineView: UIView!
     
+    static let identifier = "CoinListCollectionViewCell"
+    
     var toggleFavorite: (() -> Void)?
     weak var delegate: CoinListCollectionViewCellDelegate?
     
@@ -38,24 +40,33 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
         toggleFavorite?()
     }
     
-    func update(item: Coin) {
+    func update(from item: ViewCoin) {
         favoriteButton.isSelected = item.isFavorite
         nameLabel.text = item.callingName
         symbolPerCurrencyLabel.text = item.symbolPerKRW
         priceLabel.text = item.priceString
         changeRateLabel.text = item.changeRateString
         changePriceLabel.text = item.changePriceString
-        
-        guard let changeRate = item.changeRate else { return }
-        
-        if changeRate == 0 {
-            changeLabelColor(.label)
-        } else if changeRate > 0 {
-            changeLabelColor(.systemRed)
-        } else {
-            changeLabelColor(.systemBlue)
-        }
     }
+    
+//    func update(item: Coin) {
+//        favoriteButton.isSelected = item.isFavorite
+//        nameLabel.text = item.callingName
+//        symbolPerCurrencyLabel.text = item.symbolPerKRW
+//        priceLabel.text = item.priceString
+//        changeRateLabel.text = item.changeRateString
+//        changePriceLabel.text = item.changePriceString
+//
+//        guard let changeRate = item.changeRate else { return }
+//
+//        if changeRate == 0 {
+//            changeLabelColor(.label)
+//        } else if changeRate > 0 {
+//            changeLabelColor(.systemRed)
+//        } else {
+//            changeLabelColor(.systemBlue)
+//        }
+//    }
     
     private func changeLabelColor(_ color: UIColor) {
         priceLabel.textColor = color

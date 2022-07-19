@@ -8,44 +8,27 @@
 import UIKit
 
 class SortButton: UIButton {
-    
-    private(set) var isAscend: Bool
-    private let defaultImageName = "chevron_all_gray"
-    private let upImageName = "chevron_up_black"
-    private let downImageName = "chevron_under_black"
+    private(set) var isAscend = false
     
     required init?(coder: NSCoder) {
-        self.isAscend = false
         super.init(coder: coder)
-        commonInit()
+        configure()
     }
     
-    func update(title: String) {
-        setTitle(title, for: .normal)
-    }
+//    func update(title: String) {
+//        setTitle(title, for: .normal)
+//    }
     
     func toggle() {
-        touchedSortButton()
+//        touchedSortButton()
     }
     
     func restoreButton() {
-        setImage(UIImage(named: defaultImageName), for: .normal)
-        self.isAscend = false
+//        setImage(UIImage(named: SortButton.initialImageName), for: .normal)
+//        isAscend = false
     }
     
-    private func commonInit() {
+    private func configure() {
         titleLabel?.adjustsFontForContentSizeCategory = true
-        setImage(UIImage(named: defaultImageName), for: .normal)
-        addTarget(self, action: #selector(touchedSortButton), for: .touchUpInside)
-    }
-    
-    @objc private func touchedSortButton() {
-        self.isAscend = !isAscend
-        
-        if isAscend {
-            setImage(UIImage(named: upImageName), for: .normal)
-        } else {
-            setImage(UIImage(named: downImageName), for: .normal)
-        }
     }
 }

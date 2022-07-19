@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import RxSwift
 
 enum NetworkError: LocalizedError {
     case invalidResponse
     case statusCodeError(_ statusCode: Int)
     case invalidURLRequest
     case unknown(error: Error)
-
+    
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
@@ -38,7 +39,7 @@ struct HTTPNetworkService {
     init(session: URLSessionProviding = URLSession.shared) {
         self.session = session
     }
-   
+    
     // MARK: - Method
     
     func request(
@@ -126,6 +127,28 @@ extension HTTPNetworkService {
             }
             
             completionHandler(.success(valueObject))
+        }
+    }
+}
+
+// MARK: - RxSwift Wrapping
+
+extension HTTPNetworkService {
+    func fetchRx<T: Decodable>(
+        api: APIable,
+        type: T.Type
+    ) -> Observable<T> {
+        return Observable.create { emitter in
+            fetch(api: api, type: type) { result in
+                switch result {
+                case .success(let data):
+                    emitter.onNext(data)
+                    emitter.onCompleted()
+                case .failure(let error):
+                    emitter.onError(error)
+                }
+            }
+            return Disposables.create()
         }
     }
 }

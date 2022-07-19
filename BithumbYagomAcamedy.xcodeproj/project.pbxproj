@@ -127,7 +127,10 @@
 		37E61AF827D34B8C00FE0B83 /* Candlestick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AF727D34B8C00FE0B83 /* Candlestick.swift */; };
 		37E61AFC27D35E0700FE0B83 /* CoinCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AFB27D35E0700FE0B83 /* CoinCandleChartDataSet.swift */; };
 		37E61AFE27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */; };
+		3C510B81287ABDA3006FB2DA /* ViewCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510B80287ABDA3006FB2DA /* ViewCoin.swift */; };
+		3C510B83287ABE80006FB2DA /* CoinListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510B82287ABE80006FB2DA /* CoinListViewModel.swift */; };
 		3CC64A3127DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */; };
+		3CC8E3AC288566B300FA925B /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8E3AB288566B300FA925B /* ViewModelType.swift */; };
 		3CC98F3827C879F200B9A6EF /* CoinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */; };
 		3CC98F3A27C896C400B9A6EF /* CoinListDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */; };
 		3CCA7AD227D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCA7AD127D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift */; };
@@ -139,6 +142,8 @@
 		3CCBAA5527D2122100221473 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBAA5427D2122100221473 /* Coin.swift */; };
 		3CCBAA5727D2534000221473 /* CoinListMenuStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBAA5627D2534000221473 /* CoinListMenuStackView.swift */; };
 		3CEC2A0C27CC725000294531 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CEC2A0E27CC725000294531 /* Localizable.strings */; };
+		67A951A076F527CEF24B026A /* Pods_BithumbYagomAcamedy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53338569A2FBE5BAB8C5B051 /* Pods_BithumbYagomAcamedy.framework */; };
+		D168D6698B36C0941674D6EB /* Pods_BithumbYagomAcamedyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24C19BC218C3EE504EF5F36F /* Pods_BithumbYagomAcamedyTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +230,9 @@
 		08F5EA4627C626350031EF4C /* CoinList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CoinList.storyboard; sourceTree = "<group>"; };
 		08F5EA4927C626E60031EF4C /* MoreDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreDetail.storyboard; sourceTree = "<group>"; };
 		08F5EA4C27C627450031EF4C /* DepositWithdrawalStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepositWithdrawalStatus.storyboard; sourceTree = "<group>"; };
+		18C1CDF57353C81AA973A707 /* Pods-BithumbYagomAcamedy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BithumbYagomAcamedy.debug.xcconfig"; path = "Target Support Files/Pods-BithumbYagomAcamedy/Pods-BithumbYagomAcamedy.debug.xcconfig"; sourceTree = "<group>"; };
+		24C19BC218C3EE504EF5F36F /* Pods_BithumbYagomAcamedyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BithumbYagomAcamedyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		29C37258538EFD52DD602155 /* Pods-BithumbYagomAcamedy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BithumbYagomAcamedy.release.xcconfig"; path = "Target Support Files/Pods-BithumbYagomAcamedy/Pods-BithumbYagomAcamedy.release.xcconfig"; sourceTree = "<group>"; };
 		3707832727C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositWithdrawalCollectionViewCell.swift; sourceTree = "<group>"; };
 		3707832827C8AB6D009ECBBC /* DepositWithdrawalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DepositWithdrawalCollectionViewCell.xib; sourceTree = "<group>"; };
 		3707832D27C8B88F009ECBBC /* TransactionJSONFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransactionJSONFile.json; sourceTree = "<group>"; };
@@ -274,7 +282,10 @@
 		37E61AF727D34B8C00FE0B83 /* Candlestick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candlestick.swift; sourceTree = "<group>"; };
 		37E61AFB27D35E0700FE0B83 /* CoinCandleChartDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCandleChartDataSet.swift; sourceTree = "<group>"; };
 		37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCandleChartDataEntry.swift; sourceTree = "<group>"; };
+		3C510B80287ABDA3006FB2DA /* ViewCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoin.swift; sourceTree = "<group>"; };
+		3C510B82287ABE80006FB2DA /* CoinListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewModel.swift; sourceTree = "<group>"; };
 		3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDiffableDataSource+extension.swift"; sourceTree = "<group>"; };
+		3CC8E3AB288566B300FA925B /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewController.swift; sourceTree = "<group>"; };
 		3CC98F3927C896C400B9A6EF /* CoinListDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListDataManager.swift; sourceTree = "<group>"; };
 		3CCA7AD127D79AC400CD42B1 /* FavoriteCoinCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoinCoreDataManager.swift; sourceTree = "<group>"; };
@@ -286,6 +297,9 @@
 		3CCBAA5427D2122100221473 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		3CCBAA5627D2534000221473 /* CoinListMenuStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListMenuStackView.swift; sourceTree = "<group>"; };
 		3CEC2A0D27CC725000294531 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		53338569A2FBE5BAB8C5B051 /* Pods_BithumbYagomAcamedy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BithumbYagomAcamedy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		64C632ABAE3D4B684EC0B336 /* Pods-BithumbYagomAcamedyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BithumbYagomAcamedyTests.release.xcconfig"; path = "Target Support Files/Pods-BithumbYagomAcamedyTests/Pods-BithumbYagomAcamedyTests.release.xcconfig"; sourceTree = "<group>"; };
+		993E2CC2527B4739167343BA /* Pods-BithumbYagomAcamedyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BithumbYagomAcamedyTests.debug.xcconfig"; path = "Target Support Files/Pods-BithumbYagomAcamedyTests/Pods-BithumbYagomAcamedyTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3711EE9527CF638600E7A990 /* Charts in Frameworks */,
+				67A951A076F527CEF24B026A /* Pods_BithumbYagomAcamedy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D168D6698B36C0941674D6EB /* Pods_BithumbYagomAcamedyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +636,7 @@
 		379D8F9F27D8D1740088737F /* CoinListScreen */ = {
 			isa = PBXGroup;
 			children = (
+				3C510B7F287AAE0D006FB2DA /* ViewModel */,
 				379D8FAC27D8D4DA0088737F /* Model */,
 				08F5EA4527C625CC0031EF4C /* View */,
 				379D8FAB27D8D4C10088737F /* Controller */,
@@ -861,6 +878,8 @@
 				37A15AC827C61D0A00585F4A /* BithumbYagomAcamedy */,
 				37A15AE227C61D0D00585F4A /* BithumbYagomAcamedyTests */,
 				37A15AC727C61D0A00585F4A /* Products */,
+				71D07104E53788B7FCC73335 /* Pods */,
+				FDFDAB2162E6BD19CE9B2509 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -921,11 +940,21 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		3C510B7F287AAE0D006FB2DA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3C510B80287ABDA3006FB2DA /* ViewCoin.swift */,
+				3C510B82287ABE80006FB2DA /* CoinListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3CCB27C527C73E3C00F84C80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				379D8FBA27D8D7580088737F /* View */,
 				379D8FBB27D8D75D0088737F /* Model */,
+				3CC8E3AB288566B300FA925B /* ViewModelType.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -943,6 +972,26 @@
 			path = HTTPValueObject;
 			sourceTree = "<group>";
 		};
+		71D07104E53788B7FCC73335 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				18C1CDF57353C81AA973A707 /* Pods-BithumbYagomAcamedy.debug.xcconfig */,
+				29C37258538EFD52DD602155 /* Pods-BithumbYagomAcamedy.release.xcconfig */,
+				993E2CC2527B4739167343BA /* Pods-BithumbYagomAcamedyTests.debug.xcconfig */,
+				64C632ABAE3D4B684EC0B336 /* Pods-BithumbYagomAcamedyTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FDFDAB2162E6BD19CE9B2509 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				53338569A2FBE5BAB8C5B051 /* Pods_BithumbYagomAcamedy.framework */,
+				24C19BC218C3EE504EF5F36F /* Pods_BithumbYagomAcamedyTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -950,9 +999,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37A15AF327C61D0D00585F4A /* Build configuration list for PBXNativeTarget "BithumbYagomAcamedy" */;
 			buildPhases = (
+				20A354550B1531570F87C442 /* [CP] Check Pods Manifest.lock */,
 				37A15AC227C61D0A00585F4A /* Sources */,
 				37A15AC327C61D0A00585F4A /* Frameworks */,
 				37A15AC427C61D0A00585F4A /* Resources */,
+				B4BFA3791AF4638709345B21 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -970,6 +1021,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37A15AF627C61D0D00585F4A /* Build configuration list for PBXNativeTarget "BithumbYagomAcamedyTests" */;
 			buildPhases = (
+				DD65ADE0B7A74452A6E42271 /* [CP] Check Pods Manifest.lock */,
 				37A15ADB27C61D0D00585F4A /* Sources */,
 				37A15ADC27C61D0D00585F4A /* Frameworks */,
 				37A15ADD27C61D0D00585F4A /* Resources */,
@@ -1068,12 +1120,77 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		20A354550B1531570F87C442 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BithumbYagomAcamedy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4BFA3791AF4638709345B21 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BithumbYagomAcamedy/Pods-BithumbYagomAcamedy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BithumbYagomAcamedy/Pods-BithumbYagomAcamedy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BithumbYagomAcamedy/Pods-BithumbYagomAcamedy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD65ADE0B7A74452A6E42271 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BithumbYagomAcamedyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		37A15AC227C61D0A00585F4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				08ADD5A127D5AC8500AFC950 /* CoinDetailChartImageView.swift in Sources */,
+				3C510B81287ABDA3006FB2DA /* ViewCoin.swift in Sources */,
 				0830F71827CCB7C500A65EBA /* TickerWebSocket.swift in Sources */,
 				0830F71327CCB16C00A65EBA /* AssetsStatusAPI.swift in Sources */,
 				08AF806E27C8BE6600790762 /* BaseURLable.swift in Sources */,
@@ -1116,6 +1233,7 @@
 				08B46DB127CF4DFC0072CBBF /* CoinTransactionDataManager.swift in Sources */,
 				08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */,
 				08ADD5A927D73BFD00AFC950 /* ViewControllerInstantiatable.swift in Sources */,
+				3CC8E3AC288566B300FA925B /* ViewModelType.swift in Sources */,
 				0810E82827D1EC7E00064BA5 /* Orderbook.swift in Sources */,
 				3707833827C8C469009ECBBC /* DepositWithdrawalStatusViewController.swift in Sources */,
 				08B46DA727CF30630072CBBF /* CoinDetailPageViewController.swift in Sources */,
@@ -1131,6 +1249,7 @@
 				08A5A8E727CD2211005553BD /* OrderBookDepth.swift in Sources */,
 				08ADD5A527D6355A00AFC950 /* BallonSpeakView.swift in Sources */,
 				37E61AFC27D35E0700FE0B83 /* CoinCandleChartDataSet.swift in Sources */,
+				3C510B83287ABE80006FB2DA /* CoinListViewModel.swift in Sources */,
 				08ADD5AE27D745B400AFC950 /* CoinChartViewInstantiateInformation.swift in Sources */,
 				08A5A8E527CD21CA005553BD /* TransactionWebSocket.swift in Sources */,
 				08CA8B5927D205B900ECD245 /* CoinOrderbookCollectionViewCell.swift in Sources */,
@@ -1345,6 +1464,7 @@
 		};
 		37A15AF427C61D0D00585F4A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18C1CDF57353C81AA973A707 /* Pods-BithumbYagomAcamedy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1376,6 +1496,7 @@
 		};
 		37A15AF527C61D0D00585F4A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29C37258538EFD52DD602155 /* Pods-BithumbYagomAcamedy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1407,6 +1528,7 @@
 		};
 		37A15AF727C61D0D00585F4A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 993E2CC2527B4739167343BA /* Pods-BithumbYagomAcamedyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1427,6 +1549,7 @@
 		};
 		37A15AF827C61D0D00585F4A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64C632ABAE3D4B684EC0B336 /* Pods-BithumbYagomAcamedyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
