@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 import RxRelay
-import UIKit
 
 class CoinListViewModel: ViewModelType {
     struct Input {
@@ -25,9 +24,9 @@ class CoinListViewModel: ViewModelType {
     let input: Input
     let output: Output
     
-    let coinSortButtons: [CoinSortButton]
-    var selectedButton: BehaviorRelay<SortButton?>
-    var anyButtonTapped: PublishRelay<CoinSortButton>
+    private let coinSortButtons: [CoinSortButton]
+    private let selectedButton: BehaviorRelay<CoinSortButton?>
+    private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
     
     init(
         httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
@@ -52,16 +51,23 @@ class CoinListViewModel: ViewModelType {
             CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
         }
         
-        selectedButton = .init(value: coinSortButtons.first?.button)
+        selectedButton = .init(value: coinSortButtons.first)
         
-        anyButtonTapped = .init()
+        anyButtonTapped = .init(value: coinSortButtons.first)
         
         // INPUT
         
         fetching
             .flatMap { httpNetworkService.fetchRx(api: TickerAPI(), type: TickersValueObject.self) }
             .map { $0.asViewCoinList() }
-            .subscribe(onNext: coins.accept)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, coinList in
+                var sorted = coinList
+                if let coinSortButton = owner.selectedButton.value {
+                    sorted = coinList.sorted(using: coinSortButton)
+                }
+                coins.accept(sorted)
+            })
             .disposed(by: disposeBag)
         
         sort
@@ -77,7 +83,7 @@ class CoinListViewModel: ViewModelType {
             let sortType = coinSortButton.sortType
             
             button.rx.tap
-                .map { button }
+                .map { coinSortButton }
                 .bind(to: selectedButton)
                 .disposed(by: disposeBag)
             
@@ -106,12 +112,12 @@ class CoinListViewModel: ViewModelType {
         
         anyButtonTapped
             .withUnretained(self)
-            .map { owner, eachButton -> (CoinSortType, CoinSortButton) in
-                let isSelected = eachButton.button == owner.selectedButton.value
+            .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
+                let isSelected = eachButton?.button == owner.selectedButton.value?.button
                 let sortType: CoinSortType
                 if isSelected == false {
                     sortType = .none
-                } else if eachButton.sortType.value == .descend {
+                } else if eachButton?.sortType.value == .descend {
                     sortType = .ascend
                 } else {
                     sortType = .descend
@@ -119,8 +125,9 @@ class CoinListViewModel: ViewModelType {
                 return (sortType, eachButton)
             }
             .subscribe(onNext: { sortType, eachButton in
-                eachButton.sortType.accept(sortType)
+                eachButton?.sortType.accept(sortType)
                 if sortType != .none {
+                    guard let eachButton = eachButton else { return }
                     sort.onNext(eachButton)
                 }
             })
