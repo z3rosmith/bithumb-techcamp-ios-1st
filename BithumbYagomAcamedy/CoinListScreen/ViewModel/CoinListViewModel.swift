@@ -79,7 +79,6 @@ class CoinListViewModel: ViewModelType {
         
         coinSortButtons.forEach { coinSortButton in
             let button = coinSortButton.button
-            let imageName = coinSortButton.imageName
             let sortType = coinSortButton.sortType
             
             button.rx.tap
@@ -95,17 +94,11 @@ class CoinListViewModel: ViewModelType {
                 .bind(to: anyButtonTapped)
                 .disposed(by: disposeBag)
             
-            imageName
-                .asDriver(onErrorJustReturn: "")
-                .drive(onNext: { name in
-                    button.setImage(UIImage(named: name), for: .normal)
-                })
-                .disposed(by: disposeBag)
-            
             sortType
-                .withUnretained(self)
-                .subscribe(onNext: { owner, type in
-                    imageName.accept(type.rawValue)
+                .asDriver(onErrorJustReturn: .none)
+                .drive(with: self, onNext: { owner, type in
+                    let imageName = type.rawValue
+                    button.setImage(UIImage(named: imageName), for: .normal)
                 })
                 .disposed(by: disposeBag)
         }
@@ -154,7 +147,6 @@ extension CoinListViewModel {
         let button: SortButton
         let buttonType: ButtonType
         let sortType: BehaviorRelay<CoinSortType> = .init(value: .none)
-        let imageName: PublishRelay<String> = .init()
     }
 }
 
