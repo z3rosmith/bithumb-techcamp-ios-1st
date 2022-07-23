@@ -93,9 +93,6 @@
                                                 <color key="tintColor" systemColor="labelColor"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="questionmark.circle" catalog="system"/>
-                                                <connections>
-                                                    <action selector="infoButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="yRh-cG-Csz"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -183,6 +180,7 @@
                         <outlet property="balloonSpeakView" destination="SP6-6w-TrR" id="TJ2-TC-osc"/>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
                         <outlet property="coinListMenuStackView" destination="rec-na-Pjs" id="hIq-NL-mwu"/>
+                        <outlet property="infoButton" destination="rgr-kO-zzP" id="go7-ND-0M8"/>
                         <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
                         <outlet property="sortButtonStackView" destination="cyP-DE-3sa" id="ine-AR-Y8T"/>
                         <outletCollection property="sortButtons" destination="EmW-cd-a0L" collectionClass="NSMutableArray" id="fst-1e-LYA"/>

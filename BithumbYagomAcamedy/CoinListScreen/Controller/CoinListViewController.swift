@@ -27,6 +27,7 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     @IBOutlet private weak var sortButtonStackView: UIStackView!
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
     @IBOutlet private var sortButtons: [SortButton]!
+    @IBOutlet private weak var infoButton: UIButton!
     
     // MARK: - Property
     
@@ -51,14 +52,12 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
         super.viewDidLoad()
         registerCollectionViewCell()
         configureCollectionViewLayout()
-        configureBindings()
-//        configureSearchBar()
+        configureBalloonSpeakView()
+        configureViewBindings()
+        configureViewModelBindings()
 //        configureDataSource()
-//        configureCoinListController()
 //        configureActivityIndicator()
 //        coinListDataManager.fetchCoinList()
-//        configureBalloonSpeakView()
-//        addTapGestureToView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,16 +81,12 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     @IBAction func allCoinButtonTapped(_ sender: UIButton) {
         scrollToAllSectionHeader()
     }
-    
-    @IBAction func infoButtonTapped(_ sender: Any) {
-        animateBalloonSpeakView(isHidden: false)
-    }
 }
 
 extension CoinListViewController {
-    // MARK: - UI Binding
+    // MARK: - Binding
 
-    func configureBindings() {
+    private func configureViewModelBindings() {
         // 처음 로딩될 떄
         let firstLoad = rx.viewWillAppear
             .take(1)
@@ -101,10 +96,41 @@ extension CoinListViewController {
             .bind(to: viewModel.input.fetchCoinList)
             .disposed(by: disposeBag)
         
+        searchBar.rx.text
+            .bind(to: viewModel.input.filterCoin)
+            .disposed(by: disposeBag)
+        
         viewModel.output.coinList
             .bind(to: coinListCollectionView.rx.items(cellIdentifier: CoinListCollectionViewCell.identifier, cellType: CoinListCollectionViewCell.self)) { index, coin, cell in
                 cell.update(from: coin)
             }
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureViewBindings() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.animateBalloonSpeakView(isHidden: true)
+            })
+            .disposed(by: disposeBag)
+        
+        infoButton.rx.tap
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.animateBalloonSpeakView(isHidden: false)
+            })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.searchBar.resignFirstResponder()
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -129,22 +155,10 @@ extension CoinListViewController {
         }
     }
     
-    private func restoreSortButtons(exclude button: SortButton) {
-        sortButtons
-            .filter { $0 != button }
-            .forEach {
-                $0.restoreButton()
-            }
-    }
-    
     private func animateBalloonSpeakView(isHidden: Bool) {
         UIView.transition(with: balloonSpeakView, duration: 0.5, options: .transitionCrossDissolve) {
             self.balloonSpeakView.isHidden = isHidden
         }
-    }
-    
-    @objc func viewTapped() {
-        animateBalloonSpeakView(isHidden: true)
     }
     
 //    private func endActivityIndicator() {
@@ -158,10 +172,6 @@ extension CoinListViewController {
 // MARK: - Configuration
 
 extension CoinListViewController {
-    private func configureCoinListController() {
-        coinListDataManager.delegate = self
-    }
-    
     private func configureBalloonSpeakView() {
         balloonSpeakView.isHidden = true
     }
@@ -203,10 +213,6 @@ extension CoinListViewController {
 //        }
 //    }
     
-    private func configureSearchBar() {
-        searchBar.delegate = self
-    }
-    
     private func registerCollectionViewCell() {
         coinListCollectionView.register(UINib(nibName: "CoinListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier)
     }
@@ -237,12 +243,6 @@ extension CoinListViewController {
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
 //        coinListCollectionView.delegate = self
         coinListCollectionView.keyboardDismissMode = .onDrag
-    }
-    
-    private func addTapGestureToView() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        tapGesture.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tapGesture)
     }
     
     private func getVisibleCellsForCoinListDataManager() {
@@ -359,18 +359,6 @@ extension CoinListViewController: UICollectionViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         getVisibleCellsForCoinListDataManager()
-    }
-}
-
-// MARK: - UISearchBarDelegate
-
-extension CoinListViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        coinListDataManager.filterCoinList(by: searchText)
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
     }
 }
 

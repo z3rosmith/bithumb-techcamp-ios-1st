@@ -13,34 +13,38 @@ class CoinListViewModel: ViewModelType {
     struct Input {
         let fetchCoinList: AnyObserver<Void>
         let sortCoin: AnyObserver<CoinSortButton>
+        let filterCoin: AnyObserver<String?>
     }
     
     struct Output {
         let coinList: Observable<[ViewCoin]>
     }
     
-    var disposeBag = DisposeBag()
+    var disposeBag: DisposeBag = .init()
     
     let input: Input
     let output: Output
     
     private let coinSortButtons: [CoinSortButton]
-    private let selectedButton: BehaviorRelay<CoinSortButton?>
+    private var storedCoinList: [ViewCoin]
+    private var selectedButton: CoinSortButton?
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
     
     init(
-        httpNetworkService: HTTPNetworkService = HTTPNetworkService(),
-        webSocketService: WebSocketService = WebSocketService(),
+        httpNetworkService: HTTPNetworkService = .init(),
+        webSocketService: WebSocketService = .init(),
         sortButtons: [SortButton],
         sortButtonTypes: [CoinSortButton.ButtonType]
     ) {
         let fetching = PublishSubject<Void>()
         let coins = BehaviorRelay<[ViewCoin]>(value: [])
         let sort = PublishSubject<CoinSortButton>()
+        let filter = PublishSubject<String?>()
         
         input = Input(
             fetchCoinList: fetching.asObserver(),
-            sortCoin: sort.asObserver()
+            sortCoin: sort.asObserver(),
+            filterCoin: filter.asObserver()
         )
         
         output = Output(
@@ -51,7 +55,9 @@ class CoinListViewModel: ViewModelType {
             CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
         }
         
-        selectedButton = .init(value: coinSortButtons.first)
+        storedCoinList = []
+        
+        selectedButton = coinSortButtons.first
         
         anyButtonTapped = .init(value: coinSortButtons.first)
         
@@ -63,17 +69,28 @@ class CoinListViewModel: ViewModelType {
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
                 var sorted = coinList
-                if let coinSortButton = owner.selectedButton.value {
+                if let coinSortButton = owner.selectedButton {
                     sorted = coinList.sorted(using: coinSortButton)
                 }
                 coins.accept(sorted)
+                owner.storedCoinList = sorted
             })
             .disposed(by: disposeBag)
         
         sort
-            .subscribe(onNext: { coinSortButton in
+            .withUnretained(self)
+            .subscribe(onNext: { owner, coinSortButton in
                 let sorted = coins.value.sorted(using: coinSortButton)
                 coins.accept(sorted)
+                owner.storedCoinList = sorted
+            })
+            .disposed(by: disposeBag)
+        
+        filter
+            .withUnretained(self)
+            .subscribe(onNext: { owner, filterText in
+                let filtered = owner.storedCoinList.filter(by: filterText)
+                coins.accept(filtered)
             })
             .disposed(by: disposeBag)
         
@@ -83,7 +100,10 @@ class CoinListViewModel: ViewModelType {
             
             button.rx.tap
                 .map { coinSortButton }
-                .bind(to: selectedButton)
+                .withUnretained(self)
+                .subscribe(onNext: { owner, coinSortButton in
+                    owner.selectedButton = coinSortButton
+                })
                 .disposed(by: disposeBag)
             
             button.rx.tap
@@ -106,7 +126,7 @@ class CoinListViewModel: ViewModelType {
         anyButtonTapped
             .withUnretained(self)
             .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
-                let isSelected = eachButton?.button == owner.selectedButton.value?.button
+                let isSelected = eachButton?.button == owner.selectedButton?.button
                 let sortType: CoinSortType
                 if isSelected == false {
                     sortType = .none
@@ -152,7 +172,7 @@ extension CoinListViewModel {
 
 // MARK: - Extension Of Array
 
-private extension Array where Element == ViewCoin {
+fileprivate extension Array where Element == ViewCoin {
     func sorted(using coinSortButton: CoinListViewModel.CoinSortButton) -> [Element] {
         let sortedCoinList: [Element]
         let coinSortType = coinSortButton.sortType.value
@@ -183,5 +203,16 @@ private extension Array where Element == ViewCoin {
             }
         }
         return sortedCoinList
+    }
+    
+    func filter(by text: String?) -> [Element] {
+        guard let text = text,
+              text.isEmpty == false
+        else { return self }
+        
+        return self.filter {
+            $0.callingName.localizedStandardContains(text) ||
+                $0.symbolName.localizedStandardContains(text)
+        }
     }
 }
