@@ -5,25 +5,45 @@
 //  Created by Jinyoung Kim on 2022/07/10.
 //
 
-import Foundation
-
 struct ViewCoin {
+    enum ChangeStyle {
+        case none, up, down
+    }
+    
     let callingName: String
     let symbolName: String
+    let closingPrice: Double
     let currentPrice: Double
     let changeRate: Double
     let changePrice: Double
     let popularity: Double
+    let changePriceStyle: ChangeStyle
     let isFavorite: Bool
     
-    func currentPriceUpdated(currentPrice: Double) -> ViewCoin {
+    func updated(newPrice: Double, newChangeRate: Double, newChangePrice: Double, changePriceStyle: ChangeStyle) -> ViewCoin {
         return ViewCoin(
             callingName: self.callingName,
             symbolName: self.symbolName,
-            currentPrice: currentPrice,
+            closingPrice: self.closingPrice,
+            currentPrice: newPrice,
+            changeRate: newChangeRate,
+            changePrice: newChangePrice,
+            popularity: self.popularity,
+            changePriceStyle: changePriceStyle,
+            isFavorite: self.isFavorite
+        )
+    }
+    
+    func updateChangePriceStyleToNone() -> ViewCoin {
+        return ViewCoin(
+            callingName: self.callingName,
+            symbolName: self.symbolName,
+            closingPrice: self.closingPrice,
+            currentPrice: self.currentPrice,
             changeRate: self.changeRate,
             changePrice: self.changePrice,
             popularity: self.popularity,
+            changePriceStyle: .none,
             isFavorite: self.isFavorite
         )
     }

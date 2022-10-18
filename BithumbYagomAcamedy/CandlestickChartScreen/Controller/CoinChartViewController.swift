@@ -118,7 +118,8 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         
         DispatchQueue.main.async { [weak self] in
             self?.coinChartView.candleData?.removeEntry(removeEntry, dataSetIndex: Int.zero)
-            self?.coinChartView.candleData?.addEntry(entry, dataSetIndex: Int.zero)
+            self?.coinChartView.candleData?.appendEntry(entry, toDataSet: Int.zero)
+//            self?.coinChartView.candleData?.addEntry(entry, dataSetIndex: Int.zero)
             self?.coinChartView.notifyDataSetChanged()
         }
     }
@@ -130,7 +131,8 @@ extension CoinChartViewController: CoinChartDataManagerDelegate {
         let entry = CoinCandleChartDataEntry(candlestick: candlestick, at: entryCount)
         
         DispatchQueue.main.async { [weak self] in
-            self?.coinChartView.data?.addEntry(entry, dataSetIndex: Int.zero)
+            self?.coinChartView.candleData?.appendEntry(entry, toDataSet: Int.zero)
+//            self?.coinChartView.data?.addEntry(entry, dataSetIndex: Int.zero)
             self?.updateXAxisValueFormat()
             self?.coinChartView.notifyDataSetChanged()
         }

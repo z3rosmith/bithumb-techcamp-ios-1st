@@ -91,7 +91,6 @@
 		370C4B2127CC688800EE2C68 /* DepositWithdrawalStatusDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370C4B2027CC688800EE2C68 /* DepositWithdrawalStatusDataManager.swift */; };
 		370C4B2327CC6BA700EE2C68 /* AssetsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370C4B2227CC6BA700EE2C68 /* AssetsStatus.swift */; };
 		370C4B4727CD1DEC00EE2C68 /* SortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370C4B4627CD1DEC00EE2C68 /* SortButton.swift */; };
-		3711EE9527CF638600E7A990 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 3711EE9427CF638600E7A990 /* Charts */; };
 		371D996F27C755C7000368AC /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D996E27C755C7000368AC /* JSONParserTests.swift */; };
 		371D997B27C77C5E000368AC /* CoinListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371D997927C77C5E000368AC /* CoinListCollectionViewCell.swift */; };
 		371D997C27C77C5E000368AC /* CoinListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 371D997A27C77C5E000368AC /* CoinListCollectionViewCell.xib */; };
@@ -129,6 +128,8 @@
 		37E61AFE27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */; };
 		3C510B81287ABDA3006FB2DA /* ViewCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510B80287ABDA3006FB2DA /* ViewCoin.swift */; };
 		3C510B83287ABE80006FB2DA /* CoinListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C510B82287ABE80006FB2DA /* CoinListViewModel.swift */; };
+		3C72DDF128F6A8D7005ADA99 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 3C72DDF028F6A8D7005ADA99 /* Charts */; };
+		3CB09E8E288D57A700D4210C /* UIScrollView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB09E8D288D57A700D4210C /* UIScrollView+Rx.swift */; };
 		3CC64A3127DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */; };
 		3CC8E3AC288566B300FA925B /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8E3AB288566B300FA925B /* ViewModelType.swift */; };
 		3CC98F3827C879F200B9A6EF /* CoinListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */; };
@@ -284,6 +285,7 @@
 		37E61AFD27D35E7200FE0B83 /* CoinCandleChartDataEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCandleChartDataEntry.swift; sourceTree = "<group>"; };
 		3C510B80287ABDA3006FB2DA /* ViewCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoin.swift; sourceTree = "<group>"; };
 		3C510B82287ABE80006FB2DA /* CoinListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewModel.swift; sourceTree = "<group>"; };
+		3CB09E8D288D57A700D4210C /* UIScrollView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Rx.swift"; sourceTree = "<group>"; };
 		3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDiffableDataSource+extension.swift"; sourceTree = "<group>"; };
 		3CC8E3AB288566B300FA925B /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		3CC98F3727C879F200B9A6EF /* CoinListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListViewController.swift; sourceTree = "<group>"; };
@@ -307,8 +309,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3711EE9527CF638600E7A990 /* Charts in Frameworks */,
 				67A951A076F527CEF24B026A /* Pods_BithumbYagomAcamedy.framework in Frameworks */,
+				3C72DDF128F6A8D7005ADA99 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +538,7 @@
 				08CA8B5C27D34B9800ECD245 /* Array+extension.swift */,
 				08ADD5A227D5F9ED00AFC950 /* Double+extension.swift */,
 				3CC64A3027DB122200202511 /* UICollectionViewDiffableDataSource+extension.swift */,
+				3CB09E8D288D57A700D4210C /* UIScrollView+Rx.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1011,7 +1014,7 @@
 			);
 			name = BithumbYagomAcamedy;
 			packageProductDependencies = (
-				3711EE9427CF638600E7A990 /* Charts */,
+				3C72DDF028F6A8D7005ADA99 /* Charts */,
 			);
 			productName = BithumbYagomAcamedy;
 			productReference = 37A15AC627C61D0A00585F4A /* BithumbYagomAcamedy.app */;
@@ -1065,7 +1068,7 @@
 			);
 			mainGroup = 37A15ABD27C61D0A00585F4A;
 			packageReferences = (
-				3711EE9327CF638600E7A990 /* XCRemoteSwiftPackageReference "Charts" */,
+				3C72DDEF28F6A8D7005ADA99 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 37A15AC727C61D0A00585F4A /* Products */;
 			projectDirPath = "";
@@ -1232,6 +1235,7 @@
 				375E495E27D7486B002AA73A /* CoinChartCoreDataManager.swift in Sources */,
 				08B46DB127CF4DFC0072CBBF /* CoinTransactionDataManager.swift in Sources */,
 				08B46D7E27CDDE4B0072CBBF /* WebSocketTickerValueObject.swift in Sources */,
+				3CB09E8E288D57A700D4210C /* UIScrollView+Rx.swift in Sources */,
 				08ADD5A927D73BFD00AFC950 /* ViewControllerInstantiatable.swift in Sources */,
 				3CC8E3AC288566B300FA925B /* ViewModelType.swift in Sources */,
 				0810E82827D1EC7E00064BA5 /* Orderbook.swift in Sources */,
@@ -1601,20 +1605,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3711EE9327CF638600E7A990 /* XCRemoteSwiftPackageReference "Charts" */ = {
+		3C72DDEF28F6A8D7005ADA99 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3711EE9427CF638600E7A990 /* Charts */ = {
+		3C72DDF028F6A8D7005ADA99 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3711EE9327CF638600E7A990 /* XCRemoteSwiftPackageReference "Charts" */;
+			package = 3C72DDEF28F6A8D7005ADA99 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -6,22 +6,29 @@
 //
 
 import Foundation
+import RxSwift
 
-enum WebSocketError: LocalizedError {
+enum WebSocketError: Error, LocalizedError {
     case urlIsNil
+    case emptyWebSocketTransactionData
+    case messageIsNotString
     case unknown(error: Error)
 
     var errorDescription: String? {
         switch self {
         case .urlIsNil:
             return "정상적인 URL이 아닙니다."
+        case .emptyWebSocketTransactionData:
+            return "WebSocketTransactionData가 비어있습니다."
+        case .messageIsNotString:
+            return "message가 String이 아닙니다."
         case .unknown(let error):
             return "\(error.localizedDescription) 에러가 발생했습니다."
         }
     }
 }
 
-struct WebSocketService: WebSocketServicable {
+class WebSocketService: WebSocketServicable {
     
     // MARK: - Typealias
     
@@ -40,7 +47,7 @@ struct WebSocketService: WebSocketServicable {
     
     // MARK: - Method
     
-    mutating func open(
+    func open(
         webSocketAPI: WebSocketable,
         completionHandler: @escaping CompletionHandler
     ) {
@@ -57,6 +64,7 @@ struct WebSocketService: WebSocketServicable {
     }
     
     func close() {
+        print("✅✅", #function)
         webSocketTask?.cancel()
     }
     
@@ -88,6 +96,54 @@ struct WebSocketService: WebSocketServicable {
                     completionHandler(.failure(WebSocketError.unknown(error: error)))
                 }
             }
+        }
+    }
+}
+
+// MARK: - RxSwift Wrapping
+
+extension WebSocketService {
+    func openRx(webSocketAPI: WebSocketable) -> Observable<WebSocketTransactionData.WebSocketTransaction> {
+        return Observable.create { emitter in
+            self.open(webSocketAPI: webSocketAPI) { [weak self] result in
+                switch result {
+                case .success(let message):
+                    switch message {
+                    case .string(let response):
+                        let transaction = try? self?.parsedWebSocketTranscationValueObject(from: response)
+                        guard let transactionFirst = transaction?.webSocketTransactionData.list.first else {
+                            print(WebSocketError.emptyWebSocketTransactionData.localizedDescription)
+                            return
+                        }
+                        emitter.onNext(transactionFirst)
+                    default:
+                        print(WebSocketError.messageIsNotString.localizedDescription)
+                        break
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    break
+                }
+            }
+            return Disposables.create {
+                print("✅✅ Disposable create handler")
+                self.close()
+            }
+        }
+    }
+    
+    private func parsedWebSocketTranscationValueObject(
+        from string: String
+    ) throws -> WebSocketTransactionValueObject {
+        do {
+            let webSocketTransactionValueObject = try JSONParser().decode(
+                string: string,
+                type: WebSocketTransactionValueObject.self
+            )
+            return webSocketTransactionValueObject
+        } catch {
+            print(error.localizedDescription)
+            throw error
         }
     }
 }

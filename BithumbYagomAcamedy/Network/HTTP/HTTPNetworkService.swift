@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-enum NetworkError: LocalizedError {
+enum NetworkError: Error, LocalizedError {
     case invalidResponse
     case statusCodeError(_ statusCode: Int)
     case invalidURLRequest

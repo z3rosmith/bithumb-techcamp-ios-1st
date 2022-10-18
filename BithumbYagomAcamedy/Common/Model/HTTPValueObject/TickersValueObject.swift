@@ -25,10 +25,12 @@ extension TickersValueObject {
                 let viewCoin = ViewCoin(
                     callingName: NSLocalizedString(key, comment: ""),
                     symbolName: key,
+                    closingPrice: Double(tickerData.closingPrice) ?? -Double.greatestFiniteMagnitude,
                     currentPrice: Double(tickerData.closingPrice) ?? -Double.greatestFiniteMagnitude,
                     changeRate: Double(tickerData.fluctateRate24Hour) ?? -Double.greatestFiniteMagnitude,
                     changePrice: Double(tickerData.fluctate24Hour) ?? -Double.greatestFiniteMagnitude,
                     popularity: Double(tickerData.accTradeValue24Hour) ?? -Double.greatestFiniteMagnitude,
+                    changePriceStyle: .none,
                     isFavorite: false
                 )
                 viewCoinList.append(viewCoin)

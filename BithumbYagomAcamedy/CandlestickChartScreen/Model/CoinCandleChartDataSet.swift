@@ -14,7 +14,7 @@ final class CoinCandleChartDataSet: CandleChartDataSet {
             CoinCandleChartDataEntry(candlestick: $1, at: $0)
         }
         
-        self.init(entries: dataEnties, label: label)
+        self.init(entries: dataEnties, label: label ?? "")
         barSpace = 0.2
         shadowWidth = 0.7
         axisDependency = .right

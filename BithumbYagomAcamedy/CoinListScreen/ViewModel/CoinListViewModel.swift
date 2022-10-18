@@ -9,7 +9,13 @@ import Foundation
 import RxSwift
 import RxRelay
 
-class CoinListViewModel: ViewModelType {
+final class CoinListViewModel: ViewModelType {
+    
+    enum Section: Int {
+        case favorite
+        case all
+    }
+    
     struct Input {
         let fetchCoinList: AnyObserver<Void>
         let sortCoin: AnyObserver<CoinSortButton>
@@ -18,17 +24,24 @@ class CoinListViewModel: ViewModelType {
     
     struct Output {
         let coinList: Observable<[ViewCoin]>
+        let coinChanged: Observable<Void>
+        let updateCell: Observable<(Int, ViewCoin)>
     }
     
     var disposeBag: DisposeBag = .init()
+    var webSocketDisposeBag: DisposeBag = .init()
     
-    let input: Input
-    let output: Output
-    
+    private let webSocketService: WebSocketService
     private let coinSortButtons: [CoinSortButton]
     private var storedCoinList: [ViewCoin]
     private var selectedButton: CoinSortButton?
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
+    private let coins: BehaviorRelay<[ViewCoin]>
+    private let updateCell: PublishRelay<(Int, ViewCoin)>
+    var indexForVisibleCells: [Int]
+    
+    let input: Input
+    let output: Output
     
     init(
         httpNetworkService: HTTPNetworkService = .init(),
@@ -37,29 +50,46 @@ class CoinListViewModel: ViewModelType {
         sortButtonTypes: [CoinSortButton.ButtonType]
     ) {
         let fetching = PublishSubject<Void>()
-        let coins = BehaviorRelay<[ViewCoin]>(value: [])
         let sort = PublishSubject<CoinSortButton>()
         let filter = PublishSubject<String?>()
         
-        input = Input(
+        self.webSocketService = webSocketService
+        self.coinSortButtons = sortButtons.enumerated().map { index, sortButton in
+            CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
+        }
+        self.storedCoinList = []
+        self.selectedButton = coinSortButtons.first
+        self.anyButtonTapped = .init(value: coinSortButtons.first)
+        self.coins = .init(value: [])
+        self.updateCell = .init()
+        self.indexForVisibleCells = []
+        
+        self.input = Input(
             fetchCoinList: fetching.asObserver(),
             sortCoin: sort.asObserver(),
             filterCoin: filter.asObserver()
         )
         
-        output = Output(
-            coinList: coins.asObservable()
+        let coinChanged = Observable.merge(
+            fetching,
+            sort.map { _ in },
+            filter.map { _ in }
         )
         
-        coinSortButtons = sortButtons.enumerated().map { index, sortButton in
-            CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
-        }
+//        let coinsToCoinList = PublishRelay<[SectionOfViewCoin]>()
+//
+//        coins
+//            .subscribe(onNext: { coins in
+//                let sectionOfViewCoin = SectionOfViewCoin(items: coins)
+//                coinsToCoinList.accept([sectionOfViewCoin])
+//            })
+//            .disposed(by: disposeBag)
         
-        storedCoinList = []
-        
-        selectedButton = coinSortButtons.first
-        
-        anyButtonTapped = .init(value: coinSortButtons.first)
+        self.output = Output(
+            coinList: coins.asObservable(),
+            coinChanged: coinChanged,
+            updateCell: updateCell.asObservable()
+        )
         
         // INPUT
         
@@ -72,17 +102,17 @@ class CoinListViewModel: ViewModelType {
                 if let coinSortButton = owner.selectedButton {
                     sorted = coinList.sorted(using: coinSortButton)
                 }
-                coins.accept(sorted)
                 owner.storedCoinList = sorted
+                owner.coins.accept(sorted)
             })
             .disposed(by: disposeBag)
         
         sort
             .withUnretained(self)
             .subscribe(onNext: { owner, coinSortButton in
-                let sorted = coins.value.sorted(using: coinSortButton)
-                coins.accept(sorted)
+                let sorted = owner.storedCoinList.sorted(using: coinSortButton)
                 owner.storedCoinList = sorted
+                owner.coins.accept(sorted)
             })
             .disposed(by: disposeBag)
         
@@ -90,7 +120,7 @@ class CoinListViewModel: ViewModelType {
             .withUnretained(self)
             .subscribe(onNext: { owner, filterText in
                 let filtered = owner.storedCoinList.filter(by: filterText)
-                coins.accept(filtered)
+                owner.coins.accept(filtered)
             })
             .disposed(by: disposeBag)
         
@@ -147,6 +177,84 @@ class CoinListViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         // OUTPUT
+    }
+}
+
+extension CoinListViewModel {
+    func openWebSocket() {
+        closeWebSocket()
+        let symbols = storedCoinList.map { $0.symbolName }
+        print("📃 symbols", symbols)
+        // symbols를 현재 화면에 보이는 것만 해서 api를 만들 수는 없을까
+        let api = TransactionWebSocket(symbols: symbols)
+        webSocketService
+            .openRx(webSocketAPI: api)
+//            .debug("✅ webSocket received")
+            .withUnretained(self)
+            .subscribe(onNext: { owner, transactionData in
+                var newCoinList = owner.storedCoinList
+                let (index, newCoin) = owner.updateCoinListAndReturnIndexNCoin(coinList: &newCoinList, transactionData: transactionData)
+                owner.storedCoinList = newCoinList
+                if let index, let newCoin {
+                    owner.updateCell.accept((index, newCoin))
+                }
+            })
+            .disposed(by: webSocketDisposeBag)
+    }
+    
+    func closeWebSocket() {
+        webSocketDisposeBag = .init()
+    }
+    
+    private func updateCoinListAndReturnIndexNCoin(coinList: inout [ViewCoin], transactionData: WebSocketTransactionData.WebSocketTransaction) -> (Int?, ViewCoin?) {
+        let symbol = transactionData.symbol.components(separatedBy: "_")[0]
+        print("✅: ", indexForVisibleCells)
+        if let index = coinList.firstIndex(where: { $0.symbolName == symbol }),
+           indexForVisibleCells.contains(index),
+           let newPrice = Double(transactionData.price) {
+            
+            let oldCoin = coinList[index]
+            let (newChangePrice, newChangeRate) = calculateChange(
+                pivotPrice: oldCoin.closingPrice,
+                newPrice: newPrice
+            )
+            let oldPrice = oldCoin.currentPrice
+            let changePriceStyle: ViewCoin.ChangeStyle
+            
+            if newPrice > oldPrice {
+                changePriceStyle = .up
+            } else if newPrice < oldPrice {
+                changePriceStyle = .down
+            } else {
+                changePriceStyle = .none
+            }
+            
+            let newCoin = oldCoin.updated(
+                newPrice: newPrice,
+                newChangeRate: newChangeRate,
+                newChangePrice: newChangePrice,
+                changePriceStyle: changePriceStyle
+            )
+            coinList.remove(at: index)
+            coinList.insert(newCoin, at: index)
+            return (index, newCoin)
+        } else { // 코인리스트에 들어온 웹소켓의 코인이 없거나, 들어온 웹소켓의 코인이 있었음에도 visible cell이 아니었거나, visiblecell에 있었는데 price를 Double로 변환할 수 없었을 때
+            indexForVisibleCells.forEach { index in
+                let newCoin = coinList[index].updateChangePriceStyleToNone()
+                coinList.remove(at: index)
+                coinList.insert(newCoin, at: index)
+            }
+            return (nil, nil)
+        }
+    }
+    
+    private func calculateChange(
+        pivotPrice: Double,
+        newPrice: Double
+    ) -> (changePrice: Double, changeRate: Double) {
+        let changePrice = newPrice - pivotPrice
+        let changeRate = (changePrice / pivotPrice * 10000).rounded() / 100
+        return (changePrice, changeRate)
     }
 }
 
