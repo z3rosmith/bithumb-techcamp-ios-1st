@@ -18,7 +18,7 @@ struct ViewCoin {
     let changePrice: Double
     let popularity: Double
     let changePriceStyle: ChangeStyle
-    let isFavorite: Bool
+    var isFavorite: Bool
     
     func updated(newPrice: Double, newChangeRate: Double, newChangePrice: Double, changePriceStyle: ChangeStyle) -> ViewCoin {
         return ViewCoin(
@@ -34,18 +34,10 @@ struct ViewCoin {
         )
     }
     
-    func updateChangePriceStyleToNone() -> ViewCoin {
-        return ViewCoin(
-            callingName: self.callingName,
-            symbolName: self.symbolName,
-            closingPrice: self.closingPrice,
-            currentPrice: self.currentPrice,
-            changeRate: self.changeRate,
-            changePrice: self.changePrice,
-            popularity: self.popularity,
-            changePriceStyle: .none,
-            isFavorite: self.isFavorite
-        )
+    @discardableResult
+    mutating func toggleFavorite() -> Self {
+        self.isFavorite.toggle()
+        return self
     }
 }
 
@@ -64,5 +56,18 @@ extension ViewCoin {
     
     var changeRateString: String {
         return changeRate.changeRateString
+    }
+    
+    func asCoin() -> Coin {
+        return .init(
+            callingName: self.callingName,
+            symbolName: self.symbolName,
+            currentPrice: self.currentPrice,
+            closingPrice: self.closingPrice,
+            changeRate: self.changeRate,
+            changePrice: self.changePrice,
+            popularity: self.popularity,
+            isFavorite: self.isFavorite
+        )
     }
 }

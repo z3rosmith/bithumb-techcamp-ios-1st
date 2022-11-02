@@ -8,10 +8,13 @@
 import Foundation
 import RxSwift
 import RxRelay
+import RxDataSources
+
+typealias CoinListSectionModel = SectionModel<String, ViewCoin>
 
 final class CoinListViewModel: ViewModelType {
     
-    enum Section: Int {
+    enum ListKind: Int {
         case favorite
         case all
     }
@@ -20,25 +23,29 @@ final class CoinListViewModel: ViewModelType {
         let fetchCoinList: AnyObserver<Void>
         let sortCoin: AnyObserver<CoinSortButton>
         let filterCoin: AnyObserver<String?>
+        let favoriteCoin: AnyObserver<IndexPath>
     }
     
     struct Output {
-        let coinList: Observable<[ViewCoin]>
-        let coinChanged: Observable<Void>
-        let updateCell: Observable<(Int, ViewCoin)>
+        let coinList: Observable<[CoinListSectionModel]>
+        let coinDisplayed: Observable<Void>
+        let updateCell: Observable<(IndexPath, ViewCoin)>
     }
     
     var disposeBag: DisposeBag = .init()
     var webSocketDisposeBag: DisposeBag = .init()
+    var indexPathsForVisibleCells: [IndexPath] = []
     
     private let webSocketService: WebSocketService
     private let coinSortButtons: [CoinSortButton]
-    private var storedCoinList: [ViewCoin]
+    private var allCoinList: [ViewCoin]
+    private var favoriteCoinList: [ViewCoin]
     private var selectedButton: CoinSortButton?
+    
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
-    private let coins: BehaviorRelay<[ViewCoin]>
-    private let updateCell: PublishRelay<(Int, ViewCoin)>
-    var indexForVisibleCells: [Int]
+    private let coins: BehaviorRelay<[CoinListSectionModel]>
+    private let updateCell: PublishRelay<(IndexPath, ViewCoin)>
+    private let coinDisplayed: PublishSubject<Void>
     
     let input: Input
     let output: Output
@@ -52,42 +59,30 @@ final class CoinListViewModel: ViewModelType {
         let fetching = PublishSubject<Void>()
         let sort = PublishSubject<CoinSortButton>()
         let filter = PublishSubject<String?>()
+        let favorite = PublishSubject<IndexPath>()
         
         self.webSocketService = webSocketService
         self.coinSortButtons = sortButtons.enumerated().map { index, sortButton in
             CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
         }
-        self.storedCoinList = []
+        self.allCoinList = []
+        self.favoriteCoinList = []
         self.selectedButton = coinSortButtons.first
         self.anyButtonTapped = .init(value: coinSortButtons.first)
         self.coins = .init(value: [])
         self.updateCell = .init()
-        self.indexForVisibleCells = []
+        self.coinDisplayed = .init()
         
         self.input = Input(
             fetchCoinList: fetching.asObserver(),
             sortCoin: sort.asObserver(),
-            filterCoin: filter.asObserver()
+            filterCoin: filter.asObserver(),
+            favoriteCoin: favorite.asObserver()
         )
-        
-        let coinChanged = Observable.merge(
-            fetching,
-            sort.map { _ in },
-            filter.map { _ in }
-        )
-        
-//        let coinsToCoinList = PublishRelay<[SectionOfViewCoin]>()
-//
-//        coins
-//            .subscribe(onNext: { coins in
-//                let sectionOfViewCoin = SectionOfViewCoin(items: coins)
-//                coinsToCoinList.accept([sectionOfViewCoin])
-//            })
-//            .disposed(by: disposeBag)
         
         self.output = Output(
             coinList: coins.asObservable(),
-            coinChanged: coinChanged,
+            coinDisplayed: coinDisplayed,
             updateCell: updateCell.asObservable()
         )
         
@@ -98,29 +93,75 @@ final class CoinListViewModel: ViewModelType {
             .map { $0.asViewCoinList() }
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
+                ////////////////// 이부분 바꿔야함. 왜냐면 favorite을 coredata에서 가져와서 설정해줘야하기때문
                 var sorted = coinList
                 if let coinSortButton = owner.selectedButton {
                     sorted = coinList.sorted(using: coinSortButton)
                 }
-                owner.storedCoinList = sorted
-                owner.coins.accept(sorted)
+                owner.allCoinList = sorted
+                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
             })
             .disposed(by: disposeBag)
         
         sort
             .withUnretained(self)
             .subscribe(onNext: { owner, coinSortButton in
-                let sorted = owner.storedCoinList.sorted(using: coinSortButton)
-                owner.storedCoinList = sorted
-                owner.coins.accept(sorted)
+                let favoriteSorted = owner.favoriteCoinList.sorted(using: coinSortButton)
+                let allSorted = owner.allCoinList.sorted(using: coinSortButton)
+                owner.favoriteCoinList = favoriteSorted
+                owner.allCoinList = allSorted
+                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
             })
             .disposed(by: disposeBag)
         
         filter
             .withUnretained(self)
             .subscribe(onNext: { owner, filterText in
-                let filtered = owner.storedCoinList.filter(by: filterText)
-                owner.coins.accept(filtered)
+                let favoriteFiltered = owner.favoriteCoinList.filter(by: filterText)
+                let allFiltered = owner.allCoinList.filter(by: filterText)
+                owner.acceptToCoins(favoriteCoins: favoriteFiltered, allCoins: allFiltered)
+            })
+            .disposed(by: disposeBag)
+        
+        favorite
+            .withUnretained(self)
+            .subscribe(onNext: { owner, indexPath in
+                let index = indexPath.item
+                
+                /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
+                if owner.favoriteCoinList.isEmpty {
+                    let coin = owner.allCoinList[index].toggleFavorite()
+                    owner.favoriteCoinList.append(coin)
+                    owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                    return
+                }
+                
+                /// favoriteCoinList에 코인이 있는 경우는
+                /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
+                /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
+                if indexPath.section == 0 {
+                    let coin = owner.favoriteCoinList[index]
+                    owner.favoriteCoinList.remove(at: index)
+                    
+                    if let index = owner.searchIndex(at: owner.allCoinList, symbolName: coin.symbolName) {
+                        owner.allCoinList[index].toggleFavorite()
+                    }
+                    
+                    owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                    return
+                }
+                
+                let isFavorite = owner.allCoinList[index].isFavorite
+                let coin = owner.allCoinList[index].toggleFavorite()
+                
+                if isFavorite {
+                    if let index = owner.searchIndex(at: owner.favoriteCoinList, symbolName: coin.symbolName) {
+                        owner.favoriteCoinList.remove(at: index)
+                    }
+                } else {
+                    owner.favoriteCoinList.append(coin)
+                }
+                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
             })
             .disposed(by: disposeBag)
         
@@ -129,9 +170,9 @@ final class CoinListViewModel: ViewModelType {
             let sortType = coinSortButton.sortType
             
             button.rx.tap
+                .asDriver()
                 .map { coinSortButton }
-                .withUnretained(self)
-                .subscribe(onNext: { owner, coinSortButton in
+                .drive(with: self, onNext: { owner, coinSortButton in
                     owner.selectedButton = coinSortButton
                 })
                 .disposed(by: disposeBag)
@@ -145,7 +186,7 @@ final class CoinListViewModel: ViewModelType {
                 .disposed(by: disposeBag)
             
             sortType
-                .asDriver(onErrorJustReturn: .none)
+                .asDriver()
                 .drive(with: self, onNext: { owner, type in
                     let imageName = type.rawValue
                     button.setImage(UIImage(named: imageName), for: .normal)
@@ -180,24 +221,98 @@ final class CoinListViewModel: ViewModelType {
     }
 }
 
+// MARK: - Helpers
+
+extension CoinListViewModel {
+    private func acceptToCoins(favoriteCoins: [ViewCoin], allCoins: [ViewCoin]) {
+        var sectionModel: [CoinListSectionModel] = []
+        
+        if favoriteCoins.isEmpty == false {
+            sectionModel.append(CoinListSectionModel(model: "관심", items: favoriteCoins))
+        }
+        
+        if allCoins.isEmpty == false {
+            sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins))
+        }
+        
+        coins.accept(sectionModel)
+        coinDisplayed.onNext(())
+    }
+    
+    func searchIndex(at coinList: [ViewCoin], symbolName: String) -> Int? {
+        return coinList.firstIndex { $0.symbolName == symbolName }
+    }
+    
+    func isFavoriteCoin(for indexPath: IndexPath) -> Bool {
+        if favoriteCoinList.isEmpty == false {
+            if indexPath.section == 0 {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+    
+    func item(for indexPath: IndexPath) -> ViewCoin {
+        let index = indexPath.item
+        let section = indexPath.section
+        if favoriteCoinList.isEmpty == false {
+            if section == 0 {
+                return favoriteCoinList[index]
+            } else {
+                return allCoinList[index]
+            }
+        }
+        return allCoinList[index]
+    }
+    
+    func getSection(listKind: ListKind) -> Int? {
+        switch listKind {
+        case .favorite:
+            return favoriteCoinList.isEmpty ? nil : 0
+        case .all:
+            return favoriteCoinList.isEmpty ? 0 : 1
+        }
+    }
+    
+    func nameOfSectionHeader(index: Int) -> String? {
+        let favoriteCoinListIsEmpty = favoriteCoinList.isEmpty
+        let allCoinListIsEmpty = allCoinList.isEmpty
+
+        if favoriteCoinListIsEmpty && allCoinListIsEmpty {
+            return nil
+        } else if favoriteCoinListIsEmpty {
+            return "원화"
+        } else if allCoinListIsEmpty {
+            return "관심"
+        } else {
+            if index == 0 {
+                return "관심"
+            } else {
+                return "원화"
+            }
+        }
+    }
+}
+
+// MARK: - WebSocket
+
 extension CoinListViewModel {
     func openWebSocket() {
         closeWebSocket()
-        let symbols = storedCoinList.map { $0.symbolName }
+        // 여기 함수 안에 storedCoinList대신에 새로운 presentingCoinList같은거로 대체하면 해결할수있지않을까
+        // WebSocket API를 생성할때 전체 symbol을 다 요청하고있는데 현재 보이는 symbol만 요청하는것도 좋을듯
+        let symbols = allCoinList.map { $0.symbolName }
         print("📃 symbols", symbols)
-        // symbols를 현재 화면에 보이는 것만 해서 api를 만들 수는 없을까
         let api = TransactionWebSocket(symbols: symbols)
         webSocketService
             .openRx(webSocketAPI: api)
 //            .debug("✅ webSocket received")
             .withUnretained(self)
             .subscribe(onNext: { owner, transactionData in
-                var newCoinList = owner.storedCoinList
-                let (index, newCoin) = owner.updateCoinListAndReturnIndexNCoin(coinList: &newCoinList, transactionData: transactionData)
-                owner.storedCoinList = newCoinList
-                if let index, let newCoin {
-                    owner.updateCell.accept((index, newCoin))
-                }
+                owner.updateCell(from: &owner.allCoinList, section: owner.getSection(listKind: .all), transactionData: transactionData)
+                owner.updateCell(from: &owner.favoriteCoinList, section: owner.getSection(listKind: .favorite),transactionData: transactionData)
             })
             .disposed(by: webSocketDisposeBag)
     }
@@ -206,46 +321,46 @@ extension CoinListViewModel {
         webSocketDisposeBag = .init()
     }
     
-    private func updateCoinListAndReturnIndexNCoin(coinList: inout [ViewCoin], transactionData: WebSocketTransactionData.WebSocketTransaction) -> (Int?, ViewCoin?) {
+    private func updateCell(from coinList: inout [ViewCoin], section: Int?, transactionData: WebSocketTransactionData.WebSocketTransaction) {
         let symbol = transactionData.symbol.components(separatedBy: "_")[0]
-        print("✅: ", indexForVisibleCells)
-        if let index = coinList.firstIndex(where: { $0.symbolName == symbol }),
-           indexForVisibleCells.contains(index),
-           let newPrice = Double(transactionData.price) {
-            
-            let oldCoin = coinList[index]
-            let (newChangePrice, newChangeRate) = calculateChange(
-                pivotPrice: oldCoin.closingPrice,
-                newPrice: newPrice
-            )
-            let oldPrice = oldCoin.currentPrice
-            let changePriceStyle: ViewCoin.ChangeStyle
-            
-            if newPrice > oldPrice {
-                changePriceStyle = .up
-            } else if newPrice < oldPrice {
-                changePriceStyle = .down
-            } else {
-                changePriceStyle = .none
-            }
-            
-            let newCoin = oldCoin.updated(
-                newPrice: newPrice,
-                newChangeRate: newChangeRate,
-                newChangePrice: newChangePrice,
-                changePriceStyle: changePriceStyle
-            )
-            coinList.remove(at: index)
-            coinList.insert(newCoin, at: index)
-            return (index, newCoin)
-        } else { // 코인리스트에 들어온 웹소켓의 코인이 없거나, 들어온 웹소켓의 코인이 있었음에도 visible cell이 아니었거나, visiblecell에 있었는데 price를 Double로 변환할 수 없었을 때
-            indexForVisibleCells.forEach { index in
-                let newCoin = coinList[index].updateChangePriceStyleToNone()
-                coinList.remove(at: index)
-                coinList.insert(newCoin, at: index)
-            }
-            return (nil, nil)
+        print("✅: ", indexPathsForVisibleCells)
+        
+        guard let index = coinList.firstIndex(where: { $0.symbolName == symbol }),
+              let section
+        else { return }
+        
+        let indexPath = IndexPath(item: index, section: section)
+        
+        guard indexPathsForVisibleCells.contains(indexPath),
+              let newPrice = Double(transactionData.price)
+        else { return }
+        
+        let oldCoin = coinList[index]
+        let (newChangePrice, newChangeRate) = calculateChange(
+            pivotPrice: oldCoin.closingPrice,
+            newPrice: newPrice
+        )
+        let oldPrice = oldCoin.currentPrice
+        let changePriceStyle: ViewCoin.ChangeStyle
+        
+        if newPrice > oldPrice {
+            changePriceStyle = .up
+        } else if newPrice < oldPrice {
+            changePriceStyle = .down
+        } else {
+            changePriceStyle = .none
         }
+        
+        let newCoin = oldCoin.updated(
+            newPrice: newPrice,
+            newChangeRate: newChangeRate,
+            newChangePrice: newChangePrice,
+            changePriceStyle: changePriceStyle
+        )
+        coinList.remove(at: index)
+        coinList.insert(newCoin, at: index)
+        
+        updateCell.accept((indexPath, newCoin))
     }
     
     private func calculateChange(

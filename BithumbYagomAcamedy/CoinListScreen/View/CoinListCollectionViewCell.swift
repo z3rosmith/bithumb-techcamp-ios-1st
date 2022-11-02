@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol CoinListCollectionViewCellDelegate: AnyObject {
-    func coinListCollectionViewCellDelegate(didUserSwipe cell: UICollectionViewListCell, isSwiped: Bool)
-}
-
 fileprivate let timeAnimationInterval: TimeInterval = 0.5
 
 final class CoinListCollectionViewCell: UICollectionViewListCell {
@@ -26,16 +22,10 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
     static let identifier = "CoinListCollectionViewCell"
     
     var toggleFavorite: (() -> Void)?
-    weak var delegate: CoinListCollectionViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
-    }
-    
-    override func updateConfiguration(using state: UICellConfigurationState) {
-        super.updateConfiguration(using: state)
-        delegate?.coinListCollectionViewCellDelegate(didUserSwipe: self, isSwiped: state.isSwiped)
     }
     
     @IBAction func favoriteButtonTapped(_ sender: UIButton) {
@@ -100,21 +90,22 @@ final class CoinListCollectionViewCell: UICollectionViewListCell {
     }
 }
 
+/// IndexPath를 받아서 그 index의 cell이 animate될지 선택해주는 Singleton 객체
 final class ViewDisplaySelector {
     static let shared = ViewDisplaySelector()
     
     /// index에 따라 저장된 시간
-    private var latestAddedTime: [Int: Date] = [:]
+    private var latestAddedTime: [IndexPath: Date] = [:]
     private let serialQueue = DispatchQueue(label: "TimeAnimationQueue")
     
     private init() { }
     
-    func canDisplay(index: Int, in timeInterval: TimeInterval = timeAnimationInterval) -> Bool {
+    func canDisplay(indexPath: IndexPath, in timeInterval: TimeInterval = timeAnimationInterval) -> Bool {
         return serialQueue.sync {
-            if let date = latestAddedTime[index], abs(date.distance(to: Date())) < timeInterval {
+            if let date = latestAddedTime[indexPath], abs(date.distance(to: Date())) < timeInterval {
                 return false
             } else {
-                latestAddedTime[index] = Date()
+                latestAddedTime[indexPath] = Date()
                 return true
             }
         }
