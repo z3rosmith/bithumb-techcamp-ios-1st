@@ -13,7 +13,6 @@ import RxDataSources
 typealias CoinListSectionModel = SectionModel<String, ViewCoin>
 
 final class CoinListViewModel: ViewModelType {
-    
     enum ListKind: Int {
         case favorite
         case all
@@ -43,7 +42,7 @@ final class CoinListViewModel: ViewModelType {
     private var selectedButton: CoinSortButton?
     
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
-    private let coins: BehaviorRelay<[CoinListSectionModel]>
+    private let displayCoinsRelay: BehaviorRelay<[CoinListSectionModel]>
     private let updateCell: PublishRelay<(IndexPath, ViewCoin)>
     private let coinDisplayed: PublishSubject<Void>
     
@@ -69,7 +68,7 @@ final class CoinListViewModel: ViewModelType {
         self.favoriteCoinList = []
         self.selectedButton = coinSortButtons.first
         self.anyButtonTapped = .init(value: coinSortButtons.first)
-        self.coins = .init(value: [])
+        self.displayCoinsRelay = .init(value: [])
         self.updateCell = .init()
         self.coinDisplayed = .init()
         
@@ -81,7 +80,7 @@ final class CoinListViewModel: ViewModelType {
         )
         
         self.output = Output(
-            coinList: coins.asObservable(),
+            coinList: displayCoinsRelay.asObservable(),
             coinDisplayed: coinDisplayed,
             updateCell: updateCell.asObservable()
         )
@@ -120,6 +119,9 @@ final class CoinListViewModel: ViewModelType {
                 let favoriteFiltered = owner.favoriteCoinList.filter(by: filterText)
                 let allFiltered = owner.allCoinList.filter(by: filterText)
                 owner.acceptToCoins(favoriteCoins: favoriteFiltered, allCoins: allFiltered)
+//                owner.favoriteCoinList = favoriteFiltered
+//                owner.allCoinList = allFiltered
+//                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
             })
             .disposed(by: disposeBag)
         
@@ -194,6 +196,7 @@ final class CoinListViewModel: ViewModelType {
                 .disposed(by: disposeBag)
         }
         
+        ///////////////// 이부분 리팩토링 가능?
         anyButtonTapped
             .withUnretained(self)
             .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
@@ -235,12 +238,14 @@ extension CoinListViewModel {
             sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins))
         }
         
-        coins.accept(sectionModel)
+        displayCoinsRelay.accept(sectionModel)
         coinDisplayed.onNext(())
     }
     
-    func searchIndex(at coinList: [ViewCoin], symbolName: String) -> Int? {
-        return coinList.firstIndex { $0.symbolName == symbolName }
+    private func displayCoins() {
+        let sectionModel = 인스턴스OfCoinList.getSectionModel()
+        displayCoinsRelay.accept(sectionModel)
+        coinDisplayed.onNext(())
     }
     
     func isFavoriteCoin(for indexPath: IndexPath) -> Bool {
@@ -267,7 +272,7 @@ extension CoinListViewModel {
         return allCoinList[index]
     }
     
-    func getSection(listKind: ListKind) -> Int? {
+    private func getSection(listKind: ListKind) -> Int? {
         switch listKind {
         case .favorite:
             return favoriteCoinList.isEmpty ? nil : 0
@@ -391,6 +396,133 @@ extension CoinListViewModel {
         let buttonType: ButtonType
         let sortType: BehaviorRelay<CoinSortType> = .init(value: .none)
     }
+    
+    final private class CoinListController {
+        final private class CoinListWithBackup {
+            private var _backup: [ViewCoin]
+            private var _displaying: [ViewCoin]
+            
+            init(coins: [ViewCoin]) {
+                _displaying = coins
+                _backup = _displaying
+            }
+        }
+        
+        private var _backupFavoriteCoins: [ViewCoin]
+        private var _backupAllCoins: [ViewCoin]
+        
+        private var _favoriteCoins: [ViewCoin]
+        private var _allCoins: [ViewCoin]
+        
+        private var __favoriteCoins: CoinListWithBackup
+        private var __allCoins: CoinListWithBackup
+        
+        var favoriteCoins: [ViewCoin] {
+            get {
+                _favoriteCoins
+            }
+        }
+        
+        var allCoins: [ViewCoin] {
+            get {
+                _allCoins
+            }
+        }
+        
+        var currentSortButton: CoinSortButton?
+        var currentFilterText: String?
+        
+        init(fetchedCoinList: [ViewCoin], selectedButton: CoinSortButton?) {
+            var sorted = fetchedCoinList
+            if let coinSortButton = selectedButton {
+                sorted.sort(using: coinSortButton)
+            }
+            __allCoins = CoinListWithBackup(coins: sorted)
+            __favoriteCoins = CoinListWithBackup(coins: []) // coredata.
+            
+            
+            
+            
+            
+            
+            
+            _allCoins = sorted
+            _backupAllCoins = _allCoins
+            _favoriteCoins = [] // 이부분 수정해야함 coredata 사용해야.
+            _backupFavoriteCoins = _favoriteCoins
+        }
+        
+        func getSectionModel() -> [CoinListSectionModel] {
+            var sectionModel: [CoinListSectionModel] = []
+            
+            if _favoriteCoins.isEmpty == false {
+                sectionModel.append(CoinListSectionModel(model: "관심", items: favoriteCoins))
+            }
+            
+            if _allCoins.isEmpty == false {
+                sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins))
+            }
+            
+            return sectionModel
+        }
+        
+        func sort(using coinSortButton: CoinSortButton) {
+            _backupFavoriteCoins.sort(using: coinSortButton)
+            _backupAllCoins.sort(using: coinSortButton)
+            _favoriteCoins.sort(using: coinSortButton)
+            _allCoins.sort(using: coinSortButton)
+            
+            currentSortButton = coinSortButton
+        }
+        
+        func filter(by text: String?) {
+            _favoriteCoins = _backupFavoriteCoins.filter(by: text)
+            _allCoins = _backupAllCoins.filter(by: text)
+            
+            currentFilterText = text
+        }
+        
+        // 생각해보기 1. filter 안한 상태 2. filter 한 상태
+        func favorite(indexPath: IndexPath) {
+            let index = indexPath.item
+            
+            /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
+            if _favoriteCoins.isEmpty {
+                let coin = _allCoins[index].toggleFavorite()
+                _favoriteCoins.append(coin)
+                return
+            }
+            
+            /// favoriteCoinLis가 비어있지 않은 경우는
+            /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
+            /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
+            if indexPath.section == 0 {
+                let coin = _favoriteCoins[index]
+                _favoriteCoins.remove(at: index)
+                
+                if let index = searchIndex(at: _allCoins, symbolName: coin.symbolName) {
+                    _allCoins[index].toggleFavorite()
+                }
+                
+                return
+            }
+            
+            let isFavorite = _allCoins[index].isFavorite
+            let coin = _allCoins[index].toggleFavorite()
+            
+            if isFavorite {
+                if let index = searchIndex(at: _favoriteCoins, symbolName: coin.symbolName) {
+                    _favoriteCoins.remove(at: index)
+                }
+            } else {
+                _favoriteCoins.append(coin)
+            }
+        }
+        
+        private func searchIndex(at coinList: [ViewCoin], symbolName: String) -> Int? {
+            return coinList.firstIndex { $0.symbolName == symbolName }
+        }
+    }
 }
 
 // MARK: - Extension Of Array
@@ -426,6 +558,10 @@ fileprivate extension Array where Element == ViewCoin {
             }
         }
         return sortedCoinList
+    }
+    
+    mutating func sort(using coinSortButton: CoinListViewModel.CoinSortButton) {
+        self = self.sorted(using: coinSortButton)
     }
     
     func filter(by text: String?) -> [Element] {

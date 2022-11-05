@@ -10,7 +10,6 @@ import UIKit
 fileprivate let timeAnimationInterval: TimeInterval = 0.5
 
 final class CoinListCollectionViewCell: UICollectionViewListCell {
-
     @IBOutlet private weak var favoriteButton: UIButton!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var symbolPerCurrencyLabel: UILabel!

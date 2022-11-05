@@ -12,7 +12,6 @@ import RxDataSources
 import RxViewController
 
 final class CoinListViewController: UIViewController, NetworkFailAlertPresentable {
-    
     // MARK: - IBOutlet
     
     @IBOutlet private weak var balloonSpeakView: BallonSpeakView!
