@@ -20,7 +20,7 @@ struct ViewCoin {
     let changePriceStyle: ChangeStyle
     var isFavorite: Bool
     
-    func updated(newPrice: Double, newChangeRate: Double, newChangePrice: Double, changePriceStyle: ChangeStyle) -> ViewCoin {
+    func updated(newPrice: Double, newChangeRate: Double, newChangePrice: Double, changePriceStyle: ChangeStyle) -> Self {
         return ViewCoin(
             callingName: self.callingName,
             symbolName: self.symbolName,
@@ -38,6 +38,20 @@ struct ViewCoin {
     mutating func toggleFavorite() -> Self {
         self.isFavorite.toggle()
         return self
+    }
+    
+    func copy() -> Self {
+        return ViewCoin(
+            callingName: self.callingName,
+            symbolName: self.symbolName,
+            closingPrice: self.closingPrice,
+            currentPrice: self.currentPrice,
+            changeRate: self.changeRate,
+            changePrice: self.changePrice,
+            popularity: self.popularity,
+            changePriceStyle: self.changePriceStyle,
+            isFavorite: self.isFavorite
+        )
     }
 }
 

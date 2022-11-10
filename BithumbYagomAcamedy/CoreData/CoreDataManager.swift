@@ -12,8 +12,17 @@ final class CoreDataManager {
     
     static let shared: CoreDataManager = CoreDataManager()
     private(set) lazy var context: NSManagedObjectContext = {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("Not down cast AppDelegate")
+        let appDelegate: AppDelegate?
+        if Thread.current.isMainThread {
+            appDelegate = UIApplication.shared.delegate as? AppDelegate
+        } else {
+            appDelegate = DispatchQueue.main.sync {
+                return UIApplication.shared.delegate as? AppDelegate
+            }
+        }
+        
+        guard let appDelegate else {
+            fatalError("")
         }
         
         return appDelegate.persistentContainer.viewContext

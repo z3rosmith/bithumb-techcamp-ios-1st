@@ -61,7 +61,7 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     }
     
     @IBAction func allCoinButtonTapped(_ sender: UIButton) {
-        scrollToAllSectionHeader()
+//        scrollToAllSectionHeader()
     }
 }
 
@@ -121,7 +121,6 @@ extension CoinListViewController {
                 let (indexPath, coin) = value
                 if ViewDisplaySelector.shared.canDisplay(indexPath: indexPath) == false { return }
                 guard let cell = owner.coinListCollectionView.cellForItem(at: indexPath) as? CoinListCollectionViewCell else { return }
-                print("⚠️ cell update and animate")
                 cell.updateAndAnimate(from: coin)
             })
             .disposed(by: disposeBag)
@@ -175,7 +174,6 @@ extension CoinListViewController {
             .debug("✅ visible cell set")
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                print("tapped1!!")
                 let indexPaths = owner.coinListCollectionView.indexPathsForVisibleItems
                 print(indexPaths)
                 owner.viewModel.indexPathsForVisibleCells = indexPaths
@@ -223,22 +221,22 @@ extension CoinListViewController {
 // MARK: - Helper
 
 extension CoinListViewController {
-    private func scrollToAllSectionHeader() {
-        if let headerAttributes = coinListCollectionView.collectionViewLayout.layoutAttributesForSupplementaryView(
-            ofKind: UICollectionView.elementKindSectionHeader,
-            at: IndexPath(item: 0, section: CoinListViewModel.ListKind.all.rawValue)
-            ) {
-            coinListCollectionView.scrollToItem(
-                at: IndexPath(item: 0, section: CoinListViewModel.ListKind.all.rawValue),
-                at: .top,
-                animated: false
-            )
-            coinListCollectionView.layoutIfNeeded()
-            let currentContentOffsetY = coinListCollectionView.contentOffset.y
-            let point = CGPoint(x: 0, y: currentContentOffsetY - headerAttributes.frame.height + 1)
-            coinListCollectionView.setContentOffset(point, animated: false)
-        }
-    }
+//    private func scrollToAllSectionHeader() {
+//        if let headerAttributes = coinListCollectionView.collectionViewLayout.layoutAttributesForSupplementaryView(
+//            ofKind: UICollectionView.elementKindSectionHeader,
+//            at: IndexPath(item: 0, section: CoinListViewModel.ListKind.all.rawValue)
+//            ) {
+//            coinListCollectionView.scrollToItem(
+//                at: IndexPath(item: 0, section: CoinListViewModel.ListKind.all.rawValue),
+//                at: .top,
+//                animated: false
+//            )
+//            coinListCollectionView.layoutIfNeeded()
+//            let currentContentOffsetY = coinListCollectionView.contentOffset.y
+//            let point = CGPoint(x: 0, y: currentContentOffsetY - headerAttributes.frame.height + 1)
+//            coinListCollectionView.setContentOffset(point, animated: false)
+//        }
+//    }
     
     private func animateBalloonSpeakView(isHidden: Bool) {
         UIView.transition(with: balloonSpeakView, duration: 0.5, options: .transitionCrossDissolve) {
@@ -308,11 +306,6 @@ extension CoinListViewController {
         configuration.headerMode = .supplementary
         configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
             let favoriteAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
-//                self?.coinListDataManager.toggleFavorite(
-//                                   coinSymbolName: item.symbolName,
-//                                   isAlreadyFavorite: item.isFavorite
-//                               )
-//                self?.coinListDataManager.sortCoinList(filteredBy: self?.searchBar.text)
                 self?.viewModel.input.favoriteCoin.onNext(indexPath)
                 completion(true)
             }
@@ -336,41 +329,11 @@ extension CoinListViewController {
         coinListCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
-    
-//    private func getVisibleCellsForCoinListDataManager() {
-//        let visibleCellsSymbols = coinListCollectionView
-//            .visibleCells
-//            .filter { $0 != excludedAtVisibleCells }
-//            .compactMap { coinListCollectionView.indexPath(for: $0) }
-//            .compactMap { dataSource?.itemIdentifier(for: $0)?.symbolName }
-//        coinListDataManager.visibleCellsSymbols = visibleCellsSymbols
-//    }
 }
 
 // MARK: - Snapshot
 
 extension CoinListViewController {
-//    func applySnapshot(favoriteCoinList: [Coin], allCoinList: [Coin]) {
-//        var snapshot = NSDiffableDataSourceSnapshot<Section, Coin>()
-//
-//        if favoriteCoinList.isEmpty == false {
-//            snapshot.appendSections([.favorite])
-//            snapshot.appendItems(favoriteCoinList, toSection: .favorite)
-//        }
-//
-//        if allCoinList.isEmpty == false {
-//            snapshot.appendSections([.all])
-//            snapshot.appendItems(allCoinList, toSection: .all)
-//        }
-//
-//        DispatchQueue.main.async { [weak self] in
-//            self?.checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinListIsEmpty: favoriteCoinList.isEmpty)
-//            self?.dataSource?.applySnapshot(snapshot, animated: false) {
-//                self?.getVisibleCellsForCoinListDataManager()
-//            }
-//        }
-//    }
-    
 //    private func checkCoinListMenuStackViewUnderLineShouldMove(favoriteCoinListIsEmpty isEmpty: Bool) {
 //        if isEmpty {
 //            coinListMenuStackView.moveUnderLine(index: CoinListViewModel.Section.all.rawValue)
@@ -410,12 +373,13 @@ extension CoinListViewController: UICollectionViewDelegate {
     ) {
         collectionView.deselectItem(at: indexPath, animated: false)
         
-        let coin = viewModel.item(for: indexPath)
         let instantiater = ViewControllerInstantiater()
         
         guard let coinDetailViewController = instantiater.instantiate(
             CoinDetailViewInstantiateInformation()
-        ) as? CoinDetailViewController else {
+        ) as? CoinDetailViewController,
+              let coin = viewModel.item(for: indexPath)
+        else {
             return
         }
         

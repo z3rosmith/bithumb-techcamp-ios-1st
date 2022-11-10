@@ -11,13 +11,9 @@ import RxRelay
 import RxDataSources
 
 typealias CoinListSectionModel = SectionModel<String, ViewCoin>
+typealias CellUpdateData = (IndexPath, ViewCoin)
 
 final class CoinListViewModel: ViewModelType {
-    enum ListKind: Int {
-        case favorite
-        case all
-    }
-    
     struct Input {
         let fetchCoinList: AnyObserver<Void>
         let sortCoin: AnyObserver<CoinSortButton>
@@ -28,7 +24,7 @@ final class CoinListViewModel: ViewModelType {
     struct Output {
         let coinList: Observable<[CoinListSectionModel]>
         let coinDisplayed: Observable<Void>
-        let updateCell: Observable<(IndexPath, ViewCoin)>
+        let updateCell: Observable<CellUpdateData>
     }
     
     var disposeBag: DisposeBag = .init()
@@ -37,13 +33,12 @@ final class CoinListViewModel: ViewModelType {
     
     private let webSocketService: WebSocketService
     private let coinSortButtons: [CoinSortButton]
-    private var allCoinList: [ViewCoin]
-    private var favoriteCoinList: [ViewCoin]
+    private var coinListController: CoinListController?
     private var selectedButton: CoinSortButton?
     
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
     private let displayCoinsRelay: BehaviorRelay<[CoinListSectionModel]>
-    private let updateCell: PublishRelay<(IndexPath, ViewCoin)>
+    private let updateCell: PublishRelay<CellUpdateData>
     private let coinDisplayed: PublishSubject<Void>
     
     let input: Input
@@ -64,8 +59,6 @@ final class CoinListViewModel: ViewModelType {
         self.coinSortButtons = sortButtons.enumerated().map { index, sortButton in
             CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
         }
-        self.allCoinList = []
-        self.favoriteCoinList = []
         self.selectedButton = coinSortButtons.first
         self.anyButtonTapped = .init(value: coinSortButtons.first)
         self.displayCoinsRelay = .init(value: [])
@@ -85,85 +78,37 @@ final class CoinListViewModel: ViewModelType {
             updateCell: updateCell.asObservable()
         )
         
-        // INPUT
-        
         fetching
             .flatMap { httpNetworkService.fetchRx(api: TickerAPI(), type: TickersValueObject.self) }
             .map { $0.asViewCoinList() }
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
-                ////////////////// 이부분 바꿔야함. 왜냐면 favorite을 coredata에서 가져와서 설정해줘야하기때문
-                var sorted = coinList
-                if let coinSortButton = owner.selectedButton {
-                    sorted = coinList.sorted(using: coinSortButton)
-                }
-                owner.allCoinList = sorted
-                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                owner.coinListController = CoinListController(fetchedCoinList: coinList, selectedButton: owner.selectedButton)
+                owner.displayCoins()
             })
             .disposed(by: disposeBag)
         
         sort
             .withUnretained(self)
             .subscribe(onNext: { owner, coinSortButton in
-                let favoriteSorted = owner.favoriteCoinList.sorted(using: coinSortButton)
-                let allSorted = owner.allCoinList.sorted(using: coinSortButton)
-                owner.favoriteCoinList = favoriteSorted
-                owner.allCoinList = allSorted
-                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                owner.coinListController?.sort(using: coinSortButton)
+                owner.displayCoins()
             })
             .disposed(by: disposeBag)
         
         filter
             .withUnretained(self)
             .subscribe(onNext: { owner, filterText in
-                let favoriteFiltered = owner.favoriteCoinList.filter(by: filterText)
-                let allFiltered = owner.allCoinList.filter(by: filterText)
-                owner.acceptToCoins(favoriteCoins: favoriteFiltered, allCoins: allFiltered)
-//                owner.favoriteCoinList = favoriteFiltered
-//                owner.allCoinList = allFiltered
-//                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                owner.coinListController?.filter(by: filterText)
+                owner.displayCoins()
             })
             .disposed(by: disposeBag)
         
         favorite
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
-                let index = indexPath.item
-                
-                /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
-                if owner.favoriteCoinList.isEmpty {
-                    let coin = owner.allCoinList[index].toggleFavorite()
-                    owner.favoriteCoinList.append(coin)
-                    owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
-                    return
-                }
-                
-                /// favoriteCoinList에 코인이 있는 경우는
-                /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
-                /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
-                if indexPath.section == 0 {
-                    let coin = owner.favoriteCoinList[index]
-                    owner.favoriteCoinList.remove(at: index)
-                    
-                    if let index = owner.searchIndex(at: owner.allCoinList, symbolName: coin.symbolName) {
-                        owner.allCoinList[index].toggleFavorite()
-                    }
-                    
-                    owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
-                    return
-                }
-                
-                let isFavorite = owner.allCoinList[index].isFavorite
-                let coin = owner.allCoinList[index].toggleFavorite()
-                
-                if isFavorite {
-                    if let index = owner.searchIndex(at: owner.favoriteCoinList, symbolName: coin.symbolName) {
-                        owner.favoriteCoinList.remove(at: index)
-                    }
-                } else {
-                    owner.favoriteCoinList.append(coin)
-                }
-                owner.acceptToCoins(favoriteCoins: owner.favoriteCoinList, allCoins: owner.allCoinList)
+                owner.coinListController?.favorite(indexPath: indexPath)
+                owner.displayCoins()
             })
             .disposed(by: disposeBag)
         
@@ -196,7 +141,6 @@ final class CoinListViewModel: ViewModelType {
                 .disposed(by: disposeBag)
         }
         
-        ///////////////// 이부분 리팩토링 가능?
         anyButtonTapped
             .withUnretained(self)
             .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
@@ -219,78 +163,38 @@ final class CoinListViewModel: ViewModelType {
                 }
             })
             .disposed(by: disposeBag)
-        
-        // OUTPUT
     }
 }
 
 // MARK: - Helpers
 
 extension CoinListViewModel {
-    private func acceptToCoins(favoriteCoins: [ViewCoin], allCoins: [ViewCoin]) {
-        var sectionModel: [CoinListSectionModel] = []
-        
-        if favoriteCoins.isEmpty == false {
-            sectionModel.append(CoinListSectionModel(model: "관심", items: favoriteCoins))
-        }
-        
-        if allCoins.isEmpty == false {
-            sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins))
-        }
-        
-        displayCoinsRelay.accept(sectionModel)
-        coinDisplayed.onNext(())
-    }
-    
     private func displayCoins() {
-        let sectionModel = 인스턴스OfCoinList.getSectionModel()
+        guard let sectionModel = coinListController?.getSectionModel() else { return }
         displayCoinsRelay.accept(sectionModel)
         coinDisplayed.onNext(())
     }
     
-    func isFavoriteCoin(for indexPath: IndexPath) -> Bool {
-        if favoriteCoinList.isEmpty == false {
-            if indexPath.section == 0 {
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
+    func isFavoriteCoin(for indexPath: IndexPath) -> Bool? {
+        return coinListController?.isFavoriteCoin(for: indexPath)
     }
     
-    func item(for indexPath: IndexPath) -> ViewCoin {
-        let index = indexPath.item
-        let section = indexPath.section
-        if favoriteCoinList.isEmpty == false {
-            if section == 0 {
-                return favoriteCoinList[index]
-            } else {
-                return allCoinList[index]
-            }
-        }
-        return allCoinList[index]
-    }
-    
-    private func getSection(listKind: ListKind) -> Int? {
-        switch listKind {
-        case .favorite:
-            return favoriteCoinList.isEmpty ? nil : 0
-        case .all:
-            return favoriteCoinList.isEmpty ? 0 : 1
-        }
+    func item(for indexPath: IndexPath) -> ViewCoin? {
+        return coinListController?.item(for: indexPath)
     }
     
     func nameOfSectionHeader(index: Int) -> String? {
-        let favoriteCoinListIsEmpty = favoriteCoinList.isEmpty
-        let allCoinListIsEmpty = allCoinList.isEmpty
+        let isFavoriteCoinsEmpty = coinListController?.isFavoriteCoinsEmpty
+        let isAllCoinsEmpty = coinListController?.isAllCoinsEmpty
+        
+        guard let isFavoriteCoinsEmpty, let isAllCoinsEmpty else { return nil }
 
-        if favoriteCoinListIsEmpty && allCoinListIsEmpty {
+        if isFavoriteCoinsEmpty && isAllCoinsEmpty {
             return nil
-        } else if favoriteCoinListIsEmpty {
+        } else if isFavoriteCoinsEmpty {
             return "원화"
-        } else if allCoinListIsEmpty {
-            return "관심"
+        } else if isAllCoinsEmpty {
+            return nil
         } else {
             if index == 0 {
                 return "관심"
@@ -306,18 +210,16 @@ extension CoinListViewModel {
 extension CoinListViewModel {
     func openWebSocket() {
         closeWebSocket()
-        // 여기 함수 안에 storedCoinList대신에 새로운 presentingCoinList같은거로 대체하면 해결할수있지않을까
-        // WebSocket API를 생성할때 전체 symbol을 다 요청하고있는데 현재 보이는 symbol만 요청하는것도 좋을듯
-        let symbols = allCoinList.map { $0.symbolName }
+        
+        guard let symbols = coinListController?.symbolsInAllCoins else { return }
+        
         print("📃 symbols", symbols)
         let api = TransactionWebSocket(symbols: symbols)
         webSocketService
             .openRx(webSocketAPI: api)
-//            .debug("✅ webSocket received")
             .withUnretained(self)
             .subscribe(onNext: { owner, transactionData in
-                owner.updateCell(from: &owner.allCoinList, section: owner.getSection(listKind: .all), transactionData: transactionData)
-                owner.updateCell(from: &owner.favoriteCoinList, section: owner.getSection(listKind: .favorite),transactionData: transactionData)
+                owner.updateCell(transactionData: transactionData)
             })
             .disposed(by: webSocketDisposeBag)
     }
@@ -326,57 +228,18 @@ extension CoinListViewModel {
         webSocketDisposeBag = .init()
     }
     
-    private func updateCell(from coinList: inout [ViewCoin], section: Int?, transactionData: WebSocketTransactionData.WebSocketTransaction) {
-        let symbol = transactionData.symbol.components(separatedBy: "_")[0]
-        print("✅: ", indexPathsForVisibleCells)
-        
-        guard let index = coinList.firstIndex(where: { $0.symbolName == symbol }),
-              let section
-        else { return }
-        
-        let indexPath = IndexPath(item: index, section: section)
-        
-        guard indexPathsForVisibleCells.contains(indexPath),
-              let newPrice = Double(transactionData.price)
-        else { return }
-        
-        let oldCoin = coinList[index]
-        let (newChangePrice, newChangeRate) = calculateChange(
-            pivotPrice: oldCoin.closingPrice,
-            newPrice: newPrice
+    private func updateCell(transactionData: WebSocketTransactionData.WebSocketTransaction) {
+        let data = coinListController?.update(
+            transactionData: transactionData,
+            indexPathsForVisibleCells: indexPathsForVisibleCells
         )
-        let oldPrice = oldCoin.currentPrice
-        let changePriceStyle: ViewCoin.ChangeStyle
-        
-        if newPrice > oldPrice {
-            changePriceStyle = .up
-        } else if newPrice < oldPrice {
-            changePriceStyle = .down
-        } else {
-            changePriceStyle = .none
+        data?.forEach {
+            updateCell.accept($0)
         }
-        
-        let newCoin = oldCoin.updated(
-            newPrice: newPrice,
-            newChangeRate: newChangeRate,
-            newChangePrice: newChangePrice,
-            changePriceStyle: changePriceStyle
-        )
-        coinList.remove(at: index)
-        coinList.insert(newCoin, at: index)
-        
-        updateCell.accept((indexPath, newCoin))
-    }
-    
-    private func calculateChange(
-        pivotPrice: Double,
-        newPrice: Double
-    ) -> (changePrice: Double, changeRate: Double) {
-        let changePrice = newPrice - pivotPrice
-        let changeRate = (changePrice / pivotPrice * 10000).rounded() / 100
-        return (changePrice, changeRate)
     }
 }
+
+// MARK: - Nested Types
 
 extension CoinListViewModel {
     enum CoinSortType: String {
@@ -397,130 +260,273 @@ extension CoinListViewModel {
         let sortType: BehaviorRelay<CoinSortType> = .init(value: .none)
     }
     
-    final private class CoinListController {
-        final private class CoinListWithBackup {
-            private var _backup: [ViewCoin]
-            private var _displaying: [ViewCoin]
-            
-            init(coins: [ViewCoin]) {
-                _displaying = coins
-                _backup = _displaying
-            }
+    final fileprivate class CoinListController {
+        private var favoriteCoins: CoinListWithBackup
+        private var allCoins: CoinListWithBackup
+        private let favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager
+        
+        var isFavoriteCoinsEmpty: Bool {
+            favoriteCoins.list.isEmpty
         }
         
-        private var _backupFavoriteCoins: [ViewCoin]
-        private var _backupAllCoins: [ViewCoin]
-        
-        private var _favoriteCoins: [ViewCoin]
-        private var _allCoins: [ViewCoin]
-        
-        private var __favoriteCoins: CoinListWithBackup
-        private var __allCoins: CoinListWithBackup
-        
-        var favoriteCoins: [ViewCoin] {
-            get {
-                _favoriteCoins
-            }
+        var isAllCoinsEmpty: Bool {
+            allCoins.list.isEmpty
         }
         
-        var allCoins: [ViewCoin] {
-            get {
-                _allCoins
-            }
+        var symbolsInAllCoins: [String] {
+            allCoins.list.map { $0.symbolName }
         }
         
-        var currentSortButton: CoinSortButton?
-        var currentFilterText: String?
+        var sectionOfFavoriteCoins: Int? {
+            isFavoriteCoinsEmpty ? nil : 0
+        }
         
-        init(fetchedCoinList: [ViewCoin], selectedButton: CoinSortButton?) {
-            var sorted = fetchedCoinList
-            if let coinSortButton = selectedButton {
-                sorted.sort(using: coinSortButton)
+        var sectionOfAllCoins: Int? {
+            isFavoriteCoinsEmpty ? 0 : 1
+        }
+        
+        init(
+            fetchedCoinList: [ViewCoin],
+            selectedButton: CoinSortButton?,
+            favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager = .init()
+        ) {
+            let favoriteCoinsSymbols = favoriteCoinCoreDataManager.fetch()
+            let acoins = fetchedCoinList.map { coin in
+                if favoriteCoinsSymbols.contains(coin.symbolName) {
+                    var copy = coin.copy()
+                    copy.toggleFavorite()
+                    return copy
+                }
+                return coin
             }
-            __allCoins = CoinListWithBackup(coins: sorted)
-            __favoriteCoins = CoinListWithBackup(coins: []) // coredata.
+            let fcoins = acoins.filter { $0.isFavorite }
             
+            allCoins = CoinListWithBackup(coins: acoins)
+            self.favoriteCoinCoreDataManager = favoriteCoinCoreDataManager
+            favoriteCoins = CoinListWithBackup(coins: fcoins)
             
-            
-            
-            
-            
-            
-            _allCoins = sorted
-            _backupAllCoins = _allCoins
-            _favoriteCoins = [] // 이부분 수정해야함 coredata 사용해야.
-            _backupFavoriteCoins = _favoriteCoins
+            if let selectedButton {
+                allCoins.sort(using: selectedButton)
+                favoriteCoins.sort(using: selectedButton)
+            }
         }
         
         func getSectionModel() -> [CoinListSectionModel] {
             var sectionModel: [CoinListSectionModel] = []
             
-            if _favoriteCoins.isEmpty == false {
-                sectionModel.append(CoinListSectionModel(model: "관심", items: favoriteCoins))
+            if favoriteCoins.list.isEmpty == false {
+                sectionModel.append(CoinListSectionModel(model: "관심", items: favoriteCoins.list))
             }
             
-            if _allCoins.isEmpty == false {
-                sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins))
+            if allCoins.list.isEmpty == false {
+                sectionModel.append(CoinListSectionModel(model: "원화", items: allCoins.list))
             }
             
             return sectionModel
         }
         
         func sort(using coinSortButton: CoinSortButton) {
-            _backupFavoriteCoins.sort(using: coinSortButton)
-            _backupAllCoins.sort(using: coinSortButton)
-            _favoriteCoins.sort(using: coinSortButton)
-            _allCoins.sort(using: coinSortButton)
+            favoriteCoins.sort(using: coinSortButton)
+            allCoins.sort(using: coinSortButton)
+        }
+        
+        func filter(by text: String?) {
+            favoriteCoins.filter(by: text)
+            allCoins.filter(by: text)
+        }
+        
+        func favorite(indexPath: IndexPath) {
+            let index = indexPath.item
+            
+            /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
+            if favoriteCoins.list.isEmpty {
+                let coin = allCoins.toggleFavorite(index: index)
+                favoriteCoins.append(coin)
+                favoriteCoinCoreDataManager.save(symbol: coin.symbolName)
+                return
+            }
+            
+            /// favoriteCoinList가 비어있지 않은 경우는
+            /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
+            /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
+            if indexPath.section == 0 {
+                let coin = favoriteCoins.remove(at: index)
+                favoriteCoinCoreDataManager.delete(symbol: coin.symbolName)
+                
+                if let index = allCoins.list.searchIndex(with: coin.symbolName) {
+                    allCoins.toggleFavorite(index: index)
+                }
+                
+                return
+            }
+            
+            let isFavorite = allCoins.list[index].isFavorite
+            let coin = allCoins.toggleFavorite(index: index)
+            
+            if isFavorite {
+                if let index = favoriteCoins.list.searchIndex(with: coin.symbolName) {
+                    favoriteCoins.remove(at: index)
+                    favoriteCoinCoreDataManager.delete(symbol: coin.symbolName)
+                }
+            } else {
+                favoriteCoins.append(coin)
+                favoriteCoinCoreDataManager.save(symbol: coin.symbolName)
+            }
+        }
+        
+        func item(for indexPath: IndexPath) -> ViewCoin {
+            let index = indexPath.item
+            let section = indexPath.section
+            if favoriteCoins.list.isEmpty == false {
+                if section == 0 {
+                    return favoriteCoins.list[index]
+                } else {
+                    return allCoins.list[index]
+                }
+            }
+            return allCoins.list[index]
+        }
+        
+        func isFavoriteCoin(for indexPath: IndexPath) -> Bool {
+            return item(for: indexPath).isFavorite
+        }
+        
+        func update(
+            transactionData: WebSocketTransactionData.WebSocketTransaction,
+            indexPathsForVisibleCells: [IndexPath]
+        ) -> [CellUpdateData] {
+            let data1 = updateCell(
+                from: favoriteCoins,
+                section: sectionOfFavoriteCoins,
+                transactionData: transactionData,
+                indexPathsForVisibleCells: indexPathsForVisibleCells
+            )
+            let data2 = updateCell(
+                from: allCoins,
+                section: sectionOfAllCoins,
+                transactionData: transactionData,
+                indexPathsForVisibleCells: indexPathsForVisibleCells
+            )
+            var dataList: [CellUpdateData] = []
+            if let data1 {
+                dataList.append(data1)
+            }
+            if let data2 {
+                dataList.append(data2)
+            }
+            return dataList
+        }
+        
+        private func updateCell(
+            from coins: CoinListWithBackup,
+            section: Int?,
+            transactionData: WebSocketTransactionData.WebSocketTransaction,
+            indexPathsForVisibleCells: [IndexPath]
+        ) -> CellUpdateData? {
+            let symbol = transactionData.symbol.components(separatedBy: "_")[0]
+            
+            guard let index = coins.list.firstIndex(where: { $0.symbolName == symbol }),
+                  let section
+            else { return nil }
+            
+            let indexPath = IndexPath(item: index, section: section)
+            
+            guard indexPathsForVisibleCells.contains(indexPath),
+                  let newPrice = Double(transactionData.price)
+            else { return nil }
+            
+            let oldCoin = coins.list[index]
+            let (newChangePrice, newChangeRate) = calculateChange(
+                pivotPrice: oldCoin.closingPrice,
+                newPrice: newPrice
+            )
+            let oldPrice = oldCoin.currentPrice
+            let changePriceStyle: ViewCoin.ChangeStyle
+            
+            if newPrice > oldPrice {
+                changePriceStyle = .up
+            } else if newPrice < oldPrice {
+                changePriceStyle = .down
+            } else {
+                changePriceStyle = .none
+            }
+            
+            let newCoin = oldCoin.updated(
+                newPrice: newPrice,
+                newChangeRate: newChangeRate,
+                newChangePrice: newChangePrice,
+                changePriceStyle: changePriceStyle
+            )
+            coins.remove(at: index)
+            coins.append(newCoin)
+            
+            return (indexPath, newCoin)
+        }
+        
+        private func calculateChange(
+            pivotPrice: Double,
+            newPrice: Double
+        ) -> (changePrice: Double, changeRate: Double) {
+            let changePrice = newPrice - pivotPrice
+            let changeRate = (changePrice / pivotPrice * 10000).rounded() / 100
+            return (changePrice, changeRate)
+        }
+    }
+}
+
+// MARK: - Extension Of CoinListController
+
+extension CoinListViewModel.CoinListController {
+    final private class CoinListWithBackup {
+        private var backup: [ViewCoin]
+        private(set) var list: [ViewCoin]
+        
+        var currentSortButton: CoinListViewModel.CoinSortButton?
+        var currentFilterText: String?
+        
+        init(coins: [ViewCoin]) {
+            list = coins
+            backup = list
+        }
+        
+        func sort(using coinSortButton: CoinListViewModel.CoinSortButton) {
+            backup.sort(using: coinSortButton)
+            list.sort(using: coinSortButton)
             
             currentSortButton = coinSortButton
         }
         
         func filter(by text: String?) {
-            _favoriteCoins = _backupFavoriteCoins.filter(by: text)
-            _allCoins = _backupAllCoins.filter(by: text)
+            list = backup.filter(by: text)
             
             currentFilterText = text
         }
         
-        // 생각해보기 1. filter 안한 상태 2. filter 한 상태
-        func favorite(indexPath: IndexPath) {
-            let index = indexPath.item
-            
-            /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
-            if _favoriteCoins.isEmpty {
-                let coin = _allCoins[index].toggleFavorite()
-                _favoriteCoins.append(coin)
-                return
+        @discardableResult
+        func toggleFavorite(index: Int) -> ViewCoin {
+            let coin = list[index].toggleFavorite()
+            if let indexInBackup = backup.searchIndex(with: coin.symbolName) {
+                backup[indexInBackup].toggleFavorite()
             }
+            return coin
+        }
+        
+        func append(_ coin: ViewCoin) {
+            list.append(coin)
+            backup.append(coin)
             
-            /// favoriteCoinLis가 비어있지 않은 경우는
-            /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
-            /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
-            if indexPath.section == 0 {
-                let coin = _favoriteCoins[index]
-                _favoriteCoins.remove(at: index)
-                
-                if let index = searchIndex(at: _allCoins, symbolName: coin.symbolName) {
-                    _allCoins[index].toggleFavorite()
-                }
-                
-                return
-            }
-            
-            let isFavorite = _allCoins[index].isFavorite
-            let coin = _allCoins[index].toggleFavorite()
-            
-            if isFavorite {
-                if let index = searchIndex(at: _favoriteCoins, symbolName: coin.symbolName) {
-                    _favoriteCoins.remove(at: index)
-                }
-            } else {
-                _favoriteCoins.append(coin)
+            if let currentSortButton {
+                sort(using: currentSortButton)
             }
         }
         
-        private func searchIndex(at coinList: [ViewCoin], symbolName: String) -> Int? {
-            return coinList.firstIndex { $0.symbolName == symbolName }
+        @discardableResult
+        func remove(at index: Int) -> ViewCoin {
+            let removedCoin = list.remove(at: index)
+            if let indexInBackup = backup.searchIndex(with: removedCoin.symbolName) {
+                backup.remove(at: indexInBackup)
+            }
+            return removedCoin
         }
     }
 }
@@ -573,5 +579,9 @@ fileprivate extension Array where Element == ViewCoin {
             $0.callingName.localizedStandardContains(text) ||
                 $0.symbolName.localizedStandardContains(text)
         }
+    }
+    
+    func searchIndex(with symbolName: String) -> Int? {
+        return self.firstIndex { $0.symbolName == symbolName }
     }
 }
