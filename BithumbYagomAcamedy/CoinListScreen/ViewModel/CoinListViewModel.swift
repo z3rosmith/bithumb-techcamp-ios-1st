@@ -169,6 +169,29 @@ final class CoinListViewModel: ViewModelType {
 // MARK: - Helpers
 
 extension CoinListViewModel {
+    var isFavoriteCoinEmpty: Bool? {
+        coinListController?.isFavoriteCoinsEmpty
+    }
+    
+    var favoriteCoinsCount: Int? {
+        coinListController?.favoriteCoinsCount
+    }
+    
+    var allCoinsSectionFirstIndexPath: IndexPath? {
+        guard let coinListController else { return nil }
+        
+        let isFavoriteCoinsEmpty = coinListController.isFavoriteCoinsEmpty
+        let isAllCoinsEmpty = coinListController.isAllCoinsEmpty
+        
+        guard isAllCoinsEmpty == false else { return nil }
+        
+        if isFavoriteCoinsEmpty {
+            return IndexPath(item: 0, section: 0)
+        } else {
+            return IndexPath(item: 0, section: 1)
+        }
+    }
+    
     private func displayCoins() {
         guard let sectionModel = coinListController?.getSectionModel() else { return }
         displayCoinsRelay.accept(sectionModel)
@@ -184,24 +207,26 @@ extension CoinListViewModel {
     }
     
     func nameOfSectionHeader(index: Int) -> String? {
-        let isFavoriteCoinsEmpty = coinListController?.isFavoriteCoinsEmpty
-        let isAllCoinsEmpty = coinListController?.isAllCoinsEmpty
+        guard let coinListController else { return nil }
         
-        guard let isFavoriteCoinsEmpty, let isAllCoinsEmpty else { return nil }
-
-        if isFavoriteCoinsEmpty && isAllCoinsEmpty {
-            return nil
-        } else if isFavoriteCoinsEmpty {
-            return "원화"
-        } else if isAllCoinsEmpty {
-            return nil
+        let isFavoriteCoinsEmpty = coinListController.isFavoriteCoinsEmpty
+        let isAllCoinsEmpty = coinListController.isAllCoinsEmpty
+        
+        guard !isAllCoinsEmpty else { return nil }
+        
+        if isFavoriteCoinsEmpty {
+            if index == 0 {
+                return "원화"
+            }
         } else {
             if index == 0 {
                 return "관심"
-            } else {
+            } else if index == 1 {
                 return "원화"
             }
         }
+        
+        return nil
     }
 }
 
@@ -213,7 +238,6 @@ extension CoinListViewModel {
         
         guard let symbols = coinListController?.symbolsInAllCoins else { return }
         
-        print("📃 symbols", symbols)
         let api = TransactionWebSocket(symbols: symbols)
         webSocketService
             .openRx(webSocketAPI: api)
@@ -271,6 +295,10 @@ extension CoinListViewModel {
         
         var isAllCoinsEmpty: Bool {
             allCoins.list.isEmpty
+        }
+        
+        var favoriteCoinsCount: Int {
+            favoriteCoins.list.count
         }
         
         var symbolsInAllCoins: [String] {

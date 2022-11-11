@@ -53,7 +53,7 @@ final class CoinListMenuStackView: UIStackView {
     
     // MARK: - Method
     
-    func moveUnderLine(index: Int) {
+    private func moveUnderLine(index: Int) {
         let destinationX = subviews[index].frame.origin.x + subviews[index].frame.width / 2
         
         underLineAnimation.fromValue = [
@@ -71,5 +71,13 @@ final class CoinListMenuStackView: UIStackView {
         currentUnderLinePoint.x = destinationX
         
         underLineLayer.add(underLineAnimation, forKey: nil)
+    }
+    
+    func moveUnderLineToFavoriteCoinsButton() {
+        moveUnderLine(index: 0)
+    }
+    
+    func moveUnderLineToAllCoinsButton() {
+        moveUnderLine(index: 1)
     }
 }
