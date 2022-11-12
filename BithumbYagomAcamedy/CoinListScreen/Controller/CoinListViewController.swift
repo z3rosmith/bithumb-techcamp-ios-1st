@@ -31,18 +31,15 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
         sortButtons: sortButtons,
         sortButtonTypes: [.popularity, .name, .price, .changeRate]
     )
-    private let coinListDataManager: CoinListDataManager = .init()
-//    private lazy var activityIndicator: UIActivityIndicatorView = {
-//        let indicator = UIActivityIndicatorView()
-//        indicator.center = view.center
-//        indicator.startAnimating()
-//        return indicator
-//    }()
+    private var activityIndicator: UIActivityIndicatorView = .init()
+    private let refreshControl: UIRefreshControl = .init()
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureRefreshControl()
+        configureActivityIndicator()
         configureCollectionView()
         registerCollectionViewCell()
         configureCollectionViewLayout()
@@ -62,7 +59,10 @@ extension CoinListViewController {
         
         /// 처음 로딩될 떄 fetchCoinList에 이벤트 전달
         firstLoad
-            .bind(to: viewModel.input.fetchCoinList)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.viewModel.input.fetchCoinList.onNext(())
+            })
             .disposed(by: disposeBag)
         
         /// searchBar의 text가 바뀌면 filterCoin에 text 전달
@@ -98,7 +98,6 @@ extension CoinListViewController {
         
         /// coinList와 collection view 바인딩
         viewModel.output.coinList
-            .debug("🔵 coinList", trimOutput: true)
             .bind(to: coinListCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -141,7 +140,6 @@ extension CoinListViewController {
         
         /// willBeginDragging일때 closeWebSocket
         coinListCollectionView.rx.willBeginDragging
-            .debug("🟢 willBeginDragging")
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
                 owner.viewModel.closeWebSocket()
@@ -150,9 +148,9 @@ extension CoinListViewController {
         
         /// didEndScroll일때 openWebSocket
         coinListCollectionView.rx.didEndScroll
-            .debug("🔴 didEndScroll")
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
+                if owner.refreshControl.isRefreshing { return }
                 owner.viewModel.openWebSocket()
             })
             .disposed(by: disposeBag)
@@ -166,17 +164,44 @@ extension CoinListViewController {
         Observable.merge(coinDisplayed, didEndScroll)
             .delay(.milliseconds(500), scheduler: MainScheduler.instance)
             .observe(on: MainScheduler.instance)
-            .debug("✅ visible cell set")
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
                 let indexPaths = owner.coinListCollectionView.indexPathsForVisibleItems
-                print(indexPaths)
                 owner.viewModel.indexPathsForVisibleCells = indexPaths
             })
             .disposed(by: disposeBag)
     }
     
     private func configureViewBindings() {
+        let fetchCoinListOccurred = viewModel.output.fetchCoinListOccurred
+        
+        fetchCoinListOccurred
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.activityIndicator.startAnimating()
+            })
+            .disposed(by: disposeBag)
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(with: self, onNext: { owner, _ in
+                owner.searchBar.text = nil
+                owner.viewModel.closeWebSocket()
+                owner.viewModel.input.fetchCoinList.onNext(())
+            })
+            .disposed(by: disposeBag)
+        
+        let coinDisplayed = viewModel.output.coinDisplayed
+        
+        coinDisplayed
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.activityIndicator.stopAnimating()
+                owner.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+        
         let tapGesture = UITapGestureRecognizer()
         tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
@@ -296,13 +321,6 @@ extension CoinListViewController {
         
         return contentSizeHeight
     }
-    
-//    private func endActivityIndicator() {
-//        DispatchQueue.main.async { [weak self] in
-//            self?.activityIndicator.stopAnimating()
-//            self?.activityIndicator.isHidden = true
-//        }
-//    }
 }
 
 // MARK: - Configuration
@@ -312,12 +330,20 @@ extension CoinListViewController {
         balloonSpeakView.isHidden = true
     }
     
-//    private func configureActivityIndicator() {
-//        view.addSubview(activityIndicator)
-//    }
+    private func configureRefreshControl() {
+        coinListCollectionView.refreshControl = refreshControl
+    }
+    
+    private func configureActivityIndicator() {
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
     
     private func registerCollectionViewCell() {
-        coinListCollectionView.register(UINib(nibName: "CoinListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier)
+        coinListCollectionView.register(
+            UINib(nibName: "CoinListCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier
+        )
     }
     
     private func configureCollectionViewLayout() {

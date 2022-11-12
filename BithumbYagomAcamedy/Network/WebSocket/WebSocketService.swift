@@ -19,7 +19,7 @@ enum WebSocketError: Error, LocalizedError {
         case .urlIsNil:
             return "정상적인 URL이 아닙니다."
         case .emptyWebSocketTransactionData:
-            return "WebSocketTransactionData가 비어있습니다."
+            return "Decode 에러 또는 WebSocketTransactionData가 비어있습니다."
         case .messageIsNotString:
             return "message가 String이 아닙니다."
         case .unknown(let error):
@@ -64,7 +64,6 @@ class WebSocketService: WebSocketServicable {
     }
     
     func close() {
-        print("✅✅", #function)
         webSocketTask?.cancel()
     }
     
@@ -126,7 +125,6 @@ extension WebSocketService {
                 }
             }
             return Disposables.create {
-                print("✅✅ Disposable create handler")
                 self.close()
             }
         }
@@ -142,7 +140,7 @@ extension WebSocketService {
             )
             return webSocketTransactionValueObject
         } catch {
-            print(error.localizedDescription)
+            print(error)
             throw error
         }
     }

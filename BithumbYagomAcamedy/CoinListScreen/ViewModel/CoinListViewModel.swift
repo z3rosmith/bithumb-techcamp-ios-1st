@@ -25,6 +25,7 @@ final class CoinListViewModel: ViewModelType {
         let coinList: Observable<[CoinListSectionModel]>
         let coinDisplayed: Observable<Void>
         let updateCell: Observable<CellUpdateData>
+        let fetchCoinListOccurred: Observable<Void>
     }
     
     var disposeBag: DisposeBag = .init()
@@ -39,7 +40,7 @@ final class CoinListViewModel: ViewModelType {
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
     private let displayCoinsRelay: BehaviorRelay<[CoinListSectionModel]>
     private let updateCell: PublishRelay<CellUpdateData>
-    private let coinDisplayed: PublishSubject<Void>
+    private let coinDisplayed: PublishRelay<Void>
     
     let input: Input
     let output: Output
@@ -74,8 +75,9 @@ final class CoinListViewModel: ViewModelType {
         
         self.output = Output(
             coinList: displayCoinsRelay.asObservable(),
-            coinDisplayed: coinDisplayed,
-            updateCell: updateCell.asObservable()
+            coinDisplayed: coinDisplayed.asObservable(),
+            updateCell: updateCell.asObservable(),
+            fetchCoinListOccurred: fetching
         )
         
         fetching
@@ -195,7 +197,7 @@ extension CoinListViewModel {
     private func displayCoins() {
         guard let sectionModel = coinListController?.getSectionModel() else { return }
         displayCoinsRelay.accept(sectionModel)
-        coinDisplayed.onNext(())
+        coinDisplayed.accept(())
     }
     
     func isFavoriteCoin(for indexPath: IndexPath) -> Bool? {
