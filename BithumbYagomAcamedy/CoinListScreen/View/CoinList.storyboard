@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -14,6 +12,7 @@
             <objects>
                 <navigationController storyboardIdentifier="CoinListNavigationController" navigationBarHidden="YES" id="wds-Je-ZsY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FZH-rZ-RbA">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -29,21 +28,21 @@
             <objects>
                 <viewController storyboardIdentifier="CoinListViewController" id="Y6W-OH-hqX" customClass="CoinListViewController" customModule="BithumbYagomAcamedy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-RF-jT9">
-                                <rect key="frame" x="0.0" y="205" width="393" height="564"/>
+                                <rect key="frame" x="0.0" y="146" width="600" height="405"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewLayout key="collectionViewLayout" id="LIt-OU-5cx"/>
                                 <cells/>
                             </collectionView>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="코인명 및 심볼 검색" translatesAutoresizingMaskIntoConstraints="NO" id="QiV-ve-AIc">
-                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rec-na-Pjs" userLabel="Category Stack View" customClass="CoinListMenuStackView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="115" width="150" height="60"/>
+                                <rect key="frame" x="0.0" y="56" width="150" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxA-Ta-WN9">
                                         <rect key="frame" x="0.0" y="10.666666666666671" width="75" height="39"/>
@@ -66,7 +65,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="cyP-DE-3sa" userLabel="Sort Stack View">
-                                <rect key="frame" x="30" y="175" width="333" height="30"/>
+                                <rect key="frame" x="30" y="116" width="540" height="30"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bye-LJ-2el">
                                         <rect key="frame" x="0.0" y="0.0" width="65" height="30"/>
@@ -79,7 +78,7 @@
                                                 <state key="normal" title="인기순"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgr-kO-zzP">
-                                                <rect key="frame" x="50" y="7.6666666666666572" width="15" height="15"/>
+                                                <rect key="frame" x="50" y="7.6666666666666714" width="15" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="3cf-lp-Z1N"/>
                                                     <constraint firstAttribute="width" constant="15" id="TQI-tz-FQX"/>
@@ -91,21 +90,21 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Mv-8N-uur" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                        <rect key="frame" x="110.33333333333334" y="0.0" width="30" height="30"/>
+                                        <rect key="frame" x="179.33333333333334" y="0.0" width="30" height="30"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="이름"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-XA-gmW" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                        <rect key="frame" x="195.33333333333334" y="0.0" width="45" height="30"/>
+                                        <rect key="frame" x="333.33333333333331" y="0.0" width="45" height="30"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="현재가"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OmU-Q5-9fL" customClass="SortButton" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                        <rect key="frame" x="288" y="0.0" width="45" height="30"/>
+                                        <rect key="frame" x="495" y="0.0" width="45" height="30"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="tintColor" systemColor="labelColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -117,7 +116,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SP6-6w-TrR" userLabel="Message Ballon View" customClass="BallonSpeakView" customModule="BithumbYagomAcamedy" customModuleProvider="target">
-                                <rect key="frame" x="70" y="197.66666666666666" width="160" height="59.999999999999972"/>
+                                <rect key="frame" x="70" y="138.66666666666666" width="160" height="60"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YY7-8c-s5n">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
@@ -171,11 +170,11 @@
                     <navigationItem key="navigationItem" id="Yih-V7-UNV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="allCoinsButton" destination="GPh-t1-wUv" id="AoQ-tD-CUZ"/>
+                        <outlet property="allSectionButton" destination="GPh-t1-wUv" id="AoQ-tD-CUZ"/>
                         <outlet property="balloonSpeakView" destination="SP6-6w-TrR" id="TJ2-TC-osc"/>
                         <outlet property="coinListCollectionView" destination="sbb-RF-jT9" id="ZFc-dW-hU0"/>
                         <outlet property="coinListMenuStackView" destination="rec-na-Pjs" id="hIq-NL-mwu"/>
-                        <outlet property="favoriteCoinsButton" destination="RxA-Ta-WN9" id="Nhp-O5-jEE"/>
+                        <outlet property="favoriteSectionButton" destination="RxA-Ta-WN9" id="Nhp-O5-jEE"/>
                         <outlet property="infoButton" destination="rgr-kO-zzP" id="go7-ND-0M8"/>
                         <outlet property="searchBar" destination="QiV-ve-AIc" id="MRW-Q4-GNI"/>
                         <outlet property="sortButtonStackView" destination="cyP-DE-3sa" id="ine-AR-Y8T"/>

@@ -21,8 +21,8 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     @IBOutlet private weak var coinListCollectionView: UICollectionView!
     @IBOutlet private var sortButtons: [SortButton]!
     @IBOutlet private weak var infoButton: UIButton!
-    @IBOutlet private weak var favoriteCoinsButton: UIButton!
-    @IBOutlet private weak var allCoinsButton: UIButton!
+    @IBOutlet private weak var favoriteSectionButton: UIButton!
+    @IBOutlet private weak var allSectionButton: UIButton!
     
     // MARK: - Property
     
@@ -157,19 +157,30 @@ extension CoinListViewController {
         
         let coinDisplayed = viewModel.output.coinDisplayed
         let didEndScroll = coinListCollectionView.rx.didEndScroll.map { _ in }
+        let didScrollToTop = coinListCollectionView.rx.didScrollToTop.map { _ in }
+        let favoriteSectionButtonTapped = favoriteSectionButton.rx.tap.map { _ in }
+        let allSectionButtonTapped = allSectionButton.rx.tap.map { _ in }
         
-        /// coinList에 보이는 코인이 업데이트 될 떄, scroll 이 끝났을 때
+        /// coinList에 보이는 코인이 업데이트 될 떄, scroll 이 끝났을 때, status bar를 눌러서 위로 끝까지 올라갔을 때
+        /// 그리고 관심/원화 탭이 눌렸을 때
         /// visible cells의 indexPath를 viewModel로 전달시켜 줌
         /// 정확히 collectionView가 cell들을 표시하는 시점을 파악하기 어려우므로 500ms의 delay를 주었음
-        Observable.merge(coinDisplayed, didEndScroll)
-            .delay(.milliseconds(500), scheduler: MainScheduler.instance)
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
-                let indexPaths = owner.coinListCollectionView.indexPathsForVisibleItems
-                owner.viewModel.indexPathsForVisibleCells = indexPaths
-            })
-            .disposed(by: disposeBag)
+        Observable.merge(
+            coinDisplayed,
+            didEndScroll,
+            didScrollToTop,
+            favoriteSectionButtonTapped,
+            allSectionButtonTapped
+        )
+        .delay(.milliseconds(500), scheduler: MainScheduler.instance)
+        .observe(on: MainScheduler.instance)
+        .withUnretained(self)
+        .subscribe(onNext: { owner, _ in
+            let indexPaths = owner.coinListCollectionView.indexPathsForVisibleItems
+            print(indexPaths)
+            owner.viewModel.indexPathsForVisibleCells = indexPaths
+        })
+        .disposed(by: disposeBag)
     }
     
     private func configureViewBindings() {
@@ -236,14 +247,14 @@ extension CoinListViewController {
             .disposed(by: disposeBag)
         }
         
-        favoriteCoinsButton.rx.tap
+        favoriteSectionButton.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 owner.scrollToFavoriteCoinsSection()
             })
             .disposed(by: disposeBag)
         
-        allCoinsButton.rx.tap
+        allSectionButton.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
                 owner.scrollToAllCoinsSection()
