@@ -177,7 +177,6 @@ extension CoinListViewController {
         .withUnretained(self)
         .subscribe(onNext: { owner, _ in
             let indexPaths = owner.coinListCollectionView.indexPathsForVisibleItems
-            print(indexPaths)
             owner.viewModel.indexPathsForVisibleCells = indexPaths
         })
         .disposed(by: disposeBag)
