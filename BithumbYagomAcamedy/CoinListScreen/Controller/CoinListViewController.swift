@@ -155,7 +155,7 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        let coinDisplayed = viewModel.output.coinDisplayed
+        let coinAccepted = viewModel.output.coinList.map { _ in }
         let didEndScroll = coinListCollectionView.rx.didEndScroll.map { _ in }
         let didScrollToTop = coinListCollectionView.rx.didScrollToTop.map { _ in }
         let favoriteSectionButtonTapped = favoriteSectionButton.rx.tap.map { _ in }
@@ -166,7 +166,7 @@ extension CoinListViewController {
         /// visible cells의 indexPath를 viewModel로 전달시켜 줌
         /// 정확히 collectionView가 cell들을 표시하는 시점을 파악하기 어려우므로 500ms의 delay를 주었음
         Observable.merge(
-            coinDisplayed,
+            coinAccepted,
             didEndScroll,
             didScrollToTop,
             favoriteSectionButtonTapped,
@@ -201,9 +201,9 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        let coinDisplayed = viewModel.output.coinDisplayed
+        let coinAccepted = viewModel.output.coinList
         
-        coinDisplayed
+        coinAccepted
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in

@@ -23,7 +23,6 @@ final class CoinListViewModel: ViewModelType {
     
     struct Output {
         let coinList: Observable<[CoinListSectionModel]>
-        let coinDisplayed: Observable<Void>
         let updateCell: Observable<CellUpdateData>
         let fetchCoinListOccurred: Observable<Void>
     }
@@ -38,9 +37,8 @@ final class CoinListViewModel: ViewModelType {
     private var selectedButton: CoinSortButton?
     
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
-    private let displayCoinsRelay: BehaviorRelay<[CoinListSectionModel]>
+    private let coinList: BehaviorRelay<[CoinListSectionModel]>
     private let updateCell: PublishRelay<CellUpdateData>
-    private let coinDisplayed: PublishRelay<Void>
     
     let input: Input
     let output: Output
@@ -62,9 +60,8 @@ final class CoinListViewModel: ViewModelType {
         }
         self.selectedButton = coinSortButtons.first
         self.anyButtonTapped = .init(value: coinSortButtons.first)
-        self.displayCoinsRelay = .init(value: [])
+        self.coinList = .init(value: [])
         self.updateCell = .init()
-        self.coinDisplayed = .init()
         
         self.input = Input(
             fetchCoinList: fetching.asObserver(),
@@ -74,8 +71,7 @@ final class CoinListViewModel: ViewModelType {
         )
         
         self.output = Output(
-            coinList: displayCoinsRelay.asObservable(),
-            coinDisplayed: coinDisplayed.asObservable(),
+            coinList: coinList.asObservable(),
             updateCell: updateCell.asObservable(),
             fetchCoinListOccurred: fetching
         )
@@ -119,9 +115,9 @@ final class CoinListViewModel: ViewModelType {
             let sortType = coinSortButton.sortType
             
             button.rx.tap
-                .asDriver()
                 .map { coinSortButton }
-                .drive(with: self, onNext: { owner, coinSortButton in
+                .withUnretained(self)
+                .subscribe(onNext: { owner, coinSortButton in
                     owner.selectedButton = coinSortButton
                 })
                 .disposed(by: disposeBag)
@@ -196,8 +192,7 @@ extension CoinListViewModel {
     
     private func displayCoins() {
         guard let sectionModel = coinListController?.getSectionModel() else { return }
-        displayCoinsRelay.accept(sectionModel)
-        coinDisplayed.accept(())
+        coinList.accept(sectionModel)
     }
     
     func isFavoriteCoin(for indexPath: IndexPath) -> Bool? {
