@@ -233,36 +233,6 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    private func configureDataSource() -> DataSource {
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self?.viewModel.nameOfSectionHeader(index: indexPath.section)
-            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
-            configuration.textProperties.color = .label
-            headerView.contentConfiguration = configuration
-            headerView.backgroundColor = .white
-        }
-        
-        let dataSource = DataSource(configureCell: { _, collectionView, indexPath, item in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinListCollectionViewCell.identifier, for: indexPath) as? CoinListCollectionViewCell else { fatalError() }
-            cell.update(from: item)
-            cell.toggleFavorite = { [weak self] in
-                self?.viewModel.input.favoriteCoin.onNext(indexPath)
-                self?.moveUnderLine(contentOffsetY: collectionView.contentOffset.y)
-            }
-            return cell
-        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-            default:
-                fatalError()
-            }
-        })
-        
-        return dataSource
-    }
 }
 
 // MARK: - Helper
@@ -353,6 +323,36 @@ extension CoinListViewController {
         coinListCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         configureCollectionViewLayout()
+    }
+    
+    private func configureDataSource() -> DataSource {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = self?.viewModel.nameOfSectionHeader(index: indexPath.section)
+            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
+            configuration.textProperties.color = .label
+            headerView.contentConfiguration = configuration
+            headerView.backgroundColor = .white
+        }
+        
+        let dataSource = DataSource(configureCell: { _, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinListCollectionViewCell.identifier, for: indexPath) as? CoinListCollectionViewCell else { fatalError() }
+            cell.update(from: item)
+            cell.toggleFavorite = { [weak self] in
+                self?.viewModel.input.favoriteCoin.onNext(indexPath)
+                self?.moveUnderLine(contentOffsetY: collectionView.contentOffset.y)
+            }
+            return cell
+        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+            default:
+                fatalError()
+            }
+        })
+        
+        return dataSource
     }
     
     private func configureBalloonSpeakView() {
