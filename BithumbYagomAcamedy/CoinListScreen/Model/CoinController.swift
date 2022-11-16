@@ -1,5 +1,5 @@
 //
-//  CoinListController.swift
+//  CoinController.swift
 //  BithumbYagomAcamedy
 //
 //  Created by Jinyoung Kim on 2022/11/16.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CoinListController {
+final class CoinController {
     private var favoriteCoins: CoinListWithBackup
     private var allCoins: CoinListWithBackup
     private let favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager
@@ -202,7 +202,7 @@ final class CoinListController {
 
 // MARK: - Helpers
 
-extension CoinListController {
+extension CoinController {
     var isFavoriteCoinsEmpty: Bool {
         favoriteCoins.list.isEmpty
     }
@@ -230,7 +230,7 @@ extension CoinListController {
 
 // MARK: - Nested Type
 
-extension CoinListController {
+extension CoinController {
     final private class CoinListWithBackup {
         private var backup: [ViewCoin]
         private(set) var list: [ViewCoin]

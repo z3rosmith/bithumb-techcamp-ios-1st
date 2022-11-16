@@ -33,7 +33,7 @@ final class CoinListViewModel: ViewModelType {
     
     private let webSocketService: WebSocketService
     private let coinSortButtons: [CoinSortButton]
-    private var coinListController: CoinListController?
+    private var coinController: CoinController?
     private var selectedButton: CoinSortButton?
     
     private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
@@ -81,7 +81,7 @@ final class CoinListViewModel: ViewModelType {
             .map { $0.asViewCoinList() }
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
-                owner.coinListController = CoinListController(fetchedCoinList: coinList, selectedButton: owner.selectedButton)
+                owner.coinController = CoinController(fetchedCoinList: coinList, selectedButton: owner.selectedButton)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
@@ -89,7 +89,7 @@ final class CoinListViewModel: ViewModelType {
         sort
             .withUnretained(self)
             .subscribe(onNext: { owner, coinSortButton in
-                owner.coinListController?.sort(using: coinSortButton)
+                owner.coinController?.sort(using: coinSortButton)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
@@ -97,7 +97,7 @@ final class CoinListViewModel: ViewModelType {
         filter
             .withUnretained(self)
             .subscribe(onNext: { owner, filterText in
-                owner.coinListController?.filter(by: filterText)
+                owner.coinController?.filter(by: filterText)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
@@ -105,7 +105,7 @@ final class CoinListViewModel: ViewModelType {
         favorite
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
-                owner.coinListController?.favorite(indexPath: indexPath)
+                owner.coinController?.favorite(indexPath: indexPath)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
@@ -168,18 +168,18 @@ final class CoinListViewModel: ViewModelType {
 
 extension CoinListViewModel {
     var isFavoriteCoinEmpty: Bool? {
-        coinListController?.isFavoriteCoinsEmpty
+        coinController?.isFavoriteCoinsEmpty
     }
     
     var favoriteCoinsCount: Int? {
-        coinListController?.favoriteCoinsCount
+        coinController?.favoriteCoinsCount
     }
     
     var allCoinsSectionFirstIndexPath: IndexPath? {
-        guard let coinListController else { return nil }
+        guard let coinController else { return nil }
         
-        let isFavoriteCoinsEmpty = coinListController.isFavoriteCoinsEmpty
-        let isAllCoinsEmpty = coinListController.isAllCoinsEmpty
+        let isFavoriteCoinsEmpty = coinController.isFavoriteCoinsEmpty
+        let isAllCoinsEmpty = coinController.isAllCoinsEmpty
         
         guard isAllCoinsEmpty == false else { return nil }
         
@@ -191,23 +191,23 @@ extension CoinListViewModel {
     }
     
     private func displayCoins() {
-        guard let sectionModel = coinListController?.getSectionModel() else { return }
+        guard let sectionModel = coinController?.getSectionModel() else { return }
         coinList.accept(sectionModel)
     }
     
     func isFavoriteCoin(for indexPath: IndexPath) -> Bool? {
-        return coinListController?.isFavoriteCoin(for: indexPath)
+        return coinController?.isFavoriteCoin(for: indexPath)
     }
     
     func item(for indexPath: IndexPath) -> ViewCoin? {
-        return coinListController?.item(for: indexPath)
+        return coinController?.item(for: indexPath)
     }
     
     func nameOfSectionHeader(index: Int) -> String? {
-        guard let coinListController else { return nil }
+        guard let coinController else { return nil }
         
-        let isFavoriteCoinsEmpty = coinListController.isFavoriteCoinsEmpty
-        let isAllCoinsEmpty = coinListController.isAllCoinsEmpty
+        let isFavoriteCoinsEmpty = coinController.isFavoriteCoinsEmpty
+        let isAllCoinsEmpty = coinController.isAllCoinsEmpty
         
         guard !isAllCoinsEmpty else { return nil }
         
@@ -233,7 +233,7 @@ extension CoinListViewModel {
     func openWebSocket() {
         closeWebSocket()
         
-        guard let symbols = coinListController?.symbolsInAllCoins else { return }
+        guard let symbols = coinController?.symbolsInAllCoins else { return }
         
         let api = TransactionWebSocket(symbols: symbols)
         webSocketService
@@ -250,7 +250,7 @@ extension CoinListViewModel {
     }
     
     private func updateCell(transactionData: WebSocketTransactionData.WebSocketTransaction) {
-        let data = coinListController?.update(
+        let data = coinController?.update(
             transactionData: transactionData,
             indexPathsForVisibleCells: indexPathsForVisibleCells
         )
