@@ -24,7 +24,7 @@ final class CoinListViewModel: ViewModelType {
     struct Output {
         let coinList: Observable<[CoinListSectionModel]>
         let updateCell: Observable<CellUpdateData>
-        let fetchCoinListOccurred: Observable<Void>
+        let fetchCoinListStarted: Observable<Void>
     }
     
     var disposeBag: DisposeBag = .init()
@@ -73,7 +73,7 @@ final class CoinListViewModel: ViewModelType {
         self.output = Output(
             coinList: coinList.asObservable(),
             updateCell: updateCell.asObservable(),
-            fetchCoinListOccurred: fetching
+            fetchCoinListStarted: fetching
         )
         
         fetching

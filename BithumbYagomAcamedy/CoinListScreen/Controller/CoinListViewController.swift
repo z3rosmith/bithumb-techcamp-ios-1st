@@ -12,6 +12,8 @@ import RxDataSources
 import RxViewController
 
 final class CoinListViewController: UIViewController, NetworkFailAlertPresentable {
+    typealias DataSource = RxCollectionViewSectionedReloadDataSource<CoinListSectionModel>
+    
     // MARK: - IBOutlet
     
     @IBOutlet private weak var balloonSpeakView: BallonSpeakView!
@@ -38,21 +40,18 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureRefreshControl()
-        configureActivityIndicator()
+        configureViews()
         configureCollectionView()
-        registerCollectionViewCell()
-        configureCollectionViewLayout()
-        configureBalloonSpeakView()
-        configureViewBindings()
-        configureViewModelBindings()
+        bind()
     }
 }
 
 // MARK: - Binding
 
 extension CoinListViewController {
-    private func configureViewModelBindings() {
+    private func bind() {
+        // MARK: - Input To ViewModel
+        
         let firstLoad = rx.viewWillAppear
             .take(1)
             .map { _ in }
@@ -70,52 +69,11 @@ extension CoinListViewController {
             .bind(to: viewModel.input.filterCoin)
             .disposed(by: disposeBag)
         
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self?.viewModel.nameOfSectionHeader(index: indexPath.section)
-            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
-            configuration.textProperties.color = .label
-            headerView.contentConfiguration = configuration
-            headerView.backgroundColor = .white
-        }
-        
-        let dataSource = RxCollectionViewSectionedReloadDataSource<CoinListSectionModel>(configureCell: { _, collectionView, indexPath, item in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinListCollectionViewCell.identifier, for: indexPath) as? CoinListCollectionViewCell else { fatalError() }
-            cell.update(from: item)
-            cell.toggleFavorite = { [weak self] in
-                self?.viewModel.input.favoriteCoin.onNext(indexPath)
-                self?.moveUnderLine(contentOffsetY: collectionView.contentOffset.y)
-            }
-            return cell
-        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-            default:
-                fatalError()
-            }
-        })
-        
-        /// coinList와 collection view 바인딩
-        viewModel.output.coinList
-            .bind(to: coinListCollectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        viewModel.output.updateCell
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, value in
-                let (indexPath, coin) = value
-                if ViewDisplaySelector.shared.canDisplay(indexPath: indexPath) == false { return }
-                guard let cell = owner.coinListCollectionView.cellForItem(at: indexPath) as? CoinListCollectionViewCell else { return }
-                cell.updateAndAnimate(from: coin)
-            })
-            .disposed(by: disposeBag)
-        
         let viewWillAppear = rx.viewWillAppear.map { _ in }
+        
+        /// take(2)를 한 이유는 처음 이벤트가 방출될 때는 아직 CoinController가 설정이 안되어 있기 때문에 웹소켓이 열리지 않기 때문
         let coinFetchedFirstTwo = viewModel.output.coinList.take(2).map { _ in }
         
-        /// viewWillAppear일때와 초기에 coinList에 accept됐을때 WebSocket open
         Observable.merge(viewWillAppear, coinFetchedFirstTwo)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
@@ -123,14 +81,14 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        coinFetchedFirstTwo
-            .asDriver(onErrorJustReturn: ())
-            .drive(with: self, onNext: { owner, _ in
-                owner.setInitialUnderLineLocation()
+        coinListCollectionView.rx.didEndScroll
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                if owner.refreshControl.isRefreshing { return }
+                owner.viewModel.openWebSocket()
             })
             .disposed(by: disposeBag)
         
-        /// viewWillDisappear일때 WebSocket close
         rx.viewWillDisappear
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
@@ -138,7 +96,6 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        /// willBeginDragging일때 closeWebSocket
         coinListCollectionView.rx.willBeginDragging
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
@@ -146,12 +103,11 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        /// didEndScroll일때 openWebSocket
-        coinListCollectionView.rx.didEndScroll
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
-                if owner.refreshControl.isRefreshing { return }
-                owner.viewModel.openWebSocket()
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(with: self, onNext: { owner, _ in
+                owner.searchBar.text = nil
+                owner.viewModel.closeWebSocket()
+                owner.viewModel.input.fetchCoinList.onNext(())
             })
             .disposed(by: disposeBag)
         
@@ -180,28 +136,43 @@ extension CoinListViewController {
             owner.viewModel.indexPathsForVisibleCells = indexPaths
         })
         .disposed(by: disposeBag)
-    }
-    
-    private func configureViewBindings() {
-        let fetchCoinListOccurred = viewModel.output.fetchCoinListOccurred
         
-        fetchCoinListOccurred
+        // MARK: - Output From ViewModel
+        
+        let dataSource = configureDataSource()
+        
+        /// coinList와 collection view 바인딩
+        viewModel.output.coinList
+            .bind(to: coinListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        viewModel.output.updateCell
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, value in
+                let (indexPath, coin) = value
+                if ViewDisplaySelector.shared.canDisplay(indexPath: indexPath) == false { return }
+                guard let cell = owner.coinListCollectionView.cellForItem(at: indexPath) as? CoinListCollectionViewCell else { return }
+                cell.updateAndAnimate(from: coin)
+            })
+            .disposed(by: disposeBag)
+        
+        coinFetchedFirstTwo
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self, onNext: { owner, _ in
+                owner.setInitialUnderLineLocation()
+            })
+            .disposed(by: disposeBag)
+        
+        let fetchCoinListStarted = viewModel.output.fetchCoinListStarted
+        
+        fetchCoinListStarted
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
                 owner.activityIndicator.startAnimating()
             })
             .disposed(by: disposeBag)
-        
-        refreshControl.rx.controlEvent(.valueChanged)
-            .bind(with: self, onNext: { owner, _ in
-                owner.searchBar.text = nil
-                owner.viewModel.closeWebSocket()
-                owner.viewModel.input.fetchCoinList.onNext(())
-            })
-            .disposed(by: disposeBag)
-        
-        let coinAccepted = viewModel.output.coinList
         
         coinAccepted
             .observe(on: MainScheduler.instance)
@@ -211,6 +182,8 @@ extension CoinListViewController {
                 owner.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)
+        
+        // MARK: - View Related
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.cancelsTouchesInView = false
@@ -259,6 +232,36 @@ extension CoinListViewController {
                 owner.scrollToAllCoinsSection()
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func configureDataSource() -> DataSource {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = self?.viewModel.nameOfSectionHeader(index: indexPath.section)
+            configuration.textProperties.font = .preferredFont(forTextStyle: .largeTitle)
+            configuration.textProperties.color = .label
+            headerView.contentConfiguration = configuration
+            headerView.backgroundColor = .white
+        }
+        
+        let dataSource = DataSource(configureCell: { _, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinListCollectionViewCell.identifier, for: indexPath) as? CoinListCollectionViewCell else { fatalError() }
+            cell.update(from: item)
+            cell.toggleFavorite = { [weak self] in
+                self?.viewModel.input.favoriteCoin.onNext(indexPath)
+                self?.moveUnderLine(contentOffsetY: collectionView.contentOffset.y)
+            }
+            return cell
+        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+            default:
+                fatalError()
+            }
+        })
+        
+        return dataSource
     }
 }
 
@@ -336,6 +339,22 @@ extension CoinListViewController {
 // MARK: - Configuration
 
 extension CoinListViewController {
+    private func configureViews() {
+        configureBalloonSpeakView()
+        configureRefreshControl()
+        configureActivityIndicator()
+    }
+    
+    private func configureCollectionView() {
+        coinListCollectionView.register(
+            UINib(nibName: "CoinListCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier
+        )
+        coinListCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        configureCollectionViewLayout()
+    }
+    
     private func configureBalloonSpeakView() {
         balloonSpeakView.isHidden = true
     }
@@ -347,13 +366,6 @@ extension CoinListViewController {
     private func configureActivityIndicator() {
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
-    }
-    
-    private func registerCollectionViewCell() {
-        coinListCollectionView.register(
-            UINib(nibName: "CoinListCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: CoinListCollectionViewCell.identifier
-        )
     }
     
     private func configureCollectionViewLayout() {
@@ -381,11 +393,6 @@ extension CoinListViewController {
         }
         coinListCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         coinListCollectionView.keyboardDismissMode = .onDrag
-    }
-    
-    private func configureCollectionView() {
-        coinListCollectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
     }
 }
 
