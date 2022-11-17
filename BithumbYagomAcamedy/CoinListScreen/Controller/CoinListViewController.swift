@@ -29,7 +29,8 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     // MARK: - Property
     
     private var disposeBag: DisposeBag = .init()
-    private lazy var viewModel: CoinListViewModel = .init(
+    private lazy var viewModel: CoinListViewModel = .init()
+    private lazy var coinSortButtons: [CoinSortButton] = configureCoinSortButtons(
         sortButtons: sortButtons,
         sortButtonTypes: [.popularity, .name, .price, .changeRate]
     )
@@ -71,10 +72,10 @@ extension CoinListViewController {
         
         let viewWillAppear = rx.viewWillAppear.map { _ in }
         
-        /// take(2)를 한 이유는 처음 이벤트가 방출될 때는 아직 CoinController가 설정이 안되어 있기 때문에 웹소켓이 열리지 않기 때문
-        let coinFetchedFirstTwo = viewModel.output.coinList.take(2).map { _ in }
+        /// skip(1).take(1)를 한 이유는 coinList가 처음 방출될 때는 아직 CoinController가 nil이기 때문
+        let coinFetchedSecondEvent = viewModel.output.coinList.skip(1).take(1).map { _ in }
         
-        Observable.merge(viewWillAppear, coinFetchedFirstTwo)
+        Observable.merge(viewWillAppear, coinFetchedSecondEvent)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
                 owner.viewModel.openWebSocket()
@@ -137,6 +138,51 @@ extension CoinListViewController {
         })
         .disposed(by: disposeBag)
         
+        /// 처음 Coin Fetch되었을 때 selectedButton을 설정해 주어야 하고
+        /// 인기순 기준으로 Sort 해주어야 함
+        coinFetchedSecondEvent
+            .withUnretained(self)
+            .map { owner, _ in
+                owner.coinSortButtons.first
+            }
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, coinSortButton in
+                guard let coinSortButton else { return }
+                owner.viewModel.selectedButton = coinSortButton
+                owner.viewModel.input.anyButtonTapped.onNext(coinSortButton)
+            })
+            .disposed(by: disposeBag)
+        
+        coinSortButtons.forEach { coinSortButton in
+            let button = coinSortButton.button
+            let sortType = coinSortButton.sortType
+            
+            button.rx.tap
+                .map { coinSortButton }
+                .withUnretained(self)
+                .subscribe(onNext: { owner, coinSortButton in
+                    owner.viewModel.selectedButton = coinSortButton
+                })
+                .disposed(by: disposeBag)
+            
+            button.rx.tap
+                .withUnretained(self)
+                .flatMap { owner, _ in
+                    Observable.from(owner.coinSortButtons)
+                }
+                .bind(to: viewModel.input.anyButtonTapped)
+                .disposed(by: disposeBag)
+            
+            sortType
+                .asDriver()
+                .drive(with: self, onNext: { owner, type in
+                    let imageName = type.rawValue
+                    button.setImage(UIImage(named: imageName), for: .normal)
+                })
+                .disposed(by: disposeBag)
+        }
+        
         // MARK: - Output From ViewModel
         
         let dataSource = configureDataSource()
@@ -157,7 +203,7 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        coinFetchedFirstTwo
+        coinFetchedSecondEvent
             .asDriver(onErrorJustReturn: ())
             .drive(with: self, onNext: { owner, _ in
                 owner.setInitialUnderLineLocation()
@@ -353,6 +399,15 @@ extension CoinListViewController {
         })
         
         return dataSource
+    }
+    
+    private func configureCoinSortButtons(
+        sortButtons: [SortButton],
+        sortButtonTypes: [CoinSortButton.ButtonType]
+    ) -> [CoinSortButton] {
+        return sortButtons.enumerated().map { index, sortButton in
+            CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
+        }
     }
     
     private func configureBalloonSpeakView() {

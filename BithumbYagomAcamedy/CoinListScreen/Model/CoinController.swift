@@ -14,7 +14,6 @@ final class CoinController {
     
     init(
         fetchedCoinList: [ViewCoin],
-        selectedButton: CoinSortButton?,
         favoriteCoinCoreDataManager: FavoriteCoinCoreDataManager = .init()
     ) {
         let favoriteCoinsSymbols = favoriteCoinCoreDataManager.fetch()
@@ -31,11 +30,6 @@ final class CoinController {
         allCoins = CoinListWithBackup(coins: acoins)
         self.favoriteCoinCoreDataManager = favoriteCoinCoreDataManager
         favoriteCoins = CoinListWithBackup(coins: fcoins)
-        
-        if let selectedButton {
-            allCoins.sort(using: selectedButton)
-            favoriteCoins.sort(using: selectedButton)
-        }
     }
     
     func getSectionModel() -> [CoinListSectionModel] {
@@ -122,13 +116,13 @@ final class CoinController {
         transactionData: WebSocketTransactionData.WebSocketTransaction,
         indexPathsForVisibleCells: [IndexPath]
     ) -> [CellUpdateData] {
-        let data1 = updateCell(
+        let data1 = updateCoinList(
             from: favoriteCoins,
             section: sectionOfFavoriteCoins,
             transactionData: transactionData,
             indexPathsForVisibleCells: indexPathsForVisibleCells
         )
-        let data2 = updateCell(
+        let data2 = updateCoinList(
             from: allCoins,
             section: sectionOfAllCoins,
             transactionData: transactionData,
@@ -144,7 +138,7 @@ final class CoinController {
         return dataList
     }
     
-    private func updateCell(
+    private func updateCoinList(
         from coins: CoinListWithBackup,
         section: Int?,
         transactionData: WebSocketTransactionData.WebSocketTransaction,

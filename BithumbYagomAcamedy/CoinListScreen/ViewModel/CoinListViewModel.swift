@@ -16,9 +16,9 @@ typealias CellUpdateData = (IndexPath, ViewCoin)
 final class CoinListViewModel: ViewModelType {
     struct Input {
         let fetchCoinList: AnyObserver<Void>
-        let sortCoin: AnyObserver<CoinSortButton>
         let filterCoin: AnyObserver<String?>
         let favoriteCoin: AnyObserver<IndexPath>
+        let anyButtonTapped: AnyObserver<CoinSortButton>
     }
     
     struct Output {
@@ -29,14 +29,12 @@ final class CoinListViewModel: ViewModelType {
     
     var disposeBag: DisposeBag = .init()
     var webSocketDisposeBag: DisposeBag = .init()
+    
     var indexPathsForVisibleCells: [IndexPath] = []
+    var selectedButton: CoinSortButton?
     
     private let webSocketService: WebSocketService
-    private let coinSortButtons: [CoinSortButton]
     private var coinController: CoinController?
-    private var selectedButton: CoinSortButton?
-    
-    private let anyButtonTapped: BehaviorRelay<CoinSortButton?>
     private let coinList: BehaviorRelay<[CoinListSectionModel]>
     private let updateCell: PublishRelay<CellUpdateData>
     
@@ -45,29 +43,24 @@ final class CoinListViewModel: ViewModelType {
     
     init(
         httpNetworkService: HTTPNetworkService = .init(),
-        webSocketService: WebSocketService = .init(),
-        sortButtons: [SortButton],
-        sortButtonTypes: [CoinSortButton.ButtonType]
+        webSocketService: WebSocketService = .init()
     ) {
         let fetching = PublishSubject<Void>()
         let sort = PublishSubject<CoinSortButton>()
         let filter = PublishSubject<String?>()
         let favorite = PublishSubject<IndexPath>()
+        let anyButtonTapped = PublishSubject<CoinSortButton>()
         
         self.webSocketService = webSocketService
-        self.coinSortButtons = sortButtons.enumerated().map { index, sortButton in
-            CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
-        }
-        self.selectedButton = coinSortButtons.first
-        self.anyButtonTapped = .init(value: coinSortButtons.first)
+        self.selectedButton = nil
         self.coinList = .init(value: [])
         self.updateCell = .init()
         
         self.input = Input(
             fetchCoinList: fetching.asObserver(),
-            sortCoin: sort.asObserver(),
             filterCoin: filter.asObserver(),
-            favoriteCoin: favorite.asObserver()
+            favoriteCoin: favorite.asObserver(),
+            anyButtonTapped: anyButtonTapped.asObserver()
         )
         
         self.output = Output(
@@ -81,7 +74,7 @@ final class CoinListViewModel: ViewModelType {
             .map { $0.asViewCoinList() }
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
-                owner.coinController = CoinController(fetchedCoinList: coinList, selectedButton: owner.selectedButton)
+                owner.coinController = CoinController(fetchedCoinList: coinList)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
@@ -110,43 +103,17 @@ final class CoinListViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
-        coinSortButtons.forEach { coinSortButton in
-            let button = coinSortButton.button
-            let sortType = coinSortButton.sortType
-            
-            button.rx.tap
-                .map { coinSortButton }
-                .withUnretained(self)
-                .subscribe(onNext: { owner, coinSortButton in
-                    owner.selectedButton = coinSortButton
-                })
-                .disposed(by: disposeBag)
-            
-            button.rx.tap
-                .withUnretained(self)
-                .flatMap { owner, _ in
-                    Observable.from(owner.coinSortButtons)
-                }
-                .bind(to: anyButtonTapped)
-                .disposed(by: disposeBag)
-            
-            sortType
-                .asDriver()
-                .drive(with: self, onNext: { owner, type in
-                    let imageName = type.rawValue
-                    button.setImage(UIImage(named: imageName), for: .normal)
-                })
-                .disposed(by: disposeBag)
-        }
-        
         anyButtonTapped
             .withUnretained(self)
             .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
-                let isSelected = eachButton?.button == owner.selectedButton?.button
+                guard let selectedButton = owner.selectedButton else {
+                    return (.none, nil)
+                }
+                let isSelected = eachButton.button == selectedButton.button
                 let sortType: CoinSortType
                 if isSelected == false {
                     sortType = .none
-                } else if eachButton?.sortType.value == .descend {
+                } else if eachButton.sortType.value == .descend {
                     sortType = .ascend
                 } else {
                     sortType = .descend
@@ -154,9 +121,9 @@ final class CoinListViewModel: ViewModelType {
                 return (sortType, eachButton)
             }
             .subscribe(onNext: { sortType, eachButton in
-                eachButton?.sortType.accept(sortType)
+                guard let eachButton else { return }
+                eachButton.sortType.accept(sortType)
                 if sortType != .none {
-                    guard let eachButton = eachButton else { return }
                     sort.onNext(eachButton)
                 }
             })
