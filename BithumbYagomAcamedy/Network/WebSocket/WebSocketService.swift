@@ -12,6 +12,8 @@ enum WebSocketError: Error, LocalizedError {
     case urlIsNil
     case emptyWebSocketTransactionData
     case messageIsNotString
+    case sendFailure(error: Error)
+    case receiveFailure(error: Error)
     case unknown(error: Error)
 
     var errorDescription: String? {
@@ -22,8 +24,12 @@ enum WebSocketError: Error, LocalizedError {
             return "Decode 에러 또는 WebSocketTransactionData가 비어있습니다."
         case .messageIsNotString:
             return "message가 String이 아닙니다."
+        case .sendFailure(let error):
+            return "send중 \(error) 에러가 발생했습니다."
+        case .receiveFailure(let error):
+            return "receive중 \(error) 에러가 발생했습니다."
         case .unknown(let error):
-            return "\(error.localizedDescription) 에러가 발생했습니다."
+            return "\(error) 에러가 발생했습니다."
         }
     }
 }
@@ -77,7 +83,7 @@ class WebSocketService: WebSocketServicable {
             .data(message)
         ) { error in
             if let error = error {
-                completionHandler(.failure(WebSocketError.unknown(error: error)))
+                completionHandler(.failure(WebSocketError.sendFailure(error: error)))
             }
         }
     }
@@ -90,10 +96,10 @@ class WebSocketService: WebSocketServicable {
                 switch result {
                 case .success(let message):
                     completionHandler(.success(message))
-                    self.receive(with: completionHandler)
                 case .failure(let error):
-                    completionHandler(.failure(WebSocketError.unknown(error: error)))
+                    completionHandler(.failure(WebSocketError.receiveFailure(error: error)))
                 }
+                self.receive(with: completionHandler)
             }
         }
     }
@@ -120,7 +126,7 @@ extension WebSocketService {
                         break
                     }
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    print(error)
                     break
                 }
             }
@@ -140,6 +146,7 @@ extension WebSocketService {
             )
             return webSocketTransactionValueObject
         } catch {
+            print(string, "을 decode 중 에러가 발생하였습니다")
             print(error)
             throw error
         }
