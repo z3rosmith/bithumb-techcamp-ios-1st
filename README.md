@@ -1,3 +1,7 @@
+RxSwift로 리팩토링된 코드는 [rx-refactor 브랜치(링크)](https://github.com/z3rosmith/bithumb-techcamp-ios-1st/tree/rx-refactor)에서 main 브랜치로 머지하지 않은 상태로 두었습니다. 리팩토링된 코드를 확인하고 싶으시다면 링크로 접속하셔서 코드를 확인 부탁드립니다!
+
+
+
 # 빗썸테크캠프 야곰 아카데미 iOS 1기
 
 ### 시작하기 앞서...
