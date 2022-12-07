@@ -11,6 +11,7 @@ target 'BithumbYagomAcamedy' do
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
   pod 'RxDataSources', '~> 5.0'
+  pod 'SnapKit', '~> 5.6.0'
 
   target 'BithumbYagomAcamedyTests' do
     inherit! :search_paths
