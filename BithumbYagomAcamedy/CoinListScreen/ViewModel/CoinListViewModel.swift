@@ -18,7 +18,7 @@ final class CoinListViewModel: ViewModelType {
         let fetchCoinList: AnyObserver<Void>
         let filterCoin: AnyObserver<String?>
         let favoriteCoin: AnyObserver<IndexPath>
-        let anyButtonTapped: AnyObserver<CoinSortButton>
+        let anyButtonTapped: AnyObserver<CoinSortType>
     }
     
     struct Output {
@@ -31,7 +31,7 @@ final class CoinListViewModel: ViewModelType {
     var webSocketDisposeBag: DisposeBag = .init()
     
     var indexPathsForVisibleCells: [IndexPath] = []
-    var selectedButton: CoinSortButton?
+    var selectedButtonType: CoinSortType?
     
     private let webSocketService: WebSocketService
     private var coinController: CoinController?
@@ -46,13 +46,13 @@ final class CoinListViewModel: ViewModelType {
         webSocketService: WebSocketService = .init()
     ) {
         let fetching = PublishSubject<Void>()
-        let sort = PublishSubject<CoinSortButton>()
+        let sort = PublishSubject<CoinSortType>()
         let filter = PublishSubject<String?>()
         let favorite = PublishSubject<IndexPath>()
-        let anyButtonTapped = PublishSubject<CoinSortButton>()
+        let anyButtonTapped = PublishSubject<CoinSortType>()
         
         self.webSocketService = webSocketService
-        self.selectedButton = nil
+        self.selectedButtonType = nil
         self.coinList = .init(value: [])
         self.updateCell = .init()
         
@@ -105,25 +105,25 @@ final class CoinListViewModel: ViewModelType {
         
         anyButtonTapped
             .withUnretained(self)
-            .map { owner, eachButton -> (CoinSortType, CoinSortButton?) in
-                guard let selectedButton = owner.selectedButton else {
+            .map { owner, eachType -> (CoinSortOrderType, CoinSortType?) in
+                guard let selectedType = owner.selectedButtonType else {
                     return (.none, nil)
                 }
-                let isSelected = eachButton.button == selectedButton.button
-                let sortType: CoinSortType
+                let isSelected = eachType == selectedType
+                let sortOrderType: CoinSortOrderType
                 if isSelected == false {
-                    sortType = .none
-                } else if eachButton.sortType.value == .descend {
-                    sortType = .ascend
+                    sortOrderType = .none
+                } else if eachType.sortOrderType.value == .descend {
+                    sortOrderType = .ascend
                 } else {
-                    sortType = .descend
+                    sortOrderType = .descend
                 }
-                return (sortType, eachButton)
+                return (sortOrderType, eachType)
             }
-            .subscribe(onNext: { sortType, eachButton in
+            .subscribe(onNext: { sortOrderType, eachButton in
                 guard let eachButton else { return }
-                eachButton.sortType.accept(sortType)
-                if sortType != .none {
+                eachButton.sortOrderType.accept(sortOrderType)
+                if sortOrderType != .none {
                     sort.onNext(eachButton)
                 }
             })

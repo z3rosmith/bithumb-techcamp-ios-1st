@@ -46,9 +46,9 @@ final class CoinController {
         return sectionModel
     }
     
-    func sort(using coinSortButton: CoinSortButton) {
-        favoriteCoins.sort(using: coinSortButton)
-        allCoins.sort(using: coinSortButton)
+    func sort(using coinSortType: CoinSortType) {
+        favoriteCoins.sort(using: coinSortType)
+        allCoins.sort(using: coinSortType)
     }
     
     func filter(by text: String?) {
@@ -229,7 +229,7 @@ extension CoinController {
         private var backup: [ViewCoin]
         private(set) var list: [ViewCoin]
         
-        var currentSortButton: CoinSortButton?
+        var currentSortType: CoinSortType?
         var currentFilterText: String?
         
         init(coins: [ViewCoin]) {
@@ -237,11 +237,11 @@ extension CoinController {
             backup = list
         }
         
-        func sort(using coinSortButton: CoinSortButton) {
-            backup.sort(using: coinSortButton)
-            list.sort(using: coinSortButton)
+        func sort(using coinSortType: CoinSortType) {
+            backup.sort(using: coinSortType)
+            list.sort(using: coinSortType)
             
-            currentSortButton = coinSortButton
+            currentSortType = coinSortType
         }
         
         func filter(by text: String?) {
@@ -263,8 +263,8 @@ extension CoinController {
             list.append(coin)
             backup.append(coin)
             
-            if let currentSortButton {
-                sort(using: currentSortButton)
+            if let currentSortType {
+                sort(using: currentSortType)
             }
         }
         

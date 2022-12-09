@@ -29,7 +29,7 @@ final class CoinListViewController: UIViewController, NetworkFailAlertPresentabl
     // MARK: - Property
     
     private var disposeBag: DisposeBag = .init()
-    private lazy var viewModel: CoinListViewModel = .init()
+    private let viewModel: CoinListViewModel = .init()
     private lazy var coinSortButtons: [CoinSortButton] = configureCoinSortButtons(
         sortButtons: sortButtons,
         sortButtonTypes: [.popularity, .name, .price, .changeRate]
@@ -149,32 +149,31 @@ extension CoinListViewController {
             .withUnretained(self)
             .subscribe(onNext: { owner, coinSortButton in
                 guard let coinSortButton else { return }
-                owner.viewModel.selectedButton = coinSortButton
-                owner.viewModel.input.anyButtonTapped.onNext(coinSortButton)
+                owner.viewModel.selectedButtonType = coinSortButton.coinSortType
+                owner.viewModel.input.anyButtonTapped.onNext(coinSortButton.coinSortType)
             })
             .disposed(by: disposeBag)
         
         coinSortButtons.forEach { coinSortButton in
             let button = coinSortButton.button
-            let sortType = coinSortButton.sortType
+            let sortType = coinSortButton.coinSortType
             
             button.rx.tap
-                .map { coinSortButton }
                 .withUnretained(self)
-                .subscribe(onNext: { owner, coinSortButton in
-                    owner.viewModel.selectedButton = coinSortButton
+                .subscribe(onNext: { owner, _ in
+                    owner.viewModel.selectedButtonType = sortType
                 })
                 .disposed(by: disposeBag)
             
             button.rx.tap
                 .withUnretained(self)
                 .flatMap { owner, _ in
-                    Observable.from(owner.coinSortButtons)
+                    Observable.from(owner.coinSortButtons.map { $0.coinSortType })
                 }
                 .bind(to: viewModel.input.anyButtonTapped)
                 .disposed(by: disposeBag)
             
-            sortType
+            sortType.sortOrderType
                 .asDriver()
                 .drive(with: self, onNext: { owner, type in
                     let imageName = type.rawValue
@@ -403,10 +402,10 @@ extension CoinListViewController {
     
     private func configureCoinSortButtons(
         sortButtons: [SortButton],
-        sortButtonTypes: [CoinSortButton.ButtonType]
+        sortButtonTypes: [CoinSortButtonType]
     ) -> [CoinSortButton] {
         return sortButtons.enumerated().map { index, sortButton in
-            CoinSortButton(button: sortButton, buttonType: sortButtonTypes[index])
+            CoinSortButton(button: sortButton, coinSortType: CoinSortType(buttonType: sortButtonTypes[index]))
         }
     }
     
@@ -478,5 +477,14 @@ extension CoinListViewController: UICollectionViewDelegate {
         let contentOffsetY = scrollView.contentOffset.y
         
         moveUnderLine(contentOffsetY: contentOffsetY)
+    }
+}
+
+// MARK: - Nested Type
+
+extension CoinListViewController {
+    struct CoinSortButton {
+        let button: SortButton
+        let coinSortType: CoinSortType
     }
 }

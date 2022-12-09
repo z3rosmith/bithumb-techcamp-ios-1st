@@ -18,9 +18,9 @@ extension Array {
 // MARK: - ViewCoin Method
 
 extension Array where Element == ViewCoin {
-    func sorted(using coinSortButton: CoinSortButton) -> [Element] {
+    func sorted(using coinSortButton: CoinSortType) -> [Element] {
         let sortedCoinList: [Element]
-        let coinSortType = coinSortButton.sortType.value
+        let coinSortType = coinSortButton.sortOrderType.value
         switch coinSortButton.buttonType {
         case .popularity:
             if coinSortType == .ascend {
@@ -50,7 +50,7 @@ extension Array where Element == ViewCoin {
         return sortedCoinList
     }
     
-    mutating func sort(using coinSortButton: CoinSortButton) {
+    mutating func sort(using coinSortButton: CoinSortType) {
         self = self.sorted(using: coinSortButton)
     }
     
