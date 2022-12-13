@@ -57,7 +57,7 @@ extension CoinListViewController {
             .take(1)
             .map { _ in }
         
-        /// 처음 로딩될 떄 fetchCoinList에 이벤트 전달
+        // 처음 로딩될 떄 fetchCoinList에 이벤트 전달
         firstLoad
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
@@ -65,14 +65,14 @@ extension CoinListViewController {
             })
             .disposed(by: disposeBag)
         
-        /// searchBar의 text가 바뀌면 filterCoin에 text 전달
+        // searchBar의 text가 바뀌면 filterCoin에 text 전달
         searchBar.rx.text
             .bind(to: viewModel.input.filterCoin)
             .disposed(by: disposeBag)
         
         let viewWillAppear = rx.viewWillAppear.map { _ in }
         
-        /// skip(1).take(1)를 한 이유는 coinList가 처음 방출될 때는 아직 CoinController가 nil이기 때문
+        // skip(1).take(1)를 한 이유는 coinList가 처음 방출될 때는 아직 CoinController가 nil이기 때문
         let coinFetchedSecondEvent = viewModel.output.coinList.skip(1).take(1).map { _ in }
         
         Observable.merge(viewWillAppear, coinFetchedSecondEvent)
@@ -118,10 +118,12 @@ extension CoinListViewController {
         let favoriteSectionButtonTapped = favoriteSectionButton.rx.tap.map { _ in }
         let allSectionButtonTapped = allSectionButton.rx.tap.map { _ in }
         
-        /// coinList에 보이는 코인이 업데이트 될 떄, scroll 이 끝났을 때, status bar를 눌러서 위로 끝까지 올라갔을 때
-        /// 그리고 관심/원화 탭이 눌렸을 때
-        /// visible cells의 indexPath를 viewModel로 전달시켜 줌
-        /// 정확히 collectionView가 cell들을 표시하는 시점을 파악하기 어려우므로 500ms의 delay를 주었음
+        /*
+         coinList에 보이는 코인이 업데이트 될 떄, scroll 이 끝났을 때, status bar를 눌러서 위로 끝까지 올라갔을 때
+         그리고 관심/원화 탭이 눌렸을 때
+         visible cells의 indexPath를 viewModel로 전달시켜 줌
+         정확히 collectionView가 cell들을 표시하는 시점을 파악하기 어려우므로 500ms의 delay를 주었음
+         */
         Observable.merge(
             coinAccepted,
             didEndScroll,
@@ -138,8 +140,8 @@ extension CoinListViewController {
         })
         .disposed(by: disposeBag)
         
-        /// 처음 Coin Fetch되었을 때 selectedButton을 설정해 주어야 하고
-        /// 인기순 기준으로 Sort 해주어야 함
+        // 처음 Coin Fetch되었을 때 selectedButton을 설정해 주어야 하고
+        // 인기순 기준으로 Sort 해주어야 함
         coinFetchedSecondEvent
             .withUnretained(self)
             .map { owner, _ in
@@ -186,7 +188,7 @@ extension CoinListViewController {
         
         let dataSource = configureDataSource()
         
-        /// coinList와 collection view 바인딩
+        // coinList와 collection view 바인딩
         viewModel.output.coinList
             .bind(to: coinListCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)

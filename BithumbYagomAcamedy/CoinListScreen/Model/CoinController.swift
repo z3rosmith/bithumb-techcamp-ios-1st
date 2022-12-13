@@ -59,7 +59,7 @@ final class CoinController {
     func favorite(indexPath: IndexPath) {
         let index = indexPath.item
         
-        /// favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
+        // favoriteCoinList가 비어있는 경우는 무조건 좋아요 하는 경우임
         if favoriteCoins.list.isEmpty {
             let coin = allCoins.toggleFavorite(index: index)
             favoriteCoins.append(coin)
@@ -67,9 +67,9 @@ final class CoinController {
             return
         }
         
-        /// favoriteCoinList가 비어있지 않은 경우는
-        /// indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
-        /// indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
+        // favoriteCoinList가 비어있지 않은 경우는
+        // indexPath.section == 0이면 무조건 좋아요 취소 하는 경우
+        // indexPath.section == 1이면 isFavorite == true이면 좋아요 취소, 그렇지 않으면 좋아요 하는 경우
         if indexPath.section == 0 {
             let coin = favoriteCoins.remove(at: index)
             favoriteCoinCoreDataManager.delete(symbol: coin.symbolName)
