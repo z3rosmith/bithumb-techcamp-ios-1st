@@ -75,14 +75,18 @@ final class CoinListViewModel: ViewModelType {
             .withUnretained(self)
             .subscribe(onNext: { owner, coinList in
                 owner.coinController = CoinController(fetchedCoinList: coinList)
+                if let selectedButtonType = owner.selectedButtonType {
+                    selectedButtonType.sortOrderType.accept(.none)
+                    anyButtonTapped.onNext(selectedButtonType)
+                }
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
         
         sort
             .withUnretained(self)
-            .subscribe(onNext: { owner, coinSortButton in
-                owner.coinController?.sort(using: coinSortButton)
+            .subscribe(onNext: { owner, coinSortType in
+                owner.coinController?.sort(using: coinSortType)
                 owner.displayCoins()
             })
             .disposed(by: disposeBag)
